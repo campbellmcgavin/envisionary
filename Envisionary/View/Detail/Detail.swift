@@ -1,5 +1,5 @@
 //
-//  DetailHeader.swift
+//  Detail.swift
 //  Envisionary
 //
 //  Created by Campbell McGavin on 3/11/23.
@@ -7,22 +7,21 @@
 
 import SwiftUI
 
-struct DetailHeader: View {
+struct Detail: View {
     
     let objectType: ObjectType
-    let header: String
-    let shouldShowImage: Bool
-    @State var shouldGoBack: Bool = false
-    @State var shouldExpandAll: Bool = true
-    @State var isPresentingDelete: Bool = false
-    @State var isPresentingHelp: Bool = false
-    @State var isPresentingEdit: Bool = false
-    @State var isPresentingAdd: Bool = false
+    let objectId: UUID
+    @State var properties: Properties = Properties()
+    @State var shouldDelete: Bool = false
     @State var offset: CGPoint = .zero
-    
     @State var headerFrame: CGSize = .zero
-    @State var properties = Properties()
-    @State var shouldPop = false
+    @State var isPresentingModal: Bool = false
+    @State var modalType: ModalType = .add
+    
+    @State var focusObjectid: UUID = UUID()
+    @State var focusObjectType: ObjectType? = nil
+    
+    @EnvironmentObject var gs: GoalService
     
     @Environment(\.presentationMode) private var dismiss
     
@@ -30,149 +29,78 @@ struct DetailHeader: View {
         
         ZStack(alignment:.top){
             
-            
-            VStack(spacing:0){
-                    ObservableScrollView(offset: $offset, content:{
-                                
-                                //header
-                                ZStack(alignment:.top){
-                                    VStack{
-                                        VStack(alignment:.leading, spacing:0){
-                                            HStack(alignment:.top, spacing:0){
-                                                VStack(alignment:.leading, spacing:0){
-                                                    Text(header + " " + objectType.toString())
-                                                    .textCase(.uppercase)
-                                                    .font(.specify(style: .caption))
-                                                    .foregroundColor(.specify(color: .grey10))
-                                                    .opacity(0.5)
-                                                    .padding(.bottom,-8)
-
-                                                Text(properties.title ?? "")
-                                                    .font(.specify(style: .h2))
-                                                    .foregroundColor(.specify(color: .grey10))
-                                                    .padding(.bottom,10)
-                                                    
-                                            }
-                                                .opacity(GetOpacity())
-                                                .offset(y:65)
-                                                .frame(maxHeight:.infinity)
-                                            .padding(.leading)
-
-                                                
-                                            Spacer()
-                                        }
-                                            .padding(.bottom,shouldShowImage ? 100 : 0)
-                                            .saveSize(in: $headerFrame)
-                                            .padding(.top,85)
-                                            .padding(.bottom,shouldShowImage ? 70 : 0)
-                                            .background(
-                                                Color.specify(color: .purple)
-                                                    .modifier(ModifierRoundedCorners(radius: GetRadius()))
-                                                    .edgesIgnoringSafeArea(.all)
-                                                    .padding(.top,-1000)
-                                                    .frame(maxHeight:.infinity)
-                                                    .offset(y:shouldShowImage ? 0 : 65))
-        
-
-                                        }
-                                        .frame(maxWidth:.infinity,maxHeight:.infinity)
-                                        
-                                        VStack{
-                                            
-                                            if(shouldShowImage){
-                                                Button{
-                                                    shouldPop.toggle()
-                                                }
-                                            label:{
-                                                    Ellipse()
-                                                        .frame(width:200, height:GetCircleHeight())
-                                                        .frame(alignment: .center)
-                                                        .foregroundColor(.specify(color: .grey2))
-                                                        .opacity(GetOpacity())
-                                                        .offset(y:offset.y > 0 ? -offset.y/2 : -offset.y/3)
-                                                        
-                                                }
-         
-                                                
-                                            }
-                                            
-                                            VStack{
-                                                ParentHeaderButton(shouldExpandAll: $shouldExpandAll, color: .purple, header: "Expand All", headerCollapsed: "Collapse All")
-                                                DetailProperties(shouldExpand: $shouldExpandAll, objectType: .goal, properties: GetProperties())
-                                                    .frame(maxWidth:.infinity)
-                                                    .padding(.bottom,15)
-                                                DetailProperties(shouldExpand: $shouldExpandAll, objectType: .goal, properties: GetProperties())
-                                                    .frame(maxWidth:.infinity)
-                                                    .padding(.bottom,15)
-                                                    
-                                            }
-                                            .modifier(ModifierCard())
-                                                .offset(y:offset.y < 150 ? -offset.y/1.5 : -100)
-                                        }
-                                        .frame(alignment:.leading)
-                                        .offset(y:-110)
-                                    }
-         
-
-
-
-
-                                }
-                                .frame(alignment:.top)
-
-                        
-                        Spacer()
-                                .frame(height:200)
-
-                        })
+            ObservableScrollView(offset: $offset, content:{
                 
-               
+                ZStack(alignment:.top){
                     
-
+                    LazyVStack(alignment:.leading){
+                        Header(offset: $offset, title: properties.title ?? "", subtitle: "View " + objectType.toString(), objectType: objectType, shouldShowImage: objectType.ShouldShowImage(), color: .purple, headerFrame: $headerFrame, content: {EmptyView()})
+                        
+//                        if(!isPresentingModal){
+                            DetailStack(offset: $offset, focusObjectId: $focusObjectid, isPresentingModal: $isPresentingModal, modalType: $modalType, properties: properties, objectId: objectId, objectType: objectType)
+//                        }
+                    }
                 }
+                .frame(alignment:.top)
+                
+                Spacer()
+                        .frame(height:250)
+                
+            })
             .ignoresSafeArea()
 
                 
-            DetailMenu(dismiss: dismiss, isPresentingDelete: $isPresentingDelete, isPresentingHelp: $isPresentingHelp, isPresentingEdit: $isPresentingEdit, isPresentingAdd: $isPresentingAdd)
+            DetailMenu(dismiss: dismiss, isPresentingModal: $isPresentingModal, modalType: $modalType, objectId: objectId, selectedObjectID: $focusObjectid)
                 .frame(alignment:.top)
+            
+            
+            ModalManager(isPresenting: $isPresentingModal, modalType: $modalType, objectType: objectType, objectId: focusObjectid, properties: properties, shouldDelete: $shouldDelete)
+            
         }
-        .background(Color.specify(color: .grey1))
+        .background(Color.specify(color: .grey0))
         .navigationBarHidden(true)
-
-    }
-    
-    func GetCircleHeight() -> CGFloat{
-        if offset.y < 0 {
-            return 200 - offset.y * 0.2
+        .onAppear{
+            RefreshProperties()
+            focusObjectid = objectId
+            focusObjectType = objectType
         }
-        return 200
-    }
-    
-    func GetProperties() -> Properties {
-        return Properties()
-    }
-    
-    func GetOpacity() -> CGFloat{
-//        if offset.y > 0 {
-            return  (1.0 - ((1.0 * offset.y/headerFrame.height*2)))
-//            if num < 0 {
-//                return 0
-//            }
-//            return num
-//        }
-//        return 1.0
-    }
-    
-    func GetRadius() -> CGFloat{
-        if offset.y > 0 {
-            return abs( 36 - ((36 * offset.y/headerFrame.height)))
+        .onChange(of: gs.goalsDictionary){ _ in
+            RefreshProperties()
         }
-        return 36
+        .onChange(of: shouldDelete){ _ in
+            dismiss.wrappedValue.dismiss()
+        }
+    }
+    
+    func RefreshProperties(){
+        properties = Properties(goal: gs.GetGoal(id: objectId))
+    }
+    
+    @ViewBuilder
+    func GetModalContent() -> some View {
+        switch modalType {
+        case .add:
+            Text("Add new object")
+        case .search:
+            Text("Search")
+        case .group:
+            Text("Group")
+        case .filter:
+            Text("Filter")
+        case .notifications:
+            Text("Notifications")
+        case .help:
+            Text("Help")
+        case .edit:
+            Text("Edit")
+        case .delete:
+            Text("Delete")
+        }
     }
 }
 
-struct DetailHeader_Previews: PreviewProvider {
+struct Detail_Previews: PreviewProvider {
     static var previews: some View {
-        DetailHeader(objectType: .goal, header: "view", shouldShowImage: true)
+        Detail(objectType: .goal, objectId: UUID(), properties: Properties(objectType: .goal))
     }
 }
