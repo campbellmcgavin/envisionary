@@ -8,103 +8,98 @@
 import SwiftUI
 
 struct GanttMain: View {
-    @EnvironmentObject var dataModel: DataModel
-    @Binding var goal: Goal
-    @Binding var propertyTypeMenu: [Bool]
+    
+    var goalId: UUID
     @Binding var focusGoal: UUID
     @Binding var expandedGoals: [UUID]
     @State var dateValues: [DateValue] = [DateValue]()
     @State var offsetX: CGFloat = 0
-    @State var currentTimeframeType = TimeframeType.day
-    let columnWidth: CGFloat = 100
+    @State var goal: Goal = Goal()
+    let columnWidth: CGFloat = SizeType.ganttColumnWidth.ToSize()
     var isPreview: Bool = true
-//    let maxTimeframeValue: Int
+    
+    @EnvironmentObject var dm: DataModel
+    @EnvironmentObject var gs: GoalService
     var body: some View {
         
-        ScrollView(isPreview ? [.horizontal] : [.horizontal,.vertical], showsIndicators: true){
-    
-            ZStack(alignment:.leading){
-                GanttMainDateColumns(dateValues: $dateValues, columnWidth: columnWidth, timeframeType: goal.timeframe)
-                VStack{
+        
+        ZStack(alignment:.topLeading){
+
+            ScrollView(isPreview ? [.horizontal] : [.horizontal,.vertical], showsIndicators: true){
+                ZStack(alignment:.leading){
+                    GanttMainDateColumns(dateValues: dateValues, columnWidth: columnWidth, timeframeType: goal.timeframe)
                     HStack{
-                        Spacer()
-                            .frame(width: columnWidth)
                         
-                        GanttMainDiagram(goal: $goal, propertyTypeMenu: $propertyTypeMenu, focusGoal: $focusGoal, expandedGoals: $expandedGoals, value: { goal in
+                        GanttMainDiagram(parentGoalId: goalId, goalId: goalId, focusGoal: $focusGoal, expandedGoals: $expandedGoals, value: { localGoalId in
                             
-                            GanttMainBar(focusGoal: $focusGoal, width: GetWidth(goal: goal), offsetX: GetOffset(goal: goal), goal: goal)
-                    
-
-                        }, isPreview: isPreview, childCount: 0,  currentTimeframeType: currentTimeframeType)
+                            BubbleView(goalId: localGoalId, focusGoal: $focusGoal, width: GetWidth(localGoalId: localGoalId), offset: GetOffset(localGoalId: localGoalId), shouldShowDetails: false)
+                        }, childCount: 0,  currentTimeframeType: goal.timeframe)
                     }
-                        .offset(y:50)
-                    
-                    Spacer()
-                        .frame(height:50)
+                
+                    .offset(x: columnWidth/2 + 30, y:columnWidth/2)
+                    .padding(.bottom,columnWidth/2)
                 }
-
-                
-                
-                
+                .offset(x:columnWidth + 28)
             }
-            .frame(alignment:.leading)
+            Rectangle()
+                .frame(width:34)
+                .frame(maxHeight:.infinity)
+                .foregroundColor(.specify(color: .grey15))
+                .padding(.top,columnWidth/2-5)
+            TreeDiagramView(goalId: goalId, focusGoal: $focusGoal, expandedGoals: $expandedGoals, value: { goalId in
+                DotView(goalId: goalId, focusGoal: $focusGoal)
+                
+            }, childCount: 0, isStatic: true)
+            .offset(x:10, y:columnWidth/2)
         }
+        .onChange(of: gs.goalsDictionary){
+            _ in
+            DispatchQueue.global(qos: .userInteractive).async{
+                
+                    goal = gs.GetGoal(id: goalId) ?? Goal()
+                    GetDateValues()
+                
+
+            }
+            }
+
 
         .onAppear(){
+            goal = gs.GetGoal(id: goalId) ?? Goal()
             GetDateValues()
-            expandedGoals.append(goal.id)
-            currentTimeframeType = goal.timeframe
             
-            if !isPreview {
-                focusGoal = goal.id
-            }
         }
-        .onChange(of: goal){
-            _ in
-            GetDateValues()
-        }
- 
     }
     
-    func GetWidth(goal: Goal) -> Double{
-        let units = ControllerCalendar.GetDateDifferenceAsDecimal(startDate: goal.startDate, endDate: goal.endDate, timeframeType: GetFocusTimeframe(), dateValues: dateValues)
+    func GetWidth(localGoalId: UUID) -> Double{
+        let localGoal = gs.GetGoal(id: localGoalId) ?? Goal()
+        let units = localGoal.startDate.StartOfDay().GetDateDifferenceAsDecimal(to: localGoal.endDate, timeframeType: self.goal.timeframe)
         let totalWidth = units * columnWidth
         return totalWidth
     }
     
-    func GetOffset(goal: Goal) -> CGFloat{
-
-        let offset = ControllerCalendar.GetDateDifferenceAsDecimal(startDate: self.goal.startDate, endDate: goal.startDate, timeframeType: self.goal.timeframe, dateValues: dateValues)
+    func GetOffset(localGoalId: UUID) -> CGFloat{
+        let localGoal = gs.GetGoal(id: localGoalId) ?? Goal()
+        let startDate = self.goal.startDate
+        let endDate = localGoal.startDate
+        let timeframe = self.goal.timeframe
+        let offset = startDate.GetDateDifferenceAsDecimal(to: endDate, timeframeType: timeframe)
 //        let offset = dateValues.firstIndex(where: { $0.date.isInSameTimeframe(as: goal.startDate, timeframeType: timeframeType)}) ?? 0
         return CGFloat(offset) * columnWidth
     }
     
     
     func GetDateValues(){
-        dateValues = ControllerCalendar.GetDatesArray(startDate: goal.startDate, endDate: goal.endDate, timeframeType: GetFocusTimeframe())
-    }
-    
-    
-    func GetFocusTimeframe() -> TimeframeType{
-        switch goal.timeframe{
-        case .decade:
-            return .decade
-        case .year:
-            return .year
-        case .month:
-            return .month
-        case .week:
-            return .week
-        case .day:
-            return .day
-        }
+            dateValues = goal.startDate.GetDatesArray(endDate: goal.endDate, timeframeType: goal.timeframe)
+        
+       
     }
     
 
 }
 
-struct GanttDateAndBar_Previews: PreviewProvider {
-    static var previews: some View {
-        GanttMain(goal: .constant(Goal.sampleGoals[0]), propertyTypeMenu: .constant([Bool](repeating: true, count:PropertyType.allCases.count)), focusGoal: .constant(UUID()), expandedGoals: .constant([UUID]()), isPreview: true)
-    }
-}
+//struct GanttDateAndBar_Previews: PreviewProvider {
+//    static var previews: some View {
+//        GanttMain(goal: .constant(Goal.sampleGoals[0]), propertyTypeMenu: .constant([Bool](repeating: true, count:PropertyType.allCases.count)), focusGoal: .constant(UUID()), expandedGoals: .constant([UUID]()), isPreview: true)
+//    }
+//}

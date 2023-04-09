@@ -16,11 +16,17 @@ enum PropertyType: String, CaseIterable{
     case priority = "priority"
     case progress = "progress"
     
+    case coreValue = "coreValue"
+    
     // SESSIONS
     case edited = "edited"
     case leftAsIs = "leftAsIs"
     case pushedOff = "pushedOff"
     case deleted = "deleted"
+    
+    // CREED
+    case start = "start"
+    case end = "end"
     
     func toIcon() -> IconType{
         switch self {
@@ -48,6 +54,12 @@ enum PropertyType: String, CaseIterable{
             return .title
         case .description:
             return .description
+        case .coreValue:
+            return .value
+        case .start:
+            return .dates
+        case .end:
+            return .dates
         }
     }
     
@@ -77,6 +89,12 @@ enum PropertyType: String, CaseIterable{
             return "Title"
         case .description:
             return "Description"
+        case .coreValue:
+            return "Value"
+        case .start:
+            return "Start"
+        case .end:
+            return "End"
         }
     }
 }

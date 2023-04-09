@@ -184,6 +184,52 @@ extension Date{
         }
     }
     
+    func GetDateDifferenceAsDecimal(to: Date, timeframeType: TimeframeType) -> Double {
+        let calendar = Calendar.current
+        
+        let dateComponents: DateComponents
+        let calculatedNumberOfUnits: Double
+        let indexOfRemainderUnits: Int
+
+            switch timeframeType{
+                
+            case .decade:
+                dateComponents = Calendar.current.dateComponents([.year, .day], from: self, to: to)
+                let preCalculated = Double(dateComponents.year ?? 0) * 365 + Double(dateComponents.day ?? 0)
+                calculatedNumberOfUnits = preCalculated / Double(365*10)
+
+                
+            case .year:
+                dateComponents = Calendar.current.dateComponents([.year, .day], from: self, to: to)
+                indexOfRemainderUnits = dateComponents.year ?? 0 + 1
+                let  preCalculated  = Double(dateComponents.year ?? 0) * 365 + Double(dateComponents.day ?? 0)
+                calculatedNumberOfUnits = preCalculated / Double(365)
+                
+            case .month:
+                dateComponents = Calendar.current.dateComponents([.month, .day], from: self, to: to)
+                indexOfRemainderUnits = dateComponents.month ?? 0 + 1
+
+                let range = calendar.range(of: .day, in: .month, for: to)!
+                let numDays = range.count
+                
+                calculatedNumberOfUnits = Double(dateComponents.month ?? 0) + Double(dateComponents.day ?? 0) / Double(range.count)
+  
+                
+            case .week:
+                let daysInGoal = Double(calendar.dateComponents([.day], from: self, to: to).day!)
+                calculatedNumberOfUnits = daysInGoal / 7.0
+                
+            case .day:
+                let daysInGoal = Double(calendar.dateComponents([.day], from: self, to: to).day!)
+                calculatedNumberOfUnits = daysInGoal / 1.0
+            }
+        
+
+        return calculatedNumberOfUnits
+        
+
+    }
+    
     func getAllDates()->[Date]{
         
         let calendar = Calendar.current
@@ -437,6 +483,43 @@ extension Date{
         }
         
         return dates
+    }
+    
+    func GetDatesArray(endDate: Date, timeframeType: TimeframeType) -> [DateValue]{
+        var dates = [DateValue]()
+        var index = 0
+        var currentDate = self
+        
+        while(currentDate <= endDate){
+            let dateValue = DateValue(day: self.GetNumberOfDaysInTimeframe(timeframeType: timeframeType), date: currentDate)
+            dates.append(dateValue)
+            currentDate = currentDate.GetNextDate(timeframeType: timeframeType)
+            index = index + 1
+        }
+        let dateValue = DateValue(day: self.GetNumberOfDaysInTimeframe(timeframeType: timeframeType), date: currentDate)
+        dates.append(dateValue)
+        currentDate = currentDate.GetNextDate(timeframeType: timeframeType)
+        
+        let dateValue1 = DateValue(day: self.GetNumberOfDaysInTimeframe(timeframeType: timeframeType), date: currentDate)
+        dates.append(dateValue1)
+        
+        return dates
+    }
+    
+    func GetNumberOfDaysInTimeframe(timeframeType: TimeframeType) -> Int{
+        switch timeframeType {
+        case .decade:
+            return 10 * 365
+        case .year:
+            return 365
+        case .month:
+            let range = Calendar.current.range(of: .day, in: .month, for: self)!
+            return range.count
+        case .week:
+            return 7
+        case .day:
+            return 1
+        }
     }
     
     func toDecadesArray() -> [DateValue] {

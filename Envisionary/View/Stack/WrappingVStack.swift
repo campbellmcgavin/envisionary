@@ -10,6 +10,8 @@ struct WrappingHStack: View {
     @Binding var fieldValue: String
     @Binding var options: [String]
 
+    var isRestrictingOptions = false
+    
     @State private var totalHeight
           = CGFloat.zero       // << variant for ScrollView/List
     //    = CGFloat.infinity   // << variant for VStack
@@ -17,10 +19,24 @@ struct WrappingHStack: View {
     var body: some View {
         VStack {
             GeometryReader { geometry in
+                
+                if isRestrictingOptions {
+                    Text("Options exceed maximum amount. Search to narrow results.")
+                        .multilineTextAlignment(.leading)
+                        .font(.specify(style: .caption))
+                        .foregroundColor(.specify(color: .grey5))
+                        .padding()
+                        .padding(.top,totalHeight)
+                }
+                
                 self.generateContent(in: geometry)
+                    .padding(.bottom, isRestrictingOptions ? 40 : 0)
+                
+
             }
         }
         .frame(height: totalHeight)
+        .padding(.bottom, isRestrictingOptions ? 25 : 0)
         
 //         << variant for ScrollView/List
 //        .frame(maxHeight: totalHeight) // << variant for VStack
@@ -31,32 +47,33 @@ struct WrappingHStack: View {
         var height = CGFloat.zero
 
         return ZStack(alignment: .topLeading) {
-            ForEach(self.options, id: \.self) { tag in
-                self.item(for: tag)
-                    .padding([.horizontal, .vertical], 4)
-                    .alignmentGuide(.leading, computeValue: { d in
-                        if (abs(width - d.width) > g.size.width)
-                        {
-                            width = 0
-                            height -= d.height
-                        }
-                        let result = width
-                        if tag == self.options.last! {
-                            width = 0 //last item
-                        } else {
-                            width -= d.width
-                        }
-                        return result
-                    })
-                    .alignmentGuide(.top, computeValue: {d in
-                        let result = height
-                        if tag == self.options.last! {
-                            height = 0 // last item
-                        }
-                        return result
-                    })
-            }
-        }.background(viewHeightReader($totalHeight))
+                ForEach(self.options, id: \.self) { tag in
+                    self.item(for: tag)
+                        .padding([.horizontal, .vertical], 4)
+                        .alignmentGuide(.leading, computeValue: { d in
+                            if (abs(width - d.width) > g.size.width)
+                            {
+                                width = 0
+                                height -= d.height
+                            }
+                            let result = width
+                            if tag == self.options.last! {
+                                width = 0 //last item
+                            } else {
+                                width -= d.width
+                            }
+                            return result
+                        })
+                        .alignmentGuide(.top, computeValue: {d in
+                            let result = height
+                            if tag == self.options.last! {
+                                height = 0 // last item
+                            }
+                            return result
+                        })
+                }
+            }.background(viewHeightReader($totalHeight))
+
     }
 
     private func item(for text: String) -> some View {

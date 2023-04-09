@@ -29,6 +29,6 @@ struct GanttMainDateColumn: View {
 
 struct DateColumn_Previews: PreviewProvider {
     static var previews: some View {
-        GanttMainDateColumn(dateValue: DateValue(day: 0, date: Date()), frameWidth: 100, timeframe: .decade)
+        GanttMainDateColumn(dateValue: DateValue(day: 0, date: Date()), frameWidth: SizeType.ganttColumnWidth.ToSize(), timeframe: .decade)
     }
 }

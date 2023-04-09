@@ -252,13 +252,13 @@ struct ScrollPickerObject: View {
     }
     
     func GetOffsetFromObject() -> CGFloat {
-        
-        if isSearch == true{
-            return CGFloat(objectList.firstIndex(of: objectType) ?? 0) * (SizeType.scrollPickerWidth.ToSize() + self.weirdOffset)
-        }
-        else{
-            return 0
-        }
+        return CGFloat(objectList.firstIndex(of: objectType) ?? 0) * (SizeType.scrollPickerWidth.ToSize() + self.weirdOffset)
+//        if isSearch == true{
+//
+//        }
+//        else{
+//            return 0
+//        }
     }
     
     func ShouldShowObjects() -> Bool {

@@ -17,7 +17,7 @@ struct Detail: View {
     @State var headerFrame: CGSize = .zero
     @State var isPresentingModal: Bool = false
     @State var modalType: ModalType = .add
-    
+    @State var statusToAdd: StatusType = .notStarted
     @State var focusObjectid: UUID = UUID()
     @State var focusObjectType: ObjectType? = nil
     
@@ -37,7 +37,7 @@ struct Detail: View {
                         Header(offset: $offset, title: properties.title ?? "", subtitle: "View " + objectType.toString(), objectType: objectType, shouldShowImage: objectType.ShouldShowImage(), color: .purple, headerFrame: $headerFrame, content: {EmptyView()})
                         
 //                        if(!isPresentingModal){
-                            DetailStack(offset: $offset, focusObjectId: $focusObjectid, isPresentingModal: $isPresentingModal, modalType: $modalType, properties: properties, objectId: objectId, objectType: objectType)
+                        DetailStack(offset: $offset, focusObjectId: $focusObjectid, isPresentingModal: $isPresentingModal, modalType: $modalType, statusToAdd: $statusToAdd, properties: properties, objectId: objectId, objectType: objectType)
 //                        }
                     }
                 }
@@ -50,11 +50,10 @@ struct Detail: View {
             .ignoresSafeArea()
 
                 
-            DetailMenu(dismiss: dismiss, isPresentingModal: $isPresentingModal, modalType: $modalType, objectId: objectId, selectedObjectID: $focusObjectid)
+            DetailMenu(objectType: objectType, dismiss: dismiss, isPresentingModal: $isPresentingModal, modalType: $modalType, objectId: objectId, selectedObjectID: $focusObjectid)
                 .frame(alignment:.top)
             
-            
-            ModalManager(isPresenting: $isPresentingModal, modalType: $modalType, objectType: objectType, objectId: focusObjectid, properties: properties, shouldDelete: $shouldDelete)
+            ModalManager(isPresenting: $isPresentingModal, modalType: $modalType, objectType: objectType, objectId: focusObjectid, properties: properties, statusToAdd: statusToAdd, shouldDelete: $shouldDelete)
             
         }
         .background(Color.specify(color: .grey0))
@@ -68,12 +67,55 @@ struct Detail: View {
             RefreshProperties()
         }
         .onChange(of: shouldDelete){ _ in
-            dismiss.wrappedValue.dismiss()
+
+            if focusObjectid == objectId {
+                dismiss.wrappedValue.dismiss()
+            }
+        }
+        .onChange(of: isPresentingModal){
+             _ in
+            if !isPresentingModal {
+                statusToAdd = .notStarted
+            }
+        }
+        .onChange(of: statusToAdd){
+            _ in
+            print(statusToAdd)
         }
     }
     
     func RefreshProperties(){
-        properties = Properties(goal: gs.GetGoal(id: objectId))
+        switch objectType {
+        case .value:
+            properties = Properties(value: gs.GetCoreValue(id: objectId))
+//        case .creed:
+//            <#code#>
+        case .dream:
+            properties = Properties(dream: gs.GetDream(id: objectId))
+        case .aspect:
+            properties = Properties(aspect: gs.GetAspect(id: objectId))
+        case .goal:
+            properties = Properties(goal: gs.GetGoal(id: objectId))
+//        case .session:
+//            <#code#>
+//        case .task:
+//            <#code#>
+//        case .habit:
+//            <#code#>
+//        case .home:
+//            <#code#>
+//        case .chapter:
+//            <#code#>
+//        case .entry:
+//            <#code#>
+//        case .emotion:
+//            <#code#>
+//        case .stats:
+//            <#code#>
+        default:
+            let _ = ""
+        }
+        
     }
     
     @ViewBuilder
@@ -102,5 +144,7 @@ struct Detail: View {
 struct Detail_Previews: PreviewProvider {
     static var previews: some View {
         Detail(objectType: .goal, objectId: UUID(), properties: Properties(objectType: .goal))
+            .environmentObject(DataModel())
+            .environmentObject(GoalService())
     }
 }

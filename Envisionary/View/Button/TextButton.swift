@@ -11,6 +11,9 @@ struct TextButton: View {
     @Binding var isPressed: Bool
     let text: String
     let color: CustomColor
+    var backgroundColor: CustomColor = .clear
+    var style: CustomFont = .h3
+    
     var body: some View {
         Button{
             isPressed.toggle()
@@ -18,9 +21,10 @@ struct TextButton: View {
     label:{
         HStack{
             Text(text)
-                .font(.specify(style: .h3))
+                .font(.specify(style: style))
                 .foregroundColor(.specify(color: color))
                 .padding(.leading)
+                .modifier(ModifierCard(color:backgroundColor, radius:SizeType.cornerRadiusExtraSmall.ToSize()))
             Spacer()
         }
 

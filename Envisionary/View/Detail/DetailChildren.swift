@@ -24,7 +24,7 @@ struct DetailChildren: View {
             if isExpanded {
                     
                 VStack{
-                    ForEach(childIds, id: \.self){ goalId in
+                    ForEach(childIds){ goalId in
                         if let goal = gs.goalsDictionary[goalId] {
                             PhotoCard(objectType: .goal, objectId: goalId, properties: Properties(goal:goal), header: goal.title, subheader: goal.description, caption: goal.startDate.toString(timeframeType: goal.timeframe, isStartDate: goal.timeframe == .week ? true : nil) + " - " + goal.endDate.toString(timeframeType: goal.timeframe, isStartDate: goal.timeframe == .week ? false : nil))
                             

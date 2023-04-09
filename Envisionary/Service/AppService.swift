@@ -28,11 +28,12 @@ class DataModel: ObservableObject
     @Published var filterPriority: PriorityType?
     @Published var filterChapter = ""
     @Published var filterProgress: Int?
+    @Published var filterCoreValue: ValueType?
     @Published var filterCount = 0
 
     
     func GetFilterCriteria() -> Criteria {
-        return Criteria(title: self.filterTitle, description: self.filterDescription, timeframe: self.timeframeType, date: self.date, aspect: self.filterAspect, priority: self.filterPriority, progress: self.filterProgress)
+        return Criteria(title: self.filterTitle, description: self.filterDescription, timeframe: self.timeframeType, date: self.date, aspect: self.filterAspect, priority: self.filterPriority, progress: self.filterProgress, coreValue: self.filterCoreValue)
     }
 }
 

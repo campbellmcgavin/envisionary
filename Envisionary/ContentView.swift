@@ -71,15 +71,8 @@ struct ContentView: View {
                                             .offset(y:45)
                                             .id(1)
                                         
-                                        ForEach(alerts.alerts){
-                                            alert in
-                                            AlertLabel(alert: alert)
-                                        }
-                                        
-                                        
-                                        GroupBySectionBuilder()
-
-  
+                                        AlertsBuilder()
+                                        MainContentBuilder()
                                         
                                     }
                                         .padding(.top,GetStackOffset())
@@ -128,7 +121,6 @@ struct ContentView: View {
                     }
                     .frame(alignment:.top)
 
-                
                 //navigation
                 VStack(spacing:0){
                     TopNavigationBar(offset: $offset.y, isPresentingMainMenu: $isPresentingMainMenu)
@@ -169,6 +161,12 @@ struct ContentView: View {
                     UpdateFilteredObjectsDictionary()
                 }
             }
+            .onChange(of: gs.dreamsDictionary){
+                _ in
+                withAnimation{
+                    UpdateFilteredObjectsDictionary()
+                }
+            }
             .onChange(of: dm.objectType){
                 _ in
                 withAnimation{
@@ -199,12 +197,20 @@ struct ContentView: View {
 
                     
                     if offset.y < (objectFrame.height + gadgetFrame.height) + 100 && offset.y > 20 && abs(offset.y - (objectFrame.height + gadgetFrame.height)) > 10 {
-                        popHeaderTimer = Timer.publish(every: 0.25, on: .main, in: .common).autoconnect()
+                        popHeaderTimer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
                     }
                     else{
                         popHeaderTimer.upstream.connect().cancel()
                     }
                 }
+            }
+            .onChange(of: gs.goalsGrouping){
+                _ in
+                UpdateFilteredObjectsDictionary()
+            }
+            .onChange(of: gs.dreamsGrouping){
+                _ in
+                UpdateFilteredObjectsDictionary()
             }
             .onAppear{
                 withAnimation{
@@ -219,10 +225,97 @@ struct ContentView: View {
 
     }
     
+    @ViewBuilder
+    func AlertsBuilder() -> some View{
+        ForEach(alerts.alerts){
+            alert in
+            AlertLabel(alert: alert)
+        }
+    }
+    
     func UpdateFilteredObjectsDictionary() {
+        let objectType = ObjectType.dream
+        filteredObjectsDictionary = [String:[UUID]]()
         
-        filteredObjectsDictionary = gs.UpdateFilteredGoals(criteria: dm.GetFilterCriteria())
+        switch dm.objectType {
+//        case .value:
+//            <#code#>
+//        case .creed:
+//            <#code#>
+        case .dream:
+            filteredObjectsDictionary = gs.UpdateFilteredDreams(criteria: dm.GetFilterCriteria())
+//        case .aspect:
+//            <#code#>
+        case .goal:
+            filteredObjectsDictionary = gs.UpdateFilteredGoals(criteria: dm.GetFilterCriteria())
+//        case .session:
+//            <#code#>
+//        case .task:
+//            <#code#>
+//        case .habit:
+//            <#code#>
+//        case .home:
+//            <#code#>
+//        case .chapter:
+//            <#code#>
+//        case .entry:
+//            <#code#>
+//        case .emotion:
+//            <#code#>
+//        case .stats:
+//            <#code#>
+        default:
+            let _ = "why"
+        }
+        
 
+    }
+    
+    @ViewBuilder
+    func MainContentBuilder() -> some View {
+        
+        switch dm.objectType {
+        case .value:
+            ValueBuilder()
+        case .aspect:
+            VStack{
+                let aspectListSorted = gs.aspectsList.sorted(by: {$0.aspect.toString() < $1.aspect.toString()})
+                
+                ForEach(aspectListSorted, id:\.self){ aspect in
+                    PhotoCard(objectType: .aspect, objectId: aspect.id, properties: Properties(aspect: aspect), header: aspect.aspect.toString(), subheader: aspect.description)
+                    
+                    if aspectListSorted.last != aspect{
+                        StackDivider()
+                    }
+                }
+            }
+            .modifier(ModifierCard())
+            .padding(.top)
+        case .creed:
+            CreedCard()
+                .padding(.top)
+        default:
+            GroupBySectionBuilder()
+        }
+    }
+    
+    
+    @ViewBuilder
+    func ValueBuilder() -> some View {
+        VStack{
+            let valueListSorted = gs.ListCoreValuesByCriteria(criteria: dm.GetFilterCriteria())
+            
+            ForEach(valueListSorted){ coreValue in
+                    if coreValue.coreValue != .Introduction && coreValue.coreValue != .Conclusion{
+                        PhotoCard(objectType: .value, objectId: coreValue.id, properties: Properties(value: coreValue), header: coreValue.coreValue.toString(), subheader: coreValue.description)
+                    }
+                    if valueListSorted.last != coreValue && coreValue.coreValue != .Conclusion{
+                        StackDivider()
+                    }
+            }
+        }
+        .modifier(ModifierCard())
+        .padding(.top)
     }
     
     @ViewBuilder
@@ -270,26 +363,57 @@ struct ContentView: View {
     @ViewBuilder
     func GroupBySectionBuilderHelper(header: String) -> some View{
         
-        if let listOfObjectFromGroupBy = filteredObjectsDictionary[header]
-        {
-            ForEach(listOfObjectFromGroupBy, id: \.self){ goalId in
-                if let goal = gs.goalsDictionary[goalId] {
-                    PhotoCard(objectType: .goal, objectId: goalId, properties: Properties(goal:goal), header: goal.title, subheader: goal.description, caption: goal.startDate.toString(timeframeType: goal.timeframe, isStartDate: goal.timeframe == .week ? true : nil) + " - " + goal.endDate.toString(timeframeType: goal.timeframe, isStartDate: goal.timeframe == .week ? false : nil))
-                    
-                    if listOfObjectFromGroupBy.last != goalId{
-                        Divider()
-                            .overlay(Color.specify(color: .grey2))
-                            .frame(height:1)
-                            .padding(.leading,16+50+16)
+        switch dm.objectType {
+        case .dream:
+            if let listOfObjectFromGroupBy = filteredObjectsDictionary[header]
+            {
+                ForEach(listOfObjectFromGroupBy){ dreamId in
+                    if let dream = gs.dreamsDictionary[dreamId] {
+                        PhotoCard(objectType: .dream, objectId: dreamId, properties: Properties(dream: dream), header: dream.title, subheader: dream.description, caption: dream.aspect.toString())
+                        
+                        if listOfObjectFromGroupBy.last != dreamId{
+                            StackDivider()
+                        }
                     }
                 }
             }
+        case .goal:
+            if let listOfObjectFromGroupBy = filteredObjectsDictionary[header]
+            {
+                ForEach(listOfObjectFromGroupBy){ goalId in
+                    if let goal = gs.goalsDictionary[goalId] {
+                        PhotoCard(objectType: .goal, objectId: goalId, properties: Properties(goal:goal), header: goal.title, subheader: goal.description, caption: goal.startDate.toString(timeframeType: goal.timeframe, isStartDate: goal.timeframe == .week ? true : nil) + " - " + goal.endDate.toString(timeframeType: goal.timeframe, isStartDate: goal.timeframe == .week ? false : nil))
+                        
+                        if listOfObjectFromGroupBy.last != goalId{
+                            StackDivider()
+                        }
+                    }
+                }
+            }
+//        case .session:
+//            <#code#>
+//        case .task:
+//            <#code#>
+//        case .habit:
+//            <#code#>
+//        case .home:
+//            <#code#>
+//        case .chapter:
+//            <#code#>
+//        case .entry:
+//            <#code#>
+//        case .emotion:
+//            <#code#>
+//        case .stats:
+//            <#code#>
+        default:
+            let _ = "why"
         }
     }
     
     func ShouldShowFloatingActionButton() -> Bool{
         
-        if dm.objectType != .home {
+        if dm.objectType != .home && dm.objectType != .creed {
             return true
         }
         return false

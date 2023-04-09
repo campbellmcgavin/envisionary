@@ -13,38 +13,29 @@ struct DetailTree: View {
     @Binding var focusGoal: UUID
     @State var expandedGoals = [UUID]()
     var goalId: UUID
-    @State var isExpanded: Bool = true
-
-    @EnvironmentObject  var dm: DataModel
-    @EnvironmentObject var gs: GoalService
-    @Environment(\.colorScheme) var colorScheme
     
+    let isStatic = false
+    @State var isExpanded: Bool = true
     
     var body: some View {
 
-        DetailView(viewType: .tree, selectedObjectId: $focusGoal, selectedObjectType: .constant(.goal), shouldExpandAll: $shouldExpand, expandedObjects: $expandedGoals, isPresentingModal: $isPresentingModal, modalType: $modalType, content: {
+        DetailView(viewType: .tree, objectId: goalId, selectedObjectId: $focusGoal, selectedObjectType: .constant(.goal), shouldExpandAll: $shouldExpand, expandedObjects: $expandedGoals, isPresentingModal: $isPresentingModal, modalType: $modalType, content: {
 
             
                 ScrollView([.horizontal],showsIndicators: true){
                     VStack(alignment:.leading, spacing:0){
-                        TreeDiagramView(goalId: goalId, focusGoal: $focusGoal, expandedGoals: $expandedGoals, value: { goal in
-                            BubbleView(goalId: goal, focusGoal: $focusGoal)
+                        TreeDiagramView(goalId: goalId, focusGoal: $focusGoal, expandedGoals: $expandedGoals, value: { goalId in
+                            BubbleView(goalId: goalId, focusGoal: $focusGoal)
                         }, childCount: 0)
                         .padding(.top,5)
                         .padding(.bottom)
                 }
                 .frame(alignment:.leading)
                 .onAppear{
-    //                focusGoal = goalId
                     expandedGoals.append(goalId)
-                    //            for child in goal.children
-    //                expandedGoals.append(contentsOf: gs.ListsChildGoalsByParentId(id: goalId))
-                }
-                .onChange(of: expandedGoals){
-                    _ in
-                    print(String(expandedGoals.count) + " goals in expanded goals")
                 }
             }
+                .disabled(isStatic)
                 .frame(alignment:.leading)
         })
     }

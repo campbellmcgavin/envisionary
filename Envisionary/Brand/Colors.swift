@@ -56,69 +56,69 @@ extension Color {
         
         switch color {
         case .red:
-            return Color("red")
+            return Color("Red")
         case .yellow:
-            return Color("yellow")
+            return Color("Yellow")
         case .green:
-            return Color("green")
+            return Color("Green")
         case .blue:
-            return Color("blue")
+            return Color("Blue")
         case .purple:
-            return Color("purple")
+            return Color("Purple")
         case .pink:
-            return Color("pink")
+            return Color("Pink")
         case .lightRed:
-            return Color("lightRed")
+            return Color("LightRed")
         case .lightYellow:
-            return Color("lightYellow")
+            return Color("LightYellow")
         case .lightGreen:
-            return Color("lightGreen")
+            return Color("LightGreen")
         case .lightBlue:
-            return Color("lightBlue")
+            return Color("LightBlue")
         case .lightPurple:
-            return Color("lightPurple")
+            return Color("LightPurple")
         case .lightPink:
-            return Color("lightPink")
+            return Color("LightPink")
         case .darkRed:
-            return Color("darkRed")
+            return Color("DarkRed")
         case .darkYellow:
-            return Color("darkYellow")
+            return Color("DarkYellow")
         case .darkGreen:
-            return Color("darkGreen")
+            return Color("DarkGreen")
         case .darkBlue:
-            return Color("darkBlue")
+            return Color("DarkBlue")
         case .darkPurple:
-            return Color("darkPurple")
+            return Color("DarkPurple")
         case .darkPink:
-            return Color("darkPink")
+            return Color("DarkPink")
         case .grey0:
-            return Color("grey0")
+            return Color("Grey0")
         case .grey05:
-            return Color("grey05")
+            return Color("Grey05")
         case .grey1:
-            return Color("grey1")
+            return Color("Grey1")
         case .grey15:
-            return Color("grey15")
+            return Color("Grey15")
         case .grey2:
-            return Color("grey2")
+            return Color("Grey2")
         case .grey3:
-            return Color("grey3")
+            return Color("Grey3")
         case .grey4:
-            return Color("grey4")
+            return Color("Grey4")
         case .grey5:
-            return Color("grey5")
+            return Color("Grey5")
         case .grey6:
-            return Color("grey6")
+            return Color("Grey6")
         case .grey7:
-            return Color("grey7")
+            return Color("Grey7")
         case .grey8:
-            return Color("grey8")
+            return Color("Grey8")
         case .grey9:
-            return Color("grey9")
+            return Color("Grey9")
         case .grey10:
-            return Color("grey10")
+            return Color("Grey10")
         case .clear:
-            return Color("clear")
+            return Color("Clear")
 
         }
     }

@@ -47,43 +47,79 @@ struct DetailProperties: View {
     func BuildView() -> some View {
         VStack(alignment:.leading){
 
-            if properties.title != nil {
-                PropertyRow(propertyType: .title, text:properties.title)
-            }
-
-            if properties.description != nil {
-                PropertyRow(propertyType: .description, text:properties.description)
-            }
-
-            if properties.timeframe != nil {
-                PropertyRow(propertyType: .timeframe, timeframe:properties.timeframe)
-            }
-            
-            if properties.startDate != nil {
-                PropertyRow(propertyType: .startDate, date:properties.startDate)
-            }
-            
-            if properties.endDate != nil {
-                PropertyRow(propertyType: .endDate, date:properties.endDate)
-            }
-            
-            if properties.aspect != nil {
-                PropertyRow(propertyType: .aspect, aspect: properties.aspect)
-            }
-            
-            if properties.progress != nil {
-                PropertyRow(propertyType: .progress, int:properties.progress)
-            }
-            
-            if properties.priority != nil {
-                PropertyRow(propertyType: .priority, priority:properties.priority)
-            }
-            if properties.progress != nil {
-                PropertyRow(propertyType: .progress, int:properties.progress)
+            ForEach(PropertyType.allCases, id:\.self){
+                property in
+                BuildPropertyRow(property: property)
             }
         }
         .frame(alignment:.leading)
         .padding([.top,.bottom],25)
+    }
+    
+    @ViewBuilder
+    func BuildPropertyRow(property: PropertyType) -> some View {
+        switch property {
+        case .title:
+            if properties.title != nil {
+                PropertyRow(propertyType: .title, text:properties.title)
+            }
+        case .description:
+            if properties.description != nil {
+                PropertyRow(propertyType: .description, text:properties.description)
+            }
+        case .timeframe:
+            if properties.timeframe != nil {
+                PropertyRow(propertyType: .timeframe, timeframe:properties.timeframe)
+            }
+        case .startDate:
+            if properties.startDate != nil {
+                PropertyRow(propertyType: .startDate, date:properties.startDate)
+            }
+        case .endDate:
+            if properties.endDate != nil {
+                PropertyRow(propertyType: .title, text:properties.title)
+            }
+        case .aspect:
+            if properties.aspect != nil {
+                PropertyRow(propertyType: .aspect, aspect:properties.aspect)
+            }
+        case .priority:
+            if properties.priority != nil {
+                PropertyRow(propertyType: .priority, priority:properties.priority)
+            }
+        case .progress:
+            if properties.progress != nil {
+                PropertyRow(propertyType: .progress, int:properties.progress)
+            }
+        case .coreValue:
+            if properties.coreValue != nil {
+                PropertyRow(propertyType: .coreValue, coreValue: properties.coreValue)
+            }
+        case .edited:
+            if properties.edited != nil {
+                PropertyRow(propertyType: .edited, int:properties.edited)
+            }
+        case .leftAsIs:
+            if properties.leftAsIs != nil {
+                PropertyRow(propertyType: .leftAsIs, int:properties.leftAsIs)
+            }
+        case .pushedOff:
+            if properties.pushedOff != nil {
+                PropertyRow(propertyType: .pushedOff, int:properties.pushedOff)
+            }
+        case .deleted:
+            if properties.deleted != nil {
+                PropertyRow(propertyType: .deleted, int:properties.deleted)
+            }
+        case .start:
+            if properties.start != nil {
+                PropertyRow(propertyType: .start, text:properties.start)
+            }
+        case .end:
+            if properties.end != nil {
+                PropertyRow(propertyType: .end, text:properties.end)
+            }
+        }
     }
 }
 

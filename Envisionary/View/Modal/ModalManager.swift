@@ -11,11 +11,14 @@ struct ModalManager: View {
     
     @Binding var isPresenting: Bool
     @Binding var modalType: ModalType
+    
     var objectType: ObjectType?
     var objectId: UUID?
     var properties: Properties?
+    var statusToAdd: StatusType?
     
     @Binding var shouldDelete: Bool
+
     @State var isPresentingAdd = false
     @State var isPresentingSearch = false
     @State var isPresentingGrouping = false
@@ -31,8 +34,8 @@ struct ModalManager: View {
     var body: some View {
         ZStack(alignment: .top){
             
-            ModalAdd(isPresenting: $isPresentingAdd, objectId: objectId, properties: Properties(), objectType: objectType ?? .goal, modalType: .add)
-            ModalAdd(isPresenting: $isPresentingEdit, objectId: objectId, properties: properties ?? Properties(), objectType: objectType ?? .goal, modalType: .edit)
+            ModalAdd(isPresenting: $isPresentingAdd, objectId: nil, parentId: GetParentId(), properties: Properties(), objectType: GetObjectType(), modalType: .add, status: statusToAdd)
+            ModalAdd(isPresenting: $isPresentingEdit, objectId: GetObjectId(), parentId: GetParentId(), properties: properties ?? Properties(), objectType: GetObjectType(), modalType: .edit)
             ModalFilter(isPresenting: $isPresentingFilter)
             ModalSearch(isPresenting: $isPresentingSearch, objectType: objectType ?? .goal)
             ModalGrouping(isPresenting: $isPresentingGrouping)
@@ -109,11 +112,61 @@ struct ModalManager: View {
         }
     }
     
-    func DeleteObject(){
-        if objectId != nil {
-            gs.DeleteGoal(id: objectId!)
+    func GetObjectType() -> ObjectType {
+        if let objectType {
+            
+            switch objectType {
+            case .creed:
+                return .value
+            default:
+                return objectType
+            }
         }
-
+        return .goal
+    }
+    func GetParentId() -> UUID?{
+        
+        if modalType == .add {
+            return objectId
+        }
+        else if modalType == .edit{
+            return gs.GetGoal(id: objectId ?? UUID())?.parent
+        }
+        return nil
+    }
+    
+    func GetObjectId() -> UUID?{
+        if modalType == .add {
+            return nil
+        }
+        return objectId
+    }
+    
+    func GetNewProperties() -> Properties{
+        return Properties()
+    }
+    
+    func DeleteObject(){
+        if let objectId {
+            if let objectType {
+                withAnimation{
+                    switch objectType{
+                    case .goal:
+                        gs.DeleteGoal(id: objectId)
+                    case .value:
+                        gs.DeleteCoreValue(id: objectId)
+                    case .creed:
+                        gs.DeleteCoreValue(id: objectId)
+                    case .aspect:
+                        gs.DeleteAspect(id: objectId)
+                    case .dream:
+                        gs.DeleteDream(id: objectId)
+                    default:
+                        let _ = "why" //do nothing
+                    }
+                }
+            }
+        }
     }
 }
 

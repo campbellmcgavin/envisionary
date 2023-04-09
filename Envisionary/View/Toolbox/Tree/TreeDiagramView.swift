@@ -13,7 +13,7 @@ struct TreeDiagramView<Value: Identifiable, V: View>: View where Value: Equatabl
     @Binding var expandedGoals: [UUID]
     let value: (Value) -> V
     let childCount: Int
-    
+    var isStatic = false
     @EnvironmentObject var dataModel: DataModel
     @EnvironmentObject var gs: GoalService
 
@@ -32,11 +32,11 @@ struct TreeDiagramView<Value: Identifiable, V: View>: View where Value: Equatabl
                 if ( expandedGoals.contains(where:{$0 == goalId})){
 
                 VStack(alignment: .leading, spacing:0) {
-                    ForEach(gs.ListsChildGoalsByParentId(id: goalId), id: \.self, content: { childId in
+                    ForEach(gs.ListsChildGoalsByParentId(id: goalId), content: { childId in
                         
-                        TreeDiagramView(goalId: childId, focusGoal: $focusGoal, expandedGoals: $expandedGoals, value: self.value, childCount: childCount + 1)
+                        TreeDiagramView(goalId: childId, focusGoal: $focusGoal, expandedGoals: $expandedGoals, value: self.value, childCount: childCount + 1, isStatic: isStatic)
                             .environmentObject(dataModel)
-                            .offset(x: 60)
+                            .offset(x: isStatic ? 0 : 60)
                     })
                 }
             }
@@ -59,7 +59,7 @@ struct TreeDiagramView<Value: Identifiable, V: View>: View where Value: Equatabl
                                     control2: CGPoint(x: point1.x + 10, y: point2.y - 10))
                             }
                             .stroke(lineWidth: 1)
-                            .foregroundColor(.specify(color:.grey5))
+                            .foregroundColor(.specify(color: isStatic ? .clear : .grey5))
                             .offset(x:-60)
                         }
                     })

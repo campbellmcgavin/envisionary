@@ -16,6 +16,7 @@ struct PropertyRow: View {
     var int: Int?
     var priority: PriorityType?
     var text: String?
+    var coreValue: ValueType?
     
     var body: some View {
         
@@ -78,6 +79,12 @@ struct PropertyRow: View {
         case .title:
             return text ?? ""
         case .description:
+            return text ?? ""
+        case .coreValue:
+            return coreValue?.toString() ?? ""
+        case .start:
+            return text ?? ""
+        case .end:
             return text ?? ""
         default:
             return ""

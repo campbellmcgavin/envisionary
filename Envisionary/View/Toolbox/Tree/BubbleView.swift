@@ -10,52 +10,63 @@ import SwiftUI
 struct BubbleView: View {
     let goalId: UUID
     @Binding var focusGoal: UUID
-        
-    @State var goal: Goal = Goal()
+    var width: CGFloat = 180
+    var height: CGFloat = 50
+    var offset: CGFloat = 0
+    var shouldShowDetails = true
+    @State var goal: Goal? = Goal()
     @EnvironmentObject var gs: GoalService
     var body: some View {
 
             Button{
                 withAnimation{
-                    if focusGoal == goal.id {
+                    if focusGoal == goalId {
                         focusGoal = UUID()
                     }
                     else {
-                        focusGoal = goal.id
+                        focusGoal = goalId
                     }
                 }
             }
 
         label:{
-                HStack{
+            HStack{
                     Circle()
                         .frame(width:SizeType.minimumTouchTarget.ToSize(), height: SizeType.minimumTouchTarget.ToSize())
                         .foregroundColor(.specify(color: .grey5))
-                    VStack(alignment:.leading){
-                        Text(goal.title)
-                            .font(.specify(style: .caption))
-                            .lineLimit(2)
-                            .multilineTextAlignment(.leading)
-                            .foregroundColor(.specify(color: .grey10))
-                        Text(goal.timeframe.toString())
-                            .textCase(.uppercase)
-                            .font(.specify(style: .subCaption))
-                            .multilineTextAlignment(.leading)
-                            .foregroundColor(.specify(color: focusGoal == goal.id ? .grey10 : .grey5))
+//                        .padding(.trailing, goal.title.count == "" ? 0 : -7)
+                    if goal != nil && width > 50{
+                        VStack(alignment:.leading){
+                            Text(goal!.title)
+                                .font(.specify(style: .caption))
+                                .lineLimit(2)
+                                .multilineTextAlignment(.leading)
+                                .foregroundColor(.specify(color: .grey10))
+                            Text(goal!.timeframe.toString())
+                                .textCase(.uppercase)
+                                .font(.specify(style: .subCaption))
+                                .multilineTextAlignment(.leading)
+                                .foregroundColor(.specify(color: focusGoal == goalId ? .grey10 : .grey5))
+                        }
+                        Spacer()
                     }
-                    Spacer()
+
                 }
+                .opacity(shouldShowDetails ? 1.0 : 0.0)
                 .padding(7)
-                .modifier(ModifierCard(color: focusGoal == goal.id ? .purple : .grey3))
-                .frame(width:180)
-                .frame(height:50)
+                .modifier(ModifierCard(color: focusGoal == goalId ? .purple : .grey3))
+                .offset(x: offset)
+                .frame(width:width < 50 ? 50 : width, height:50)
                 
             
                 
         }
         .buttonStyle(.plain)
         .onAppear{
-            goal = gs.GetGoal(id: goalId) ?? Goal()
+//            if shouldShowDetails{
+                goal = gs.GetGoal(id: goalId)
+//            }
+
         }
         
 
@@ -65,7 +76,7 @@ struct BubbleView: View {
 
 struct BubbleView_Previews: PreviewProvider {
     static var previews: some View {
-        BubbleView(goalId: UUID(), focusGoal: .constant(UUID()))
+        BubbleView(goalId: UUID(), focusGoal: .constant(UUID()), width: 3)
             .environmentObject(GoalService())
     }
 }

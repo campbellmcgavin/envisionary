@@ -10,6 +10,8 @@ import SwiftUI
 enum ViewMenuButtonType {
     
     case delete
+    case forward
+    case backward
     case timeBack
     case timeForward
     case expand

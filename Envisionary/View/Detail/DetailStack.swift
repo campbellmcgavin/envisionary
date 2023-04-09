@@ -12,12 +12,13 @@ struct DetailStack: View {
     @Binding var focusObjectId: UUID
     @Binding var isPresentingModal: Bool
     @Binding var modalType: ModalType
+    @Binding var statusToAdd: StatusType
     var properties: Properties
     let objectId: UUID
     let objectType: ObjectType
     
     @State var shouldExpandAll: Bool = true
-    
+    @EnvironmentObject var gs: GoalService
     
     var body: some View {
         VStack(alignment:.leading, spacing:0){
@@ -25,11 +26,20 @@ struct DetailStack: View {
             
             DetailProperties(shouldExpand: $shouldExpandAll, objectType: .goal, properties: properties)
                 .frame(maxWidth:.infinity)
-//                .padding(.bottom,15)
             
-            DetailChildren(shouldExpand: $shouldExpandAll, objectId: objectId, objectType: objectType)
+            if objectType == .creed{
+                DetailCreed(shouldExpand: $shouldExpandAll, isPresentingModal: $isPresentingModal, modalType: $modalType, focusValue: $focusObjectId)
+            }
+//            DetailChildren(shouldExpand: $shouldExpandAll, objectId: objectId, objectType: objectType)
+//                .environmentObject(gs)
 
-            DetailTree(shouldExpand: $shouldExpandAll, isPresentingModal: $isPresentingModal, modalType: $modalType, focusGoal: $focusObjectId, goalId: objectId)
+            if objectType == .goal{
+                DetailTree(shouldExpand: $shouldExpandAll, isPresentingModal: $isPresentingModal, modalType: $modalType, focusGoal: $focusObjectId, goalId: objectId)
+                DetailGantt(shouldExpand: $shouldExpandAll, isPresentingModal: $isPresentingModal, modalType: $modalType, focusGoal: $focusObjectId, goalId: objectId)
+                DetailKanban(shouldExpand: $shouldExpandAll, isPresentingModal: $isPresentingModal, modalType: $modalType, focusGoal: $focusObjectId, statusToAdd: $statusToAdd, goalId: objectId)
+            }
+
+
         }
             .offset(y:offset.y < 150 ? -offset.y/1.5 : -100)
         .frame(alignment:.leading)
@@ -39,7 +49,7 @@ struct DetailStack: View {
 
 struct DetailStack_Previews: PreviewProvider {
     static var previews: some View {
-        DetailStack(offset: .constant(.zero), focusObjectId: .constant(UUID()), isPresentingModal: .constant(false) , modalType: .constant(.add)  , properties: Properties() , objectId: UUID() ,objectType: .goal)
+        DetailStack(offset: .constant(.zero), focusObjectId: .constant(UUID()), isPresentingModal: .constant(false) , modalType: .constant(.add), statusToAdd: .constant(.notStarted) , properties: Properties() , objectId: UUID() ,objectType: .goal)
             .environmentObject(GoalService())
     }
 }

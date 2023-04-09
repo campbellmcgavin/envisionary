@@ -8,43 +8,43 @@
 import SwiftUI
 
 struct GanttMainDiagram<Value: Identifiable, V: View>: View where Value: Equatable {
-    @Binding var goal: Goal
-    @Binding var propertyTypeMenu: [Bool]
+    var parentGoalId: UUID
+    var goalId: UUID
     @Binding var focusGoal: UUID
     @Binding var expandedGoals: [UUID]
     let value: (Value) -> V
-    let isPreview: Bool
     let childCount: Int
     let currentTimeframeType: TimeframeType
     @State var shouldMoveBackward = false
     @State var shouldMoveForward = false
-//    let maxTimeframecount: Int
+    @State var childGoalIds = [UUID]()
     
-    @EnvironmentObject var dataModel: DataModel
+    @EnvironmentObject var dm: DataModel
+    @EnvironmentObject var gs: GoalService
 
     typealias Key = CollectDict<UUID, Anchor<CGPoint>>
 
     var body: some View {
         
         return ZStack{
-        VStack(alignment: .leading, spacing: 5) {
+        VStack(alignment: .leading, spacing: 0) {
             
-            value(goal as! Value)
-               .anchorPreference(key: Key.self, value: .center, transform: {
-                   [self.goal.id: $0]
+            value(goalId as! Value)
+                .anchorPreference(key: Key.self, value: .leading, transform: {
+                   [goalId: $0]
                })
+               .padding(.bottom,20)
 
             
             
-            if ((expandedGoals.contains(where:{$0 == goal.id}) && !isPreview) || (isPreview && childCount < 1)){
+            if (expandedGoals.contains(where:{$0 == goalId})){
 
                 
-                VStack(alignment: .leading) {
+                VStack(alignment: .leading, spacing: 0) {
                         
-                        ForEach(goal.children, id: \.self, content: { childId in
+                        ForEach(gs.ListsChildGoalsByParentId(id: goalId), content: { childId in
                             
-                            GanttMainDiagram(goal: dataModel.BindingGoal(for: childId), propertyTypeMenu: .constant([Bool](repeating: true, count:PropertyType.allCases.count)), focusGoal: $focusGoal, expandedGoals: $expandedGoals, value: self.value, isPreview: isPreview, childCount: childCount + 1, currentTimeframeType: currentTimeframeType)
-                                .environmentObject(dataModel) 
+                            GanttMainDiagram(parentGoalId: parentGoalId, goalId: childId, focusGoal: $focusGoal, expandedGoals: $expandedGoals, value: self.value,  childCount: childCount + 1, currentTimeframeType: currentTimeframeType)
                         })
                     
 
@@ -52,54 +52,64 @@ struct GanttMainDiagram<Value: Identifiable, V: View>: View where Value: Equatab
             }
 
         }
-        .background(
-            VStack{
-                HStack{
-                    Circle()
-                        .frame(width:8,height:8)
-                        .foregroundColor(.specify(color: .foregroundSelected))
-                        .offset(x: -70  + CGFloat(childCount - 1) * 9 - 4, y:10 )
-                        .background(
-                            VStack{
-                                Divider()
-                                    .background(Color.specify(color: .foregroundSelected))
-                                    .opacity(GetShouldShow() ? 100 : 0)
-                                    .offset(x: -70  + CGFloat(childCount - 1) * 9 - 1, y:10 )
-                                    .frame(width:12)
-                            }
-                        )
-                    Spacer()
-                }
-
-                
-                HStack{
-                    Divider()
-                        .background(Color.specify(color: .foregroundSelected))
-                        .offset(x: -70  + CGFloat(childCount) * 9, y: -2 )
-                        .padding(.bottom,10)
-                    Spacer()
-                }
-                .opacity(GetShouldShow() ? 100 : 0)
-            }
-
-
-
+        .onAppear{
+            childGoalIds = gs.ListsChildGoalsByParentId(id: goalId)
+        }
+        .onChange(of: gs.goalsDictionary){
+            _ in
+            childGoalIds = gs.ListsChildGoalsByParentId(id: goalId)
+        }
+        .backgroundPreferenceValue(Key.self, { (leadingEdge: [UUID: Anchor<CGPoint>]) in
             
-        )
-//            if(!isPreview){
-//                if goal.id == focusGoal {
-//                    
-//                    VStack{
-//                        MenuToolboxButtons(goal: $goal, propertyTypeMenu: $propertyTypeMenu, expandedGoals: $expandedGoals, focusGoal: $focusGoal, viewMenuType: .gantt, timeframeType: currentTimeframeType)
-//                            .environmentObject(dataModel)
-//                        Spacer()
-//                    }
-//                }
-//            }
+                GeometryReader { proxy in
+                    ForEach(childGoalIds, content: { child in
+                        
+                        if leadingEdge[goalId] != nil && leadingEdge[child] != nil {
+                            
+                            let point1: CGPoint = proxy[leadingEdge[self.goalId]!]
+//                            let offset1 = goal.startDate.GetDateDifferenceAsDecimal(to: gs.GetGoal(id: child)?.startDate ?? Date(), timeframeType: currentTimeframeType) * 100
+                            let offset = GetOffset()
+                            
+                            let point1Offset = CGPoint(x: point1.x + offset + 30, y: point1.y)
+                            let goal = gs.GetGoal(id: self.goalId) ?? Goal()
+                            
+                            let offset2 = goal.startDate.GetDateDifferenceAsDecimal(to: gs.GetGoal(id: child)?.startDate ?? Date(), timeframeType: currentTimeframeType) * SizeType.ganttColumnWidth.ToSize()
+                            
+                            let point2: CGPoint = proxy[leadingEdge[child]!]
+                            let point2Offset = CGPoint(x:point2.x + (offset2 + offset + 30), y: point2.y)
+                            
+
+                            Path { path in
+                                path.move(to: point1Offset)
+                                path.addCurve(
+                                    to: point2Offset,
+                                    control1: CGPoint(x: point1Offset.x + 10, y: point2Offset.y - 10),
+                                    control2: CGPoint(x: point1Offset.x + 10, y: point2Offset.y - 10))
+                            }
+                            .stroke(lineWidth: 1)
+                            .foregroundColor(.specify(color:.grey5))
+                        }
+                    })
+                }
+            
+
+                })
         }
         }
     
+    func GetOffset() -> CGFloat{
+        let localGoal = gs.GetGoal(id: goalId) ?? Goal()
+        let parentGoal = gs.GetGoal(id: parentGoalId) ?? Goal()
+        let startDate = parentGoal.startDate
+        let endDate = localGoal.startDate
+        
+        let timeframe = currentTimeframeType
+        let offset = startDate.GetDateDifferenceAsDecimal(to: endDate, timeframeType: timeframe)
+//        let offset = dateValues.firstIndex(where: { $0.date.isInSameTimeframe(as: goal.startDate, timeframeType: timeframeType)}) ?? 0
+        return offset * SizeType.ganttColumnWidth.ToSize()
+    }
+    
     func GetShouldShow() -> Bool{
-        return (expandedGoals.contains(where:{$0 == goal.id}) && !isPreview && goal.children.count > 0) || childCount == 0
+        return expandedGoals.contains(where:{$0 == goalId})
     }
 }

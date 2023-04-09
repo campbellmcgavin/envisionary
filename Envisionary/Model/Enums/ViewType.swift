@@ -11,6 +11,7 @@ enum ViewType: CaseIterable {
     case tree
     case gantt
     case kanban
+    case creed
     
     func toString() -> String{
         switch self {
@@ -20,6 +21,8 @@ enum ViewType: CaseIterable {
             return "Gantt"
         case .kanban:
             return "Kanban"
+        case .creed:
+            return "Editor"
         }
     }
         
@@ -31,6 +34,8 @@ enum ViewType: CaseIterable {
             return "Master timelines and dependencies to stay on top of your game."
         case .kanban:
             return "Carry goals from start to finish."
+        case .creed:
+            return "Take your core values and create a life's mission statement."
         }
     }
     
@@ -54,6 +59,10 @@ enum ViewType: CaseIterable {
                 return true
             case .goTo:
                 return true
+            case .forward:
+                return false
+            case .backward:
+                return false
             }
         case .gantt:
             switch button {
@@ -66,13 +75,17 @@ enum ViewType: CaseIterable {
             case .expand:
                 return true
             case .photo:
-                return true
+                return false
             case .edit:
                 return true
             case .add:
                 return true
             case .goTo:
                 return true
+            case .forward:
+                return false
+            case .backward:
+                return false
             }
         case .kanban:
             switch button {
@@ -85,11 +98,38 @@ enum ViewType: CaseIterable {
             case .expand:
                 return false
             case .photo:
-                return true
+                return false
             case .edit:
                 return true
             case .add:
                 return true
+            case .goTo:
+                return true
+            case .forward:
+                return true
+            case .backward:
+                return true
+            }
+        case .creed:
+            switch button {
+            case .delete:
+                return true
+            case .forward:
+                return false
+            case .backward:
+                return false
+            case .timeBack:
+                return false
+            case .timeForward:
+                return false
+            case .expand:
+                return false
+            case .photo:
+                return false
+            case .edit:
+                return true
+            case .add:
+                return false
             case .goTo:
                 return true
             }

@@ -16,5 +16,5 @@ struct Criteria {
     let aspect: AspectType?
     let priority: PriorityType?
     let progress: Int?
-    
+    let coreValue: ValueType?
 }

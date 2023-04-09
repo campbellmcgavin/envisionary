@@ -25,6 +25,7 @@ enum SizeType {
     case expandedMenuScrollCalendar
     case expandedMenuLargeCalendar
     
+    case ganttColumnWidth
     case scrollPickerWidth
     
     func ToSize() -> CGFloat{
@@ -58,6 +59,8 @@ enum SizeType {
             return 280
         case .headerCircle:
             return 200
+        case .ganttColumnWidth:
+            return 100
         case .scrollPickerWidth:
             return 65
         }

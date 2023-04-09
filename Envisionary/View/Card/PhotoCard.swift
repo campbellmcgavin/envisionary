@@ -15,10 +15,11 @@ struct PhotoCard: View {
     var subheader: String
     var caption: String?
     var imageString: String?
+    var shouldHidePadding = false
     
     var body: some View {
 //        Button
-        NavigationLink(destination: Detail(objectType: .goal, objectId: objectId, properties: properties))
+        NavigationLink(destination: Detail(objectType: objectType, objectId: objectId, properties: properties))
         {
             HStack(alignment:.center, spacing:0){
                 
@@ -56,7 +57,8 @@ struct PhotoCard: View {
                 IconButton(isPressed: .constant(true), size: .small, iconType: .right, iconColor: .grey5)
                     .disabled(true)
             }
-            .padding()
+            .padding(shouldHidePadding ? 0 : 15)
+//            .padding()
             .frame(maxWidth:.infinity)
             .frame(height:75)
         }

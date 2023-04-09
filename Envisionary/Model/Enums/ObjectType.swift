@@ -251,7 +251,7 @@ enum ObjectType: Int, Identifiable, CaseIterable{
         switch self {
         case .value:
             switch property {
-            case .title:
+            case .coreValue:
                 return true
             case .description:
                 return true
@@ -259,10 +259,21 @@ enum ObjectType: Int, Identifiable, CaseIterable{
                 return false
             }
         case .creed:
-            return false
-        case .aspect:
             switch property {
             case .title:
+                return true
+            case .description:
+                return true
+            case .start:
+                return true
+            case .end:
+                return true
+            default:
+                return false
+            }
+        case .aspect:
+            switch property {
+            case .aspect:
                 return true
             case .description:
                 return true
@@ -283,9 +294,11 @@ enum ObjectType: Int, Identifiable, CaseIterable{
                 return true
             case .priority:
                 return true
-            case .progress:
-                return true
+//            case .progress:
+//                return true
             case .description:
+                return true
+            case .coreValue:
                 return true
             default:
                 return false
@@ -316,6 +329,8 @@ enum ObjectType: Int, Identifiable, CaseIterable{
                 return true
             case .description:
                 return true
+            default:
+                return false
             }
         case .task:
             switch property {
@@ -342,6 +357,10 @@ enum ObjectType: Int, Identifiable, CaseIterable{
             case .title:
                 return true
             case .description:
+                return false
+            case .coreValue:
+                return false
+            default:
                 return false
             }
         case .habit:
@@ -374,6 +393,10 @@ enum ObjectType: Int, Identifiable, CaseIterable{
                 return true
             case .description:
                 return true
+            case .coreValue:
+                return false
+            default:
+                return false
             }
         case .entry:
             switch property {
@@ -401,13 +424,174 @@ enum ObjectType: Int, Identifiable, CaseIterable{
                 return true
             case .description:
                 return true
+            case .coreValue:
+                return false
+            default:
+                return false
             }
         case .stats:
             return false
         case .emotion:
             return true
         case .dream:
-            return true
+            switch property {
+            case .title:
+                return true
+            case .description:
+                return true
+            case .aspect:
+                return true
+            default:
+                return false
+            }
+        }
+    }
+    
+    func hasDetailMenuButton(button: DetailMenuButtonType) -> Bool{
+        switch self {
+        case .value:
+            switch button {
+            case .delete:
+                return true
+            case .help:
+                return true
+            case .edit:
+                return true
+            case .add:
+                return false
+            }
+        case .creed:
+            switch button {
+            case .delete:
+                return false
+            case .help:
+                return true
+            case .edit:
+                return false
+            case .add:
+                return true
+            }
+        case .dream:
+            switch button {
+            case .delete:
+                return true
+            case .help:
+                return true
+            case .edit:
+                return true
+            case .add:
+                return false
+            }
+        case .aspect:
+            switch button {
+            case .delete:
+                return true
+            case .help:
+                return true
+            case .edit:
+                return true
+            case .add:
+                return false
+            }
+        case .goal:
+            switch button {
+            case .delete:
+                return true
+            case .help:
+                return true
+            case .edit:
+                return true
+            case .add:
+                return true
+            }
+        case .session:
+            switch button {
+            case .delete:
+                return false
+            case .help:
+                return true
+            case .edit:
+                return false
+            case .add:
+                return false
+            }
+        case .task:
+            switch button {
+            case .delete:
+                return true
+            case .help:
+                return true
+            case .edit:
+                return true
+            case .add:
+                return false
+            }
+        case .habit:
+            switch button {
+            case .delete:
+                return true
+            case .help:
+                return true
+            case .edit:
+                return true
+            case .add:
+                return false
+            }
+        case .home:
+            switch button {
+            case .delete:
+                return false
+            case .help:
+                return true
+            case .edit:
+                return false
+            case .add:
+                return false
+            }
+        case .chapter:
+            switch button {
+            case .delete:
+                return true
+            case .help:
+                return true
+            case .edit:
+                return true
+            case .add:
+                return true
+            }
+        case .entry:
+            switch button {
+            case .delete:
+                return true
+            case .help:
+                return true
+            case .edit:
+                return true
+            case .add:
+                return false
+            }
+        case .emotion:
+            switch button {
+            case .delete:
+                return false
+            case .help:
+                return true
+            case .edit:
+                return false
+            case .add:
+                return false
+            }
+        case .stats:
+            switch button {
+            case .delete:
+                return false
+            case .help:
+                return true
+            case .edit:
+                return false
+            case .add:
+                return false
+            }
         }
     }
 }

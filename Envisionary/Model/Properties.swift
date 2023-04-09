@@ -23,6 +23,9 @@ struct Properties{
     var leftAsIs: Int?
     var pushedOff: Int?
     var deleted: Int?
+    var coreValue: ValueType?
+    var start: String?
+    var end: String?
     
     init(objectType: ObjectType){
         timeframe = .day
@@ -71,36 +74,29 @@ struct Properties{
         self.children = goal?.children
         self.image = goal?.image
     }
-
     
-//    func GetName(objectType: ObjectType) -> String {
-//        switch objectType {
-//        case .value:
-//            <#code#>
-//        case .creed:
-//            <#code#>
-//        case .dream:
-//            return TestHelper().dreamNames.randomElement()!
-//        case .aspect:
-//            return AspectType.allCases.randomElement()!.toString()
-//        case .goal:
-//            return TestHelper().goalNames.randomElement()!
-//        case .session:
-//            return Date().toString(timeframeType: TimeframeType.allCases.randomElement()!)
-//        case .task:
-//            return TestHelper().taskNames.randomElement()!
-//        case .habit:
-//            return TestHelper().habitNames.randomElement()!
-//        case .home:
-//            return ""
-//        case .chapter:
-//            return TestHelper().chapterNames.randomElement()!
-//        case .entry:
-//            return TestHelper().entryNames.randomElement()!
-//        case .emotion:
-//            return TestHelper().entryNames.randomElement()!
-//        case .stats:
-//            return ""
-//        }
-//    }
+    init(dream: Dream?){
+        self.title = dream?.title ?? "Empty Goal"
+        self.description = dream?.description ?? "Empty Description"
+        self.aspect = dream?.aspect
+        self.image = dream?.image
+    }
+    
+    init(value: CoreValue?){
+        self.title = value?.coreValue.toString() ?? "Empty Value"
+        self.coreValue = value?.coreValue
+        self.description = value?.description ?? "Empty Description"
+    }
+    
+    init(aspect: Aspect?){
+        self.title = aspect?.aspect.toString() ?? "Empty Value"
+        self.description = aspect?.description ?? "Empty Description"
+    }
+    
+    init(creed: Bool, valueCount: Int){
+        self.title = "Life's Creed"
+        self.description = "Your personalized life's mission statement, with a total of " + String(valueCount - 2) + " values."
+        self.start = "Birth"
+        self.end = "Death"
+    }
 }

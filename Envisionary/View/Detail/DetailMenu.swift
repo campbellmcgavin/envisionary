@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct DetailMenu: View {
+    let objectType: ObjectType
     @Binding var dismiss: PresentationMode
     @Binding var isPresentingModal: Bool
     @Binding var modalType: ModalType
@@ -20,18 +21,26 @@ struct DetailMenu: View {
     @State var shouldGoBack: Bool = false
     
     var body: some View {
-        HStack(){
+        HStack(spacing:7){
             IconButton(isPressed: $shouldGoBack, size: .medium, iconType: .arrow_left, iconColor: .purple, circleColor: .grey10)
             Spacer()
-            IconButton(isPressed: $shouldPresentDelete, size: .medium, iconType: .delete, iconColor: .red, circleColor: .grey10)
-            IconButton(isPressed: $shouldPresentHelp, size: .medium, iconType: .help, iconColor: .purple, circleColor: .grey10)
-            IconButton(isPressed: $shouldPresentEdit, size: .medium, iconType: .edit, iconColor: .purple, circleColor: .grey10)
-            IconButton(isPressed: $shouldPresentAdd, size: .medium, iconType: .add, iconColor: .purple, circleColor: .grey10)
+            if objectType.hasDetailMenuButton(button: .delete){
+                IconButton(isPressed: $shouldPresentDelete, size: .medium, iconType: .delete, iconColor: .red, circleColor: .grey10)
+            }
+            if objectType.hasDetailMenuButton(button: .help){
+                IconButton(isPressed: $shouldPresentHelp, size: .medium, iconType: .help, iconColor: .purple, circleColor: .grey10)
+            }
+            if objectType.hasDetailMenuButton(button: .help){
+                IconButton(isPressed: $shouldPresentEdit, size: .medium, iconType: .edit, iconColor: .purple, circleColor: .grey10)
+            }
+            if objectType.hasDetailMenuButton(button: .help){
+                IconButton(isPressed: $shouldPresentAdd, size: .medium, iconType: .add, iconColor: .purple, circleColor: .grey10)
+            }
         }
         
         .frame(maxWidth: .infinity)
         .frame(height:50)
-        .padding([.leading,.trailing],8)
+        .padding([.leading,.trailing])
         .padding(.bottom,10)
         .background(Color.specify(color: .purple)
             .ignoresSafeArea())

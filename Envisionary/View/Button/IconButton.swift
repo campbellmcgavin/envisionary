@@ -36,6 +36,14 @@ struct IconButton: View {
 struct ActionButton_Previews: PreviewProvider {
     static var previews: some View {
         VStack{
+            
+//            Circle()
+//                .frame(width:100,height:100)
+//                .foregroundColor(.specify(color: .purple))
+//            Spacer()
+//                .frame(maxWidth:.infinity)
+//                .frame(height:50)
+//                .background(Color.specify(color: .purple))
             HStack{
                 IconButton(isPressed: .constant(true), size: .large, iconType: .add, iconColor: .grey10, circleColor: .purple)
                 IconButton(isPressed: .constant(true), size: .large, iconType: .add, iconColor: .purple, circleColor: .clear)
@@ -53,7 +61,7 @@ struct ActionButton_Previews: PreviewProvider {
                 IconButton(isPressed: .constant(true), size: .medium, iconType: .add, iconColor: .grey10, circleColor: .grey2)
                 IconButton(isPressed: .constant(true), size: .medium, iconType: .right, iconColor: .grey10, circleColor: .grey2)
             }
-            
+
             HStack{
                 IconButton(isPressed: .constant(true), size: .medium, iconType: .filter, iconColor: .grey10, circleColor: .clear)
                 IconButton(isPressed: .constant(true), size: .medium, iconType: .group, iconColor: .grey10, circleColor: .clear)
@@ -61,7 +69,7 @@ struct ActionButton_Previews: PreviewProvider {
                 Spacer()
                 IconButton(isPressed: .constant(true), size: .medium, iconType: .search, iconColor: .grey10, circleColor: .clear)
             }
-            
+
             HStack{
                 IconButton(isPressed: .constant(true), size: .medium, iconType: .left, iconColor: .purple, circleColor: .grey10)
                 Spacer()
@@ -70,13 +78,13 @@ struct ActionButton_Previews: PreviewProvider {
                 IconButton(isPressed: .constant(true), size: .medium, iconType: .maximize, iconColor: .purple, circleColor: .grey10)
                 IconButton(isPressed: .constant(true), size: .medium, iconType: .edit, iconColor: .purple, circleColor: .grey10)
             }
-            
+
             HStack{
                 IconButton(isPressed: .constant(true), size: .medium, iconType: .left, iconColor: .purple, circleColor: .grey10)
                 IconButton(isPressed: .constant(true), size: .medium, iconType: .right, iconColor: .purple, circleColor: .grey10)
                 IconButton(isPressed: .constant(true), size: .medium, iconType: .up, iconColor: .purple, circleColor: .grey10)
                 IconButton(isPressed: .constant(true), size: .medium, iconType: .down, iconColor: .purple, circleColor: .grey10)
-                
+
                 IconButton(isPressed: .constant(true), size: .medium, iconType: .left, iconColor: .grey10, circleColor: .purple)
                 IconButton(isPressed: .constant(true), size: .medium, iconType: .right, iconColor: .grey10, circleColor: .purple)
                 IconButton(isPressed: .constant(true), size: .medium, iconType: .up, iconColor: .grey10, circleColor: .purple)
