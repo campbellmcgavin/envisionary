@@ -9,17 +9,15 @@ import SwiftUI
 
 @main
 struct EnvisionaryApp: App {
-    @StateObject private var dm = DataModel()
-    @StateObject private var gs = GoalService()
+    @StateObject private var vm = ViewModel()
     
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environmentObject(dm)
-                .environmentObject(gs)
-                .onAppear{
-                    GetAllFonts()
-                }
+                .environmentObject(vm)
+//                .onAppear{
+//                    GetAllFonts()
+//                }
         }
     }
     

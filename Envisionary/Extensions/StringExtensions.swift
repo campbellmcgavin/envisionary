@@ -78,6 +78,12 @@ extension String {
             return .timeframe
         }
     }
+    
+    func toIdArray() -> [UUID]{
+        let stringArray = self.components(separatedBy: ",").map({$0.trimmingCharacters(in: .whitespacesAndNewlines)})
+        
+        return stringArray.map({UUID(uuidString: $0) ?? UUID()})
+    }
 }
 
 extension Character {

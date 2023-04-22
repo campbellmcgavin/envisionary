@@ -17,9 +17,7 @@ struct GanttMain: View {
     @State var goal: Goal = Goal()
     let columnWidth: CGFloat = SizeType.ganttColumnWidth.ToSize()
     var isPreview: Bool = true
-    
-    @EnvironmentObject var dm: DataModel
-    @EnvironmentObject var gs: GoalService
+    @EnvironmentObject var vm: ViewModel
     var body: some View {
         
         
@@ -52,34 +50,29 @@ struct GanttMain: View {
             }, childCount: 0, isStatic: true)
             .offset(x:10, y:columnWidth/2)
         }
-        .onChange(of: gs.goalsDictionary){
+        .onChange(of: vm.updates.goal){
             _ in
             DispatchQueue.global(qos: .userInteractive).async{
                 
-                    goal = gs.GetGoal(id: goalId) ?? Goal()
+                    goal = vm.GetGoal(id: goalId) ?? Goal()
                     GetDateValues()
-                
-
             }
-            }
-
-
+        }
         .onAppear(){
-            goal = gs.GetGoal(id: goalId) ?? Goal()
+            goal = vm.GetGoal(id: goalId) ?? Goal()
             GetDateValues()
-            
         }
     }
     
     func GetWidth(localGoalId: UUID) -> Double{
-        let localGoal = gs.GetGoal(id: localGoalId) ?? Goal()
+        let localGoal = vm.GetGoal(id: localGoalId) ?? Goal()
         let units = localGoal.startDate.StartOfDay().GetDateDifferenceAsDecimal(to: localGoal.endDate, timeframeType: self.goal.timeframe)
         let totalWidth = units * columnWidth
         return totalWidth
     }
     
     func GetOffset(localGoalId: UUID) -> CGFloat{
-        let localGoal = gs.GetGoal(id: localGoalId) ?? Goal()
+        let localGoal = vm.GetGoal(id: localGoalId) ?? Goal()
         let startDate = self.goal.startDate
         let endDate = localGoal.startDate
         let timeframe = self.goal.timeframe
@@ -91,8 +84,6 @@ struct GanttMain: View {
     
     func GetDateValues(){
             dateValues = goal.startDate.GetDatesArray(endDate: goal.endDate, timeframeType: goal.timeframe)
-        
-       
     }
     
 

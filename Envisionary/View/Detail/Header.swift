@@ -12,9 +12,11 @@ struct Header<Content: View>: View {
     var title: String
     var subtitle: String
     var objectType: ObjectType
-    let shouldShowImage: Bool
     let color: CustomColor
     @Binding var headerFrame: CGSize
+    @Binding var isPresentingImageSheet: Bool
+    var modalType: ModalType?
+    var image: UIImage?
     @ViewBuilder var content: Content
     
     var body: some View {
@@ -32,7 +34,7 @@ struct Header<Content: View>: View {
 
                     Text(title)
                         .font(.specify(style: .h2))
-                        .lineLimit(2)
+                        .lineLimit(1)
                         .foregroundColor(.specify(color: .grey10))
                         .padding(.bottom,10)
                         
@@ -50,48 +52,32 @@ struct Header<Content: View>: View {
                     .frame(alignment:.center)
                     .opacity(GetOpacity())
             }
-            .padding(.bottom,shouldShowImage ? 100 : 15)
+            .padding(.bottom, objectType.ShouldShowImage() && (modalType != .search) ? 100 : 15)
             .saveSize(in: $headerFrame)
-            .padding(.top,85)
-            .padding(.bottom,shouldShowImage ? 70 : 0)
+            .padding(.top, 85)
+            .padding(.bottom, objectType.ShouldShowImage() && (modalType != .search) ? 70 : 0)
             .background(
                 Color.specify(color: color)
                     .modifier(ModifierRoundedCorners(radius: GetRadius()))
                     .edgesIgnoringSafeArea(.all)
                     .padding(.top,-1000)
                     .frame(maxHeight:.infinity)
-                    .offset(y:shouldShowImage ? 0 : 65))
+                    .offset(y: objectType.ShouldShowImage() && (modalType != .search) ? 0 : 65))
             .frame(maxWidth:.infinity,maxHeight:.infinity)
             
-            if(shouldShowImage){
-                Ellipse()
-                    .frame(width:SizeType.headerCircle.ToSize(), height:GetCircleHeight())
-                    .frame(alignment: .center)
-                    .foregroundColor(.specify(color: .grey1))
-                    .opacity(GetOpacity())
-                    .offset(y:offset.y > 0 ? headerFrame.height-offset.y/2 : headerFrame.height-offset.y/3)
+            if(ShouldShowImage()){
+                HeaderImage(offset: offset, headerFrame: headerFrame, modalType: modalType, image: image, isPresentingImageSheet: $isPresentingImageSheet)
+                
             }
         }
-        
-
     }
     
-    func GetCircleHeight() -> CGFloat{
-        if offset.y < 0 {
-            return SizeType.headerCircle.ToSize() - offset.y * 0.2
-        }
-        return SizeType.headerCircle.ToSize()
+    func ShouldShowImage() -> Bool{
+        return modalType == nil ? objectType.ShouldShowImage() : modalType!.ShouldShowImage(objectType: objectType)
     }
     
     func GetOpacity() -> CGFloat{
-//        if offset.y > 0 {
             return  (1.0 - ((1.0 * offset.y/headerFrame.height*2)))
-//            if num < 0 {
-//                return 0
-//            }
-//            return num
-//        }
-//        return 1.0
     }
     
     func GetRadius() -> CGFloat{
@@ -102,8 +88,8 @@ struct Header<Content: View>: View {
     }
 }
 
-struct Header_Previews: PreviewProvider {
-    static var previews: some View {
-        Header(offset: .constant(.zero), title: "VIEW GOAL", subtitle: "Learn Spanish", objectType: .goal, shouldShowImage: true, color: .red, headerFrame: .constant(.zero), content: {EmptyView()})
-    }
-}
+//struct Header_Previews: PreviewProvider {
+//    static var previews: some View {
+//        Header(offset: .constant(.zero), title: "VIEW GOAL", subtitle: "Learn Spanish", objectType: .goal, modalType: .add, color: .red, headerFrame: .constant(.zero), content: {EmptyView()})
+//    }
+//}

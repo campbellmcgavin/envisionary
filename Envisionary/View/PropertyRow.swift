@@ -44,6 +44,7 @@ struct PropertyRow: View {
                         .multilineTextAlignment(.leading)
                 }
                 .frame(alignment:.leading)
+                .padding(.trailing)
                 Spacer()
                 
                 if propertyType != .title && propertyType != .description{

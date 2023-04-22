@@ -15,7 +15,10 @@ struct BubbleView: View {
     var offset: CGFloat = 0
     var shouldShowDetails = true
     @State var goal: Goal? = Goal()
-    @EnvironmentObject var gs: GoalService
+    @EnvironmentObject var vm: ViewModel
+    
+    @State var image: UIImage? = nil
+    
     var body: some View {
 
             Button{
@@ -31,9 +34,11 @@ struct BubbleView: View {
 
         label:{
             HStack{
-                    Circle()
-                        .frame(width:SizeType.minimumTouchTarget.ToSize(), height: SizeType.minimumTouchTarget.ToSize())
-                        .foregroundColor(.specify(color: .grey5))
+                
+                ImageCircle(imageSize: SizeType.minimumTouchTarget.ToSize(), image: image, iconSize: .medium, icon: .goal)
+//                    Circle()
+//                        .frame(width:SizeType.minimumTouchTarget.ToSize(), height: SizeType.minimumTouchTarget.ToSize())
+//                        .foregroundColor(.specify(color: .grey5))
 //                        .padding(.trailing, goal.title.count == "" ? 0 : -7)
                     if goal != nil && width > 50{
                         VStack(alignment:.leading){
@@ -63,10 +68,21 @@ struct BubbleView: View {
         }
         .buttonStyle(.plain)
         .onAppear{
-//            if shouldShowDetails{
-                goal = gs.GetGoal(id: goalId)
-//            }
-
+            DispatchQueue.global(qos:.userInteractive).async{
+                goal = vm.GetGoal(id: goalId)
+                if goal?.image != nil {
+                    image = vm.GetImage(id: goal!.image!)
+                }
+            }
+        }
+        .onChange(of: vm.updates){
+            _ in
+            DispatchQueue.global(qos:.userInteractive).async{
+                goal = vm.GetGoal(id: goalId)
+                if goal?.image != nil {
+                    image = vm.GetImage(id: goal!.image!)
+                }
+            }
         }
         
 
@@ -77,6 +93,6 @@ struct BubbleView: View {
 struct BubbleView_Previews: PreviewProvider {
     static var previews: some View {
         BubbleView(goalId: UUID(), focusGoal: .constant(UUID()), width: 3)
-            .environmentObject(GoalService())
+            .environmentObject(ViewModel())
     }
 }

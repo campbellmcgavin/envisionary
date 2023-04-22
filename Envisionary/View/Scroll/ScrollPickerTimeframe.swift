@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ScrollPickerTimeframe: View {
-    @EnvironmentObject var dm: DataModel
+    @EnvironmentObject var vm: ViewModel
     @State var contentOffset = CGPoint(x:0,y:0)
     @State var buttonIsChangingTimeframe = false
     @State var timeframeDisplay: TimeframeType = .day
@@ -50,7 +50,7 @@ struct ScrollPickerTimeframe: View {
                 timeframeDisplay = GetTimeframeFromOffset()
                 self.startTimer()
             }
-            .onChange(of: dm.contentType){ _ in
+            .onChange(of: vm.filtering.filterContent){ _ in
                 LoadTimeframes()
             }
             .onChange(of: timeframeDisplay){
@@ -60,8 +60,8 @@ struct ScrollPickerTimeframe: View {
             }
             .onAppear{
                 LoadTimeframes()
-                contentOffset.x = CGFloat(dm.timeframeType.rawValue)*(SizeType.scrollPickerWidth.ToSize() + weirdOffset)
-                timeframeDisplay = dm.timeframeType
+                contentOffset.x = CGFloat(vm.filtering.filterTimeframe.rawValue)*(SizeType.scrollPickerWidth.ToSize() + weirdOffset)
+                timeframeDisplay = vm.filtering.filterTimeframe
                 self.startTimer()
             }
             .onChange(of: timeframeList){
@@ -72,8 +72,8 @@ struct ScrollPickerTimeframe: View {
                     DispatchQueue.main.async{
                         withAnimation{
                         self.stopTimer()
-//                        dm.PrepareForPickerWheelTime(timeframe: timeframeDisplay)
-                        dm.timeframeType = timeframeDisplay
+//                        vm.PrepareForPickerWheelTime(timeframe: timeframeDisplay)
+                        vm.filtering.filterTimeframe = timeframeDisplay
                         }
                     }
             }
@@ -96,15 +96,15 @@ struct ScrollPickerTimeframe: View {
         
         switch timeframe{
         case .day:
-            return dm.contentType  != .evaluate
+            return vm.filtering.filterContent  != .evaluate
         case .week:
             return true
         case .month:
             return true
         case .year:
-            return dm.contentType != .execute
+            return vm.filtering.filterContent != .execute
         case .decade:
-            return dm.contentType != .execute
+            return vm.filtering.filterContent != .execute
         }
     }
     
@@ -140,7 +140,7 @@ struct ScrollPickerTimeframe: View {
 struct ScrollPickerTimeframe_Previews: PreviewProvider {
     static var previews: some View {
         ScrollPickerTimeframe()
-            .environmentObject(DataModel())
+            .environmentObject(ViewModel())
             .background(Color.specify(color: .grey0))
     }
 }

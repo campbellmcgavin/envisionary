@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ScrollPickerObject: View {
-    @EnvironmentObject var dm: DataModel
+    @EnvironmentObject var vm: ViewModel
     @Binding var objectType: ObjectType
     var isSearch: Bool?
     @State var isLoadingObjects: Bool = false
@@ -73,7 +73,7 @@ struct ScrollPickerObject: View {
             self.startTimer()
             
         }
-        .onChange(of: dm.contentType){
+        .onChange(of: vm.filtering.filterContent){
             _ in
             withAnimation{
                 LoadObjects()
@@ -170,7 +170,7 @@ struct ScrollPickerObject: View {
         }
         
         else{
-            switch dm.contentType{
+            switch vm.filtering.filterContent{
             case .envision:
                 return object == .value || object == .creed || object == .dream || object == .aspect
             case .plan:
@@ -197,7 +197,7 @@ struct ScrollPickerObject: View {
     
     func GetContentForObject() -> ContentViewType{
         
-        switch dm.objectType {
+        switch vm.filtering.filterObject {
         case .aspect:
             return .envision
         case .value:
@@ -262,14 +262,14 @@ struct ScrollPickerObject: View {
     }
     
     func ShouldShowObjects() -> Bool {
-        return isSearch == true || (dm.contentType != .execute && dm.contentType != .evaluate)
+        return isSearch == true || (vm.filtering.filterContent != .execute && vm.filtering.filterContent != .evaluate)
     }
 }
 
 struct ScrollPickerObject_Previews: PreviewProvider {
     static var previews: some View {
         ScrollPickerObject(objectType: .constant(.goal))
-            .environmentObject(DataModel())
+            .environmentObject(ViewModel())
             .background(Color.specify(color: .grey0))
     }
 }

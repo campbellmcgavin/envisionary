@@ -16,7 +16,7 @@ struct BoardListView: View {
     @Binding var modalType: ModalType
     @Binding var statusToAdd: StatusType
     
-    @EnvironmentObject var gs: GoalService
+    @EnvironmentObject var vm: ViewModel
     @State var childObjectList: [UUID] = [UUID]()
     
     @Binding var draggingObject: IdItem?
@@ -52,7 +52,7 @@ struct BoardListView: View {
         .padding([.leading,.trailing],shouldHideElements ? 3 : 8)
         
         .onAppear{
-            childObjectList = gs.ListsChildGoalsByParentId(id: objectId)
+            childObjectList = vm.ListChildGoals(id: objectId).map({$0.id})
         }
         .onReceive(timer){ _ in
             withAnimation{
@@ -64,8 +64,8 @@ struct BoardListView: View {
             _ in
             timer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
         }
-        .onChange(of:gs.goalsDictionary){ _ in
-            childObjectList = gs.ListsChildGoalsByParentId(id: objectId)
+        .onChange(of:vm.updates.goal){ _ in
+            childObjectList = vm.ListChildGoals(id: objectId).map({$0.id})
         }
         .onChange(of: shouldAdd){ _ in
             selectedObjectId = objectId
@@ -90,7 +90,7 @@ struct BoardListView: View {
         VStack(spacing:0){
             ForEach(childObjectList, id:\.self){ childObjectId in
                 
-                if let object = gs.GetGoal(id: childObjectId){
+                if let object = vm.GetGoal(id: childObjectId){
                     if statusType.hasObject(progress: object.progress){
                         BubbleView(goalId: childObjectId, focusGoal: $selectedObjectId, width: shouldHideElements ? 50 : 180)
                             .frame(maxHeight: shouldHideElements ? 0 : 100)

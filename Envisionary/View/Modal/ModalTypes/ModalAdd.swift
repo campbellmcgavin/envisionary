@@ -9,10 +9,11 @@ import SwiftUI
 
 struct ModalAdd: View {
     @Binding var isPresenting: Bool
+    @Binding var isPresentingPhotoSource: Bool
+    @Binding var sourceType: UIImagePickerController.SourceType?
     let objectId: UUID?
     var parentId: UUID?
     @State var properties: Properties
-    
     let objectType: ObjectType
     let modalType: ModalType
     var status: StatusType?
@@ -28,67 +29,44 @@ struct ModalAdd: View {
     @State var numberOf = 0
     @State var endDate = Date()
     @State var filteredValues = [ValueType]()
+    @State var isPresentingImagePicker: Bool = false
+    @State var chapterString = ""
+    @State var image: UIImage? = nil
+    @State var images: [UIImage] = [UIImage]()
     
-    @EnvironmentObject var gs: GoalService
+    @EnvironmentObject var vm: ViewModel
     
     var body: some View {
         
-        Modal(modalType: modalType, objectType: objectType, isPresenting: $isPresenting, shouldConfirm: $shouldAct, title: title.count > 0 ? title : modalType == .add ? "New "  + objectType.toString() : "Empty " + objectType.toString(), modalContent: {
+        Modal(modalType: modalType, objectType: objectType, isPresenting: $isPresenting, shouldConfirm: $shouldAct, isPresentingImageSheet: $isPresentingPhotoSource,  title: title.count > 0 ? title : modalType == .add ? "New "  + objectType.toString() : "Empty " + objectType.toString(), image: image, modalContent: {
+            
             VStack(spacing:10){
-                if (objectType.hasProperty(property: .title)){
-                    FormText(fieldValue: $title, fieldName: PropertyType.title.toString(), axis: .horizontal, iconType: .title)
+                
+                if parentId != nil {
+                    if let parentGoal = vm.GetGoal(id: parentId!){
+                        FormLabel(fieldValue: parentGoal.title, fieldName: "Parent " + parentGoal.timeframe.toString() + " goal", iconType: .arrow_up, shouldShowLock: true)
+ 
+                        
+                        Text("When a " + objectType.toString() + " has a parent goal, certain attributes are set and managed by the parent goal, including timeframe, aspect and start date.")
+                            .frame(maxWidth:.infinity)
+                            .padding([.leading,.trailing])
+                            .padding(.bottom,30)
+                            .font(.specify(style: .caption))
+                            .foregroundColor(.specify(color: .grey4))
+                            .multilineTextAlignment(.leading)
+                    }
                 }
                 
-                if(objectType == .value){
+                ForEach(PropertyType.allCases){ property in
                     
-                    if modalType == .add {
-                        FormStackPicker(fieldValue: $coreValue, fieldName: PropertyType.coreValue.toString(), options: ValueType.allCases.filter({gs.GetCoreValue(value: $0) == nil && $0 != .Introduction && $0 != .Conclusion}).map{$0.toString()}, iconType: .value, isSearchable: true)
+                    if objectType.hasProperty(property: property){
+                        GetFormControl(property:property)
                     }
-                    else{
-                        FormLabel(fieldValue: coreValue, fieldName: PropertyType.coreValue.toString(), iconType: .value, shouldShowLock: true)
-                    }
-
                 }
                 
-                if(objectType == .aspect){
-                    FormStackPicker(fieldValue: $aspect, fieldName: PropertyType.aspect.toString(), options: AspectType.allCases.filter({gs.GetAspect(aspect: $0) == nil}).map{$0.toString()}, iconType: .aspect, isSearchable: true)
-                }
-                
-                if (objectType.hasProperty(property: .description)){
-                    FormText(fieldValue: $description, fieldName: GetDescriptionFieldName(), axis: .vertical, iconType: .description)
-                }
-                if (objectType.hasProperty(property: .aspect) && objectType != .aspect){
-                    
-                    if parentId != nil {
-                        FormLabel(fieldValue: timeframeString, fieldName: PropertyType.timeframe.toString(), iconType: .timeframe, shouldShowLock: true)
-                    }
-                    else{
-                        FormStackPicker(fieldValue: $aspect, fieldName: PropertyType.aspect.toString(), options: AspectType.allCases.map({$0.toString()}),iconType: .aspect)
-                    }
-                    
-                }
-                if (objectType.hasProperty(property: .priority)){
-                    FormStackPicker(fieldValue: $priority, fieldName: PropertyType.priority.toString(), options: PriorityType.allCases.map({$0.toString()}),iconType: .priority)
-                }
-                if (objectType.hasProperty(property: .timeframe) && modalType != .edit){
-                    
-                    if parentId != nil {
-                        FormLabel(fieldValue: timeframeString, fieldName: PropertyType.timeframe.toString(), iconType: .timeframe, shouldShowLock: true)
-                    }
-                    else{
-                        FormStackPicker(fieldValue: $timeframeString, fieldName: PropertyType.timeframe.toString(), options: TimeframeType.allCases.map({$0.toString()}),iconType: .timeframe)
-                    }
-                    
-                }
-                if (objectType.hasProperty(property: .startDate)){
-                    FormCalendarPicker(fieldValue: $startDate, fieldName: GetStartDateFieldName(), timeframeType: $timeframe, iconType: .dates, isStartDate: true)
-                }
-                if (objectType.hasProperty(property: .endDate)){
-                    FormCounter(fieldValue: $numberOf, fieldName: GetNumberOfFieldName(), iconType: .dates, maxValue: ComputeMaxValue())
-                    FormLabel(fieldValue: endDate.toString(timeframeType: timeframe, isStartDate: false), fieldName: PropertyType.endDate.toString(), iconType: .dates, shouldShowLock: true)
-                }
-                
-                
+            }
+            .sheet(isPresented: $isPresentingImagePicker){
+                ImagePicker(image: $image, showImagePicker: self.$isPresentingImagePicker, sourceType: self.sourceType ?? .camera)
             }
             .onAppear{
                 SetupFields()
@@ -96,6 +74,17 @@ struct ModalAdd: View {
             .padding(8)
             .onChange(of:timeframeString){ _ in
                 GetTimeframeFromString()
+            }
+            .onChange(of: image){
+                _ in
+                if image != nil {
+                    sourceType = nil
+                    isPresentingPhotoSource = false
+                    if objectType.hasProperty(property: .images){
+                        images.append(image!)
+                    }
+                }
+
             }
             .onChange(of: timeframe){
                 _ in
@@ -124,43 +113,191 @@ struct ModalAdd: View {
                     title = aspect
                 }
             }
+            .onChange(of: sourceType){
+                _ in
+                if sourceType != nil {
+                    isPresentingImagePicker = true
+                }
+                else{
+                    isPresentingImagePicker = false
+                }
+            }
         }, headerContent: {EmptyView()})
     }
     
+    @ViewBuilder
+    func GetFormControl(property: PropertyType) -> some View{
+        
+        switch property {
+        case .title:
+            FormText(fieldValue: $title, fieldName: PropertyType.title.toString(), axis: .horizontal, iconType: .title)
+        case .description:
+            FormText(fieldValue: $description, fieldName: GetDescriptionFieldName(), axis: .vertical, iconType: .description)
+        case .timeframe:
+            if parentId != nil && modalType != .add {
+                FormLabel(fieldValue: timeframeString, fieldName: PropertyType.timeframe.toString(), iconType: .timeframe, shouldShowLock: true)
+            }
+            else{
+                FormStackPicker(fieldValue: $timeframeString, fieldName: PropertyType.timeframe.toString(), options: TimeframeType.allCases.map({$0.toString()}),iconType: .timeframe)
+            }
+        case .startDate:
+            FormCalendarPicker(fieldValue: $startDate, fieldName: GetStartDateFieldName(), timeframeType: $timeframe, iconType: .dates, isStartDate: true)
+        case .endDate:
+            FormCounter(fieldValue: $numberOf, fieldName: GetNumberOfFieldName(), iconType: .dates, maxValue: ComputeMaxValue())
+            FormLabel(fieldValue: endDate.toString(timeframeType: timeframe, isStartDate: false), fieldName: PropertyType.endDate.toString(), iconType: .dates, shouldShowLock: true)
+        case .aspect:
+            
+            if objectType == .aspect{
+                let savedAspects = vm.ListAspects().map({$0.aspect.toString()})
+                let allAspects = AspectType.allCases.map({$0.toString()})
+                
+                FormStackPicker(fieldValue: $aspect, fieldName: PropertyType.aspect.toString(), options: allAspects.filter({savedAspects.index(of: $0) == nil}), iconType: .aspect, isSearchable: true)
+            }
+            
+            else{
+                if parentId != nil {
+                    FormLabel(fieldValue: aspect, fieldName: PropertyType.aspect.toString(), iconType: .aspect, shouldShowLock: true)
+                }
+                else{
+                    FormStackPicker(fieldValue: $aspect, fieldName: PropertyType.aspect.toString(), options: AspectType.allCases.map({$0.toString()}),iconType: .aspect)
+                }
+            }
+        case .priority:
+            FormStackPicker(fieldValue: $priority, fieldName: PropertyType.priority.toString(), options: PriorityType.allCases.map({$0.toString()}),iconType: .priority)
+//        case .progress:
+//            <#code#>
+//        case .parentId:
+//            <#code#>
+        case .coreValue:
+            if modalType == .add {
+                FormStackPicker(fieldValue: $coreValue, fieldName: PropertyType.coreValue.toString(), options: ValueType.allCases.filter({vm.GetCoreValue(coreValue: $0) == nil && $0 != .Introduction && $0 != .Conclusion}).map{$0.toString()}, iconType: .value, isSearchable: true)
+            }
+            else{
+                FormLabel(fieldValue: coreValue, fieldName: PropertyType.coreValue.toString(), iconType: .value, shouldShowLock: true)
+            }
+//        case .edited:
+//            <#code#>
+//        case .leftAsIs:
+//            <#code#>
+//        case .pushedOff:
+//            <#code#>
+//        case .deleted:
+//            <#code#>
+//        case .start:
+//            <#code#>
+//        case .end:
+//            <#code#>
+        case .chapter:
+            let chapters = vm.ListChapters()
+            FormStackPicker(fieldValue: $chapterString, fieldName: PropertyType.chapter.toString(), options: chapters.map({$0.title}), iconType: .chapter)
+        case .images:
+            FormImages(fieldValue: $images, shouldPopImagesModal: $isPresentingPhotoSource, fieldName: PropertyType.images.toString(), iconType: .photo)
+        default:
+            let _ = "why"
+        }
+    }
+    
     func TakeAction(){
+        
+        if objectType.hasProperty(property: .image) && ( (image != nil && properties.image == nil) || (properties.image != nil && image != vm.GetImage(id: properties.image!))) {
+            let imageId = vm.CreateImage(image: image!)
+//            let image = vm.GetImage(id: imageId)
+            properties.image = imageId
+        }
+        else if objectType.hasProperty(property: .images){
+            
+            if objectId == nil{
+                if images.count > 0{
+                    properties.images = [UUID]()
+                    for image in images{
+                        properties.images!.append(vm.CreateImage(image: image))
+                    }
+                }
+            }
+            else if objectId != nil && objectType.hasProperty(property: .images) && properties.images != nil {
+                
+                //get rid of deleted images from properties
+                for imageId in properties.images!{
+                    if let image = vm.GetImage(id: imageId){
+                        if !images.contains(image){
+                            _ = vm.DeleteImage(id: imageId)
+                        }
+                    }
+                }
+                
+                //add new images
+                var storedImages = [UIImage]()
+                
+                for index in 0...properties.images!.count - 1{
+                    if let image = vm.GetImage(id: properties.images![index]){
+                        storedImages.append(image)
+                    }
+                }
+                
+                for image in images{
+                    if !storedImages.contains(image){
+                        properties.images!.append(vm.CreateImage(image: image))
+                    }
+                }
+            }
+        }
+        
+        
+        
         switch objectType {
         case .value:
             if modalType == .add {
-                gs.CreateCoreValue(request: CreateCoreValueRequest(properties: properties))
+                _ = vm.CreateCoreValue(request: CreateCoreValueRequest(properties: properties))
             }
-            if modalType == .edit {
-                _ = gs.UpdateCoreValue(coreValue: properties.coreValue, request: UpdateCoreValueRequest(properties: properties))
+            if modalType == .edit  && objectId != nil {
+                _ = vm.UpdateCoreValue(id: objectId!, request: UpdateCoreValueRequest(properties: properties))
             }
         case .dream:
             if modalType == .add {
-                gs.CreateDream(request: CreateDreamRequest(properties: properties))
+                _ = vm.CreateDream(request: CreateDreamRequest(properties: properties))
             }
-            if modalType == .edit {
-                _ = gs.UpdateDream(id: objectId, request: UpdateDreamRequest(properties: properties))
+            if modalType == .edit  && objectId != nil {
+                _ = vm.UpdateDream(id: objectId!, request: UpdateDreamRequest(properties: properties))
             }
         case .aspect:
             if modalType == .add {
-                gs.CreateAspect(request: CreateAspectRequest(properties: properties))
+                _ = vm.CreateAspect(request: CreateAspectRequest(properties: properties))
             }
-            if modalType == .edit {
-                _ = gs.UpdateAspect(aspect: properties.aspect, request: UpdateAspectRequest(properties: properties))
+            if modalType == .edit && objectId != nil  {
+                _ = vm.UpdateAspect(id: objectId!, request: UpdateAspectRequest(properties: properties))
             }
         case .goal:
             if modalType == .add {
-                gs.CreateGoal(request: CreateGoalRequest(properties: properties))
+                _ = vm.CreateGoal(request: CreateGoalRequest(properties: properties))
             }
-            if modalType == .edit {
-                _ = gs.UpdateGoal(id: objectId, request: UpdateGoalRequest(properties: properties))
+            if modalType == .edit && objectId != nil {
+                _ = vm.UpdateGoal(id: objectId!, request: UpdateGoalRequest(properties: properties))
             }
 //        case .session:
 //            <#code#>
-//        case .task:
-//            <#code#>
+        case .task:
+            if modalType == .add {
+                _ = vm.CreateTask(request: CreateTaskRequest(properties: properties))
+            }
+            if modalType == .edit && objectId != nil {
+                _ = vm.UpdateTask(id: objectId!, request: UpdateTaskRequest(properties: properties))
+            }
+        case .chapter:
+            if modalType == .add {
+                _ = vm.CreateChapter(request: CreateChapterRequest(properties: properties))
+            }
+            if modalType == .edit && objectId != nil {
+                _ = vm.UpdateChapter(id: objectId!, request: UpdateChapterRequest(properties: properties))
+            }
+        case .entry:
+            if modalType == .add {
+                let id = vm.CreateEntry(request: CreateEntryRequest(properties: properties))
+                let entry = vm.GetEntry(id: id)
+                print(entry)
+            }
+            if modalType == .edit && objectId != nil {
+                _ = vm.UpdateEntry(id: objectId!, request: UpdateEntryRequest(properties: properties))
+            }
 //        case .habit:
 //            <#code#>
 //        case .home:
@@ -174,8 +311,9 @@ struct ModalAdd: View {
 //        case .stats:
 //            <#code#>
         default:
-            let _ = "" //do nothing...
+            let _ = ""
         }
+
         
         isPresenting = false
     }
@@ -183,36 +321,67 @@ struct ModalAdd: View {
     func SetupFields(){
         
         if modalType == .add{
+            
             properties = Properties()
+            
+            if objectType == .goal{
+                GetValuesFromParent()
+            }
         }
-        
-        
-        switch objectType {
-        case .value:
+        else if modalType == .edit{
             if objectId != nil {
-                if let coreValue = gs.GetCoreValue(id: objectId ?? UUID()){
-                    properties = Properties(value: coreValue)
+                switch objectType {
+                case .value:
+                    if let coreValue = vm.GetCoreValue(id: objectId!){
+                        properties = Properties(value: coreValue)
+                    }
+                case .goal:
+                    if let goal = vm.GetGoal(id: objectId!){
+                        properties = Properties(goal: goal)
+                    }
+                    GetValuesFromParent()
+                case .task:
+                    if let task = vm.GetTask(id: objectId!){
+                        properties = Properties(task: task)
+                    }
+                case .dream:
+                    if let dream = vm.GetDream(id: objectId!){
+                        properties = Properties(dream: dream)
+                    }
+                case .chapter:
+                    if let chapter = vm.GetChapter(id: objectId!){
+                        properties = Properties(chapter:chapter)
+                    }
+                case .entry:
+                    if let entry = vm.GetEntry(id: objectId!){
+                        properties = Properties(entry: entry)
+                    }
+                default:
+                    properties = Properties()
                 }
             }
-        case .goal:
-            if objectId != nil {
-                if let goal = gs.GetGoal(id: objectId ?? UUID()){
-                    properties = Properties(goal: goal)
-                }
-            }
-            GetValuesFromParent()
-        default:
-            let _ = "why" //do nothing
         }
+        
         
         title = properties.title ?? ""
         description = properties.description ?? ""
         aspect = properties.aspect?.toString() ?? ""
         timeframeString = properties.timeframe?.toString() ?? ""
+        priority = properties.priority?.toString() ?? ""
         startDate = properties.startDate ?? Date()
         numberOf = 0
         endDate = properties.endDate ?? Date()
         coreValue = properties.coreValue?.toString() ?? ""
+        image = vm.GetImage(id: properties.image ?? UUID())
+        
+        if properties.images != nil {
+            for imageId in properties.images!{
+                if let image = vm.GetImage(id: imageId){
+                    images.append(image)
+                }
+            }
+        }
+
     }
     
     func UpdateProperties(){
@@ -230,7 +399,7 @@ struct ModalAdd: View {
         properties.startDate = startDate
         properties.endDate = endDate
         properties.priority = PriorityType.allCases.first(where:{$0.toString() == priority})
-        
+        properties.chapter = vm.ListChapters().first(where: {$0.title == chapterString})?.id
         if modalType == .add {
             properties.progress = status?.toInt() ?? 0
         }
@@ -254,13 +423,14 @@ struct ModalAdd: View {
     
     func GetValuesFromParent() {
         if parentId != nil {
-            if let goal = gs.GetGoal(id: parentId!){
-                timeframe = goal.timeframe.toChildTimeframe()
-                timeframeString = timeframe.toString()
-                startDate = goal.startDate
-                endDate = startDate
-                priority = goal.priority.toString()
-                aspect = goal.aspect.toString()
+            if let goal = vm.GetGoal(id: parentId!){
+                
+                properties.timeframe = goal.timeframe.toChildTimeframe()
+                properties.startDate = goal.startDate
+                properties.endDate = startDate
+                properties.priority = goal.priority
+                properties.aspect = goal.aspect
+                properties.image = goal.image
             }
         }
     }
@@ -292,6 +462,6 @@ struct ModalAdd: View {
 
 struct ModalAdd_Previews: PreviewProvider {
     static var previews: some View {
-        ModalAdd(isPresenting: .constant(true), objectId: UUID(), properties: Properties(), objectType: .goal, modalType: .add)
+        ModalAdd(isPresenting: .constant(true), isPresentingPhotoSource: .constant(false), sourceType: .constant(.camera), objectId: UUID(), properties: Properties(), objectType: .goal, modalType: .add)
     }
 }

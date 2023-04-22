@@ -9,6 +9,7 @@ import SwiftUI
 struct DetailTree: View {
     @Binding var shouldExpand: Bool
     @Binding var isPresentingModal: Bool
+    @Binding var isPresentingSourceType: Bool
     @Binding var modalType: ModalType
     @Binding var focusGoal: UUID
     @State var expandedGoals = [UUID]()
@@ -19,7 +20,7 @@ struct DetailTree: View {
     
     var body: some View {
 
-        DetailView(viewType: .tree, objectId: goalId, selectedObjectId: $focusGoal, selectedObjectType: .constant(.goal), shouldExpandAll: $shouldExpand, expandedObjects: $expandedGoals, isPresentingModal: $isPresentingModal, modalType: $modalType, content: {
+        DetailView(viewType: .tree, objectId: goalId, selectedObjectId: $focusGoal, selectedObjectType: .constant(.goal), shouldExpandAll: $shouldExpand, expandedObjects: $expandedGoals, isPresentingModal: $isPresentingModal, modalType: $modalType, isPresentingSourceType: $isPresentingSourceType, content: {
 
             
                 ScrollView([.horizontal],showsIndicators: true){

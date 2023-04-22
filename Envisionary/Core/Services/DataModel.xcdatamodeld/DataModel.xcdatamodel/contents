@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21513" systemVersion="21G419" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="AspectEntity" representedClassName="AspectEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="aspect" optional="YES" attributeType="String"/>
+        <attribute name="desc" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+    </entity>
+    <entity name="ChapterEntity" representedClassName="ChapterEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="aspect" optional="YES" attributeType="String"/>
+        <attribute name="desc" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="image" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="CoreValueEntity" representedClassName="CoreValueEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="coreValue" optional="YES" attributeType="String"/>
+        <attribute name="desc" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+    </entity>
+    <entity name="DreamEntity" representedClassName="DreamEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="aspect" optional="YES" attributeType="String"/>
+        <attribute name="desc" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="EntryEntity" representedClassName="EntryEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="chapter" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="desc" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="images" optional="YES" attributeType="String"/>
+        <attribute name="parent" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="parentObject" optional="YES" attributeType="String"/>
+        <attribute name="startDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="GoalEntity" representedClassName="GoalEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="aspect" optional="YES" attributeType="String"/>
+        <attribute name="desc" optional="YES" attributeType="String"/>
+        <attribute name="endDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="image" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="parentId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="priority" optional="YES" attributeType="String"/>
+        <attribute name="progress" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="startDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="timeframe" optional="YES" attributeType="String"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="ImageEntity" representedClassName="ImageEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="data" optional="YES" attributeType="Binary"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+    </entity>
+    <entity name="TaskEntity" representedClassName="TaskEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="desc" optional="YES" attributeType="String"/>
+        <attribute name="endDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="progress" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="startDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+    </entity>
+</model>

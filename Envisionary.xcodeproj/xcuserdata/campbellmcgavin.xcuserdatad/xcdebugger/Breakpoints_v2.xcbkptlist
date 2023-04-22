@@ -14,24 +14,8 @@
             filePath = "Envisionary/View/Toolbox/Tree/BubbleView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "53"
-            endingLineNumber = "53"
-            landmarkName = "body"
-            landmarkType = "24">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "6DA37ECD-4F82-4BA1-8BBB-64DC94F10317"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Envisionary/View/Toolbox/Tree/BubbleView.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "67"
-            endingLineNumber = "67"
+            startingLineNumber = "58"
+            endingLineNumber = "58"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -62,8 +46,8 @@
             filePath = "Envisionary/View/Detail/Detail.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "78"
-            endingLineNumber = "78"
+            startingLineNumber = "86"
+            endingLineNumber = "86"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -94,8 +78,8 @@
             filePath = "Envisionary/View/Detail/Detail.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "83"
-            endingLineNumber = "83"
+            startingLineNumber = "91"
+            endingLineNumber = "91"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -110,24 +94,24 @@
             filePath = "Envisionary/View/Modal/ModalManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "113"
-            endingLineNumber = "113"
-            landmarkName = "body"
-            landmarkType = "24">
+            startingLineNumber = "120"
+            endingLineNumber = "120"
+            landmarkName = "ModalManager"
+            landmarkType = "14">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "3C1B7E63-CD73-422E-819C-9F0ED732ACED"
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Envisionary/View/Modal/ModalTypes/ModalAdd.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "114"
-            endingLineNumber = "114"
+            startingLineNumber = "103"
+            endingLineNumber = "103"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -207,7 +191,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "58"
                   endingLineNumber = "58"
-                  offsetFromSymbolStart = "248">
+                  offsetFromSymbolStart = "200">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -334,8 +318,8 @@
             filePath = "Envisionary/View/Modal/ModalTypes/ModalAdd.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "133"
-            endingLineNumber = "133"
+            startingLineNumber = "249"
+            endingLineNumber = "249"
             landmarkName = "TakeAction()"
             landmarkType = "7">
          </BreakpointContent>
@@ -344,19 +328,19 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "EDE8934A-1478-4002-9058-94AC3E1FCD28"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Envisionary/View/Modal/ModalTypes/ModalAdd.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "225"
-            endingLineNumber = "225"
+            startingLineNumber = "394"
+            endingLineNumber = "394"
             landmarkName = "UpdateProperties()"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "EDE8934A-1478-4002-9058-94AC3E1FCD28 - b36370cd16d16883"
+                  uuid = "EDE8934A-1478-4002-9058-94AC3E1FCD28 - b36370cd16d16926"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -366,12 +350,12 @@
                   urlString = "file:///Users/campbellmcgavin/Documents/Envisionary/Envisionary/View/Modal/ModalTypes/ModalAdd.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "225"
-                  endingLineNumber = "225"
+                  startingLineNumber = "230"
+                  endingLineNumber = "230"
                   offsetFromSymbolStart = "452">
                </Location>
                <Location
-                  uuid = "EDE8934A-1478-4002-9058-94AC3E1FCD28 - 4ccc791e257fbb8b"
+                  uuid = "EDE8934A-1478-4002-9058-94AC3E1FCD28 - 4ccc791e257fba2e"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -381,8 +365,8 @@
                   urlString = "file:///Users/campbellmcgavin/Documents/Envisionary/Envisionary/View/Modal/ModalTypes/ModalAdd.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "225"
-                  endingLineNumber = "225"
+                  startingLineNumber = "230"
+                  endingLineNumber = "230"
                   offsetFromSymbolStart = "80">
                </Location>
             </Locations>
@@ -398,8 +382,8 @@
             filePath = "Envisionary/Service/GoalService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "231"
-            endingLineNumber = "231"
+            startingLineNumber = "252"
+            endingLineNumber = "252"
             landmarkName = "GetCoreValue(id:)"
             landmarkType = "7">
             <Locations>
@@ -446,8 +430,8 @@
             filePath = "Envisionary/View/Detail/Detail.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "90"
-            endingLineNumber = "90"
+            startingLineNumber = "137"
+            endingLineNumber = "137"
             landmarkName = "RefreshProperties()"
             landmarkType = "7">
          </BreakpointContent>
@@ -462,8 +446,8 @@
             filePath = "Envisionary/View/Detail/Detail.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "62"
-            endingLineNumber = "62"
+            startingLineNumber = "68"
+            endingLineNumber = "68"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -478,8 +462,8 @@
             filePath = "Envisionary/View/Modal/ModalTypes/ModalAdd.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "185"
-            endingLineNumber = "185"
+            startingLineNumber = "323"
+            endingLineNumber = "323"
             landmarkName = "SetupFields()"
             landmarkType = "7">
          </BreakpointContent>
@@ -494,10 +478,42 @@
             filePath = "Envisionary/Service/GoalService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "324"
-            endingLineNumber = "324"
+            startingLineNumber = "345"
+            endingLineNumber = "345"
             landmarkName = "GetAspect(id:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "E6171C1A-60B1-445F-8F02-7D80B1837422 - 9a665e6fc049d16a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Envisionary.GoalService.GetAspect(id: Foundation.UUID) -&gt; Swift.Optional&lt;Envisionary.Aspect&gt;"
+                  moduleName = "Envisionary"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/campbellmcgavin/Documents/Envisionary/Envisionary/Service/GoalService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "345"
+                  endingLineNumber = "345"
+                  offsetFromSymbolStart = "224">
+               </Location>
+               <Location
+                  uuid = "E6171C1A-60B1-445F-8F02-7D80B1837422 - f95dfe8e521dd173"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Envisionary.Aspect) -&gt; Swift.Bool in Envisionary.GoalService.GetAspect(id: Foundation.UUID) -&gt; Swift.Optional&lt;Envisionary.Aspect&gt;"
+                  moduleName = "Envisionary"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/campbellmcgavin/Documents/Envisionary/Envisionary/Service/GoalService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "345"
+                  endingLineNumber = "345"
+                  offsetFromSymbolStart = "102">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -526,8 +542,8 @@
             filePath = "Envisionary/ContentView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "167"
-            endingLineNumber = "167"
+            startingLineNumber = "151"
+            endingLineNumber = "151"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -542,13 +558,13 @@
             filePath = "Envisionary/View/Modal/ModalTypes/ModalGrouping.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "34"
-            endingLineNumber = "34"
+            startingLineNumber = "33"
+            endingLineNumber = "33"
             landmarkName = "body"
             landmarkType = "24">
             <Locations>
                <Location
-                  uuid = "4C3939AB-DA38-4602-82E5-C11B68E3CAEB - a0c7dba6c0eedd1c"
+                  uuid = "4C3939AB-DA38-4602-82E5-C11B68E3CAEB - a0c7dba6c0eedcfb"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -558,12 +574,12 @@
                   urlString = "file:///Users/campbellmcgavin/Documents/Envisionary/Envisionary/View/Modal/ModalTypes/ModalGrouping.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "34"
-                  endingLineNumber = "34"
-                  offsetFromSymbolStart = "820">
+                  startingLineNumber = "33"
+                  endingLineNumber = "33"
+                  offsetFromSymbolStart = "757">
                </Location>
                <Location
-                  uuid = "4C3939AB-DA38-4602-82E5-C11B68E3CAEB - fdfac242f05b6a22"
+                  uuid = "4C3939AB-DA38-4602-82E5-C11B68E3CAEB - fdfac242f05b6bc5"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -573,8 +589,8 @@
                   urlString = "file:///Users/campbellmcgavin/Documents/Envisionary/Envisionary/View/Modal/ModalTypes/ModalGrouping.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "34"
-                  endingLineNumber = "34"
+                  startingLineNumber = "33"
+                  endingLineNumber = "33"
                   offsetFromSymbolStart = "29">
                </Location>
             </Locations>
@@ -584,14 +600,14 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "8377DAE6-BAFF-4579-B5D8-ECAD38A1A39F"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Envisionary/View/Detail/DetailView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "185"
-            endingLineNumber = "185"
+            startingLineNumber = "177"
+            endingLineNumber = "177"
             landmarkName = "BuildMenu()"
             landmarkType = "7">
          </BreakpointContent>
@@ -664,14 +680,14 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "C08C954B-4A74-4CC6-A56F-D4E3FB24D3F1"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Envisionary/View/Modal/ModalTypes/ModalAdd.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "134"
-            endingLineNumber = "134"
+            startingLineNumber = "250"
+            endingLineNumber = "250"
             landmarkName = "TakeAction()"
             landmarkType = "7">
          </BreakpointContent>
@@ -680,14 +696,14 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "71A9E81D-18B5-4F4D-8DB1-DF4179027E93"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Envisionary/View/Modal/ModalTypes/ModalAdd.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "137"
-            endingLineNumber = "137"
+            startingLineNumber = "253"
+            endingLineNumber = "253"
             landmarkName = "TakeAction()"
             landmarkType = "7">
          </BreakpointContent>
@@ -695,88 +711,8 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "B347BEF3-74F1-4BDE-981E-2F773F6D6870"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Envisionary/View/Modal/ModalTypes/ModalAdd.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "193"
-            endingLineNumber = "193"
-            landmarkName = "SetupFields()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "AB804E30-2202-4FBB-B97A-0BD7B6E63418"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Envisionary/View/Modal/ModalTypes/ModalAdd.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "192"
-            endingLineNumber = "192"
-            landmarkName = "SetupFields()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "37605724-57ED-484C-AABF-BD0909C9D3FA"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Envisionary/View/Modal/ModalManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "150"
-            endingLineNumber = "150"
-            landmarkName = "DeleteObject()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "61049E90-A0F8-4EDB-A568-D6B8DCBA4381"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Envisionary/Service/GoalService.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "297"
-            endingLineNumber = "297"
-            landmarkName = "DeleteCoreValue(id:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "D9F7D0B7-F250-4FD2-BBE0-D905820EBA51"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Envisionary/View/Modal/ModalManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "154"
-            endingLineNumber = "154"
-            landmarkName = "DeleteObject()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "58AC9D41-DA5F-4744-8E58-8997D362A75C"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Envisionary/View/Modal/ModalManager.swift"
@@ -791,6 +727,86 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "61049E90-A0F8-4EDB-A568-D6B8DCBA4381"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Service/GoalService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "318"
+            endingLineNumber = "318"
+            landmarkName = "DeleteCoreValue(id:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "61049E90-A0F8-4EDB-A568-D6B8DCBA4381 - 36957e9161c41e97"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Envisionary.GoalService.DeleteCoreValue(id: Foundation.UUID) -&gt; ()"
+                  moduleName = "Envisionary"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/campbellmcgavin/Documents/Envisionary/Envisionary/Service/GoalService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "318"
+                  endingLineNumber = "318"
+                  offsetFromSymbolStart = "146">
+               </Location>
+               <Location
+                  uuid = "61049E90-A0F8-4EDB-A568-D6B8DCBA4381 - b1f911a1163e36e1"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Envisionary.CoreValue) -&gt; Swift.Bool in Envisionary.GoalService.DeleteCoreValue(id: Foundation.UUID) -&gt; ()"
+                  moduleName = "Envisionary"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/campbellmcgavin/Documents/Envisionary/Envisionary/Service/GoalService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "318"
+                  endingLineNumber = "318"
+                  offsetFromSymbolStart = "177">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D9F7D0B7-F250-4FD2-BBE0-D905820EBA51"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/View/Modal/ModalManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "161"
+            endingLineNumber = "161"
+            landmarkName = "DeleteObject()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "58AC9D41-DA5F-4744-8E58-8997D362A75C"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/View/Modal/ModalManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "164"
+            endingLineNumber = "164"
+            landmarkName = "DeleteObject()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
             uuid = "583DDF99-0AD9-446E-9D07-8ADBD340C7BC"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -798,8 +814,8 @@
             filePath = "Envisionary/View/Modal/ModalManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "159"
-            endingLineNumber = "159"
+            startingLineNumber = "166"
+            endingLineNumber = "166"
             landmarkName = "DeleteObject()"
             landmarkType = "7">
          </BreakpointContent>
@@ -808,14 +824,14 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "37C41187-9BC5-4C7F-A0AE-4D7059754B85"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Envisionary/View/Detail/DetailView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "150"
-            endingLineNumber = "150"
+            startingLineNumber = "144"
+            endingLineNumber = "144"
             landmarkName = "BuildMenu()"
             landmarkType = "7">
          </BreakpointContent>
@@ -824,6 +840,38 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "52244619-D610-4881-A31A-F8036E6CDF14"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/View/Detail/DetailView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "139"
+            endingLineNumber = "139"
+            landmarkName = "BuildMenu()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "92F71C8F-E570-42D5-B48A-E1C0A87D11C8"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/View/Detail/DetailView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "140"
+            endingLineNumber = "140"
+            landmarkName = "BuildMenu()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "BEA80739-5EE4-42D9-8170-86A46F9E84F6"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -839,15 +887,559 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "92F71C8F-E570-42D5-B48A-E1C0A87D11C8"
+            uuid = "B613F690-8E9F-4491-A33D-EC6ADB4C06F2"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/View/Modal/ModalTypes/ModalAdd.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "395"
+            endingLineNumber = "395"
+            landmarkName = "UpdateProperties()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F6417524-AAE7-48B7-9225-2514764002C9"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/View/Modal/ModalManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "172"
+            endingLineNumber = "172"
+            landmarkName = "DeleteObject()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "30E0DF1E-D0D9-48A5-8A65-9632CC41E6A4"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/Interfaces/Task/CreateTaskRequest.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "18"
+            endingLineNumber = "18"
+            landmarkName = "init(title:description:startDate:endDate:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "FD304088-04A0-4C77-8093-572CC8EE7806"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Services/Controller.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "43"
+            endingLineNumber = "43"
+            landmarkName = "DeleteTask(id:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A9D0C8FE-73DA-48D7-84AF-986014054672"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Services/DataLayer.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "116"
+            endingLineNumber = "116"
+            landmarkName = "DeleteTask(id:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C0E050F5-66E8-40E4-B9B7-FE874850A047"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Services/DataLayer.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "174"
+            endingLineNumber = "174"
+            landmarkName = "PredicateBuilder(criteria:object:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E27C59D6-275B-44FA-94E1-8281CD97515A"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Services/DataLayer.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "147"
+            endingLineNumber = "147"
+            landmarkName = "PredicateBuilder(criteria:object:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "37CBE7F2-AC37-4320-99EC-97D5CF5008A0"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Services/DataLayer.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "92"
+            endingLineNumber = "92"
+            landmarkName = "ListTasksFiltered(criteria:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "37CBE7F2-AC37-4320-99EC-97D5CF5008A0 - 823f0775636a2fcc"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Envisionary.DataLayer.ListTasksFiltered(criteria: Envisionary.Criteria) -&gt; Swift.Array&lt;Envisionary.TaskEntity&gt;"
+                  moduleName = "Envisionary"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/campbellmcgavin/Documents/Envisionary/Envisionary/Services/DataLayer.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "92"
+                  endingLineNumber = "92"
+                  offsetFromSymbolStart = "440">
+               </Location>
+               <Location
+                  uuid = "37CBE7F2-AC37-4320-99EC-97D5CF5008A0 - 823f0775636a2fcc"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Envisionary.DataLayer.ListTasksFiltered(criteria: Envisionary.Criteria) -&gt; Swift.Array&lt;Envisionary.TaskEntity&gt;"
+                  moduleName = "Envisionary"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/campbellmcgavin/Documents/Envisionary/Envisionary/Services/DataLayer.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "92"
+                  endingLineNumber = "92"
+                  offsetFromSymbolStart = "516">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5655121B-7EF2-416B-8F30-CBCFE669744B"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Services/DataLayer.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "177"
+            endingLineNumber = "177"
+            landmarkName = "PredicateBuilder(criteria:object:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9328758E-7E2A-4C28-9E27-33E684C0DE9A"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Services/DataLayer.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "176"
+            endingLineNumber = "176"
+            landmarkName = "PredicateBuilder(criteria:object:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E9E3D6F7-8136-466A-A25A-CEFB6DB2B580"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Services/DataLayer.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "175"
+            endingLineNumber = "175"
+            landmarkName = "PredicateBuilder(criteria:object:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "10C6A000-C8B2-468E-BAED-61A71B918F2B"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Services/Controller.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "25"
+            endingLineNumber = "25"
+            landmarkName = "CreateTask(request:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "09536C04-DAD7-412E-8016-F28EA4A23EBC"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/Services/Services/Aspect/AspectService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "38"
+            endingLineNumber = "38"
+            landmarkName = "CreateAspect(request:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "13C09BF3-CD9A-459C-833D-FA82B5C5415B"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/Services/Services/Aspect/AspectService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "39"
+            endingLineNumber = "39"
+            landmarkName = "CreateAspect(request:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5430972B-FD8C-4906-AACE-578AABDDE5B1"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/Services/Services/Aspect/AspectService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "20"
+            endingLineNumber = "20"
+            landmarkName = "init()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "7702A50D-1F22-456A-8026-27D8F6023A0D"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/Services/Services/Task/TaskService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "19"
+            endingLineNumber = "19"
+            landmarkName = "init()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E4A37C59-988C-415B-9477-9BFA7C20DD91"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/Services/Services/Task/TaskService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "22"
+            endingLineNumber = "22"
+            landmarkName = "init()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9F76F425-9CD7-4247-86A6-4DAFCED50C66"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/Services/Services/Task/TaskService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "16"
+            endingLineNumber = "16"
+            landmarkName = "init()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "65A59956-245A-409C-8615-3A93C7C7F78B"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/ViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "49"
+            endingLineNumber = "49"
+            landmarkName = "init()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "FF0536D7-4996-47E3-8A05-A6BCDC1E4D25"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/ViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "132"
+            endingLineNumber = "132"
+            landmarkName = "CreateTask(request:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "1A0D3F7A-B5D8-4109-81A4-4C96D263E6CC"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/ViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "137"
+            endingLineNumber = "137"
+            landmarkName = "GetTask(id:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "395994DD-FA22-4DED-BB88-63A1D11111FF"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/ViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "150"
+            endingLineNumber = "150"
+            landmarkName = "UpdateTask(id:request:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B43EC90A-8966-4157-B888-E8374743AD4A"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/ViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "155"
+            endingLineNumber = "155"
+            landmarkName = "DeleteTask(id:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "21E83B0E-8D21-4D3E-B5C7-8D27B5B9AE2D"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/ViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "164"
+            endingLineNumber = "164"
+            landmarkName = "CreateAspect(request:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B93E5706-D189-49BA-9F96-D17AF1B8256E"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/ViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "177"
+            endingLineNumber = "177"
+            landmarkName = "UpdateAspect(id:request:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B74E2A1A-4E8F-4317-988E-99B92F17778A"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/ViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "183"
+            endingLineNumber = "183"
+            landmarkName = "DeleteAspect(id:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "1516592C-B596-4A43-AA8E-CE76817E1DB8"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/ViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "193"
+            endingLineNumber = "193"
+            landmarkName = "CreateDream(request:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "21BDA85D-FE14-497F-A08B-2193127387BC"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/ViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "210"
+            endingLineNumber = "210"
+            landmarkName = "UpdateDream(id:request:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9703F426-7C47-4DCC-9985-076FC3E91FE6"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/ViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "215"
+            endingLineNumber = "215"
+            landmarkName = "DeleteDream(id:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "7D40321E-DEA7-4B2B-A526-130D6AA638ED"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/View/Toolbox/Creed/DetailCreed.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "76"
+            endingLineNumber = "76"
+            landmarkName = "Item(caption:body:id:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6839912E-667C-418F-A97E-8302F82D02F9"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/View/Toolbox/Creed/DetailCreed.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "77"
+            endingLineNumber = "77"
+            landmarkName = "Item(caption:body:id:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "2E0C90BA-2BE5-43E2-9F0F-A3DB29A8993E"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Envisionary/View/Detail/DetailView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "146"
-            endingLineNumber = "146"
+            startingLineNumber = "222"
+            endingLineNumber = "222"
+            landmarkName = "PrintObjectType()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F7FCFA0E-A7FE-4F48-A477-046B60A8517E"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/View/Detail/DetailView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "138"
+            endingLineNumber = "138"
             landmarkName = "BuildMenu()"
             landmarkType = "7">
          </BreakpointContent>
@@ -855,17 +1447,2097 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "BEA80739-5EE4-42D9-8170-86A46F9E84F6"
-            shouldBeEnabled = "Yes"
+            uuid = "6D0628D1-340A-4A6A-BA61-3A7947034659"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/Models/Properties.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "86"
+            endingLineNumber = "86"
+            landmarkName = "init(value:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "EED47ABF-3B1C-4440-B089-35CC7B877EB5"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Envisionary/View/Detail/DetailView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "151"
-            endingLineNumber = "151"
+            startingLineNumber = "180"
+            endingLineNumber = "180"
             landmarkName = "BuildMenu()"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "369C4A79-EEDC-4C22-914C-12090B78BD62"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/View/Detail/DetailView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "142"
+            endingLineNumber = "142"
+            landmarkName = "BuildMenu()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "FA5088E0-0DF1-4553-AA12-DC31BBDA5352"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/Services/Services/DataService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "571"
+            endingLineNumber = "571"
+            landmarkName = "CreateCoreValue(request:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "DF287E88-1E3D-478D-863F-931385C05F97"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/ViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "242"
+            endingLineNumber = "242"
+            landmarkName = "UpdateCoreValue(id:request:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "33AEE7A9-701B-4AE4-982E-63AAFC236C07"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/View/Toolbox/Creed/DetailCreed.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "44"
+            endingLineNumber = "44"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E257A805-7D37-4F46-9DAD-9FEB58155871"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/View/Toolbox/Creed/DetailCreed.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "78"
+            endingLineNumber = "78"
+            landmarkName = "Item(caption:body:id:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "E257A805-7D37-4F46-9DAD-9FEB58155871 - 126a38d70dc1fd00"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; () in Envisionary.DetailCreed.Item(caption: Swift.String, body: Swift.String, id: Foundation.UUID) -&gt; some"
+                  moduleName = "Envisionary"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/campbellmcgavin/Documents/Envisionary/Envisionary/View/Toolbox/Creed/DetailCreed.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "78"
+                  endingLineNumber = "78"
+                  offsetFromSymbolStart = "307">
+               </Location>
+               <Location
+                  uuid = "E257A805-7D37-4F46-9DAD-9FEB58155871 - fc72ad26a0c4729d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 () -&gt; &lt;&lt;opaque return type of SwiftUI.View.onDrop(of: Swift.Array&lt;UniformTypeIdentifiers.UTType&gt;, delegate: SwiftUI.DropDelegate) -&gt; some&gt;&gt;.0 in Envisionary.DetailCreed.Item(caption: Swift.String, body: Swift.String, id: Foundation.UUID) -&gt; some"
+                  moduleName = "Envisionary"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/campbellmcgavin/Documents/Envisionary/Envisionary/View/Toolbox/Creed/DetailCreed.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "79"
+                  endingLineNumber = "79"
+                  offsetFromSymbolStart = "628">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "022BA602-A7A9-4BCA-9144-D423308B3D34"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/Services/Services/DataService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "219"
+            endingLineNumber = "219"
+            landmarkName = "ListChildGoals(id:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "383AEFE8-96BE-4FDC-88D4-6483544C1741"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/Services/Services/DataService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "145"
+            endingLineNumber = "145"
+            landmarkName = "ListGoals(criteria:limit:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "383AEFE8-96BE-4FDC-88D4-6483544C1741 - 570b8f4c3f88edef"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Envisionary.DataService.ListGoals(criteria: Envisionary.Criteria, limit: Swift.Int) -&gt; Swift.Array&lt;Envisionary.Goal&gt;"
+                  moduleName = "Envisionary"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/campbellmcgavin/Documents/Envisionary/Envisionary/Core/Services/Services/DataService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "93"
+                  endingLineNumber = "93"
+                  offsetFromSymbolStart = "482">
+               </Location>
+               <Location
+                  uuid = "383AEFE8-96BE-4FDC-88D4-6483544C1741 - 243098b70c3f668a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Envisionary.GoalEntity) -&gt; Envisionary.Goal in Envisionary.DataService.ListGoals(criteria: Envisionary.Criteria, limit: Swift.Int) -&gt; Swift.Array&lt;Envisionary.Goal&gt;"
+                  moduleName = "Envisionary"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/campbellmcgavin/Documents/Envisionary/Envisionary/Core/Services/Services/DataService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "93"
+                  endingLineNumber = "93"
+                  offsetFromSymbolStart = "35">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6EE6DC93-2DA9-41D1-9670-565630283DB3"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Extensions/NSCompoundPredicateExtension.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "38"
+            endingLineNumber = "38"
+            landmarkName = "PredicateBuilder(criteria:object:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "FF2A88C4-47DE-46C4-BCC6-BF964B2F7EB0"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/View/Modal/ModalTypes/ModalAdd.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "271"
+            endingLineNumber = "271"
+            landmarkName = "TakeAction()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D87FD1AA-27D5-4424-8793-63B534D83C4B"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/View/Detail/DetailView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "101"
+            endingLineNumber = "101"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "45C5990F-9183-4344-92B8-F38633F8A9B6"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/Services/Services/DataService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "243"
+            endingLineNumber = "243"
+            landmarkName = "ListAffectedGoals(id:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "45C5990F-9183-4344-92B8-F38633F8A9B6 - c32b56dbd4587727"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Envisionary.DataService.ListAffectedGoals(id: Foundation.UUID) -&gt; Swift.Array&lt;Envisionary.Goal&gt;"
+                  moduleName = "Envisionary"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/campbellmcgavin/Documents/Envisionary/Envisionary/Core/Services/Services/DataService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "231"
+                  endingLineNumber = "231"
+                  offsetFromSymbolStart = "1396">
+               </Location>
+               <Location
+                  uuid = "45C5990F-9183-4344-92B8-F38633F8A9B6 - 4b3358b50b1284d9"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Envisionary.GoalEntity) -&gt; Envisionary.Goal in Envisionary.DataService.ListAffectedGoals(id: Foundation.UUID) -&gt; Swift.Array&lt;Envisionary.Goal&gt;"
+                  moduleName = "Envisionary"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/campbellmcgavin/Documents/Envisionary/Envisionary/Core/Services/Services/DataService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "231"
+                  endingLineNumber = "231"
+                  offsetFromSymbolStart = "35">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D5B7D6D4-D548-4EAA-B8E8-2395810C6B29"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/View/Modal/ModalTypes/ModalAdd.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "204"
+            endingLineNumber = "204"
+            landmarkName = "TakeAction()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0B01D8E9-D856-4D3B-ABF2-DA87B23D3C78"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/Services/Services/DataService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "100"
+            endingLineNumber = "100"
+            landmarkName = "CreateGoal(request:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0C6C5E7A-9278-4E1B-83F2-5D6F676BA3D9"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/View/Card/PhotoCard.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "78"
+            endingLineNumber = "78"
+            landmarkName = "body"
+            landmarkType = "24">
+            <Locations>
+               <Location
+                  uuid = "0C6C5E7A-9278-4E1B-83F2-5D6F676BA3D9 - 4deb2f8c00c47f11"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 () -&gt; () in closure #1 () -&gt; &lt;&lt;opaque return type of SwiftUI.View.onAppear(perform: Swift.Optional&lt;() -&gt; ()&gt;) -&gt; some&gt;&gt;.0 in Envisionary.PhotoCard.body.getter : some"
+                  moduleName = "Envisionary"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/campbellmcgavin/Documents/Envisionary/Envisionary/View/Card/PhotoCard.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "78"
+                  endingLineNumber = "78"
+                  offsetFromSymbolStart = "565">
+               </Location>
+               <Location
+                  uuid = "0C6C5E7A-9278-4E1B-83F2-5D6F676BA3D9 - e285765194bcb281"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; () in closure #2 () -&gt; () in closure #1 () -&gt; &lt;&lt;opaque return type of SwiftUI.View.onAppear(perform: Swift.Optional&lt;() -&gt; ()&gt;) -&gt; some&gt;&gt;.0 in Envisionary.PhotoCard.body.getter : some"
+                  moduleName = "Envisionary"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/campbellmcgavin/Documents/Envisionary/Envisionary/View/Card/PhotoCard.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "79"
+                  endingLineNumber = "79"
+                  offsetFromSymbolStart = "178">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C4E9AA85-1E4D-4A58-89F8-D0F20714BFC3"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/View/Modal/ModalTypes/ModalAdd.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "431"
+            endingLineNumber = "431"
+            landmarkName = "GetValuesFromParent()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3B7EFB6E-F035-467B-801F-20ABA92BE64E"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/View/Modal/ModalTypes/ModalAdd.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "370"
+            endingLineNumber = "370"
+            landmarkName = "SetupFields()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "1E889D05-C2B7-413E-96AC-7E48BA895CAA"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/View/Modal/ModalTypes/ModalAdd.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "203"
+            endingLineNumber = "203"
+            landmarkName = "TakeAction()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5F3E036A-B450-4DF3-8EF2-45C6053BC57B"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/View/Modal/ModalTypes/ModalAdd.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "201"
+            endingLineNumber = "201"
+            landmarkName = "TakeAction()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D8456A1E-4A1D-4B49-AAC8-0D2A0D9A6B44"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/View/Modal/ModalTypes/ModalAdd.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "202"
+            endingLineNumber = "202"
+            landmarkName = "TakeAction()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "54736974-0802-4BBB-8481-48A66E67DC38"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/View/Modal/ModalTypes/ModalAdd.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "274"
+            endingLineNumber = "274"
+            landmarkName = "TakeAction()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "469C8322-8E3D-4805-882C-C25ED3BD50BD"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/Services/Interfaces/Goal/UpdateGoalRequest.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "53"
+            endingLineNumber = "53"
+            landmarkName = "init(properties:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "997C3CE6-6991-4297-BFAF-622050BAED76"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/ViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "118"
+            endingLineNumber = "118"
+            landmarkName = "UpdateGoal(id:request:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "DE42B311-DAC5-4165-8583-162FE2355C0F"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/Models/Goal.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "74"
+            endingLineNumber = "74"
+            landmarkName = "init(from:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3B8A38D2-0794-4775-9861-2AD9E47F1C3E"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/View/Detail/Header.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "69"
+            endingLineNumber = "69"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "41BD2AB2-C806-490D-981B-5E8ABB58A7ED"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Extensions/NSCompoundPredicateExtension.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "17"
+            endingLineNumber = "17"
+            landmarkName = "PredicateBuilder(criteria:object:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "154769F1-8C8D-4317-B82E-09F9505A9E7C"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/Services/Services/DataService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "310"
+            endingLineNumber = "310"
+            landmarkName = "ListAspects(criteria:limit:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "FF914F84-6CCD-43FE-AC71-041A7CDA7CE3"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Extensions/NSCompoundPredicateExtension.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "30"
+            endingLineNumber = "30"
+            landmarkName = "PredicateBuilder(criteria:object:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F130D9D8-EDE0-44B5-9E21-A5ADAF736B0C"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Extensions/NSCompoundPredicateExtension.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "34"
+            endingLineNumber = "34"
+            landmarkName = "PredicateBuilder(criteria:object:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "AC26D563-660E-4D81-BE7A-C89E75A545D4"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/View/Modal/ModalTypes/ModalFilter.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "72"
+            endingLineNumber = "72"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D1E5F017-4F21-4AA5-8995-9DD4E5AB41C5"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/Services/Services/DataService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "154"
+            endingLineNumber = "154"
+            landmarkName = "UpdateGoal(id:request:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9972D165-E32F-4476-9323-23668A2A3730"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/Services/Services/DataService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "218"
+            endingLineNumber = "218"
+            landmarkName = "ListChildGoals(id:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3DC6C5F3-E42B-47D7-8E78-388906736445"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/Services/Services/DataService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "225"
+            endingLineNumber = "225"
+            landmarkName = "ListAffectedGoals(id:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B6622F60-6F73-4E24-80D5-E9B11A4CD4B5"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/Services/Services/DataService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "139"
+            endingLineNumber = "139"
+            landmarkName = "ListGoals(criteria:limit:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "4FEA9924-D6D4-42B5-BB84-D29DF9E9475C"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/Services/Services/DataService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "111"
+            endingLineNumber = "111"
+            landmarkName = "GetGoal(id:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "678DDBB9-8046-4E3D-9C9A-1D3F19D21626"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/Services/Services/DataService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "91"
+            endingLineNumber = "91"
+            landmarkName = "CreateGoal(request:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "CC7D5DC2-2E68-4436-8C6F-7028822580BC"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/Services/Services/DataService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "73"
+            endingLineNumber = "73"
+            landmarkName = "GetImageEntity(id:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "78A51457-8BAB-4C99-9312-7859B850EC6A"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/Services/Services/DataService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "238"
+            endingLineNumber = "238"
+            landmarkName = "ListAffectedGoals(id:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "FCD4FE33-4087-4289-A59D-C94A6B73472E"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/View/Toolbox/Gantt/GanttMain.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "86"
+            endingLineNumber = "86"
+            landmarkName = "GetDateValues()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D14AF2E9-861A-4F2D-B67F-264A7697C67C"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/View/Toolbox/Gantt/GanttMain.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "55"
+            endingLineNumber = "55"
+            landmarkName = "body"
+            landmarkType = "24">
+            <Locations>
+               <Location
+                  uuid = "D14AF2E9-861A-4F2D-B67F-264A7697C67C - da6e55c28e6688c0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 (Envisionary.ObjectUpdates) -&gt; () in Envisionary.GanttMain.body.getter : some"
+                  moduleName = "Envisionary"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/campbellmcgavin/Documents/Envisionary/Envisionary/View/Toolbox/Gantt/GanttMain.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "55"
+                  endingLineNumber = "55"
+                  offsetFromSymbolStart = "371">
+               </Location>
+               <Location
+                  uuid = "D14AF2E9-861A-4F2D-B67F-264A7697C67C - e297968228026cc9"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; () in closure #2 (Envisionary.ObjectUpdates) -&gt; () in Envisionary.GanttMain.body.getter : some"
+                  moduleName = "Envisionary"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/campbellmcgavin/Documents/Envisionary/Envisionary/View/Toolbox/Gantt/GanttMain.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "57"
+                  endingLineNumber = "57"
+                  offsetFromSymbolStart = "237">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "30546AE3-B43F-4558-A851-E95E1DE1A877"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/ViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "117"
+            endingLineNumber = "117"
+            landmarkName = "UpdateGoal(id:request:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "47BB9748-8ECB-4F02-A302-36FCCF5CFC8A"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/ViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "127"
+            endingLineNumber = "127"
+            landmarkName = "GoalsDidChange()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "092639D5-DA0D-496A-9091-24140B4BAEFD"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/View/Toolbox/Gantt/GanttMain.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "63"
+            endingLineNumber = "63"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "2C44999F-B650-49C9-808A-BCE01C2A8A71"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/View/Toolbox/Gantt/GanttMain.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "54"
+            endingLineNumber = "54"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F1D728AF-7925-4081-A010-8FD4C5A6AD85"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/View/Detail/DetailView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "169"
+            endingLineNumber = "169"
+            landmarkName = "BuildMenu()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E1793CC4-0C27-45BC-A960-313A24914FA0"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/View/Detail/DetailView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "168"
+            endingLineNumber = "168"
+            landmarkName = "BuildMenu()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0B9DC3F9-152C-4605-BB02-DBB2EE4E202B"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/View/Detail/Detail.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "107"
+            endingLineNumber = "107"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "403F7BBC-2662-4301-B131-5AEE1442F4C9"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/View/Modal/ModalTypes/ImagePicker.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "49"
+            endingLineNumber = "49"
+            landmarkName = "imagePickerController(_:didFinishPickingMediaWithInfo:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "403F7BBC-2662-4301-B131-5AEE1442F4C9 - e9098f77ccaf2eb8"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Envisionary.ImagePickerCoordinator.imagePickerController(_: __C.UIImagePickerController, didFinishPickingMediaWithInfo: Swift.Dictionary&lt;__C.UIImagePickerControllerInfoKey, Any&gt;) -&gt; ()"
+                  moduleName = "Envisionary"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/campbellmcgavin/Documents/Envisionary/Envisionary/View/Modal/ModalTypes/ImagePicker.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "49"
+                  endingLineNumber = "49"
+                  offsetFromSymbolStart = "118">
+               </Location>
+               <Location
+                  uuid = "403F7BBC-2662-4301-B131-5AEE1442F4C9 - e9098f77ccaf2eb8"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Envisionary.ImagePickerCoordinator.imagePickerController(_: __C.UIImagePickerController, didFinishPickingMediaWithInfo: Swift.Dictionary&lt;__C.UIImagePickerControllerInfoKey, Any&gt;) -&gt; ()"
+                  moduleName = "Envisionary"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/campbellmcgavin/Documents/Envisionary/Envisionary/View/Modal/ModalTypes/ImagePicker.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "49"
+                  endingLineNumber = "49"
+                  offsetFromSymbolStart = "383">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "40AB3C23-0A1D-4AED-868D-4A0D2F3B8BB4"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/View/Detail/DetailView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "167"
+            endingLineNumber = "167"
+            landmarkName = "BuildMenu()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A689CB6A-E6A1-4742-9218-123910427106"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/View/Modal/ModalTypes/ModalAdd.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "375"
+            endingLineNumber = "375"
+            landmarkName = "SetupFields()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "18EB8716-D27A-43CC-AC91-07235E0A469A"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/Services/Services/DataService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "629"
+            endingLineNumber = "629"
+            landmarkName = "ListCoreValues(criteria:limit:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "FF70DD89-54EF-4318-9C04-5C0DCAE42766"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/Services/Services/DataService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "635"
+            endingLineNumber = "635"
+            landmarkName = "ListCoreValues(criteria:limit:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "FF70DD89-54EF-4318-9C04-5C0DCAE42766 - ca567a50e0d7211e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Envisionary.DataService.ListCoreValues(criteria: Envisionary.Criteria, limit: Swift.Int) -&gt; Swift.Array&lt;Envisionary.CoreValue&gt;"
+                  moduleName = "Envisionary"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/campbellmcgavin/Documents/Envisionary/Envisionary/Core/Services/Services/DataService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "618"
+                  endingLineNumber = "618"
+                  offsetFromSymbolStart = "489">
+               </Location>
+               <Location
+                  uuid = "FF70DD89-54EF-4318-9C04-5C0DCAE42766 - ee435e4f4b7afa9a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Envisionary.CoreValueEntity) -&gt; Envisionary.CoreValue in Envisionary.DataService.ListCoreValues(criteria: Envisionary.Criteria, limit: Swift.Int) -&gt; Swift.Array&lt;Envisionary.CoreValue&gt;"
+                  moduleName = "Envisionary"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/campbellmcgavin/Documents/Envisionary/Envisionary/Core/Services/Services/DataService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "618"
+                  endingLineNumber = "618"
+                  offsetFromSymbolStart = "35">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "8E0EA27D-547A-4C17-9AC4-6C48D1B6976A"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/ViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "240"
+            endingLineNumber = "240"
+            landmarkName = "ListCoreValues(criteria:limit:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E7713B78-4658-4D1D-A2EA-50F6E8996275"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/ViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "239"
+            endingLineNumber = "239"
+            landmarkName = "ListCoreValues(criteria:limit:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B70B2EB6-AA3E-4EF3-8D57-AA79EF8FC521"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Extensions/NSCompoundPredicateExtension.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "18"
+            endingLineNumber = "18"
+            landmarkName = "PredicateBuilder(criteria:object:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E9134DE5-DEBA-4F17-AD47-175CAB28C69A"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Extensions/NSCompoundPredicateExtension.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "22"
+            endingLineNumber = "22"
+            landmarkName = "PredicateBuilder(criteria:object:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "17F3DC07-1E8F-4477-8930-5C5A961E5EE7"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Extensions/NSCompoundPredicateExtension.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "15"
+            endingLineNumber = "15"
+            landmarkName = "PredicateBuilder(criteria:object:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "675CAC55-EA3B-41AE-8895-EE775B182F83"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/Services/Services/DataService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "634"
+            endingLineNumber = "634"
+            landmarkName = "ListCoreValues(criteria:limit:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "09A9998F-DD06-4686-92E8-A84E21EB6D93"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Extensions/NSCompoundPredicateExtension.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "26"
+            endingLineNumber = "26"
+            landmarkName = "PredicateBuilder(criteria:object:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "67AA35FD-4797-47BE-A76B-88F74EDB4DEC"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Extensions/NSCompoundPredicateExtension.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "83"
+            endingLineNumber = "83"
+            landmarkName = "PredicateBuilder(criteria:object:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "67AA35FD-4797-47BE-A76B-88F74EDB4DEC - 5534c104a8819bcf"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static __C.NSCompoundPredicate.PredicateBuilder(criteria: Envisionary.Criteria, object: Envisionary.ObjectType) -&gt; __C.NSCompoundPredicate"
+                  moduleName = "Envisionary"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/campbellmcgavin/Documents/Envisionary/Envisionary/Extensions/NSCompoundPredicateExtension.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "83"
+                  endingLineNumber = "83"
+                  offsetFromSymbolStart = "10193">
+               </Location>
+               <Location
+                  uuid = "67AA35FD-4797-47BE-A76B-88F74EDB4DEC - 5534c104a8819bcf"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static __C.NSCompoundPredicate.PredicateBuilder(criteria: Envisionary.Criteria, object: Envisionary.ObjectType) -&gt; __C.NSCompoundPredicate"
+                  moduleName = "Envisionary"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/campbellmcgavin/Documents/Envisionary/Envisionary/Extensions/NSCompoundPredicateExtension.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "83"
+                  endingLineNumber = "83"
+                  offsetFromSymbolStart = "10220">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "DD15404F-E135-4513-A106-65BF294E9A5A"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Extensions/NSCompoundPredicateExtension.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "140"
+            endingLineNumber = "140"
+            landmarkName = "PredicateBuilder(criteria:object:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "35297587-7ABF-4E36-ACA4-126F374AB505"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Extensions/NSCompoundPredicateExtension.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "144"
+            endingLineNumber = "144"
+            landmarkName = "PredicateBuilder(criteria:object:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "70816399-0508-44E1-9C34-0B90E6C7A96F"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Extensions/NSCompoundPredicateExtension.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "133"
+            endingLineNumber = "133"
+            landmarkName = "PredicateBuilder(criteria:object:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "54C1A70D-CBA9-4FEB-A98E-7FAD202DF2FF"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Extensions/NSCompoundPredicateExtension.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "132"
+            endingLineNumber = "132"
+            landmarkName = "PredicateBuilder(criteria:object:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E3CB6527-1BE0-4066-8889-32CA687BB8FC"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/ContentViewStack.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "43"
+            endingLineNumber = "43"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F7931B62-71F8-4208-B5E3-29FC5A397A11"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/ContentViewStack.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "108"
+            endingLineNumber = "108"
+            landmarkName = "UpdateData()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "2929C3D4-76C2-4AC8-A02A-B59F1BD23701"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/Services/Services/DataService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "709"
+            endingLineNumber = "709"
+            landmarkName = "ListChapters(criteria:limit:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0A61F582-B69B-46E1-8531-9DC22F6E2407"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/ViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "256"
+            endingLineNumber = "256"
+            landmarkName = "CreateChapter(request:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "8647D047-143E-48FC-BBCC-B5D6DC57191B"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Extensions/NSCompoundPredicateExtension.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "81"
+            endingLineNumber = "81"
+            landmarkName = "PredicateBuilder(criteria:object:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E5E21D73-0C71-485D-BD46-44895A9F80B9"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/View/Modal/ModalTypes/ModalAdd.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "104"
+            endingLineNumber = "104"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "197C0288-0887-4C32-8202-830FA471FD88"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/View/Modal/ModalTypes/ModalAdd.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "209"
+            endingLineNumber = "209"
+            landmarkName = "TakeAction()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "43234185-1A05-4FED-AB2F-9F2FAA4268DC"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/View/Modal/ModalTypes/ModalAdd.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "207"
+            endingLineNumber = "207"
+            landmarkName = "TakeAction()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "920961E9-F281-41C4-958F-A942719B1ECF"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/View/Modal/ModalTypes/ModalAdd.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "217"
+            endingLineNumber = "217"
+            landmarkName = "TakeAction()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6E7B0938-EC52-49CD-BB4B-9D259529F8E0"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/View/Modal/ModalTypes/ModalAdd.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "293"
+            endingLineNumber = "293"
+            landmarkName = "TakeAction()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E94A189A-6C47-4890-81CD-09994A9630F9"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/ViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "288"
+            endingLineNumber = "288"
+            landmarkName = "CreateEntry(request:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "837ABE34-E21E-477E-AB25-BD0E79786845"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/Services/Services/DataService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "770"
+            endingLineNumber = "770"
+            landmarkName = "CreateEntry(request:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C6349C05-5ECA-4B18-84AA-A46E4B90A1A2"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Extensions/ArrayExtensions.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "22"
+            endingLineNumber = "22"
+            landmarkName = "toCsvString()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C20D75FC-FB2F-4587-8D94-CFA412C711EE"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/ContentViewStack.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "123"
+            endingLineNumber = "123"
+            landmarkName = "UpdateData()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "70ECE7D1-0869-4B0C-9CF3-8F86C7DD37B7"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/Services/Services/DataService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "831"
+            endingLineNumber = "831"
+            landmarkName = "GroupEntries(criteria:grouping:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "CF823DDD-C415-46A6-A41C-F6EA3A94F1B0"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/View/Modal/ModalTypes/ModalAdd.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "294"
+            endingLineNumber = "294"
+            landmarkName = "TakeAction()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "FEAEEE94-312B-4E87-AE1B-919144C92753"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/Services/Interfaces/Entry/CreateEntryRequest.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "20"
+            endingLineNumber = "20"
+            landmarkName = "init(properties:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "16D1B7F9-2ABA-40EF-B5E1-437F462E4757"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/View/Modal/ModalTypes/ModalAdd.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "295"
+            endingLineNumber = "295"
+            landmarkName = "TakeAction()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "FDD807EE-728C-4EE6-8D7F-C5BD1DA20D96"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Extensions/NSCompoundPredicateExtension.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "35"
+            endingLineNumber = "35"
+            landmarkName = "PredicateBuilder(criteria:object:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "37568948-9244-47C2-83E3-D9FF27ECE137"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Extensions/NSCompoundPredicateExtension.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "43"
+            endingLineNumber = "43"
+            landmarkName = "PredicateBuilder(criteria:object:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "37568948-9244-47C2-83E3-D9FF27ECE137 - 5534c104a8819517"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static __C.NSCompoundPredicate.PredicateBuilder(criteria: Envisionary.Criteria, object: Envisionary.ObjectType) -&gt; __C.NSCompoundPredicate"
+                  moduleName = "Envisionary"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/campbellmcgavin/Documents/Envisionary/Envisionary/Extensions/NSCompoundPredicateExtension.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "43"
+                  endingLineNumber = "43"
+                  offsetFromSymbolStart = "6594">
+               </Location>
+               <Location
+                  uuid = "37568948-9244-47C2-83E3-D9FF27ECE137 - 5534c104a8819517"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static __C.NSCompoundPredicate.PredicateBuilder(criteria: Envisionary.Criteria, object: Envisionary.ObjectType) -&gt; __C.NSCompoundPredicate"
+                  moduleName = "Envisionary"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/campbellmcgavin/Documents/Envisionary/Envisionary/Extensions/NSCompoundPredicateExtension.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "43"
+                  endingLineNumber = "43"
+                  offsetFromSymbolStart = "6621">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F17E4DAB-D7E3-4FBE-9063-E8CC7940803D"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/ContentViewStack.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "314"
+            endingLineNumber = "314"
+            landmarkName = "GroupBuilder()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "F17E4DAB-D7E3-4FBE-9063-E8CC7940803D - 23681f74fc3a6d6d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; Swift.Optional&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Envisionary.Entry&gt;, Foundation.UUID, SwiftUI.TupleView&lt;(Envisionary.PhotoCard, Swift.Optional&lt;Envisionary.StackDivider&gt;)&gt;&gt;&gt; in closure #1 () -&gt; SwiftUI.ModifiedContent&lt;SwiftUI.VStack&lt;Swift.Optional&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Envisionary.Entry&gt;, Foundation.UUID, SwiftUI.TupleView&lt;(Envisionary.PhotoCard, Swift.Optional&lt;Envisionary.StackDivider&gt;)&gt;&gt;&gt;&gt;, Envisionary.ModifierCard&gt; in closure #1 () -&gt; Envisionary.HeaderWithContent&lt;SwiftUI.ModifiedContent&lt;SwiftUI.VStack&lt;Swift.Optional&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Envisionary.Entry&gt;, Foundation.UUID, SwiftUI.TupleView&lt;(Envisionary.PhotoCard, Swift.Optional&lt;Envisionary.StackDivider&gt;)&gt;&gt;&gt;&gt;, Envisionary.ModifierCard&gt;&gt; in closure #5 (Swift.String) -&gt; SwiftUI.VStack&lt;Envisionary.HeaderWithContent&lt;SwiftUI.ModifiedContent&lt;SwiftUI.VStack&lt;Swift.Optional&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Envisionary.Entry&gt;, Foundation.UUID, SwiftUI.TupleView&lt;(Envisionary.PhotoCard, Swift.Optional&lt;Envisionary.StackDivider&gt;)&gt;&gt;&gt;&gt;, Envisionary.ModifierCard&gt;&gt;&gt; in closure #1 () -&gt; SwiftUI._ConditionalContent&lt;SwiftUI._ConditionalContent&lt;SwiftUI._ConditionalContent&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Swift.String&gt;, Swift.String, SwiftUI.VStack&lt;Envisionary.HeaderWithContent&lt;SwiftUI.ModifiedContent&lt;SwiftUI.VStack&lt;Swift.Optional&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Envisionary.Dream&gt;, Foundation.UUID, SwiftUI.TupleView&lt;(Envisionary.PhotoCard, Swift.Optional&lt;Envisionary.StackDivider&gt;)&gt;&gt;&gt;&gt;, Envisionary.ModifierCard&gt;&gt;&gt;&gt;, SwiftUI.ForEach&lt;Swift.Array&lt;Swift.String&gt;, Swift.String, SwiftUI.VStack&lt;Envisionary.HeaderWithContent&lt;SwiftUI.ModifiedContent&lt;SwiftUI.VStack&lt;Swift.Optional&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Envisionary.Goal&gt;, Foundation.UUID, SwiftUI.TupleView&lt;(Envisionary.PhotoCard, Swift.Optional&lt;Envisionary.StackDivider&gt;)&gt;&gt;&gt;&gt;, Envisionary.ModifierCard&gt;&gt;&gt;&gt;&gt;, SwiftUI._ConditionalContent&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Swift.String&gt;, Swift.String, SwiftUI.VStack&lt;Envisionary.HeaderWithContent&lt;SwiftUI.ModifiedContent&lt;SwiftUI.VStack&lt;Swift.Optional&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Envisionary.Task&gt;, Foundation.UUID, SwiftUI.TupleView&lt;(Envisionary.PhotoCard, Swift.Optional&lt;Envisionary.StackDivider&gt;)&gt;&gt;&gt;&gt;, Envisionary.ModifierCard&gt;&gt;&gt;&gt;, SwiftUI.ForEach&lt;Swift.Array&lt;Swift.String&gt;, Swift.String, SwiftUI.VStack&lt;Envisionary.HeaderWithContent&lt;SwiftUI.ModifiedContent&lt;SwiftUI.VStack&lt;Swift.Optional&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Envisionary.Chapter&gt;, Foundation.UUID, SwiftUI.TupleView&lt;(Envisionary.PhotoCard, Swift.Optional&lt;Envisionary.StackDivider&gt;)&gt;&gt;&gt;&gt;, Envisionary.ModifierCard&gt;&gt;&gt;&gt;&gt;&gt;, SwiftUI._ConditionalContent&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Swift.String&gt;, Swift.String, SwiftUI.VStack&lt;Envisionary.HeaderWithContent&lt;SwiftUI.ModifiedContent&lt;SwiftUI.VStack&lt;Swift.Optional&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Envisionary.Entry&gt;, Foundation.UUID, SwiftUI.TupleView&lt;(Envisionary.PhotoCard, Swift.Optional&lt;Envisionary.StackDivider&gt;)&gt;&gt;&gt;&gt;, Envisionary.ModifierCard&gt;&gt;&gt;&gt;, SwiftUI.EmptyView&gt;&gt; in closure #1 () -&gt; SwiftUI.TupleView&lt;(Envisionary.ParentHeaderButton, SwiftUI.LazyVStack&lt;SwiftUI._ConditionalContent&lt;SwiftUI._ConditionalContent&lt;SwiftUI._ConditionalContent&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Swift.String&gt;, Swift.String, SwiftUI.VStack&lt;Envisionary.HeaderWithContent&lt;SwiftUI.ModifiedContent&lt;SwiftUI.VStack&lt;Swift.Optional&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Envisionary.Dream&gt;, Foundation.UUID, SwiftUI.TupleView&lt;(Envisionary.PhotoCard, Swift.Optional&lt;Envisionary.StackDivider&gt;)&gt;&gt;&gt;&gt;, Envisionary.ModifierCard&gt;&gt;&gt;&gt;, SwiftUI.ForEach&lt;Swift.Array&lt;Swift.String&gt;, Swift.String, SwiftUI.VStack&lt;Envisionary.HeaderWithContent&lt;SwiftUI.ModifiedContent&lt;SwiftUI.VStack&lt;Swift.Optional&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Envisionary.Goal&gt;, Foundation.UUID, SwiftUI.TupleView&lt;(Envisionary.PhotoCard, Swift.Optional&lt;Envisionary.StackDivider&gt;)&gt;&gt;&gt;&gt;, Envisionary.ModifierCard&gt;&gt;&gt;&gt;&gt;, SwiftUI._ConditionalContent&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Swift.String&gt;, Swift.String, SwiftUI.VStack&lt;Envisionary.HeaderWithContent&lt;SwiftUI.ModifiedContent&lt;SwiftUI.VStack&lt;Swift.Optional&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Envisionary.Task&gt;, Foundation.UUID, SwiftUI.TupleView&lt;(Envisionary.PhotoCard, Swift.Optional&lt;Envisionary.StackDivider&gt;)&gt;&gt;&gt;&gt;, Envisionary.ModifierCard&gt;&gt;&gt;&gt;, SwiftUI.ForEach&lt;Swift.Array&lt;Swift.String&gt;, Swift.String, SwiftUI.VStack&lt;Envisionary.HeaderWithContent&lt;SwiftUI.ModifiedContent&lt;SwiftUI.VStack&lt;Swift.Optional&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Envisionary.Chapter&gt;, Foundation.UUID, SwiftUI.TupleView&lt;(Envisionary.PhotoCard, Swift.Optional&lt;Envisionary.StackDivider&gt;)&gt;&gt;&gt;&gt;, Envisionary.ModifierCard&gt;&gt;&gt;&gt;&gt;&gt;, SwiftUI._ConditionalContent&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Swift.String&gt;, Swift.String, SwiftUI.VStack&lt;Envisionary.HeaderWithContent&lt;SwiftUI.ModifiedContent&lt;SwiftUI.VStack&lt;Swift.Optional&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Envisionary.Entry&gt;, Foundation.UUID, SwiftUI.TupleView&lt;(Envisionary.PhotoCard, Swift.Optional&lt;Envisionary.StackDivider&gt;)&gt;&gt;&gt;&gt;, Envisionary.ModifierCard&gt;&gt;&gt;&gt;, SwiftUI.EmptyView&gt;&gt;&gt;)&gt; in Envisionary.ContentViewStack.GroupBuilder() -&gt; some"
+                  moduleName = "Envisionary"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/campbellmcgavin/Documents/Envisionary/Envisionary/ContentViewStack.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "314"
+                  endingLineNumber = "314"
+                  offsetFromSymbolStart = "689">
+               </Location>
+               <Location
+                  uuid = "F17E4DAB-D7E3-4FBE-9063-E8CC7940803D - 45c8e325f14bbccd"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Envisionary.Entry) -&gt; SwiftUI.TupleView&lt;(Envisionary.PhotoCard, Swift.Optional&lt;Envisionary.StackDivider&gt;)&gt; in closure #1 () -&gt; Swift.Optional&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Envisionary.Entry&gt;, Foundation.UUID, SwiftUI.TupleView&lt;(Envisionary.PhotoCard, Swift.Optional&lt;Envisionary.StackDivider&gt;)&gt;&gt;&gt; in closure #1 () -&gt; SwiftUI.ModifiedContent&lt;SwiftUI.VStack&lt;Swift.Optional&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Envisionary.Entry&gt;, Foundation.UUID, SwiftUI.TupleView&lt;(Envisionary.PhotoCard, Swift.Optional&lt;Envisionary.StackDivider&gt;)&gt;&gt;&gt;&gt;, Envisionary.ModifierCard&gt; in closure #1 () -&gt; Envisionary.HeaderWithContent&lt;SwiftUI.ModifiedContent&lt;SwiftUI.VStack&lt;Swift.Optional&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Envisionary.Entry&gt;, Foundation.UUID, SwiftUI.TupleView&lt;(Envisionary.PhotoCard, Swift.Optional&lt;Envisionary.StackDivider&gt;)&gt;&gt;&gt;&gt;, Envisionary.ModifierCard&gt;&gt; in closure #5 (Swift.String) -&gt; SwiftUI.VStack&lt;Envisionary.HeaderWithContent&lt;SwiftUI.ModifiedContent&lt;SwiftUI.VStack&lt;Swift.Optional&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Envisionary.Entry&gt;, Foundation.UUID, SwiftUI.TupleView&lt;(Envisionary.PhotoCard, Swift.Optional&lt;Envisionary.StackDivider&gt;)&gt;&gt;&gt;&gt;, Envisionary.ModifierCard&gt;&gt;&gt; in closure #1 () -&gt; SwiftUI._ConditionalContent&lt;SwiftUI._ConditionalContent&lt;SwiftUI._ConditionalContent&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Swift.String&gt;, Swift.String, SwiftUI.VStack&lt;Envisionary.HeaderWithContent&lt;SwiftUI.ModifiedContent&lt;SwiftUI.VStack&lt;Swift.Optional&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Envisionary.Dream&gt;, Foundation.UUID, SwiftUI.TupleView&lt;(Envisionary.PhotoCard, Swift.Optional&lt;Envisionary.StackDivider&gt;)&gt;&gt;&gt;&gt;, Envisionary.ModifierCard&gt;&gt;&gt;&gt;, SwiftUI.ForEach&lt;Swift.Array&lt;Swift.String&gt;, Swift.String, SwiftUI.VStack&lt;Envisionary.HeaderWithContent&lt;SwiftUI.ModifiedContent&lt;SwiftUI.VStack&lt;Swift.Optional&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Envisionary.Goal&gt;, Foundation.UUID, SwiftUI.TupleView&lt;(Envisionary.PhotoCard, Swift.Optional&lt;Envisionary.StackDivider&gt;)&gt;&gt;&gt;&gt;, Envisionary.ModifierCard&gt;&gt;&gt;&gt;&gt;, SwiftUI._ConditionalContent&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Swift.String&gt;, Swift.String, SwiftUI.VStack&lt;Envisionary.HeaderWithContent&lt;SwiftUI.ModifiedContent&lt;SwiftUI.VStack&lt;Swift.Optional&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Envisionary.Task&gt;, Foundation.UUID, SwiftUI.TupleView&lt;(Envisionary.PhotoCard, Swift.Optional&lt;Envisionary.StackDivider&gt;)&gt;&gt;&gt;&gt;, Envisionary.ModifierCard&gt;&gt;&gt;&gt;, SwiftUI.ForEach&lt;Swift.Array&lt;Swift.String&gt;, Swift.String, SwiftUI.VStack&lt;Envisionary.HeaderWithContent&lt;SwiftUI.ModifiedContent&lt;SwiftUI.VStack&lt;Swift.Optional&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Envisionary.Chapter&gt;, Foundation.UUID, SwiftUI.TupleView&lt;(Envisionary.PhotoCard, Swift.Optional&lt;Envisionary.StackDivider&gt;)&gt;&gt;&gt;&gt;, Envisionary.ModifierCard&gt;&gt;&gt;&gt;&gt;&gt;, SwiftUI._ConditionalContent&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Swift.String&gt;, Swift.String, SwiftUI.VStack&lt;Envisionary.HeaderWithContent&lt;SwiftUI.ModifiedContent&lt;SwiftUI.VStack&lt;Swift.Optional&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Envisionary.Entry&gt;, Foundation.UUID, SwiftUI.TupleView&lt;(Envisionary.PhotoCard, Swift.Optional&lt;Envisionary.StackDivider&gt;)&gt;&gt;&gt;&gt;, Envisionary.ModifierCard&gt;&gt;&gt;&gt;, SwiftUI.EmptyView&gt;&gt; in closure #1 () -&gt; SwiftUI.TupleView&lt;(Envisionary.ParentHeaderButton, SwiftUI.LazyVStack&lt;SwiftUI._ConditionalContent&lt;SwiftUI._ConditionalContent&lt;SwiftUI._ConditionalContent&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Swift.String&gt;, Swift.String, SwiftUI.VStack&lt;Envisionary.HeaderWithContent&lt;SwiftUI.ModifiedContent&lt;SwiftUI.VStack&lt;Swift.Optional&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Envisionary.Dream&gt;, Foundation.UUID, SwiftUI.TupleView&lt;(Envisionary.PhotoCard, Swift.Optional&lt;Envisionary.StackDivider&gt;)&gt;&gt;&gt;&gt;, Envisionary.ModifierCard&gt;&gt;&gt;&gt;, SwiftUI.ForEach&lt;Swift.Array&lt;Swift.String&gt;, Swift.String, SwiftUI.VStack&lt;Envisionary.HeaderWithContent&lt;SwiftUI.ModifiedContent&lt;SwiftUI.VStack&lt;Swift.Optional&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Envisionary.Goal&gt;, Foundation.UUID, SwiftUI.TupleView&lt;(Envisionary.PhotoCard, Swift.Optional&lt;Envisionary.StackDivider&gt;)&gt;&gt;&gt;&gt;, Envisionary.ModifierCard&gt;&gt;&gt;&gt;&gt;, SwiftUI._ConditionalContent&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Swift.String&gt;, Swift.String, SwiftUI.VStack&lt;Envisionary.HeaderWithContent&lt;SwiftUI.ModifiedContent&lt;SwiftUI.VStack&lt;Swift.Optional&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Envisionary.Task&gt;, Foundation.UUID, SwiftUI.TupleView&lt;(Envisionary.PhotoCard, Swift.Optional&lt;Envisionary.StackDivider&gt;)&gt;&gt;&gt;&gt;, Envisionary.ModifierCard&gt;&gt;&gt;&gt;, SwiftUI.ForEach&lt;Swift.Array&lt;Swift.String&gt;, Swift.String, SwiftUI.VStack&lt;Envisionary.HeaderWithContent&lt;SwiftUI.ModifiedContent&lt;SwiftUI.VStack&lt;Swift.Optional&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Envisionary.Chapter&gt;, Foundation.UUID, SwiftUI.TupleView&lt;(Envisionary.PhotoCard, Swift.Optional&lt;Envisionary.StackDivider&gt;)&gt;&gt;&gt;&gt;, Envisionary.ModifierCard&gt;&gt;&gt;&gt;&gt;&gt;, SwiftUI._ConditionalContent&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Swift.String&gt;, Swift.String, SwiftUI.VStack&lt;Envisionary.HeaderWithContent&lt;SwiftUI.ModifiedContent&lt;SwiftUI.VStack&lt;Swift.Optional&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Envisionary.Entry&gt;, Foundation.UUID, SwiftUI.TupleView&lt;(Envisionary.PhotoCard, Swift.Optional&lt;Envisionary.StackDivider&gt;)&gt;&gt;&gt;&gt;, Envisionary.ModifierCard&gt;&gt;&gt;&gt;, SwiftUI.EmptyView&gt;&gt;&gt;)&gt; in Envisionary.ContentViewStack.GroupBuilder() -&gt; some"
+                  moduleName = "Envisionary"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/campbellmcgavin/Documents/Envisionary/Envisionary/ContentViewStack.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "315"
+                  endingLineNumber = "315"
+                  offsetFromSymbolStart = "664">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "7A2EF65F-E3AA-4538-9A3C-3256041472C6"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/ContentViewStack.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "313"
+            endingLineNumber = "313"
+            landmarkName = "GroupBuilder()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "7A2EF65F-E3AA-4538-9A3C-3256041472C6 - 23681f74fc3a6db2"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; Swift.Optional&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Envisionary.Entry&gt;, Foundation.UUID, SwiftUI.TupleView&lt;(Envisionary.PhotoCard, Swift.Optional&lt;Envisionary.StackDivider&gt;)&gt;&gt;&gt; in closure #1 () -&gt; SwiftUI.ModifiedContent&lt;SwiftUI.VStack&lt;Swift.Optional&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Envisionary.Entry&gt;, Foundation.UUID, SwiftUI.TupleView&lt;(Envisionary.PhotoCard, Swift.Optional&lt;Envisionary.StackDivider&gt;)&gt;&gt;&gt;&gt;, Envisionary.ModifierCard&gt; in closure #1 () -&gt; Envisionary.HeaderWithContent&lt;SwiftUI.ModifiedContent&lt;SwiftUI.VStack&lt;Swift.Optional&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Envisionary.Entry&gt;, Foundation.UUID, SwiftUI.TupleView&lt;(Envisionary.PhotoCard, Swift.Optional&lt;Envisionary.StackDivider&gt;)&gt;&gt;&gt;&gt;, Envisionary.ModifierCard&gt;&gt; in closure #5 (Swift.String) -&gt; SwiftUI.VStack&lt;Envisionary.HeaderWithContent&lt;SwiftUI.ModifiedContent&lt;SwiftUI.VStack&lt;Swift.Optional&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Envisionary.Entry&gt;, Foundation.UUID, SwiftUI.TupleView&lt;(Envisionary.PhotoCard, Swift.Optional&lt;Envisionary.StackDivider&gt;)&gt;&gt;&gt;&gt;, Envisionary.ModifierCard&gt;&gt;&gt; in closure #1 () -&gt; SwiftUI._ConditionalContent&lt;SwiftUI._ConditionalContent&lt;SwiftUI._ConditionalContent&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Swift.String&gt;, Swift.String, SwiftUI.VStack&lt;Envisionary.HeaderWithContent&lt;SwiftUI.ModifiedContent&lt;SwiftUI.VStack&lt;Swift.Optional&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Envisionary.Dream&gt;, Foundation.UUID, SwiftUI.TupleView&lt;(Envisionary.PhotoCard, Swift.Optional&lt;Envisionary.StackDivider&gt;)&gt;&gt;&gt;&gt;, Envisionary.ModifierCard&gt;&gt;&gt;&gt;, SwiftUI.ForEach&lt;Swift.Array&lt;Swift.String&gt;, Swift.String, SwiftUI.VStack&lt;Envisionary.HeaderWithContent&lt;SwiftUI.ModifiedContent&lt;SwiftUI.VStack&lt;Swift.Optional&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Envisionary.Goal&gt;, Foundation.UUID, SwiftUI.TupleView&lt;(Envisionary.PhotoCard, Swift.Optional&lt;Envisionary.StackDivider&gt;)&gt;&gt;&gt;&gt;, Envisionary.ModifierCard&gt;&gt;&gt;&gt;&gt;, SwiftUI._ConditionalContent&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Swift.String&gt;, Swift.String, SwiftUI.VStack&lt;Envisionary.HeaderWithContent&lt;SwiftUI.ModifiedContent&lt;SwiftUI.VStack&lt;Swift.Optional&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Envisionary.Task&gt;, Foundation.UUID, SwiftUI.TupleView&lt;(Envisionary.PhotoCard, Swift.Optional&lt;Envisionary.StackDivider&gt;)&gt;&gt;&gt;&gt;, Envisionary.ModifierCard&gt;&gt;&gt;&gt;, SwiftUI.ForEach&lt;Swift.Array&lt;Swift.String&gt;, Swift.String, SwiftUI.VStack&lt;Envisionary.HeaderWithContent&lt;SwiftUI.ModifiedContent&lt;SwiftUI.VStack&lt;Swift.Optional&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Envisionary.Chapter&gt;, Foundation.UUID, SwiftUI.TupleView&lt;(Envisionary.PhotoCard, Swift.Optional&lt;Envisionary.StackDivider&gt;)&gt;&gt;&gt;&gt;, Envisionary.ModifierCard&gt;&gt;&gt;&gt;&gt;&gt;, SwiftUI._ConditionalContent&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Swift.String&gt;, Swift.String, SwiftUI.VStack&lt;Envisionary.HeaderWithContent&lt;SwiftUI.ModifiedContent&lt;SwiftUI.VStack&lt;Swift.Optional&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Envisionary.Entry&gt;, Foundation.UUID, SwiftUI.TupleView&lt;(Envisionary.PhotoCard, Swift.Optional&lt;Envisionary.StackDivider&gt;)&gt;&gt;&gt;&gt;, Envisionary.ModifierCard&gt;&gt;&gt;&gt;, SwiftUI.EmptyView&gt;&gt; in closure #1 () -&gt; SwiftUI.TupleView&lt;(Envisionary.ParentHeaderButton, SwiftUI.LazyVStack&lt;SwiftUI._ConditionalContent&lt;SwiftUI._ConditionalContent&lt;SwiftUI._ConditionalContent&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Swift.String&gt;, Swift.String, SwiftUI.VStack&lt;Envisionary.HeaderWithContent&lt;SwiftUI.ModifiedContent&lt;SwiftUI.VStack&lt;Swift.Optional&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Envisionary.Dream&gt;, Foundation.UUID, SwiftUI.TupleView&lt;(Envisionary.PhotoCard, Swift.Optional&lt;Envisionary.StackDivider&gt;)&gt;&gt;&gt;&gt;, Envisionary.ModifierCard&gt;&gt;&gt;&gt;, SwiftUI.ForEach&lt;Swift.Array&lt;Swift.String&gt;, Swift.String, SwiftUI.VStack&lt;Envisionary.HeaderWithContent&lt;SwiftUI.ModifiedContent&lt;SwiftUI.VStack&lt;Swift.Optional&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Envisionary.Goal&gt;, Foundation.UUID, SwiftUI.TupleView&lt;(Envisionary.PhotoCard, Swift.Optional&lt;Envisionary.StackDivider&gt;)&gt;&gt;&gt;&gt;, Envisionary.ModifierCard&gt;&gt;&gt;&gt;&gt;, SwiftUI._ConditionalContent&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Swift.String&gt;, Swift.String, SwiftUI.VStack&lt;Envisionary.HeaderWithContent&lt;SwiftUI.ModifiedContent&lt;SwiftUI.VStack&lt;Swift.Optional&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Envisionary.Task&gt;, Foundation.UUID, SwiftUI.TupleView&lt;(Envisionary.PhotoCard, Swift.Optional&lt;Envisionary.StackDivider&gt;)&gt;&gt;&gt;&gt;, Envisionary.ModifierCard&gt;&gt;&gt;&gt;, SwiftUI.ForEach&lt;Swift.Array&lt;Swift.String&gt;, Swift.String, SwiftUI.VStack&lt;Envisionary.HeaderWithContent&lt;SwiftUI.ModifiedContent&lt;SwiftUI.VStack&lt;Swift.Optional&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Envisionary.Chapter&gt;, Foundation.UUID, SwiftUI.TupleView&lt;(Envisionary.PhotoCard, Swift.Optional&lt;Envisionary.StackDivider&gt;)&gt;&gt;&gt;&gt;, Envisionary.ModifierCard&gt;&gt;&gt;&gt;&gt;&gt;, SwiftUI._ConditionalContent&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Swift.String&gt;, Swift.String, SwiftUI.VStack&lt;Envisionary.HeaderWithContent&lt;SwiftUI.ModifiedContent&lt;SwiftUI.VStack&lt;Swift.Optional&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Envisionary.Entry&gt;, Foundation.UUID, SwiftUI.TupleView&lt;(Envisionary.PhotoCard, Swift.Optional&lt;Envisionary.StackDivider&gt;)&gt;&gt;&gt;&gt;, Envisionary.ModifierCard&gt;&gt;&gt;&gt;, SwiftUI.EmptyView&gt;&gt;&gt;)&gt; in Envisionary.ContentViewStack.GroupBuilder() -&gt; some"
+                  moduleName = "Envisionary"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/campbellmcgavin/Documents/Envisionary/Envisionary/ContentViewStack.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "313"
+                  endingLineNumber = "313"
+                  offsetFromSymbolStart = "349">
+               </Location>
+               <Location
+                  uuid = "7A2EF65F-E3AA-4538-9A3C-3256041472C6 - 23681f74fc3a6db2"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; Swift.Optional&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Envisionary.Entry&gt;, Foundation.UUID, SwiftUI.TupleView&lt;(Envisionary.PhotoCard, Swift.Optional&lt;Envisionary.StackDivider&gt;)&gt;&gt;&gt; in closure #1 () -&gt; SwiftUI.ModifiedContent&lt;SwiftUI.VStack&lt;Swift.Optional&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Envisionary.Entry&gt;, Foundation.UUID, SwiftUI.TupleView&lt;(Envisionary.PhotoCard, Swift.Optional&lt;Envisionary.StackDivider&gt;)&gt;&gt;&gt;&gt;, Envisionary.ModifierCard&gt; in closure #1 () -&gt; Envisionary.HeaderWithContent&lt;SwiftUI.ModifiedContent&lt;SwiftUI.VStack&lt;Swift.Optional&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Envisionary.Entry&gt;, Foundation.UUID, SwiftUI.TupleView&lt;(Envisionary.PhotoCard, Swift.Optional&lt;Envisionary.StackDivider&gt;)&gt;&gt;&gt;&gt;, Envisionary.ModifierCard&gt;&gt; in closure #5 (Swift.String) -&gt; SwiftUI.VStack&lt;Envisionary.HeaderWithContent&lt;SwiftUI.ModifiedContent&lt;SwiftUI.VStack&lt;Swift.Optional&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Envisionary.Entry&gt;, Foundation.UUID, SwiftUI.TupleView&lt;(Envisionary.PhotoCard, Swift.Optional&lt;Envisionary.StackDivider&gt;)&gt;&gt;&gt;&gt;, Envisionary.ModifierCard&gt;&gt;&gt; in closure #1 () -&gt; SwiftUI._ConditionalContent&lt;SwiftUI._ConditionalContent&lt;SwiftUI._ConditionalContent&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Swift.String&gt;, Swift.String, SwiftUI.VStack&lt;Envisionary.HeaderWithContent&lt;SwiftUI.ModifiedContent&lt;SwiftUI.VStack&lt;Swift.Optional&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Envisionary.Dream&gt;, Foundation.UUID, SwiftUI.TupleView&lt;(Envisionary.PhotoCard, Swift.Optional&lt;Envisionary.StackDivider&gt;)&gt;&gt;&gt;&gt;, Envisionary.ModifierCard&gt;&gt;&gt;&gt;, SwiftUI.ForEach&lt;Swift.Array&lt;Swift.String&gt;, Swift.String, SwiftUI.VStack&lt;Envisionary.HeaderWithContent&lt;SwiftUI.ModifiedContent&lt;SwiftUI.VStack&lt;Swift.Optional&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Envisionary.Goal&gt;, Foundation.UUID, SwiftUI.TupleView&lt;(Envisionary.PhotoCard, Swift.Optional&lt;Envisionary.StackDivider&gt;)&gt;&gt;&gt;&gt;, Envisionary.ModifierCard&gt;&gt;&gt;&gt;&gt;, SwiftUI._ConditionalContent&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Swift.String&gt;, Swift.String, SwiftUI.VStack&lt;Envisionary.HeaderWithContent&lt;SwiftUI.ModifiedContent&lt;SwiftUI.VStack&lt;Swift.Optional&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Envisionary.Task&gt;, Foundation.UUID, SwiftUI.TupleView&lt;(Envisionary.PhotoCard, Swift.Optional&lt;Envisionary.StackDivider&gt;)&gt;&gt;&gt;&gt;, Envisionary.ModifierCard&gt;&gt;&gt;&gt;, SwiftUI.ForEach&lt;Swift.Array&lt;Swift.String&gt;, Swift.String, SwiftUI.VStack&lt;Envisionary.HeaderWithContent&lt;SwiftUI.ModifiedContent&lt;SwiftUI.VStack&lt;Swift.Optional&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Envisionary.Chapter&gt;, Foundation.UUID, SwiftUI.TupleView&lt;(Envisionary.PhotoCard, Swift.Optional&lt;Envisionary.StackDivider&gt;)&gt;&gt;&gt;&gt;, Envisionary.ModifierCard&gt;&gt;&gt;&gt;&gt;&gt;, SwiftUI._ConditionalContent&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Swift.String&gt;, Swift.String, SwiftUI.VStack&lt;Envisionary.HeaderWithContent&lt;SwiftUI.ModifiedContent&lt;SwiftUI.VStack&lt;Swift.Optional&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Envisionary.Entry&gt;, Foundation.UUID, SwiftUI.TupleView&lt;(Envisionary.PhotoCard, Swift.Optional&lt;Envisionary.StackDivider&gt;)&gt;&gt;&gt;&gt;, Envisionary.ModifierCard&gt;&gt;&gt;&gt;, SwiftUI.EmptyView&gt;&gt; in closure #1 () -&gt; SwiftUI.TupleView&lt;(Envisionary.ParentHeaderButton, SwiftUI.LazyVStack&lt;SwiftUI._ConditionalContent&lt;SwiftUI._ConditionalContent&lt;SwiftUI._ConditionalContent&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Swift.String&gt;, Swift.String, SwiftUI.VStack&lt;Envisionary.HeaderWithContent&lt;SwiftUI.ModifiedContent&lt;SwiftUI.VStack&lt;Swift.Optional&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Envisionary.Dream&gt;, Foundation.UUID, SwiftUI.TupleView&lt;(Envisionary.PhotoCard, Swift.Optional&lt;Envisionary.StackDivider&gt;)&gt;&gt;&gt;&gt;, Envisionary.ModifierCard&gt;&gt;&gt;&gt;, SwiftUI.ForEach&lt;Swift.Array&lt;Swift.String&gt;, Swift.String, SwiftUI.VStack&lt;Envisionary.HeaderWithContent&lt;SwiftUI.ModifiedContent&lt;SwiftUI.VStack&lt;Swift.Optional&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Envisionary.Goal&gt;, Foundation.UUID, SwiftUI.TupleView&lt;(Envisionary.PhotoCard, Swift.Optional&lt;Envisionary.StackDivider&gt;)&gt;&gt;&gt;&gt;, Envisionary.ModifierCard&gt;&gt;&gt;&gt;&gt;, SwiftUI._ConditionalContent&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Swift.String&gt;, Swift.String, SwiftUI.VStack&lt;Envisionary.HeaderWithContent&lt;SwiftUI.ModifiedContent&lt;SwiftUI.VStack&lt;Swift.Optional&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Envisionary.Task&gt;, Foundation.UUID, SwiftUI.TupleView&lt;(Envisionary.PhotoCard, Swift.Optional&lt;Envisionary.StackDivider&gt;)&gt;&gt;&gt;&gt;, Envisionary.ModifierCard&gt;&gt;&gt;&gt;, SwiftUI.ForEach&lt;Swift.Array&lt;Swift.String&gt;, Swift.String, SwiftUI.VStack&lt;Envisionary.HeaderWithContent&lt;SwiftUI.ModifiedContent&lt;SwiftUI.VStack&lt;Swift.Optional&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Envisionary.Chapter&gt;, Foundation.UUID, SwiftUI.TupleView&lt;(Envisionary.PhotoCard, Swift.Optional&lt;Envisionary.StackDivider&gt;)&gt;&gt;&gt;&gt;, Envisionary.ModifierCard&gt;&gt;&gt;&gt;&gt;&gt;, SwiftUI._ConditionalContent&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Swift.String&gt;, Swift.String, SwiftUI.VStack&lt;Envisionary.HeaderWithContent&lt;SwiftUI.ModifiedContent&lt;SwiftUI.VStack&lt;Swift.Optional&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Envisionary.Entry&gt;, Foundation.UUID, SwiftUI.TupleView&lt;(Envisionary.PhotoCard, Swift.Optional&lt;Envisionary.StackDivider&gt;)&gt;&gt;&gt;&gt;, Envisionary.ModifierCard&gt;&gt;&gt;&gt;, SwiftUI.EmptyView&gt;&gt;&gt;)&gt; in Envisionary.ContentViewStack.GroupBuilder() -&gt; some"
+                  moduleName = "Envisionary"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/campbellmcgavin/Documents/Envisionary/Envisionary/ContentViewStack.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "313"
+                  endingLineNumber = "313"
+                  offsetFromSymbolStart = "952">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "661E4E06-0669-43B6-8211-E7F0FEF5CBAF"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/View/Modal/ModalTypes/ModalAdd.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "221"
+            endingLineNumber = "221"
+            landmarkName = "TakeAction()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "661E4E06-0669-43B6-8211-E7F0FEF5CBAF - 7ad8b07099a4f1ac"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Envisionary.ModalAdd.TakeAction() -&gt; ()"
+                  moduleName = "Envisionary"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/campbellmcgavin/Documents/Envisionary/Envisionary/View/Modal/ModalTypes/ModalAdd.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "221"
+                  endingLineNumber = "221"
+                  offsetFromSymbolStart = "6348">
+               </Location>
+               <Location
+                  uuid = "661E4E06-0669-43B6-8211-E7F0FEF5CBAF - 7ad8b07099a4f1ac"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Envisionary.ModalAdd.TakeAction() -&gt; ()"
+                  moduleName = "Envisionary"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/campbellmcgavin/Documents/Envisionary/Envisionary/View/Modal/ModalTypes/ModalAdd.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "221"
+                  endingLineNumber = "221"
+                  offsetFromSymbolStart = "6448">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "AF57AA13-C018-47ED-8350-EE3F77A558E3"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/View/Modal/ModalTypes/ModalAdd.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "220"
+            endingLineNumber = "220"
+            landmarkName = "TakeAction()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "7D276268-F99B-434D-9214-C1DDA7F5083E"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/View/Modal/ModalTypes/ModalAdd.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "215"
+            endingLineNumber = "215"
+            landmarkName = "TakeAction()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A27B001D-AA7A-44EF-95B8-FAE5A8E1A04F"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Extensions/StringExtensions.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "83"
+            endingLineNumber = "83"
+            landmarkName = "toIdArray()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "66B9D17B-A794-4D7D-AEE8-6B954618D839"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/Models/Entry.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "51"
+            endingLineNumber = "51"
+            landmarkName = "init(from:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "19F799E7-9AD7-4D4B-BBF1-A145017B0E1A"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/ViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "292"
+            endingLineNumber = "292"
+            landmarkName = "GetEntry(id:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0059A379-C15F-48C5-A98A-E2C6AD433BEE"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/Services/Services/DataService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "64"
+            endingLineNumber = "64"
+            landmarkName = "GetImage(id:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D0CC6CB7-8E05-4AC9-A606-CB14C9318E45"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/Services/Services/DataService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "62"
+            endingLineNumber = "62"
+            landmarkName = "GetImage(id:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "DBC89E3D-644C-462E-A6F5-AB5743D3BFFD"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/Services/Services/DataService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "43"
+            endingLineNumber = "43"
+            landmarkName = "CreateImage(image:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3D0945CC-3099-401C-B484-245B4982E13A"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/Services/Services/DataService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "63"
+            endingLineNumber = "63"
+            landmarkName = "GetImage(id:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "409D62E3-0467-4A15-9C5B-BA8B53011AC1"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/Services/Services/DataService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "47"
+            endingLineNumber = "47"
+            landmarkName = "CreateImage(image:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "2343A8A9-2183-421A-8C74-12184A607BE0"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/Services/Services/DataService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "65"
+            endingLineNumber = "65"
+            landmarkName = "GetImage(id:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "75022616-8C6B-4E8E-B9EC-85294F392F4A"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/View/Modal/ModalTypes/ModalAdd.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "210"
+            endingLineNumber = "210"
+            landmarkName = "TakeAction()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A61D80A1-3836-49C9-ACEE-D1FB2057D172"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/View/Modal/ModalTypes/ModalAdd.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "213"
+            endingLineNumber = "213"
+            landmarkName = "TakeAction()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "DFAF7181-631B-414E-AA36-4DB827495AC4"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/Services/Interfaces/Entry/CreateEntryRequest.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "24"
+            endingLineNumber = "24"
+            landmarkName = "init(properties:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5F17F7CA-BF42-45B4-BC2E-DAC77A9074C4"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/Services/Services/DataService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "771"
+            endingLineNumber = "771"
+            landmarkName = "CreateEntry(request:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "67C267A1-CA2E-4757-93D2-E6A994C467A1"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/Services/Services/DataService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "790"
+            endingLineNumber = "790"
+            landmarkName = "GetEntry(id:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5E323E1E-74A5-48CC-A36B-5B3E7C653523"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Extensions/StringExtensions.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "85"
+            endingLineNumber = "85"
+            landmarkName = "toIdArray()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "5E323E1E-74A5-48CC-A36B-5B3E7C653523 - a0dfdd46c8327856"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Swift.String.toIdArray() -&gt; Swift.Array&lt;Foundation.UUID&gt;"
+                  moduleName = "Envisionary"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/campbellmcgavin/Documents/Envisionary/Envisionary/Extensions/StringExtensions.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "85"
+                  endingLineNumber = "85"
+                  offsetFromSymbolStart = "280">
+               </Location>
+               <Location
+                  uuid = "5E323E1E-74A5-48CC-A36B-5B3E7C653523 - c47d3c574e7d2581"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 (Swift.String) -&gt; Foundation.UUID in Swift.String.toIdArray() -&gt; Swift.Array&lt;Foundation.UUID&gt;"
+                  moduleName = "Envisionary"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/campbellmcgavin/Documents/Envisionary/Envisionary/Extensions/StringExtensions.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "85"
+                  endingLineNumber = "85"
+                  offsetFromSymbolStart = "100">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

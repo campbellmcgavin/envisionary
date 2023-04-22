@@ -12,7 +12,10 @@ struct Modal<ModalContent: View, HeaderContent: View>: View {
     var objectType: ObjectType
     @Binding var isPresenting: Bool
     @Binding var shouldConfirm: Bool
+    @Binding var isPresentingImageSheet: Bool
     var title: String?
+    var image: UIImage?
+    
     @ViewBuilder var modalContent: ModalContent
     @ViewBuilder var headerContent: HeaderContent
     @State var shouldHelp: Bool = false
@@ -39,21 +42,17 @@ struct Modal<ModalContent: View, HeaderContent: View>: View {
                     ObservableScrollView(offset: $offset, content: {
                             
                             VStack{
-                                Header(offset: $offset, title: GetTitle(), subtitle: GetSubtitle(), objectType: objectType, shouldShowImage: modalType.ShouldShowImage(objectType: objectType), color: GetHeaderColor(), headerFrame: $headerFrame, content: {headerContent})
+                                Header(offset: $offset, title: GetTitle(), subtitle: GetSubtitle(), objectType: objectType, color: GetHeaderColor(), headerFrame: $headerFrame, isPresentingImageSheet: $isPresentingImageSheet, modalType: modalType, image: image, content: {headerContent})
                                 
-                                if modalType != .delete{
-                                    VStack{
-                                        modalContent
-                                        
-
-                                        Spacer()
-                                    }
-                                    .frame(maxWidth: .infinity, minHeight:UIScreen.screenHeight)
-                                    .modifier(ModifierCard())
-                                    .offset(y:offset.y < 150 ? -offset.y/1.5 : -100)
-                                    .frame(alignment:.leading)
-                                    .offset(y:100)
+                                VStack{
+                                    modalContent
+                                    Spacer()
                                 }
+                                .frame(maxWidth: .infinity, minHeight: GetIsMini() ? 100 : UIScreen.screenHeight)
+                                .modifier(ModifierCard(color: GetIsMini() ? .clear : .grey1))
+                                .offset(y:offset.y < 150 ? -offset.y/1.5 : -100)
+                                .frame(alignment:.leading)
+                                .offset(y:100)
                             }
                             .frame(alignment:.top)
                     })
@@ -78,18 +77,44 @@ struct Modal<ModalContent: View, HeaderContent: View>: View {
         .animation(.easeInOut)
 
     }
-    
 
+    func GetIsMini() -> Bool {
+        switch modalType {
+        case .add:
+            return false
+        case .search:
+            return false
+        case .group:
+            return false
+        case .filter:
+            return false
+        case .notifications:
+            return false
+        case .help:
+            return false
+        case .edit:
+            return false
+        case .delete:
+            return true
+        case .photoSource:
+            return true
+        case .photo:
+            return true
+        }
+    }
     
     func GetHeight() -> CGFloat {
-        if modalType == .delete {
+        if modalType == .delete{
             return 250
+        }
+        else if modalType == .photoSource {
+            return 500
         }
         return UIScreen.screenHeight - 50
     }
     
     func GetBackgroundColor() -> CustomColor {
-        if modalType == .delete {
+        if modalType == .delete || modalType == .photoSource {
             return .grey2
         }
         return .grey0
@@ -97,9 +122,10 @@ struct Modal<ModalContent: View, HeaderContent: View>: View {
     
     
     func GetHeaderColor() -> CustomColor {
-        if modalType == .delete {
+        if modalType == .delete || modalType == .photoSource{
             return .grey2
         }
+        
         return .purple
     }
     
@@ -122,6 +148,10 @@ struct Modal<ModalContent: View, HeaderContent: View>: View {
             return title ?? ""
         case .delete:
             return "Are you sure?"
+        case .photoSource:
+            return "Photo source"
+        case .photo:
+            return "Photo"
         }
     }
     
@@ -144,13 +174,17 @@ struct Modal<ModalContent: View, HeaderContent: View>: View {
             return "Edit " + objectType.toString()
         case .delete:
             return "Delete " + objectType.toString()
+        case .photoSource:
+            return "Select"
+        case .photo:
+            return "View"
         }
     }
 }
 
 struct Modal_Previews: PreviewProvider {
     static var previews: some View {
-        Modal(modalType: .add, objectType: .goal, isPresenting: .constant(true), shouldConfirm: .constant(false), title: Properties(objectType: .goal).title!, modalContent: {
+        Modal(modalType: .add, objectType: .goal, isPresenting: .constant(true), shouldConfirm: .constant(false),isPresentingImageSheet:.constant(false), title: Properties(objectType: .goal).title!, modalContent: {
 //            HeaderButton(isExpanded: .constant(true), color: .grey10, header: "Hello")
 //            HeaderButton(isExpanded: .constant(true), color: .grey10, header: "Hello")
 //            HeaderButton(isExpanded: .constant(true), color: .grey10, header: "Hello")

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ExpandedMenu: View {
-    @EnvironmentObject var dm: DataModel
+    @EnvironmentObject var vm: ViewModel
     @Binding var offset: CGFloat
     @Binding var frame: CGSize
     let radius: CGFloat = 36
@@ -22,12 +22,12 @@ struct ExpandedMenu: View {
         VStack(alignment:.leading, spacing:0){
             
             VStack(alignment:.leading,spacing:0){
-                Text(dm.contentType.toString())
+                Text(vm.filtering.filterContent.toString())
                     .textCase(.uppercase)
                     .font(.specify(style: .caption))
                     .opacity(0.5)
                     .padding(.bottom,-10)
-                Text(dm.objectType.toPluralString())
+                Text(vm.filtering.filterObject.toPluralString())
 
                     .font(.specify(style: .h1))
                     .padding(.bottom,-5)
@@ -37,7 +37,7 @@ struct ExpandedMenu: View {
             
             
             VStack(alignment:.center){
-                ScrollPickerObject(objectType: $dm.objectType, isSearch: false)
+                ScrollPickerObject(objectType: $vm.filtering.filterObject, isSearch: false)
 //                        .padding(.top,5)
                 
             }
@@ -47,14 +47,14 @@ struct ExpandedMenu: View {
             if(ShouldShowCalendar()){
                 HStack(spacing:0){
                     VStack(alignment: .leading, spacing: 0){
-                        Text(dm.timeframeType.toString())
+                        Text(vm.filtering.filterTimeframe.toString())
                             .textCase(.uppercase)
                             .font(.specify(style: .caption))
                             .opacity(0.5)
                             .padding(.bottom,-8)
                         HStack{
                             
-                            Text(dm.date.toString(timeframeType: dm.timeframeType))
+                            Text(vm.filtering.filterDate.toString(timeframeType: vm.filtering.filterTimeframe))
                                 .font(.specify(style: .h3))
                             
                             DateResetButton()
@@ -77,7 +77,7 @@ struct ExpandedMenu: View {
                     if(ShouldShowDates()){
 
                         if isPresentingExpandedCalendar{
-                            CalendarPickerBody(date: $dm.date, timeframe: $dm.timeframeType, localized: false)
+                            CalendarPickerBody(date: $vm.filtering.filterDate, timeframe: $vm.filtering.filterTimeframe, localized: false)
                                 .padding(.top,20)
                                 .padding(.bottom,10)
                         }
@@ -121,16 +121,16 @@ struct ExpandedMenu: View {
         .onChange(of:shouldMoveDateForward){
             _ in
             if shouldMoveDateForward{
-                dm.pushToToday = true
-                dm.date = dm.date.AdvanceDate(timeframe: dm.timeframeType, forward: true)
+                vm.pushToToday = true
+                vm.filtering.filterDate = vm.filtering.filterDate.AdvanceDate(timeframe: vm.filtering.filterTimeframe, forward: true)
             }
             shouldMoveDateForward = false
         }
         .onChange(of:shouldMoveDateBackward){
             _ in
             if shouldMoveDateBackward{
-                dm.pushToToday = true
-                dm.date = dm.date.AdvanceDate(timeframe: dm.timeframeType, forward: false)
+                vm.pushToToday = true
+                vm.filtering.filterDate = vm.filtering.filterDate.AdvanceDate(timeframe: vm.filtering.filterTimeframe, forward: false)
             }
             shouldMoveDateBackward = false
         }
@@ -158,7 +158,7 @@ struct ExpandedMenu: View {
     
     func ShouldShowCalendar() -> Bool{
 
-        switch dm.objectType {
+        switch vm.filtering.filterObject {
         case .value:
             return false
         case .creed:
@@ -190,7 +190,7 @@ struct ExpandedMenu: View {
 
     func ShouldShowDates() -> Bool{
 
-        switch dm.objectType {
+        switch vm.filtering.filterObject {
         case .value:
             return false
         case .creed:
@@ -224,6 +224,6 @@ struct ExpandedMenu: View {
 struct ExpandedMenu_Previews: PreviewProvider {
     static var previews: some View {
         ExpandedMenu(offset: .constant(30), frame: .constant(CGSize(width: 100, height: 370)))
-            .environmentObject(DataModel())
+            .environmentObject(ViewModel())
     }
 }

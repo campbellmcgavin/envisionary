@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @EnvironmentObject var dm: DataModel
-    @EnvironmentObject var gs: GoalService
+    @EnvironmentObject var vm: ViewModel
     
     @StateObject var alerts = AlertsService()
     
@@ -21,7 +20,6 @@ struct ContentView: View {
     @State var calendarFrame: CGSize = .zero
     @State var headerFrame: CGSize = .zero
     @State var gadgetFrame: CGSize = .zero
-    @State var shouldExpandAll: Bool = true
     @State var screenHeight: CGSize = .zero
     @State var shouldPopScrollToHideHeader: Bool = false
     @State var isPresentingModal: Bool = false
@@ -38,8 +36,6 @@ struct ContentView: View {
     var body: some View {
         NavigationStack{
             ZStack(alignment:.top){
-
-                    
                     VStack(spacing:0){
                         
                         ScrollViewReader{
@@ -53,7 +49,8 @@ struct ContentView: View {
                                         .id(0)
                                     ZStack(alignment:.top){
                                         
-                                        GadgetsMenu(shouldPop: $shouldPopScrollToHideHeader, offset: $offset, isPresentingModal: $isPresentingModal, modalType: $modalType, filterCount: dm.filterCount)
+                                        GadgetsMenu(shouldPop: $shouldPopScrollToHideHeader, offset: $offset, isPresentingModal: $isPresentingModal, modalType: $modalType, filterCount: vm.filtering.filterCount)
+                                            .id(2)
                                             .offset(y:GetGadgetsOffset())
                                             .saveSize(in: $gadgetFrame)
                                         
@@ -62,36 +59,31 @@ struct ContentView: View {
                                             .offset(y:GetObjectOffset())
                                     }
                                     
-                                    
-                                    
                                     VStack(spacing:0){
                                         
                                         Spacer()
-                                            .frame(height:60)
-                                            .offset(y:45)
+                                            .frame(height:100)
                                             .id(1)
                                         
+                                            
+                                        
                                         AlertsBuilder()
-                                        MainContentBuilder()
+                                        ContentViewStack()
                                         
                                     }
-                                        .padding(.top,GetStackOffset())
+                                        .padding(.top,GetStackOffset() - 40)
 
                                 }
                                 .onChange(of: shouldPopScrollToHideHeader){
                                     _ in
                                     withAnimation{
                                         proxy.scrollTo(1, anchor:.top)
-                                        let impact = UIImpactFeedbackGenerator(style: .heavy)
-                                              impact.impactOccurred()
                                     }
                                 }
                                 
-                                .onChange(of: dm.contentType){ _ in
+                                .onChange(of: vm.filtering.filterContent){ _ in
                                     withAnimation{
                                         proxy.scrollTo(0, anchor:.top)
-                                        let impact = UIImpactFeedbackGenerator(style: .heavy)
-                                              impact.impactOccurred()
                                     }
                                 }
                                 .onReceive(popHeaderTimer){ _ in
@@ -107,8 +99,6 @@ struct ContentView: View {
                                         else{
                                             proxy.scrollTo(1, anchor:.top)
                                         }
-                                        let impact = UIImpactFeedbackGenerator(style: .heavy)
-                                              impact.impactOccurred()
                                     }
                                 }
                                 .frame(alignment:.top)
@@ -131,10 +121,10 @@ struct ContentView: View {
                         FloatingActionButton(isPresentingModal: $isPresentingModal, modalType: $modalType)
                     }
 
-                    BottomNavigationBar(selectedContentView: $dm.contentType)
+                    BottomNavigationBar(selectedContentView: $vm.filtering.filterContent)
                 }
 
-                ModalManager(isPresenting: $isPresentingModal, modalType: $modalType, objectType: dm.objectType, shouldDelete: .constant(false))
+                ModalManager(isPresenting: $isPresentingModal, modalType: $modalType, objectType: vm.filtering.filterObject, shouldDelete: .constant(false))
                 
                 SplashScreen(isPresenting: $isPresentingSplashScreen)
                 
@@ -148,42 +138,36 @@ struct ContentView: View {
             .onReceive(shouldDisableScrollViewTimer){ _ in
                 shouldDisableScrollView = false
             }
-            .onChange(of: dm.contentType){
+            .onChange(of: vm.filtering.filterContent){
                 _ in
                 withAnimation{
-                    alerts.UpdateContentAlerts(content: dm.contentType)
+                    alerts.UpdateContentAlerts(content: vm.filtering.filterContent)
                     UpdateFilteredObjectsDictionary()
                 }
             }
-            .onChange(of: gs.goalsDictionary){
-                _ in
-                withAnimation{
-                    UpdateFilteredObjectsDictionary()
-                }
-            }
-            .onChange(of: gs.dreamsDictionary){
+            .onChange(of: vm.updates.dream){
                 _ in
                 withAnimation{
                     UpdateFilteredObjectsDictionary()
                 }
             }
-            .onChange(of: dm.objectType){
+            .onChange(of: vm.filtering.filterObject){
                 _ in
                 withAnimation{
-                    alerts.UpdateObjectAlerts(object: dm.objectType)
-                    alerts.UpdateCalendarAlerts(object: dm.objectType, timeframe: dm.timeframeType, date: dm.date)
+                    alerts.UpdateObjectAlerts(object: vm.filtering.filterObject)
+                    alerts.UpdateCalendarAlerts(object: vm.filtering.filterObject, timeframe: vm.filtering.filterTimeframe, date: vm.filtering.filterDate)
                     UpdateFilteredObjectsDictionary()
                 }
             }
-            .onChange(of: dm.timeframeType){ _ in
+            .onChange(of: vm.filtering.filterTimeframe){ _ in
                 withAnimation{
-                    alerts.UpdateCalendarAlerts(object: dm.objectType, timeframe: dm.timeframeType, date: dm.date)
+                    alerts.UpdateCalendarAlerts(object: vm.filtering.filterObject, timeframe: vm.filtering.filterTimeframe, date: vm.filtering.filterDate)
                     UpdateFilteredObjectsDictionary()
                 }
             }
-            .onChange(of: dm.date){ _ in
+            .onChange(of: vm.filtering.filterDate){ _ in
                 withAnimation{
-                    alerts.UpdateCalendarAlerts(object: dm.objectType, timeframe: dm.timeframeType, date: dm.date)
+                    alerts.UpdateCalendarAlerts(object: vm.filtering.filterObject, timeframe: vm.filtering.filterTimeframe, date: vm.filtering.filterDate)
                     UpdateFilteredObjectsDictionary()
                 }
             }
@@ -196,7 +180,7 @@ struct ContentView: View {
                     }
 
                     
-                    if offset.y < (objectFrame.height + gadgetFrame.height) + 100 && offset.y > 20 && abs(offset.y - (objectFrame.height + gadgetFrame.height)) > 10 {
+                    if offset.y < (objectFrame.height + gadgetFrame.height) + 100 && offset.y > 20 && abs(offset.y - (objectFrame.height + gadgetFrame.height - 45)) > 10 {
                         popHeaderTimer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
                     }
                     else{
@@ -204,19 +188,19 @@ struct ContentView: View {
                     }
                 }
             }
-            .onChange(of: gs.goalsGrouping){
+            .onChange(of: vm.grouping.goal){
                 _ in
                 UpdateFilteredObjectsDictionary()
             }
-            .onChange(of: gs.dreamsGrouping){
+            .onChange(of: vm.grouping.dream){
                 _ in
                 UpdateFilteredObjectsDictionary()
             }
             .onAppear{
                 withAnimation{
-                    alerts.UpdateContentAlerts(content: dm.contentType)
-                    alerts.UpdateObjectAlerts(object: dm.objectType)
-                    alerts.UpdateCalendarAlerts(object: dm.objectType, timeframe: dm.timeframeType, date: dm.date)
+                    alerts.UpdateContentAlerts(content: vm.filtering.filterContent)
+                    alerts.UpdateObjectAlerts(object: vm.filtering.filterObject)
+                    alerts.UpdateCalendarAlerts(object: vm.filtering.filterObject, timeframe: vm.filtering.filterTimeframe, date: vm.filtering.filterDate)
                 }
                 popHeaderTimer.upstream.connect().cancel()
                 UpdateFilteredObjectsDictionary()
@@ -227,169 +211,31 @@ struct ContentView: View {
     
     @ViewBuilder
     func AlertsBuilder() -> some View{
-        ForEach(alerts.alerts){
-            alert in
-            AlertLabel(alert: alert)
+        VStack(spacing:0){
+            ForEach(alerts.alerts){
+                alert in
+                AlertLabel(alert: alert)
+            }
         }
+        .padding(.top)
+
     }
     
     func UpdateFilteredObjectsDictionary() {
         let objectType = ObjectType.dream
         filteredObjectsDictionary = [String:[UUID]]()
         
-        switch dm.objectType {
+        switch vm.filtering.filterObject {
 //        case .value:
 //            <#code#>
 //        case .creed:
 //            <#code#>
-        case .dream:
-            filteredObjectsDictionary = gs.UpdateFilteredDreams(criteria: dm.GetFilterCriteria())
+//        case .dream:
+//            filteredObjectsDictionary = vm.ListDreams(criteria: vm.filtering.GetFilters())
 //        case .aspect:
 //            <#code#>
-        case .goal:
-            filteredObjectsDictionary = gs.UpdateFilteredGoals(criteria: dm.GetFilterCriteria())
-//        case .session:
-//            <#code#>
-//        case .task:
-//            <#code#>
-//        case .habit:
-//            <#code#>
-//        case .home:
-//            <#code#>
-//        case .chapter:
-//            <#code#>
-//        case .entry:
-//            <#code#>
-//        case .emotion:
-//            <#code#>
-//        case .stats:
-//            <#code#>
-        default:
-            let _ = "why"
-        }
-        
-
-    }
-    
-    @ViewBuilder
-    func MainContentBuilder() -> some View {
-        
-        switch dm.objectType {
-        case .value:
-            ValueBuilder()
-        case .aspect:
-            VStack{
-                let aspectListSorted = gs.aspectsList.sorted(by: {$0.aspect.toString() < $1.aspect.toString()})
-                
-                ForEach(aspectListSorted, id:\.self){ aspect in
-                    PhotoCard(objectType: .aspect, objectId: aspect.id, properties: Properties(aspect: aspect), header: aspect.aspect.toString(), subheader: aspect.description)
-                    
-                    if aspectListSorted.last != aspect{
-                        StackDivider()
-                    }
-                }
-            }
-            .modifier(ModifierCard())
-            .padding(.top)
-        case .creed:
-            CreedCard()
-                .padding(.top)
-        default:
-            GroupBySectionBuilder()
-        }
-    }
-    
-    
-    @ViewBuilder
-    func ValueBuilder() -> some View {
-        VStack{
-            let valueListSorted = gs.ListCoreValuesByCriteria(criteria: dm.GetFilterCriteria())
-            
-            ForEach(valueListSorted){ coreValue in
-                    if coreValue.coreValue != .Introduction && coreValue.coreValue != .Conclusion{
-                        PhotoCard(objectType: .value, objectId: coreValue.id, properties: Properties(value: coreValue), header: coreValue.coreValue.toString(), subheader: coreValue.description)
-                    }
-                    if valueListSorted.last != coreValue && coreValue.coreValue != .Conclusion{
-                        StackDivider()
-                    }
-            }
-        }
-        .modifier(ModifierCard())
-        .padding(.top)
-    }
-    
-    @ViewBuilder
-    func GroupBySectionBuilder() -> some View{
-           
-        VStack(spacing:0){
-            let headers: [String] = filteredObjectsDictionary.keys.map({$0.self}).sorted()
-            
-            if headers.count > 0 {
-                ParentHeaderButton(shouldExpandAll: $shouldExpandAll, color: .purple, header: "Expand All", headerCollapsed: "Collapse All")
-                            
-                LazyVStack(spacing:0){
-                    ForEach(headers, id:\.self){ listHeader in
-                        
-                        VStack(spacing:0){
-                            HeaderWithContent(shouldExpand: $shouldExpandAll, headerColor: .grey10, header: listHeader, isExpanded: shouldExpandAll, content: {
-                                VStack(spacing:0){
-//                                    ForEach(headers, id:\.self){ item in
-                                        
-                                        GroupBySectionBuilderHelper(header: listHeader)
-                                                                               
-                                        
-//                                    }
-                                }
-                                .modifier(ModifierCard())
-                                
-                            })
-                            
-                        }
-                    }
-                    
-                }
-            }
-            else{
-                if dm.objectType != .home && dm.objectType != .stats{
-                    NoObjectsLabel(objectType: dm.objectType)
-                }
-
-            }
-        }
-        
-
-    }
-    
-    @ViewBuilder
-    func GroupBySectionBuilderHelper(header: String) -> some View{
-        
-        switch dm.objectType {
-        case .dream:
-            if let listOfObjectFromGroupBy = filteredObjectsDictionary[header]
-            {
-                ForEach(listOfObjectFromGroupBy){ dreamId in
-                    if let dream = gs.dreamsDictionary[dreamId] {
-                        PhotoCard(objectType: .dream, objectId: dreamId, properties: Properties(dream: dream), header: dream.title, subheader: dream.description, caption: dream.aspect.toString())
-                        
-                        if listOfObjectFromGroupBy.last != dreamId{
-                            StackDivider()
-                        }
-                    }
-                }
-            }
-        case .goal:
-            if let listOfObjectFromGroupBy = filteredObjectsDictionary[header]
-            {
-                ForEach(listOfObjectFromGroupBy){ goalId in
-                    if let goal = gs.goalsDictionary[goalId] {
-                        PhotoCard(objectType: .goal, objectId: goalId, properties: Properties(goal:goal), header: goal.title, subheader: goal.description, caption: goal.startDate.toString(timeframeType: goal.timeframe, isStartDate: goal.timeframe == .week ? true : nil) + " - " + goal.endDate.toString(timeframeType: goal.timeframe, isStartDate: goal.timeframe == .week ? false : nil))
-                        
-                        if listOfObjectFromGroupBy.last != goalId{
-                            StackDivider()
-                        }
-                    }
-                }
-            }
+//        case .goal:
+//            filteredObjectsDictionary = vm.UpdateFilteredGoals(criteria: vm.filtering.GetFilters())
 //        case .session:
 //            <#code#>
 //        case .task:
@@ -413,32 +259,10 @@ struct ContentView: View {
     
     func ShouldShowFloatingActionButton() -> Bool{
         
-        if dm.objectType != .home && dm.objectType != .creed {
+        if vm.filtering.filterObject != .home && vm.filtering.filterObject != .creed {
             return true
         }
         return false
-    }
-
-    @ViewBuilder
-    func GetModalContent() -> some View {
-        switch modalType {
-        case .add:
-            Text("Add new object")
-        case .search:
-            Text("Search")
-        case .group:
-            Text("Group")
-        case .filter:
-            Text("Filter")
-        case .notifications:
-            Text("Notifications")
-        case .help:
-            Text("Help")
-        case .edit:
-            Text("Edit")
-        case .delete:
-            Text("Delete")
-        }
     }
     
     func GetObjectOffset() -> CGFloat {
@@ -471,6 +295,6 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
-            .environmentObject(DataModel())
+            .environmentObject(ViewModel())
     }
 }

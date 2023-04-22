@@ -22,7 +22,7 @@
 //    
 //
 //    
-////    @EnvironmentObject var gs: GoalService
+////    @EnvironmentObject var vm: GoalService
 //    
 //    var body: some View {
 //        
@@ -89,7 +89,7 @@
 //        
 //    }
 //        func ShouldEnable() -> Bool {
-//            return gs.GetGoal(id: selectedObjectId) != nil
+//            return vm.GetGoal(id: selectedObjectId) != nil
 //        }
 //    }
 //}

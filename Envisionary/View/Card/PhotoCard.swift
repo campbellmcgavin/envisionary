@@ -14,8 +14,11 @@ struct PhotoCard: View {
     var header: String
     var subheader: String
     var caption: String?
-    var imageString: String?
     var shouldHidePadding = false
+    
+    @State var image: UIImage? = nil
+    
+    @EnvironmentObject var vm: ViewModel
     
     var body: some View {
 //        Button
@@ -23,12 +26,20 @@ struct PhotoCard: View {
         {
             HStack(alignment:.center, spacing:0){
                 
-                ZStack{
-                    Circle()
-                        .frame(width:50,height:50)
-                        .foregroundColor(.specify(color: .grey2))
-                    IconLabel(size: .small, iconType: objectType.toIcon(), iconColor: .grey0)
-                }
+                
+                ImageCircle(imageSize: 50, image: image, iconSize: .small, icon: objectType.toIcon())
+//                if image != nil{
+//
+//                }
+//                else{
+//                    ZStack{
+//                        Circle()
+//                            .frame(width:50,height:50)
+//                            .foregroundColor(.specify(color: .grey2))
+//                        IconLabel(size: .small, iconType: objectType.toIcon(), iconColor: .grey0)
+//                    }
+//                }
+
 
     //            ActionButton(isPressed: .constant(true), size: .medium, iconType: .value, iconColor: .grey5)
     //                .disabled(true)
@@ -61,6 +72,14 @@ struct PhotoCard: View {
 //            .padding()
             .frame(maxWidth:.infinity)
             .frame(height:75)
+            .onAppear{
+                
+                if properties.image != nil {
+                    DispatchQueue.global(qos:.userInitiated).async{
+                        image = vm.GetImage(id: properties.image!)
+                    }
+                }
+            }
         }
 
         

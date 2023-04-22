@@ -14,9 +14,10 @@ struct TreeDiagramView<Value: Identifiable, V: View>: View where Value: Equatabl
     let value: (Value) -> V
     let childCount: Int
     var isStatic = false
-    @EnvironmentObject var dataModel: DataModel
-    @EnvironmentObject var gs: GoalService
-
+    @EnvironmentObject var vm: ViewModel
+    
+    @State var goals = [Goal]()
+    
     typealias Key = CollectDict<UUID, Anchor<CGPoint>>
 
     var body: some View {
@@ -32,24 +33,30 @@ struct TreeDiagramView<Value: Identifiable, V: View>: View where Value: Equatabl
                 if ( expandedGoals.contains(where:{$0 == goalId})){
 
                 VStack(alignment: .leading, spacing:0) {
-                    ForEach(gs.ListsChildGoalsByParentId(id: goalId), content: { childId in
+                    ForEach(goals, content: { child in
                         
-                        TreeDiagramView(goalId: childId, focusGoal: $focusGoal, expandedGoals: $expandedGoals, value: self.value, childCount: childCount + 1, isStatic: isStatic)
-                            .environmentObject(dataModel)
+                        TreeDiagramView(goalId: child.id, focusGoal: $focusGoal, expandedGoals: $expandedGoals, value: self.value, childCount: childCount + 1, isStatic: isStatic)
                             .offset(x: isStatic ? 0 : 60)
                     })
                 }
             }
         }
+            .onChange(of: vm.updates.goal){
+                _ in
+                goals = vm.ListChildGoals(id: goalId)
+            }
+            .onAppear(){
+                goals = vm.ListChildGoals(id: goalId)
+            }
         .backgroundPreferenceValue(Key.self, { (centers: [UUID: Anchor<CGPoint>]) in
             
                 GeometryReader { proxy in
-                    ForEach(gs.ListsChildGoalsByParentId(id: goalId), id:\.self, content: { child in
+                    ForEach(goals, content: { child in
                         
-                        if centers[goalId] != nil && centers[child] != nil {
+                        if centers[goalId] != nil && centers[child.id] != nil {
                             
                             let point1: CGPoint = proxy[centers[self.goalId]!]
-                            let point2: CGPoint = proxy[centers[child]!]
+                            let point2: CGPoint = proxy[centers[child.id]!]
                             
                             Path { path in
                                 path.move(to: point1)

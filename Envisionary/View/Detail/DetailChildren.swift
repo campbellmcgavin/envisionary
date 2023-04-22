@@ -12,9 +12,8 @@ struct DetailChildren: View {
     let objectId: UUID
     let objectType: ObjectType
     
-    @State var childIds = [UUID]()
     @State var isExpanded: Bool = true
-    @EnvironmentObject var gs: GoalService
+    @EnvironmentObject var vm: ViewModel
     
     var body: some View {
         
@@ -22,28 +21,28 @@ struct DetailChildren: View {
             HeaderButton(isExpanded: $isExpanded, color: .grey10, header: "Children")
             
             if isExpanded {
-                    
+                let childGoals = vm.ListChildGoals(id: objectId)
+                
                 VStack{
-                    ForEach(childIds){ goalId in
-                        if let goal = gs.goalsDictionary[goalId] {
-                            PhotoCard(objectType: .goal, objectId: goalId, properties: Properties(goal:goal), header: goal.title, subheader: goal.description, caption: goal.startDate.toString(timeframeType: goal.timeframe, isStartDate: goal.timeframe == .week ? true : nil) + " - " + goal.endDate.toString(timeframeType: goal.timeframe, isStartDate: goal.timeframe == .week ? false : nil))
-                            
-                            if childIds.last != goalId{
-                                Divider()
-                                    .overlay(Color.specify(color: .grey2))
-                                    .frame(height:1)
-                                    .padding(.leading,16+50+16)
-                            }
+                    
+                    ForEach(childGoals){ goal in
+                        PhotoCard(objectType: .goal, objectId: goal.id, properties: Properties(goal:goal), header: goal.title, subheader: goal.description, caption: goal.startDate.toString(timeframeType: goal.timeframe, isStartDate: goal.timeframe == .week ? true : nil) + " - " + goal.endDate.toString(timeframeType: goal.timeframe, isStartDate: goal.timeframe == .week ? false : nil))
+                        
+                        if childGoals.last != goal{
+                            Divider()
+                                .overlay(Color.specify(color: .grey2))
+                                .frame(height:1)
+                                .padding(.leading,16+50+16)
                         }
                     }
                     
-                    if childIds.count == 0 {
+                    if childGoals.count == 0 {
                         NoObjectsLabel(objectType: objectType)
                     }
                 }
                 .frame(maxWidth:.infinity)
                 .frame(alignment:.leading)
-                .frame(minHeight: childIds.count == 0 ? 70 : 0)
+                .frame(minHeight: childGoals.count == 0 ? 70 : 0)
                 .modifier(ModifierCard())
 
             }
@@ -59,14 +58,6 @@ struct DetailChildren: View {
                 }
             }
         }
-        .onChange(of:gs.goalsDictionary){
-            _ in
-            childIds = gs.ListsChildGoalsByParentId(id: objectId)
-        }
-        .onAppear{
-            childIds = gs.ListsChildGoalsByParentId(id: objectId)
-        }
-
     }
 }
 

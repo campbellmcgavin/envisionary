@@ -20,7 +20,7 @@ struct GadgetsMenu: View {
     @State var shouldPresentSearchView: Bool = false
     
     
-    @EnvironmentObject var dm: DataModel
+    @EnvironmentObject var vm: ViewModel
     
     var body: some View {
         
@@ -35,7 +35,7 @@ struct GadgetsMenu: View {
                             .foregroundColor(.specify(color: .red))
                         Text(String(filterCount))
                             .font(.specify(style: .caption))
-                            .foregroundColor(.specify(color: .grey10))                    }
+                            .foregroundColor(.specify(color: .grey15))                    }
                     .offset(x:8, y:-8)
                 }
 
@@ -46,16 +46,19 @@ struct GadgetsMenu: View {
             IconButton(isPressed: $shouldPresentSearchView, size: .small, iconType: .search, iconColor: .grey7)
             Spacer()
 //            if(offset.y < 200.0){
+            
+            
                 IconButton(isPressed: $shouldPop, size: .small, iconType: .minimize, iconColor: .grey7)
-//                    .opacity((1.0 - offset.y/200.0) < 0 ? 0 : (1.0 - offset.y/200.0))
-//                    .disabled(offset.y > 200.0)
+                    .opacity((1.0 - offset.y/75.0) < 0 ? 0 : (1.0 - offset.y/75.0))
+                    .disabled(offset.y > 75.0)
 //            }
             
         }
+        .padding(.top,5)
         .padding([.leading,.trailing,.bottom],8)
-        .frame(height:50)
+        .frame(height:55)
         .background(
-            Color.specify(color: .grey05)
+            Color.specify(color: .grey1)
                 .modifier(ModifierRoundedCorners(radius: 36))
 //                .overlay(RoundedRectangle(cornerRadius: 36)
 //                    .stroke(Color.specify(color: .grey05), lineWidth: 1))
@@ -91,6 +94,6 @@ struct GadgetsMenu: View {
 struct GadgetsMenu_Previews: PreviewProvider {
     static var previews: some View {
         GadgetsMenu(shouldPop: .constant(true), offset:.constant(.zero), isPresentingModal: .constant(true),modalType: .constant(.add), filterCount: 3)
-            .environmentObject(DataModel())
+            .environmentObject(ViewModel())
     }
 }

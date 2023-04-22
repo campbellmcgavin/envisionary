@@ -10,10 +10,10 @@ import SwiftUI
 struct DetailProperties: View {
     @Binding var shouldExpand: Bool
     let objectType: ObjectType
-    let properties: Properties
+    var properties: Properties
     
     @State var isExpanded: Bool = true
-    
+    @EnvironmentObject var vm: ViewModel
     var body: some View {
         
         VStack(spacing:0){
@@ -119,6 +119,21 @@ struct DetailProperties: View {
             if properties.end != nil {
                 PropertyRow(propertyType: .end, text:properties.end)
             }
+        case .parentId:
+            if properties.parent != nil {
+                PropertyRow(propertyType: .parentId, text: vm.GetGoal(id: properties.parent!)?.title ?? "")
+            }
+        
+        case .chapter:
+            if properties.chapter != nil {
+                PropertyRow(propertyType: .chapter, text: vm.GetChapter(id: properties.chapter!)?.title ?? "")
+            }
+        case .images:
+            if properties.parent != nil {
+                PropertyRow(propertyType: .images, int: properties.images!.count)
+            }
+        case .image:
+            let _ = "why'"
         }
     }
 }

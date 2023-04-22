@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct DateResetButton: View {
-    @EnvironmentObject var dm: DataModel
+    @EnvironmentObject var vm: ViewModel
     @State var shouldGoToToday: Bool = false
     
     var body: some View {
         VStack(spacing:0){
-            if dm.date.isInThisTimeframe(timeframe: dm.timeframeType){
+            if vm.filtering.filterDate.isInThisTimeframe(timeframe: vm.filtering.filterTimeframe){
                 IconLabel(size: .extraSmall, iconType: .confirm, iconColor: .grey10, circleColor: .grey10, opacity: 0.2, circleOpacity: 0.07)
             }
             else{
@@ -23,8 +23,8 @@ struct DateResetButton: View {
         .frame(width:25)
         .onChange(of: shouldGoToToday){
             _ in
-            dm.pushToToday = true
-            dm.date = Date()
+            vm.pushToToday = true
+            vm.filtering.filterDate = Date()
         }
         
     }

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ScrollPickerDates: View {
-    @EnvironmentObject var dm: DataModel
+    @EnvironmentObject var vm: ViewModel
     @State var contentOffset = CGPoint(x:0,y:0)
     @State var buttonIsChangingTimeframe = false
     @State var dateDisplay = Date()
@@ -42,7 +42,7 @@ struct ScrollPickerDates: View {
                                             }
                                         } label: {
                                             VStack{
-                                                ScrollPickerDateText(dateValue: dateValue, frameWidth: SizeType.scrollPickerWidth.ToSize(), filterTimeframe: dm.timeframeType, selectionDate: $dateDisplay, isLight: true, showBubble: true)
+                                                ScrollPickerDateText(dateValue: dateValue, frameWidth: SizeType.scrollPickerWidth.ToSize(), filterTimeframe: vm.filtering.filterTimeframe, selectionDate: $dateDisplay, isLight: true, showBubble: true)
                                                     .frame(height:50)
                                             }
                                         }
@@ -58,21 +58,21 @@ struct ScrollPickerDates: View {
                     dateDisplay = GetDateFromOffset()
 
                     if(contentOffset.x < geometry.size.width/2){
-                        PrepareForPickerWheelTime(timeframe: dm.timeframeType)
+                        PrepareForPickerWheelTime(timeframe: vm.filtering.filterTimeframe)
                         contentOffset.x = CGFloat(startingIndexDate)*(SizeType.scrollPickerWidth.ToSize() + weirdOffset)
                         
                         DispatchQueue.main.async{
                             withAnimation{
-                            dm.date = dateDisplay
+                            vm.filtering.filterDate = dateDisplay
                             }
                         }
                     }
                     else if(contentOffset.x > (SizeType.scrollPickerWidth.ToSize() * CGFloat(bufferOffCenter)*2 - geometry.size.width/2)){
-                        PrepareForPickerWheelTime(timeframe: dm.timeframeType)
+                        PrepareForPickerWheelTime(timeframe: vm.filtering.filterTimeframe)
                         contentOffset.x = CGFloat(startingIndexDate)*(SizeType.scrollPickerWidth.ToSize() + weirdOffset)
                         DispatchQueue.main.async{
                             withAnimation{
-                            dm.date = dateDisplay
+                            vm.filtering.filterDate = dateDisplay
                             }
                         }
 
@@ -82,7 +82,7 @@ struct ScrollPickerDates: View {
                         self.startTimer()
                     }
                 }
-    //            .onChange(of: dm.contentView){
+    //            .onChange(of: vm.contentView){
     //                _ in
     //                DispatchQueue.global(qos: .userInteractive).async{
     //                    GetDateValuesHaveContent()
@@ -101,9 +101,9 @@ struct ScrollPickerDates: View {
                           impact.impactOccurred()
                 }
                 .onAppear{
-                    PrepareForPickerWheelTime(timeframe: dm.timeframeType)
+                    PrepareForPickerWheelTime(timeframe: vm.filtering.filterTimeframe)
                     contentOffset.x = CGFloat(startingIndexDate)*(SizeType.scrollPickerWidth.ToSize() + weirdOffset)
-                    dateDisplay = dm.date
+                    dateDisplay = vm.filtering.filterDate
                     self.stopTimer()
     //                DispatchQueue.global(qos: .userInteractive).async{
     //                    GetDateValuesHaveContent()
@@ -113,23 +113,23 @@ struct ScrollPickerDates: View {
                     self.stopTimer()
                     DispatchQueue.main.async{
                             withAnimation{
-                                dm.date = dateDisplay
-                                dm.pushToToday = false
+                                vm.filtering.filterDate = dateDisplay
+                                vm.pushToToday = false
                             }
                         }
                 }
-                .onChange(of: dm.timeframeType){ _ in
-                    PrepareForPickerWheelTime(timeframe: dm.timeframeType)
-                    dm.date = dateDisplay
+                .onChange(of: vm.filtering.filterTimeframe){ _ in
+                    PrepareForPickerWheelTime(timeframe: vm.filtering.filterTimeframe)
+                    vm.filtering.filterDate = dateDisplay
                 }
-                .onChange(of: dm.date){ _ in
-                    if dm.pushToToday == true{
+                .onChange(of: vm.filtering.filterDate){ _ in
+                    if vm.pushToToday == true{
                         DispatchQueue.global(qos: .userInteractive).async{
-                            var dateValue = dates.first(where:{$0.date.isInSameTimeframe(as: dm.date, timeframeType: dm.timeframeType)})
+                            var dateValue = dates.first(where:{$0.date.isInSameTimeframe(as: vm.filtering.filterDate, timeframeType: vm.filtering.filterTimeframe)})
                             contentOffset.x = CGFloat(dateValue == nil ? 0 : dateValue!.day) * (SizeType.scrollPickerWidth.ToSize() + weirdOffset)
                         }
                     }
-                    dm.pushToToday = false
+                    vm.pushToToday = false
                 }
             }
         }
@@ -140,26 +140,26 @@ struct ScrollPickerDates: View {
     
     func PrepareForPickerWheelTime(timeframe: TimeframeType){
         DispatchQueue.global(qos: .userInteractive).async{
-            self.dates = dm.date.GetDatesArray(timeframeType: timeframe, bufferForwardBackward: bufferOffCenter)
+            self.dates = vm.filtering.filterDate.GetDatesArray(timeframeType: timeframe, bufferForwardBackward: bufferOffCenter)
             self.SetStartingIndex(timeframe: timeframe)
         }
     }
     
     func SetDates(timeframe: TimeframeType) -> Void {
-        dates = dm.date.GetDatesArray(timeframeType: timeframe, bufferForwardBackward: bufferOffCenter)
+        dates = vm.filtering.filterDate.GetDatesArray(timeframeType: timeframe, bufferForwardBackward: bufferOffCenter)
     }
     
     func SetStartingIndex(timeframe: TimeframeType) {
         
         switch timeframe{
         case .decade:
-            startingIndexDate = dates.firstIndex(where: {dm.date.isInSameDecade(as: $0.date)}) ?? bufferOffCenter
+            startingIndexDate = dates.firstIndex(where: {vm.filtering.filterDate.isInSameDecade(as: $0.date)}) ?? bufferOffCenter
         
         case .year:
-            startingIndexDate =  dates.firstIndex(where: {dm.date.isInSameYear(as: $0.date)}) ?? bufferOffCenter
+            startingIndexDate =  dates.firstIndex(where: {vm.filtering.filterDate.isInSameYear(as: $0.date)}) ?? bufferOffCenter
         
         default:
-            startingIndexDate =  dates.firstIndex(where: {dm.date == $0.date}) ?? bufferOffCenter
+            startingIndexDate =  dates.firstIndex(where: {vm.filtering.filterDate == $0.date}) ?? bufferOffCenter
         }
     }
     
@@ -188,12 +188,12 @@ struct ScrollPickerDates: View {
 
 //    func GetDateValuesHaveContent(){
 //
-//        FilterDictionaryToTimeframe(contentViewType: dm.contentView, timeframeType: dm.filterTimeframe)
-//        let datesTemp = dm.dates
+//        FilterDictionaryToTimeframe(contentViewType: vm.contentView, timeframeType: vm.filterTimeframe)
+//        let datesTemp = vm.filtering.filterDates
 //        dateValuesWithContent.removeAll()
 //
 //        for dateValue in datesTemp {
-//            if GetDateContainsContent(cardDate: dateValue.date, timeframeType: dm.filterTimeframe){
+//            if GetDateContainsContent(cardDate: dateValue.date, timeframeType: vm.filterTimeframe){
 //                dateValuesWithContent.append(dateValue.day)
 //            }
 //        }
@@ -224,13 +224,13 @@ struct ScrollPickerDates: View {
 //        case .envision:
 //            let _ = "why"
 //        case .plan:
-//            datesWithContent  = dm.GetDatesWithContent(objectType: .goal, filterTimeframe: dm.filterTimeframe, viewMenu: viewMenu)
+//            datesWithContent  = vm.GetDatesWithContent(objectType: .goal, filterTimeframe: vm.filterTimeframe, viewMenu: viewMenu)
 //        case .execute:
-//            datesWithContent  = dm.GetDatesWithContent(objectType: .goal, filterTimeframe: dm.filterTimeframe, viewMenu: viewMenu)
+//            datesWithContent  = vm.GetDatesWithContent(objectType: .goal, filterTimeframe: vm.filterTimeframe, viewMenu: viewMenu)
 //        case .journal:
-//            datesWithContent  = dm.GetDatesWithContent(objectType: .journalEntry, filterTimeframe: dm.filterTimeframe, viewMenu: viewMenu)
+//            datesWithContent  = vm.GetDatesWithContent(objectType: .journalEntry, filterTimeframe: vm.filterTimeframe, viewMenu: viewMenu)
 //        case .evaluate:
-//            datesWithContent  = dm.GetDatesWithContent(objectType: .session, filterTimeframe: dm.filterTimeframe, viewMenu: viewMenu)
+//            datesWithContent  = vm.GetDatesWithContent(objectType: .session, filterTimeframe: vm.filterTimeframe, viewMenu: viewMenu)
 //
 //        }
 //    }
@@ -238,17 +238,17 @@ struct ScrollPickerDates: View {
     
     
     func GetIsSelected(value: DateValue) -> Bool{
-        switch dm.timeframeType{
+        switch vm.filtering.filterTimeframe{
         case .decade:
-            return  dm.date.isInSameDecade(as: value.date)
+            return  vm.filtering.filterDate.isInSameDecade(as: value.date)
         case .year:
-            return  dm.date.isInSameYear(as: value.date)
+            return  vm.filtering.filterDate.isInSameYear(as: value.date)
         case .month:
-            return  dm.date.isInSameMonth(as: value.date)
+            return  vm.filtering.filterDate.isInSameMonth(as: value.date)
         case .week:
-            return  dm.date.isInSameWeek(as:value.date)
+            return  vm.filtering.filterDate.isInSameWeek(as:value.date)
         case .day:
-            return  dm.date.isInSameDay(as: value.date)
+            return  vm.filtering.filterDate.isInSameDay(as: value.date)
         }
     }
     
@@ -258,6 +258,6 @@ struct ScrollPickerDates: View {
 struct ScrollPickerDates_Previews: PreviewProvider {
     static var previews: some View {
         ScrollPickerTimeframe()
-            .environmentObject(DataModel())
+            .environmentObject(ViewModel())
     }
 }

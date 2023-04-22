@@ -15,13 +15,11 @@ struct DetailGantt: View {
     @State var expandedGoals = [UUID]()
     var goalId: UUID
     @State var isExpanded: Bool = true
-
-    @EnvironmentObject  var dm: DataModel
-    @EnvironmentObject var gs: GoalService
+    @EnvironmentObject var vm: ViewModel
     @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
-        DetailView(viewType: .gantt, objectId: goalId, selectedObjectId: $focusGoal, selectedObjectType: .constant(.goal), shouldExpandAll: $shouldExpand, expandedObjects: $expandedGoals, isPresentingModal: $isPresentingModal, modalType: $modalType, content: {
+        DetailView(viewType: .gantt, objectId: goalId, selectedObjectId: $focusGoal, selectedObjectType: .constant(.goal), shouldExpandAll: $shouldExpand, expandedObjects: $expandedGoals, isPresentingModal: $isPresentingModal, modalType: $modalType, isPresentingSourceType: .constant(false), content: {
             
             GanttMain(goalId: goalId, focusGoal: $focusGoal, expandedGoals: $expandedGoals)
                 .frame(alignment:.leading)

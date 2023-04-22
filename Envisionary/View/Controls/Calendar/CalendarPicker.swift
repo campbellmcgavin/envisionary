@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CalendarPicker: View {
     
-    @EnvironmentObject var dm: DataModel
+    @EnvironmentObject var vm: ViewModel
     @Binding var date: Date
     @Binding var timeframeType: TimeframeType
     

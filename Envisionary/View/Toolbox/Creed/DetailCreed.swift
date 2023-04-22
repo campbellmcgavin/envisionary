@@ -24,23 +24,24 @@ struct DetailCreed: View {
     @State var isShowingEditor: Bool = false
     
     @State var properties = Properties()
-    @EnvironmentObject var dm: DataModel
-    @EnvironmentObject var gs: GoalService
+    @State var values = [CoreValue]()
+    @EnvironmentObject var vm: ViewModel
     
     var body: some View {
         
-        DetailView(viewType: .creed, objectId: UUID(), selectedObjectId: $focusValue, selectedObjectType: .constant(.value), shouldExpandAll: $shouldExpand, expandedObjects: .constant([UUID]()), isPresentingModal: $isPresentingModal, modalType: $modalType, content: {
+        DetailView(viewType: .creed, objectId: UUID(), selectedObjectId: $focusValue, selectedObjectType: .constant(.value), shouldExpandAll: $shouldExpand, expandedObjects: .constant([UUID]()), isPresentingModal: $isPresentingModal, modalType: $modalType, isPresentingSourceType: .constant(false), content: {
         
             MainContentBuilder()
 
         })
         .onAppear(){
             properties.title = "Life's Creed"
+            values = vm.ListCoreValues(criteria: vm.filtering.GetFilters())
         }
         .frame(alignment:.leading)
-        .onChange(of: shouldUpdateValue){
+        .onChange(of: vm.updates.value){
             _ in
-            
+            values = vm.ListCoreValues(criteria: vm.filtering.GetFilters())
         }
     }
     
@@ -49,11 +50,11 @@ struct DetailCreed: View {
         VStack(alignment:.leading, spacing:0){
             
             
-            let intro = gs.GetCoreValue(value: .Introduction) ?? CoreValue()
-            let conclusion = gs.GetCoreValue(value: .Conclusion) ?? CoreValue()
+            let intro = vm.GetCoreValue(coreValue: .Introduction) ?? CoreValue()
+            let conclusion = vm.GetCoreValue(coreValue: .Conclusion) ?? CoreValue()
             
             Item(caption: intro.coreValue.toString(), body: intro.description, id: intro.id)
-            ForEach(gs.ListCoreValuesByCriteria(criteria: dm.GetFilterCriteria())){ coreValue in
+            ForEach(values){ coreValue in
                 
                 if coreValue.coreValue != .Introduction && coreValue.coreValue != .Conclusion {
                     Item(caption: coreValue.coreValue.toString(), body: coreValue.description, id: coreValue.id)
@@ -139,7 +140,7 @@ struct DetailCreed: View {
 struct DetailCreed_Previews: PreviewProvider {
     static var previews: some View {
         DetailCreed(shouldExpand: .constant(false), isPresentingModal: .constant(false), modalType: .constant(.add), focusValue: .constant(UUID()))
-            .environmentObject(GoalService())
-            .environmentObject(DataModel())
+            .environmentObject(ViewModel())
+//            .environmentObject(GlobalModel())
     }
 }

@@ -11,8 +11,7 @@ struct CreedCard: View {
     
     var shouldShowCard = true
     
-    @EnvironmentObject var gs: GoalService
-    @EnvironmentObject var dm: DataModel
+    @EnvironmentObject var vm: ViewModel
     var body: some View {
         
         MainContentBuilder()
@@ -26,21 +25,21 @@ struct CreedCard: View {
         VStack(alignment:.leading, spacing:0){
             
             if shouldShowCard{
-                PhotoCard(objectType: .creed, objectId: UUID(), properties: Properties(creed: true, valueCount: gs.coreValuesList.count), header: "Creed", subheader: "", shouldHidePadding: true)
+                PhotoCard(objectType: .creed, objectId: UUID(), properties: Properties(creed: true, valueCount: vm.ListCoreValues().count), header: "Creed", subheader: "", shouldHidePadding: true)
                     .padding(.top,-15)
                     .padding(.bottom,8)
             }
             
             VStack(alignment:.leading, spacing:0){
-                Item(caption: "Introduction", body: gs.GetCoreValue(value: .Introduction)?.description ?? "")
+                Item(caption: "Introduction", body: vm.GetCoreValue(coreValue: .Introduction)?.description ?? "")
                 
-                ForEach(gs.ListCoreValuesByCriteria(criteria: dm.GetFilterCriteria())){ coreValue in
+                ForEach(vm.ListCoreValues()){ coreValue in
                     if coreValue.coreValue != .Introduction && coreValue.coreValue != .Conclusion {
                         Item(caption: coreValue.coreValue.toString(), body: coreValue.description)
                     }
                 }
                 
-                Item(caption: "Conclusion", body: gs.GetCoreValue(value: .Conclusion)?.description ?? "")
+                Item(caption: "Conclusion", body: vm.GetCoreValue(coreValue: .Conclusion)?.description ?? "")
             }
             .padding(.top,5)
             .frame(alignment:.leading)
@@ -71,7 +70,6 @@ struct CreedCard: View {
 struct CreedCard_Previews: PreviewProvider {
     static var previews: some View {
         CreedCard()
-            .environmentObject(GoalService())
-            .environmentObject(DataModel())
+            .environmentObject(ViewModel())
     }
 }

@@ -16,7 +16,7 @@ struct AlertLabel: View {
     @State var counter = 2.0
     
     
-    @EnvironmentObject var dm: DataModel
+    @EnvironmentObject var vm: ViewModel
     
     var body: some View {
 
@@ -74,6 +74,6 @@ struct AlertLabel: View {
 struct AlertLabel_Previews: PreviewProvider {
     static var previews: some View {
         AlertLabel(alert: Alert())
-            .environmentObject(DataModel())
+            .environmentObject(ViewModel())
     }
 }

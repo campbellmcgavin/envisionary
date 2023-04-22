@@ -19,7 +19,7 @@ struct DetailKanban: View {
     
     let isStatic = false
     @State var isExpanded: Bool = true
-    @EnvironmentObject var gs: GoalService
+    @EnvironmentObject var vm: ViewModel
     
     @State var draggingObject: IdItem? = nil
     @State var shouldUpdateGoal = false
@@ -27,7 +27,7 @@ struct DetailKanban: View {
     @State var shouldHideElements = false
     
     var body: some View {
-        DetailView(viewType: .kanban, objectId: goalId, selectedObjectId: $focusGoal, selectedObjectType: .constant(.goal), shouldExpandAll: $shouldExpand, expandedObjects: $expandedGoals, isPresentingModal: $isPresentingModal, modalType: $modalType, content: {
+        DetailView(viewType: .kanban, objectId: goalId, selectedObjectId: $focusGoal, selectedObjectType: .constant(.goal), shouldExpandAll: $shouldExpand, expandedObjects: $expandedGoals, isPresentingModal: $isPresentingModal, modalType: $modalType, isPresentingSourceType: .constant(false), content: {
 
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(alignment: .top, spacing: 0) {
@@ -39,7 +39,7 @@ struct DetailKanban: View {
                             .onChange(of: shouldUpdateGoal){
                                 _ in
                                 if let draggingObject = self.draggingObject {
-                                    if let goal = gs.GetGoal(id: draggingObject.id){
+                                    if let goal = vm.GetGoal(id: draggingObject.id){
                                         
                                         var request = UpdateGoalRequest(goal: goal)
                                         
@@ -55,7 +55,7 @@ struct DetailKanban: View {
                                             
                                         }
                                         withAnimation{
-                                            _ = gs.UpdateGoal(id: goal.id, request: request)
+                                            _ = vm.UpdateGoal(id: goal.id, request: request)
                                         }
                                     }
                                 }

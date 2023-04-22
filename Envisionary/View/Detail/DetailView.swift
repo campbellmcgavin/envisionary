@@ -16,6 +16,7 @@ struct DetailView<Content: View>: View {
     @Binding var expandedObjects: [UUID]
     @Binding var isPresentingModal: Bool
     @Binding var modalType: ModalType
+    @Binding var isPresentingSourceType: Bool
     
     @ViewBuilder var content: Content
     
@@ -34,8 +35,7 @@ struct DetailView<Content: View>: View {
     
     @State var selectedGoal: Goal? = Goal()
     
-    @EnvironmentObject var gs: GoalService
-    @EnvironmentObject var dm: DataModel
+    @EnvironmentObject var vm: ViewModel
     
     var body: some View {
         HeaderWithContent(shouldExpand: $shouldExpandAll, headerColor: .grey10, header: viewType.toString(), content: {
@@ -52,8 +52,6 @@ struct DetailView<Content: View>: View {
                         .padding(.bottom)
                     
                     BuildMenu()
-                        .environmentObject(gs)
-                        .environmentObject(dm)
                     
                 }
                 .padding([.leading,.trailing,.top])
@@ -70,65 +68,62 @@ struct DetailView<Content: View>: View {
             }
             .padding(.top,5)
             .onAppear{
-                selectedGoal = gs.GetGoal(id: selectedObjectId)
+                selectedGoal = vm.GetGoal(id: selectedObjectId)
             }
             .onChange(of: selectedObjectId){
                 _ in
                 withAnimation{
-                    selectedGoal = gs.GetGoal(id: selectedObjectId)
+                    selectedGoal = vm.GetGoal(id: selectedObjectId)
                 }
             }
-            .onChange(of: gs.goalsDictionary){
+            .onChange(of: vm.updates){
                 _ in
-                selectedGoal = gs.GetGoal(id: selectedObjectId)
+                selectedGoal = vm.GetGoal(id: selectedObjectId)
             }
             .modifier(ModifierCard())
             .onChange(of:shouldPushBack){ _ in
-                let affectedGoals = gs.ListAffectedGoalIdsByParentId(id: selectedObjectId)
-                let affectedParentGoal = gs.GetGoal(id: selectedObjectId) ?? Goal()
+                let affectedGoals = vm.ListAffectedGoals(id: selectedObjectId)
+                let affectedParentGoal = vm.GetGoal(id: selectedObjectId) ?? Goal()
     
                 for affectedGoal in affectedGoals {
-                    let goalToUpdate = gs.GetGoal(id: affectedGoal) ?? Goal()
-                    var updateRequest = UpdateGoalRequest(goal: goalToUpdate)
+                    var updateRequest = UpdateGoalRequest(goal: affectedGoal)
                     updateRequest.startDate = updateRequest.startDate.AdvanceDate(timeframe: affectedParentGoal.timeframe, forward: false)
                     updateRequest.endDate = updateRequest.endDate.AdvanceDate(timeframe: affectedParentGoal.timeframe, forward: false)
                     withAnimation{
-                        _ = gs.UpdateGoal(id: affectedGoal, request: updateRequest)
+                        _ = vm.UpdateGoal(id: affectedGoal.id, request: updateRequest)
                     }
                 }
             }
             .onChange(of:shouldPushForward){ _ in
-                let affectedGoals = gs.ListAffectedGoalIdsByParentId(id: selectedObjectId)
-                let affectedParentGoal = gs.GetGoal(id: selectedObjectId) ?? Goal()
+                let affectedGoals = vm.ListAffectedGoals(id: selectedObjectId)
+                let affectedParentGoal = vm.GetGoal(id: selectedObjectId) ?? Goal()
     
                 for affectedGoal in affectedGoals {
-                    if let goalToUpdate = gs.GetGoal(id: affectedGoal){
-                        var updateRequest = UpdateGoalRequest(goal: goalToUpdate)
-                        updateRequest.startDate = updateRequest.startDate.AdvanceDate(timeframe: affectedParentGoal.timeframe, forward: true)
-                        updateRequest.endDate = updateRequest.endDate.AdvanceDate(timeframe: affectedParentGoal.timeframe, forward: true)
-                        withAnimation{
-                            _ = gs.UpdateGoal(id: affectedGoal, request: updateRequest)
-                        }
+                    var updateRequest = UpdateGoalRequest(goal: affectedGoal)
+                    updateRequest.startDate = updateRequest.startDate.AdvanceDate(timeframe: affectedParentGoal.timeframe, forward: true)
+                    updateRequest.endDate = updateRequest.endDate.AdvanceDate(timeframe: affectedParentGoal.timeframe, forward: true)
+                    withAnimation{
+                        _ = vm.UpdateGoal(id: affectedGoal.id, request: updateRequest)
                     }
                 }
             }
             .onChange(of: shouldMoveForward){
                 _ in
-                if let affectedGoal = gs.GetGoal(id: selectedObjectId){
+                if let affectedGoal = vm.GetGoal(id: selectedObjectId){
                     var updateRequest = UpdateGoalRequest(goal: affectedGoal)
                     updateRequest.progress = updateRequest.progress.updateProgress(isForward: true)
                     withAnimation{
-                        _ = gs.UpdateGoal(id: affectedGoal.id, request: updateRequest)
+                        _ = vm.UpdateGoal(id: affectedGoal.id, request: updateRequest)
                     }
                 }
             }
             .onChange(of: shouldMoveBackward){
                 _ in
-                if let affectedGoal = gs.GetGoal(id: selectedObjectId){
+                if let affectedGoal = vm.GetGoal(id: selectedObjectId){
                     var updateRequest = UpdateGoalRequest(goal: affectedGoal)
                     updateRequest.progress = updateRequest.progress.updateProgress(isForward: false)
                     withAnimation{
-                        _ = gs.UpdateGoal(id: affectedGoal.id, request: updateRequest)
+                        _ = vm.UpdateGoal(id: affectedGoal.id, request: updateRequest)
                     }
                 }
             }
@@ -140,13 +135,12 @@ struct DetailView<Content: View>: View {
         HStack{
             
             if viewType.shouldHaveButton(button: .delete) && selectedObjectId != objectId {
-                let _ = print(selectedObjectType.toString())
                 
                 if selectedObjectType != .value{
                     IconButton(isPressed: $shouldDelete, size: .medium, iconType: .delete, iconColor: .red, circleColor: .grey2)
                 }
                 else if selectedObjectType == .value {
-                    if let coreValue = gs.GetCoreValue(id: selectedObjectId){
+                    if let coreValue = vm.GetCoreValue(id: selectedObjectId){
                         if coreValue.coreValue != .Conclusion && coreValue.coreValue != .Introduction {
                             IconButton(isPressed: $shouldDelete, size: .medium, iconType: .delete, iconColor: .red, circleColor: .grey2)
                         }
@@ -157,7 +151,7 @@ struct DetailView<Content: View>: View {
             Spacer()
             
             if viewType.shouldHaveButton(button: .forward) && selectedObjectId != objectId{
-                if let goal = gs.GetGoal(id: selectedObjectId){
+                if let goal = vm.GetGoal(id: selectedObjectId){
                     if goal.progress > 1 {
                         IconButton(isPressed: $shouldMoveBackward, size: .medium, iconType: .undo, iconColor: .grey9, circleColor: .grey2)
                     }
@@ -171,18 +165,16 @@ struct DetailView<Content: View>: View {
                 IconButton(isPressed: $shouldPushBack, size: .medium, iconType: .timeBack, iconColor: .grey9, circleColor: .grey2)
                 IconButton(isPressed: $shouldPushForward, size: .medium, iconType: .timeForward, iconColor: .grey9, circleColor: .grey2)
             }
-            if viewType.shouldHaveButton(button: .expand) && selectedGoal?.timeframe != .day && selectedGoal?.children.count ?? 0 > 0 {
+            if viewType.shouldHaveButton(button: .expand) && selectedGoal?.timeframe != .day && vm.ListChildGoals(id: selectedGoal?.id ?? UUID()).count > 0 {
                 if expandedObjects.contains(selectedObjectId){
                     IconButton(isPressed: $shouldExpand, size: .medium, iconType: .minimize, iconColor: .grey9, circleColor: .grey2)
                 }
                 else{
                     IconButton(isPressed: $shouldExpand, size: .medium, iconType: .maximize, iconColor: .grey9, circleColor: .grey2)
                 }
-
             }
-
-            if viewType.shouldHaveButton(button: .photo) && selectedObjectId != objectId{
-                IconButton(isPressed: $shouldChangePhoto, size: .medium, iconType: .photo, iconColor: .grey9, circleColor: .grey2)
+            if viewType.shouldHaveButton(button: .photo){
+                IconButton(isPressed: $isPresentingSourceType, size: .medium, iconType: .photo, iconColor: .grey9, circleColor: .grey2)
             }
             
             if viewType != .kanban || (viewType == .kanban && selectedObjectId != objectId){
@@ -243,13 +235,13 @@ struct DetailView<Content: View>: View {
         
         switch viewType {
         case .tree:
-            return gs.GetGoal(id: selectedObjectId) != nil
+            return vm.GetGoal(id: selectedObjectId) != nil
         case .gantt:
-            return gs.GetGoal(id: selectedObjectId) != nil
+            return vm.GetGoal(id: selectedObjectId) != nil
         case .kanban:
-            return gs.GetGoal(id: selectedObjectId) != nil
+            return vm.GetGoal(id: selectedObjectId) != nil
         case .creed:
-            return gs.GetCoreValue(id: selectedObjectId) != nil
+            return vm.GetCoreValue(id: selectedObjectId) != nil
         }
         
     }

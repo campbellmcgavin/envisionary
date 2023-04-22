@@ -17,10 +17,9 @@ struct GanttMainDiagram<Value: Identifiable, V: View>: View where Value: Equatab
     let currentTimeframeType: TimeframeType
     @State var shouldMoveBackward = false
     @State var shouldMoveForward = false
-    @State var childGoalIds = [UUID]()
-    
-    @EnvironmentObject var dm: DataModel
-    @EnvironmentObject var gs: GoalService
+    @State var childGoals = [Goal]()
+    @State var goals: [Goal] = [Goal]()
+    @EnvironmentObject var vm: ViewModel
 
     typealias Key = CollectDict<UUID, Anchor<CGPoint>>
 
@@ -42,9 +41,9 @@ struct GanttMainDiagram<Value: Identifiable, V: View>: View where Value: Equatab
                 
                 VStack(alignment: .leading, spacing: 0) {
                         
-                        ForEach(gs.ListsChildGoalsByParentId(id: goalId), content: { childId in
+                        ForEach(childGoals, content: { child in
                             
-                            GanttMainDiagram(parentGoalId: parentGoalId, goalId: childId, focusGoal: $focusGoal, expandedGoals: $expandedGoals, value: self.value,  childCount: childCount + 1, currentTimeframeType: currentTimeframeType)
+                            GanttMainDiagram(parentGoalId: parentGoalId, goalId: child.id, focusGoal: $focusGoal, expandedGoals: $expandedGoals, value: self.value,  childCount: childCount + 1, currentTimeframeType: currentTimeframeType)
                         })
                     
 
@@ -53,29 +52,29 @@ struct GanttMainDiagram<Value: Identifiable, V: View>: View where Value: Equatab
 
         }
         .onAppear{
-            childGoalIds = gs.ListsChildGoalsByParentId(id: goalId)
+            childGoals = vm.ListChildGoals(id: goalId)
         }
-        .onChange(of: gs.goalsDictionary){
+        .onChange(of: vm.updates.goal){
             _ in
-            childGoalIds = gs.ListsChildGoalsByParentId(id: goalId)
+            childGoals = vm.ListChildGoals(id: goalId)
         }
         .backgroundPreferenceValue(Key.self, { (leadingEdge: [UUID: Anchor<CGPoint>]) in
             
                 GeometryReader { proxy in
-                    ForEach(childGoalIds, content: { child in
+                    ForEach(childGoals, content: { child in
                         
-                        if leadingEdge[goalId] != nil && leadingEdge[child] != nil {
+                        if leadingEdge[goalId] != nil && leadingEdge[child.id] != nil {
                             
                             let point1: CGPoint = proxy[leadingEdge[self.goalId]!]
-//                            let offset1 = goal.startDate.GetDateDifferenceAsDecimal(to: gs.GetGoal(id: child)?.startDate ?? Date(), timeframeType: currentTimeframeType) * 100
+//                            let offset1 = goal.startDate.GetDateDifferenceAsDecimal(to: vm.GetGoal(id: child)?.startDate ?? Date(), timeframeType: currentTimeframeType) * 100
                             let offset = GetOffset()
                             
                             let point1Offset = CGPoint(x: point1.x + offset + 30, y: point1.y)
-                            let goal = gs.GetGoal(id: self.goalId) ?? Goal()
+                            let goal = vm.GetGoal(id: self.goalId) ?? Goal()
                             
-                            let offset2 = goal.startDate.GetDateDifferenceAsDecimal(to: gs.GetGoal(id: child)?.startDate ?? Date(), timeframeType: currentTimeframeType) * SizeType.ganttColumnWidth.ToSize()
+                            let offset2 = goal.startDate.GetDateDifferenceAsDecimal(to: vm.GetGoal(id: child.id)?.startDate ?? Date(), timeframeType: currentTimeframeType) * SizeType.ganttColumnWidth.ToSize()
                             
-                            let point2: CGPoint = proxy[leadingEdge[child]!]
+                            let point2: CGPoint = proxy[leadingEdge[child.id]!]
                             let point2Offset = CGPoint(x:point2.x + (offset2 + offset + 30), y: point2.y)
                             
 
@@ -98,8 +97,8 @@ struct GanttMainDiagram<Value: Identifiable, V: View>: View where Value: Equatab
         }
     
     func GetOffset() -> CGFloat{
-        let localGoal = gs.GetGoal(id: goalId) ?? Goal()
-        let parentGoal = gs.GetGoal(id: parentGoalId) ?? Goal()
+        let localGoal = vm.GetGoal(id: goalId) ?? Goal()
+        let parentGoal = vm.GetGoal(id: parentGoalId) ?? Goal()
         let startDate = parentGoal.startDate
         let endDate = localGoal.startDate
         

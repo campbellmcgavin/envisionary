@@ -11,7 +11,8 @@ struct DotView: View {
     let goalId: UUID
     @Binding var focusGoal: UUID
     @State var goal: Goal = Goal()
-    @EnvironmentObject var gs: GoalService
+    @EnvironmentObject var vm: ViewModel
+    @State var image: UIImage? = nil
     var body: some View {
 
         HStack{
@@ -30,10 +31,7 @@ struct DotView: View {
                     Circle()
                         .frame(width:SizeType.minimumTouchTarget.ToSize() + 14, height: SizeType.minimumTouchTarget.ToSize() + 14)
                         .foregroundColor(.specify(color: focusGoal != goalId ? .grey3 : .purple))
-                    Circle()
-                        .frame(width:SizeType.minimumTouchTarget.ToSize(), height: SizeType.minimumTouchTarget.ToSize())
-                        .foregroundColor(.specify(color: .grey5))
-                    
+                    ImageCircle(imageSize: SizeType.minimumTouchTarget.ToSize(), image: image, iconSize: .medium, icon: .goal)
                 }
                 .padding(7)
                 .frame(width:50, height:50)
@@ -43,7 +41,22 @@ struct DotView: View {
             }
             .buttonStyle(.plain)
             .onAppear{
-                    goal = gs.GetGoal(id: goalId) ?? Goal()
+                DispatchQueue.global(qos:.userInteractive).async{
+                    goal = vm.GetGoal(id: goalId) ?? Goal()
+                    if goal.image != nil {
+                        image = vm.GetImage(id: goal.image!)
+                    }
+                }
+            }
+            .onChange(of: vm.updates){
+                _ in
+                
+                DispatchQueue.global(qos:.userInteractive).async{
+                    goal = vm.GetGoal(id: goalId) ?? Goal()
+                    if goal.image != nil {
+                        image = vm.GetImage(id: goal.image!)
+                    }
+                }
             }
             .padding(.trailing,3)
             HStack(spacing:0){
@@ -80,7 +93,7 @@ struct DotView_Previews: PreviewProvider {
 
             }
             DotView(goalId: UUID(), focusGoal: .constant(UUID()))
-                .environmentObject(GoalService())
+                .environmentObject(ViewModel())
         }
         
     }

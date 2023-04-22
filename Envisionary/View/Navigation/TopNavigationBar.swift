@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct TopNavigationBar: View {
-    @EnvironmentObject var dm: DataModel
+    @EnvironmentObject var vm: ViewModel
     @Binding var offset: CGFloat
     @Binding var isPresentingMainMenu: Bool
     @State var shouldMoveDateForward = false
@@ -16,14 +16,14 @@ struct TopNavigationBar: View {
     var body: some View {
         
             HStack{
-                IconButton(isPressed: $isPresentingMainMenu, size: .medium, iconType: .hambugerMenu, iconColor: .grey10)
+//                IconButton(isPressed: $isPresentingMainMenu, size: .medium, iconType: .hambugerMenu, iconColor: .grey10)
                 Spacer()
                 
                 if offset > 0 {
                     HStack{
                         
-                        if dm.objectType == .home || dm.objectType == .aspect || dm.objectType == .value || dm.objectType == .creed || dm.objectType == .chapter || dm.objectType == .dream{
-                            Text(dm.objectType.toPluralString())
+                        if vm.filtering.filterObject == .home || vm.filtering.filterObject == .aspect || vm.filtering.filterObject == .value || vm.filtering.filterObject == .creed || vm.filtering.filterObject == .chapter || vm.filtering.filterObject == .dream{
+                            Text(vm.filtering.filterObject.toPluralString())
                                 .font(.specify(style: .h4))
                         }
                         else{
@@ -31,12 +31,12 @@ struct TopNavigationBar: View {
                                 .padding(.trailing,6)
                             
                                 VStack(spacing:0){
-                                    Text(dm.timeframeType.toString() + " " + dm.objectType.toPluralString())
+                                    Text(vm.filtering.filterTimeframe.toString() + " " + vm.filtering.filterObject.toPluralString())
                                         .font(.specify(style:.subCaption))
                                         .textCase(.uppercase)
                                         .opacity(0.5)
                                     HStack(spacing:0){
-                                        Text(dm.date.toString(timeframeType: dm.timeframeType))
+                                        Text(vm.filtering.filterDate.toString(timeframeType: vm.filtering.filterTimeframe))
                                             .font(.specify(style: .h4))
                                         DateResetButton()
                                             .scaleEffect(0.7)
@@ -48,8 +48,8 @@ struct TopNavigationBar: View {
                                 .frame(alignment:.center)
                                 .onTapGesture {
                                     withAnimation{
-                                        dm.pushToToday = true
-                                        dm.date = Date()
+                                        vm.pushToToday = true
+                                        vm.filtering.filterDate = Date()
                                     }
                                 }
                                     
@@ -68,7 +68,7 @@ struct TopNavigationBar: View {
                 }
                 
                 Spacer()
-                IconButton(isPressed: $isPresentingMainMenu, size: .medium, iconType: .help, iconColor: .grey10)
+//                IconButton(isPressed: $isPresentingMainMenu, size: .medium, iconType: .help, iconColor: .grey10)
             }
             .padding([.leading,.trailing],8)
             .frame(height:40)
@@ -78,14 +78,14 @@ struct TopNavigationBar: View {
             .onChange(of:shouldMoveDateForward){
                 _ in
                 if shouldMoveDateForward{
-                    dm.date = dm.date.AdvanceDate(timeframe: dm.timeframeType, forward: true)
+                    vm.filtering.filterDate = vm.filtering.filterDate.AdvanceDate(timeframe: vm.filtering.filterTimeframe, forward: true)
                 }
                 shouldMoveDateForward = false
             }
             .onChange(of:shouldMoveDateBackward){
                 _ in
                 if shouldMoveDateBackward{
-                    dm.date = dm.date.AdvanceDate(timeframe: dm.timeframeType, forward: false)
+                    vm.filtering.filterDate = vm.filtering.filterDate.AdvanceDate(timeframe: vm.filtering.filterTimeframe, forward: false)
                 }
                 shouldMoveDateBackward = false
             }
@@ -93,8 +93,8 @@ struct TopNavigationBar: View {
     }
     
     func GetOpacity() -> CGFloat{
-        if offset > 0 && offset < 160 {
-            return abs(((1.0 * offset/160)))
+        if offset > 0 && offset < 110 {
+            return abs(((1.0 * offset/110)))
         }
         return 1.0
     }
@@ -105,6 +105,6 @@ struct TopNavigationBar: View {
 struct TopNavigationBar_Previews: PreviewProvider {
     static var previews: some View {
         TopNavigationBar(offset: .constant(0), isPresentingMainMenu: .constant(false))
-            .environmentObject(DataModel())
+            .environmentObject(ViewModel())
     }
 }

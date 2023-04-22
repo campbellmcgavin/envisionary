@@ -35,7 +35,7 @@ struct FloatingActionButton: View {
     struct FloatingActionButton_Previews: PreviewProvider {
         static var previews: some View {
             FloatingActionButton(isPresentingModal: .constant(true), modalType: .constant(.search))
-                .environmentObject(DataModel())
+                .environmentObject(ViewModel())
         }
     }
 }

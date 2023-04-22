@@ -17,21 +17,20 @@ struct ModalGrouping: View {
     @State var groupingChapter: String = GroupingType.title.toPluralString()
     @State var groupingEntry: String = GroupingType.chapter.toPluralString()
     
-    @EnvironmentObject var gs: GoalService
-    @EnvironmentObject var dm: DataModel
+    @EnvironmentObject var vm: ViewModel
     var body: some View {
-        Modal(modalType: .group, objectType: .home, isPresenting: $isPresenting, shouldConfirm: $isPresenting, modalContent: {GetContent()}, headerContent:{EmptyView()})
+        Modal(modalType: .group, objectType: .home, isPresenting: $isPresenting, shouldConfirm: $isPresenting, isPresentingImageSheet: .constant(false), modalContent: {GetContent()}, headerContent:{EmptyView()})
             .onAppear{
-                groupingGoal = gs.goalsGrouping.toPluralString()
-                groupingDream = gs.dreamsGrouping.toPluralString()
+                groupingGoal = vm.grouping.goal.toPluralString()
+                groupingDream = vm.grouping.dream.toPluralString()
             }
             .onChange(of: groupingGoal){
                 _ in
-                gs.goalsGrouping = GroupingType.allCases.first(where:{$0.toPluralString() == groupingGoal}) ?? .title
+                vm.grouping.goal = GroupingType.allCases.first(where:{$0.toPluralString() == groupingGoal}) ?? .title
             }
             .onChange(of: groupingDream){
                 _ in
-                gs.dreamsGrouping = GroupingType.allCases.first(where:{$0.toPluralString() == groupingDream}) ?? .title
+                vm.grouping.dream = GroupingType.allCases.first(where:{$0.toPluralString() == groupingDream}) ?? .title
             }
     }
     

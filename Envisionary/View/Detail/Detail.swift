@@ -11,6 +11,8 @@ struct Detail: View {
     
     let objectType: ObjectType
     let objectId: UUID
+    @State var isPresentingPhotoSource: Bool = false
+    @State var sourceType: UIImagePickerController.SourceType? = nil
     @State var properties: Properties = Properties()
     @State var shouldDelete: Bool = false
     @State var offset: CGPoint = .zero
@@ -20,8 +22,10 @@ struct Detail: View {
     @State var statusToAdd: StatusType = .notStarted
     @State var focusObjectid: UUID = UUID()
     @State var focusObjectType: ObjectType? = nil
-    
-    @EnvironmentObject var gs: GoalService
+    @State var image: UIImage? = nil
+    @State var isPresentingImagePicker: Bool = false
+    @State var newImage: UIImage? = nil
+    @EnvironmentObject var vm: ViewModel
     
     @Environment(\.presentationMode) private var dismiss
     
@@ -34,10 +38,10 @@ struct Detail: View {
                 ZStack(alignment:.top){
                     
                     LazyVStack(alignment:.leading){
-                        Header(offset: $offset, title: properties.title ?? "", subtitle: "View " + objectType.toString(), objectType: objectType, shouldShowImage: objectType.ShouldShowImage(), color: .purple, headerFrame: $headerFrame, content: {EmptyView()})
+                        Header(offset: $offset, title: properties.title ?? "", subtitle: "View " + objectType.toString(), objectType: objectType, color: .purple, headerFrame: $headerFrame, isPresentingImageSheet: .constant(false), image: image, content: {EmptyView()})
                         
 //                        if(!isPresentingModal){
-                        DetailStack(offset: $offset, focusObjectId: $focusObjectid, isPresentingModal: $isPresentingModal, modalType: $modalType, statusToAdd: $statusToAdd, properties: properties, objectId: objectId, objectType: objectType)
+                        DetailStack(offset: $offset, focusObjectId: $focusObjectid, isPresentingModal: $isPresentingModal, modalType: $modalType, statusToAdd: $statusToAdd, isPresentingSourceType: $isPresentingPhotoSource, properties: properties, objectId: objectId, objectType: objectType)
 //                        }
                     }
                 }
@@ -55,6 +59,8 @@ struct Detail: View {
             
             ModalManager(isPresenting: $isPresentingModal, modalType: $modalType, objectType: objectType, objectId: focusObjectid, properties: properties, statusToAdd: statusToAdd, shouldDelete: $shouldDelete)
             
+            ModalPhotoSource(objectType: .goal, isPresenting: $isPresentingPhotoSource, sourceType: $sourceType)
+            
         }
         .background(Color.specify(color: .grey0))
         .navigationBarHidden(true)
@@ -62,9 +68,11 @@ struct Detail: View {
             RefreshProperties()
             focusObjectid = objectId
             focusObjectType = objectType
+            RefreshImage()
         }
-        .onChange(of: gs.goalsDictionary){ _ in
+        .onChange(of: vm.updates){ _ in
             RefreshProperties()
+            RefreshImage()
         }
         .onChange(of: shouldDelete){ _ in
 
@@ -82,20 +90,59 @@ struct Detail: View {
             _ in
             print(statusToAdd)
         }
+        .onChange(of: sourceType){
+            _ in
+            if sourceType != nil {
+                isPresentingImagePicker = true
+            }
+            else{
+                isPresentingImagePicker = false
+            }
+        }
+        .sheet(isPresented: $isPresentingImagePicker){
+            ImagePicker(image: $newImage, showImagePicker: self.$isPresentingImagePicker, sourceType: self.sourceType ?? .camera)
+        }
+        .onChange(of: newImage){ _ in
+            
+            if let goal = vm.GetGoal(id: focusObjectid){
+                if let newImage{
+                    var request = UpdateGoalRequest(goal: goal)
+                    let imageId = vm.CreateImage(image: newImage)
+                    request.image = imageId
+                    _ = vm.UpdateGoal(id: goal.id, request: request)
+                }
+            }
+            
+            withAnimation{
+                sourceType = nil
+                isPresentingImagePicker = false
+                isPresentingPhotoSource = false
+            }
+        }
+    }
+    
+    func RefreshImage(){
+        if properties.image != nil {
+            DispatchQueue.global(qos:.userInteractive).async{
+                withAnimation{
+                    image = vm.GetImage(id: properties.image!)
+                }
+            }
+        }
     }
     
     func RefreshProperties(){
         switch objectType {
         case .value:
-            properties = Properties(value: gs.GetCoreValue(id: objectId))
+            properties = Properties(value: vm.GetCoreValue(id: objectId))
 //        case .creed:
 //            <#code#>
         case .dream:
-            properties = Properties(dream: gs.GetDream(id: objectId))
+            properties = Properties(dream: vm.GetDream(id: objectId))
         case .aspect:
-            properties = Properties(aspect: gs.GetAspect(id: objectId))
+            properties = Properties(aspect: vm.GetAspect(id: objectId))
         case .goal:
-            properties = Properties(goal: gs.GetGoal(id: objectId))
+            properties = Properties(goal: vm.GetGoal(id: objectId))
 //        case .session:
 //            <#code#>
 //        case .task:
@@ -117,34 +164,11 @@ struct Detail: View {
         }
         
     }
-    
-    @ViewBuilder
-    func GetModalContent() -> some View {
-        switch modalType {
-        case .add:
-            Text("Add new object")
-        case .search:
-            Text("Search")
-        case .group:
-            Text("Group")
-        case .filter:
-            Text("Filter")
-        case .notifications:
-            Text("Notifications")
-        case .help:
-            Text("Help")
-        case .edit:
-            Text("Edit")
-        case .delete:
-            Text("Delete")
-        }
-    }
 }
 
 struct Detail_Previews: PreviewProvider {
     static var previews: some View {
         Detail(objectType: .goal, objectId: UUID(), properties: Properties(objectType: .goal))
-            .environmentObject(DataModel())
-            .environmentObject(GoalService())
+            .environmentObject(ViewModel())
     }
 }

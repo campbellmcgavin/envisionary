@@ -14,10 +14,10 @@ struct GanttMainDateColumns: View {
     var timeframeType: TimeframeType
 //    let goalId: UUID
     
-    @EnvironmentObject var gs: GoalService
+    @EnvironmentObject var vm: ViewModel
     
     var body: some View {
-//        let goal = gs.GetGoal(id: goalId) ?? Goal()
+//        let goal = vm.GetGoal(id: goalId) ?? Goal()
         
 
         HStack(alignment: .top, spacing:0){

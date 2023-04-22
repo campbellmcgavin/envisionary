@@ -63,6 +63,10 @@ struct ModalMenu: View {
                 return true
             case .delete:
                 return true
+            case .photoSource:
+                return false
+            case .photo:
+                return false
             }
         default:
             return false

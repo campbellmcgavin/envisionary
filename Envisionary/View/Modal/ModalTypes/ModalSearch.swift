@@ -14,12 +14,17 @@ struct ModalSearch: View {
     
     @State var searchString = ""
     @State var objectType: ObjectType
-    @State var aspectsFiltered = AspectType.allCases
+    @State var tasksFiltered = [Task]()
+    @State var valuesFiltered = [CoreValue]()
+    @State var dreamsFiltered = [Dream]()
+    @State var aspectsFiltered = [Aspect]()
+    @State var goalsFiltered = [Goal]()
+    
     @State var shouldShowObject = false
-    @EnvironmentObject var dm: DataModel
+    @EnvironmentObject var vm: ViewModel
     var body: some View {
         
-        Modal(modalType: .search, objectType: objectType, isPresenting: $isPresenting, shouldConfirm: .constant(false), modalContent: {
+        Modal(modalType: .search, objectType: objectType, isPresenting: $isPresenting, shouldConfirm: .constant(false), isPresentingImageSheet: .constant(false), modalContent: {
             GetContent()
 
         }, headerContent: {
@@ -33,8 +38,13 @@ struct ModalSearch: View {
                 }
             }
             .onAppear{
-                objectType = dm.objectType
+                objectType = vm.filtering.filterObject
                 shouldShowObject = false
+
+            }
+            .onChange(of: objectType){
+                _ in
+                GetFullList()
             }
             .onReceive(timer){ _ in
                 withAnimation{
@@ -42,34 +52,103 @@ struct ModalSearch: View {
                     timer.upstream.connect().cancel()
                 }
             }
-
         }
         )
         .onChange(of:searchString){ _ in
+            GetFullList()
+        }
+    }
+    
+    func GetFullList(){
+        switch objectType {
+        case .value:
             if searchString.count == 0 {
-                aspectsFiltered = AspectType.allCases
+                valuesFiltered = vm.ListCoreValues(criteria: Criteria())
             }
             else{
-                aspectsFiltered = AspectType.allCases.filter({$0.toString().localizedCaseInsensitiveContains(searchString)})
+                valuesFiltered = vm.ListCoreValues(criteria: Criteria(title: searchString))
             }
-
+        case .dream:
+            if searchString.count == 0 {
+                dreamsFiltered = vm.ListDreams(criteria: Criteria())
+            }
+            else{
+                dreamsFiltered = vm.ListDreams(criteria: Criteria(title: searchString))
+            }
+        case .aspect:
+            if searchString.count == 0 {
+                aspectsFiltered = vm.ListAspects(criteria: Criteria())
+            }
+            else{
+                var criteria = Criteria()
+                criteria.aspect = searchString
+                aspectsFiltered = vm.ListAspects(criteria: Criteria(title: searchString))
+            }
+        case .goal:
+            if searchString.count == 0 {
+                goalsFiltered = vm.ListGoals(criteria: Criteria())
+            }
+            else{
+                goalsFiltered = vm.ListGoals(criteria: Criteria(title: searchString))
+            }
+        case .task:
+            if searchString.count == 0 {
+                tasksFiltered = vm.ListTasks(criteria: Criteria())
+            }
+            else{
+                tasksFiltered = vm.ListTasks(criteria: Criteria(title: searchString))
+            }
+        default:
+            let _ = "why"
         }
-//        .onChange(of: dm.objectType){ _ in
-//            objectType = dm.objectType
-//        }
-        
     }
     
     @ViewBuilder
     func GetContent() -> some View {
-        VStack(spacing:10){
+        LazyVStack(spacing:10){
             
             FormText(fieldValue: $searchString, fieldName: "Search", axis: .horizontal, iconType: .search)
                 .padding(8)
             
-            ForEach(aspectsFiltered, id: \.self){
-                aspect in
-                PhotoCard(objectType: .aspect, objectId: UUID(), properties: Properties(), header: aspect.toString(), subheader: objectType.toString())
+            
+            switch objectType {
+            case .value:
+                ScrollView(.vertical){
+                    ForEach(valuesFiltered){
+                        value in
+                        PhotoCard(objectType: .value, objectId: value.id, properties: Properties(value: value), header: value.coreValue.toString(), subheader: value.description)
+                    }
+                }
+            case .dream:
+                ScrollView(.vertical){
+                    ForEach(dreamsFiltered){
+                        dream in
+                        PhotoCard(objectType: .dream, objectId: dream.id, properties: Properties(dream: dream), header: dream.title, subheader: dream.description)
+                    }
+                }
+            case .aspect:
+                ScrollView(.vertical){
+                    ForEach(aspectsFiltered){
+                        aspect in
+                        PhotoCard(objectType: .aspect, objectId: aspect.id, properties: Properties(aspect: aspect), header: aspect.aspect.toString(), subheader: aspect.description)
+                    }
+                }
+            case .goal:
+                ScrollView(.vertical){
+                    ForEach(goalsFiltered){
+                        goal in
+                        PhotoCard(objectType: .goal, objectId: goal.id, properties: Properties(goal: goal), header: goal.title, subheader: goal.description)
+                    }
+                }
+            case .task:
+                ScrollView(.vertical){
+                    ForEach(tasksFiltered){
+                        task in
+                        PhotoCard(objectType: .task, objectId: task.id, properties: Properties(task: task), header: task.title, subheader: task.description)
+                    }
+                }
+            default:
+                EmptyView()
             }
         }
     }
@@ -78,6 +157,6 @@ struct ModalSearch: View {
 struct ModalSearch_Previews: PreviewProvider {
     static var previews: some View {
         ModalSearch(isPresenting: .constant(true), objectType: .goal)
-            .environmentObject(DataModel())
+            .environmentObject(ViewModel())
     }
 }

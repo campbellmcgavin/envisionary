@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CalendarMenu: View {
-    @EnvironmentObject var dm: DataModel
+    @EnvironmentObject var vm: ViewModel
     
     @State var shouldMoveDateForward = false
     @State var shouldMoveDateBackward = false
@@ -24,12 +24,12 @@ struct CalendarMenu: View {
                     // headers
                     HStack(spacing:0){
                         VStack(alignment: .leading, spacing: 0){
-                            Text(dm.timeframeType.toString())
+                            Text(vm.filtering.filterTimeframe.toString())
                                 .textCase(.uppercase)
                                 .font(.specify(style: .caption))
                                 .foregroundColor(.specify(color: .grey4))
                                 .padding(.bottom,-3)
-                            Text(dm.date.toString(timeframeType: dm.timeframeType))
+                            Text(vm.filtering.filterDate.toString(timeframeType: vm.filtering.filterTimeframe))
                                 .font(.specify(style: .h3))
                                 .foregroundColor(.specify(color: .grey9))
                         }
@@ -52,7 +52,7 @@ struct CalendarMenu: View {
                             
                             //dates
                             if isPresentingExpandedCalendar{
-                                CalendarPickerBody(date: $dm.date, timeframe: $dm.timeframeType, localized: false)
+                                CalendarPickerBody(date: $vm.filtering.filterDate, timeframe: $vm.filtering.filterTimeframe, localized: false)
                                     .padding(.top,10)
                             }
                             
@@ -88,14 +88,14 @@ struct CalendarMenu: View {
             .onChange(of:shouldMoveDateForward){
                 _ in
                 if shouldMoveDateForward{
-                    dm.date = dm.date.AdvanceDate(timeframe: dm.timeframeType, forward: true)
+                    vm.filtering.filterDate = vm.filtering.filterDate.AdvanceDate(timeframe: vm.filtering.filterTimeframe, forward: true)
                 }
                 shouldMoveDateForward = false
             }
             .onChange(of:shouldMoveDateBackward){
                 _ in
                 if shouldMoveDateBackward{
-                    dm.date = dm.date.AdvanceDate(timeframe: dm.timeframeType, forward: false)
+                    vm.filtering.filterDate = vm.filtering.filterDate.AdvanceDate(timeframe: vm.filtering.filterTimeframe, forward: false)
                 }
                 shouldMoveDateBackward = false
             }
@@ -106,7 +106,7 @@ struct CalendarMenu: View {
     
     func ShouldShowCalendar() -> Bool{
         
-        switch dm.objectType {
+        switch vm.filtering.filterObject {
         case .value:
             return false
         case .creed:
@@ -138,7 +138,7 @@ struct CalendarMenu: View {
     
     func ShouldShowDates() -> Bool{
         
-        switch dm.objectType {
+        switch vm.filtering.filterObject {
         case .value:
             return false
         case .creed:

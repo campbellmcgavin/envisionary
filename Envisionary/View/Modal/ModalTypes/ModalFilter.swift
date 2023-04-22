@@ -9,12 +9,11 @@ import SwiftUI
 
 struct ModalFilter: View {
     @Binding var isPresenting: Bool
-    
-    @EnvironmentObject var dm: DataModel
-    @EnvironmentObject var gs: GoalService
+    @EnvironmentObject var vm: ViewModel
     
     @State var aspectString = ""
     @State var priorityString = ""
+    @State var coreValue = ""
     @State var progress = 0
     @State var activeFiltersIsExpanded = true
     @State var inactiveFiltersIsExpanded = false
@@ -24,12 +23,14 @@ struct ModalFilter: View {
         
         
         
-        Modal(modalType: .filter, objectType: .home, isPresenting: $isPresenting, shouldConfirm: $isPresenting, title: "Filters", modalContent: {
-            VStack(spacing:10){
+        Modal(modalType: .filter, objectType: .home, isPresenting: $isPresenting, shouldConfirm: $isPresenting, isPresentingImageSheet: .constant(false), title: "Filters", modalContent: {
+            VStack(alignment: .leading, spacing:10){
                 
-                TextButton(isPressed: $shouldClearFilters, text: "Clear all", color: dm.filterCount > 0 ? .purple : .grey3)
+                
+                TextButton(isPressed: $shouldClearFilters, text: "Clear all", color: vm.filtering.filterCount > 0 ? .purple : .grey3)
                         .padding(.top)
-                        .disabled(dm.filterCount == 0)
+                        .disabled(vm.filtering.filterCount == 0)
+                        .frame(alignment:.leading)
                 
 
                 GetActiveFilters()
@@ -37,48 +38,66 @@ struct ModalFilter: View {
                 
                 
             }
-            .onChange(of:aspectString){ _ in
-                dm.filterAspect = AspectType.allCases.first(where:{$0.toString() == aspectString})
-                gs.UpdateFilteredGoals(criteria: dm.GetFilterCriteria())
-            }
-            .onChange(of:priorityString){ _ in
-                dm.filterPriority = PriorityType.allCases.first(where:{$0.toString() == priorityString})
-                gs.UpdateFilteredGoals(criteria: dm.GetFilterCriteria())
-            }
-            .onChange(of: dm.filterTitle){ _ in
+            .frame(alignment:.leading)
+//            .onChange(of:aspectString){ _ in
+//                vm.filtering.filterAspect = AspectType.allCases.first(where:{$0.toString() == aspectString})
+//                _ = vm.UpdateFilteredGoals(criteria: vm.filtering.GetFilters())
+//            }
+//            .onChange(of:priorityString){ _ in
+//                vm.filtering.filterPriority = PriorityType.allCases.first(where:{$0.toString() == priorityString})
+//                _ = vm.UpdateFilteredGoals(criteria: vm.filtering.GetFilters())
+//            }
+//            .onChange(of: vm.filtering.filterTitle){ _ in
+//                GetFilterCount()
+//                _ = vm.UpdateFilteredGoals(criteria: vm.filtering.GetFilters())
+//            }
+//            .onChange(of: vm.filtering.filterDescription){ _ in
+//                GetFilterCount()
+//                _ = vm.UpdateFilteredGoals(criteria: vm.filtering.GetFilters())
+//            }
+//            .onChange(of: vm.filtering.filterAspect){ _ in
+//                GetFilterCount()
+//                _ = vm.UpdateFilteredGoals(criteria: vm.filtering.GetFilters())
+//            }
+//            .onChange(of: vm.filtering.filterProgress){ _ in
+//                GetFilterCount()
+//                _ = vm.UpdateFilteredGoals(criteria: vm.filtering.GetFilters())
+//            }
+            .onChange(of: vm.filtering){
+                _ in
                 GetFilterCount()
-                gs.UpdateFilteredGoals(criteria: dm.GetFilterCriteria())
             }
-            .onChange(of: dm.filterDescription){ _ in
+            .onChange(of: vm.filtering.filterObject){
+                _ in
                 GetFilterCount()
-                gs.UpdateFilteredGoals(criteria: dm.GetFilterCriteria())
-            }
-            .onChange(of: dm.filterAspect){ _ in
-                GetFilterCount()
-                gs.UpdateFilteredGoals(criteria: dm.GetFilterCriteria())
-            }
-            .onChange(of: dm.filterProgress){ _ in
-                GetFilterCount()
-                gs.UpdateFilteredGoals(criteria: dm.GetFilterCriteria())
             }
             .onChange(of: progress){
                 _ in
-                dm.filterProgress = progress
+                vm.filtering.filterProgress = progress
+            }
+            .onChange(of: aspectString){
+                _ in
+                vm.filtering.filterAspect = AspectType.allCases.first(where:{$0.toString() == aspectString})?.toString() ?? ""
+            }
+            .onChange(of: coreValue){
+                _ in
+                vm.filtering.filterCoreValue = ValueType.allCases.first(where:{$0.toString() == coreValue})?.toString() ?? ""
             }
             .onChange(of:shouldClearFilters){
                 _ in
                 
-                dm.filterProgress = nil
-                dm.filterTitle = ""
-                dm.filterDescription = ""
-                dm.filterAspect = nil
-                dm.filterChapter = ""
-                dm.filterProgress = 0
-                dm.filterPriority = nil
+                vm.filtering.filterProgress = nil
+                vm.filtering.filterTitle = ""
+                vm.filtering.filterDescription = ""
+                vm.filtering.filterAspect = ""
+                vm.filtering.filterChapter = ""
+                vm.filtering.filterProgress = 0
+                vm.filtering.filterPriority = nil
+                vm.filtering.filterCoreValue = ""
                 aspectString = ""
                 priorityString = ""
-                
-                gs.UpdateFilteredGoals(criteria: dm.GetFilterCriteria())
+                coreValue = ""
+//                _ = vm.UpdateFilteredGoals(criteria: vm.filtering.GetFilters())
             }
         }, headerContent: {EmptyView()})
         
@@ -88,42 +107,46 @@ struct ModalFilter: View {
     func GetFilterCount(){
         
         var filterCount = 0
-        if dm.filterTitle.count > 0 {
+        if vm.filtering.filterTitle.count > 0 && vm.filtering.filterObject.hasProperty(property: .title) {
             filterCount += 1
         }
-        if dm.filterAspect != nil && dm.objectType.hasProperty(property: .aspect) {
+        if vm.filtering.filterAspect != nil && vm.filtering.filterObject.hasProperty(property: .aspect) {
             filterCount += 1
         }
-        if dm.filterDescription.count > 0 && dm.objectType.hasProperty(property: .description) {
+        if vm.filtering.filterCoreValue != nil && vm.filtering.filterObject.hasProperty(property: .coreValue) {
             filterCount += 1
         }
-        if dm.filterProgress != nil && dm.filterProgress != 0 && dm.objectType.hasProperty(property: .progress) {
+        if vm.filtering.filterDescription.count > 0 && vm.filtering.filterObject.hasProperty(property: .description) {
+            filterCount += 1
+        }
+        if vm.filtering.filterProgress != nil && vm.filtering.filterProgress != 0 && vm.filtering.filterObject.hasProperty(property: .progress) {
             filterCount += 1
         }
         withAnimation{
-            dm.filterCount = filterCount
+            vm.filtering.filterCount = filterCount
         }
-
     }
     
     @ViewBuilder
     func GetActiveFilters() -> some View {
         VStack{
-            FormText(fieldValue: $dm.filterTitle, fieldName: PropertyType.title.toString(), axis: .horizontal, iconType: .title)
             
-            if dm.objectType.hasProperty(property: .description) {
-                FormText(fieldValue: $dm.filterDescription, fieldName: PropertyType.description.toString(), axis: .vertical, iconType: .description)
+            if vm.filtering.filterObject.hasProperty(property: .title){
+                FormText(fieldValue: $vm.filtering.filterTitle, fieldName: PropertyType.title.toString(), axis: .horizontal, iconType: .title)
             }
-            
-            if dm.objectType.hasProperty(property: .aspect)   {
-                FormStackPicker(fieldValue: $aspectString, fieldName: PropertyType.aspect.toString(), options: AspectType.allCases.map({$0.toString()}),iconType: .aspect)
+            if vm.filtering.filterObject.hasProperty(property: .description) {
+                FormText(fieldValue: $vm.filtering.filterDescription, fieldName: PropertyType.description.toString(), axis: .vertical, iconType: .description)
             }
-
-            if dm.objectType.hasProperty(property: .priority) {
+            if vm.filtering.filterObject.hasProperty(property: .aspect)   {
+                FormStackPicker(fieldValue: $aspectString, fieldName: PropertyType.aspect.toString(), options: vm.ListAspects().map({$0.aspect.toString()}),iconType: .aspect)
+            }
+            if vm.filtering.filterObject.hasProperty(property: .coreValue)   {
+                FormStackPicker(fieldValue: $coreValue, fieldName: PropertyType.coreValue.toString(), options: vm.ListCoreValues().filter({$0.coreValue != .Conclusion && $0.coreValue != .Introduction}).map({$0.coreValue.toString()}), iconType: .value, isSearchable: true)
+            }
+            if vm.filtering.filterObject.hasProperty(property: .priority) {
                 FormStackPicker(fieldValue: $priorityString, fieldName: PropertyType.priority.toString(), options: PriorityType.allCases.map({$0.toString()}),iconType: .priority)
             }
-            
-            if dm.objectType.hasProperty(property: .progress) {
+            if vm.filtering.filterObject.hasProperty(property: .progress) {
                 FormSlider(fieldValue: $progress, fieldName: PropertyType.progress.toString() + " more than", iconType: .progress)
             }
         }
@@ -137,22 +160,30 @@ struct ModalFilter: View {
     func GetInactiveFilters() -> some View {
         VStack{
             
-            if (dm.objectType.hasProperty(property: .description) && dm.objectType.hasProperty(property: .aspect) && dm.objectType.hasProperty(property: .progress)) {
+            if (vm.filtering.filterObject.hasProperty(property: .description) && vm.filtering.filterObject.hasProperty(property: .aspect) && vm.filtering.filterObject.hasProperty(property: .progress)) {
                 Text("No inactive filters")
                     .font(.specify(style: .caption))
                     .padding(.top)
                     .opacity(0.5)
             }
             else{
-                if !dm.objectType.hasProperty(property: .description) {
-                    FormText(fieldValue: $dm.filterDescription, fieldName: PropertyType.description.toString(), axis: .vertical, iconType: .description)
+                
+                if !vm.filtering.filterObject.hasProperty(property: .title){
+                    FormText(fieldValue: $vm.filtering.filterTitle, fieldName: PropertyType.title.toString(), axis: .horizontal, iconType: .title)
                 }
                 
-                if !dm.objectType.hasProperty(property: .aspect)   {
-                    FormStackPicker(fieldValue: $aspectString, fieldName: PropertyType.aspect.toString(), options: AspectType.allCases.map({$0.toString()}),iconType: .aspect)
+                if !vm.filtering.filterObject.hasProperty(property: .description) {
+                    FormText(fieldValue: $vm.filtering.filterDescription, fieldName: PropertyType.description.toString(), axis: .vertical, iconType: .description)
                 }
-                if !dm.objectType.hasProperty(property: .progress) {
+                
+                if !vm.filtering.filterObject.hasProperty(property: .aspect)   {
+                    FormStackPicker(fieldValue: $aspectString, fieldName: PropertyType.aspect.toString(), options: vm.ListAspects().map({$0.aspect.toString()}),iconType: .aspect)
+                }
+                if !vm.filtering.filterObject.hasProperty(property: .progress) {
                     FormSlider(fieldValue: $progress, fieldName: PropertyType.progress.toString() + " more than", iconType: .progress)
+                }
+                if !vm.filtering.filterObject.hasProperty(property: .coreValue)   {
+                    FormStackPicker(fieldValue: $coreValue, fieldName: PropertyType.coreValue.toString(), options: ValueType.allCases.map({$0.toString()}),iconType: .value)
                 }
             }
 

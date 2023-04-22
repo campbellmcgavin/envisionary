@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CalendarPickerBody: View {
-    @EnvironmentObject var dm: DataModel
+    @EnvironmentObject var vm: ViewModel
     @Binding var date: Date
     @Binding var timeframe: TimeframeType
     @State var dates: [DateValue] = [DateValue]()
@@ -88,7 +88,7 @@ struct CalendarPickerBody: View {
 //            }
 
         }
-//        .onChange(of: dm.dictionaryFiltered){ _ in
+//        .onChange(of: vm.dictionaryFiltered){ _ in
 //            DispatchQueue.global(qos:.userInteractive).async{
 //                GetDateValuesHaveContent()
 //            }
@@ -118,12 +118,12 @@ struct CalendarPickerBody: View {
     
 //    func GetDateValuesHaveContent(){
 //
-//        datesWithContent  = dm.GetDatesWithContent(objectType: objectType, filterTimeframe: dm.filterTimeframe, viewMenu: viewMenu)
+//        datesWithContent  = vm.GetDatesWithContent(objectType: objectType, filterTimeframe: vm.filterTimeframe, viewMenu: viewMenu)
 //
 //        dateValuesWithContent.removeAll()
 //
 //        for dateValue in dates {
-//            if GetDateContainsContent(cardDate: dateValue.date, timeframeType: dm.filterTimeframe){
+//            if GetDateContainsContent(cardDate: dateValue.date, timeframeType: vm.filterTimeframe){
 //                dateValuesWithContent.append(dateValue.day)
 //            }
 //        }
@@ -148,7 +148,7 @@ struct CalendarPickerBody: View {
     
     
     func GetIsSelected(value: DateValue) -> Bool{
-        switch dm.timeframeType{
+        switch vm.filtering.filterTimeframe{
         case .decade:
             return  date.isInSameDecade(as: value.date)
         case .year:
@@ -176,7 +176,7 @@ struct CalendarPickerCard: View {
     var isSelected: Bool
     var containsGoal: Bool
     
-    @EnvironmentObject var dm: DataModel
+    @EnvironmentObject var vm: ViewModel
     var value: DateValue
     
     
