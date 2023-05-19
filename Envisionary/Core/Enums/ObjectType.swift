@@ -26,6 +26,7 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
     case entry = 10
     case emotion = 11
     case stats = 12
+    case prompt = 13
     
     func ShouldShowImage() -> Bool{
         switch self {
@@ -55,9 +56,11 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             return false
         case .dream:
             return false
+        case .prompt:
+            return false
         }
     }
-
+    
     func toPluralString() -> String{
         switch self {
         case .value:
@@ -86,6 +89,8 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             return "Emotions"
         case .dream:
             return "Dreams"
+        case .prompt:
+            return "Prompts"
         }
     }
     
@@ -117,6 +122,8 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             return "Emotion"
         case .dream:
             return "Dream"
+        case .prompt:
+            return "Prompt"
         }
     }
     
@@ -148,12 +155,13 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             return .emotion
         case .dream:
             return .dream
-            
+        case .prompt:
+            return .favorite
         }
     }
     
     func toFilterDescription(date: Date, timeframe: TimeframeType) -> String {
-                
+        
         switch self {
         case .value:
             return "all " + self.toPluralString()
@@ -181,6 +189,8 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             return "all " + self.toPluralString() + " in " + date.toString(timeframeType: timeframe)
         case .stats:
             return "all " + self.toPluralString() + " in " + date.toString(timeframeType: timeframe)
+        case .prompt:
+            return ""
         }
     }
     
@@ -212,6 +222,41 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             return "are a snapshot of an emotional state."
         case .stats:
             return "are performance insights."
+        case .prompt:
+            return ""
+        }
+    }
+    
+    func toContentType() -> ContentViewType{
+        switch self {
+        case .value:
+            return .envision
+        case .creed:
+            return .envision
+        case .dream:
+            return .envision
+        case .aspect:
+            return .envision
+        case .goal:
+            return .plan
+        case .session:
+            return .plan
+        case .task:
+            return .plan
+        case .habit:
+            return .plan
+        case .home:
+            return .execute
+        case .chapter:
+            return .journal
+        case .entry:
+            return .journal
+        case .emotion:
+            return .journal
+        case .stats:
+            return .evaluate
+        case .prompt:
+            return .execute
         }
     }
     
@@ -244,6 +289,8 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             return "Emotions are evaluations of your emotional state at a moment in time."
         case .stats:
             return "Stats, or statistics, offer performance insight into various areas of your life."
+        case .prompt:
+            return ""
         }
     }
     
@@ -307,16 +354,10 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             switch property {
             case .timeframe:
                 return true
-            case .startDate:
+            case .date:
                 return true
-            case .endDate:
+            case .dateCompleted:
                 return true
-            case .aspect:
-                return false
-            case .priority:
-                return false
-            case .progress:
-                return false
             case .edited:
                 return true
             case .leftAsIs:
@@ -428,6 +469,11 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             default:
                 return false
             }
+        case .prompt:
+            if property == .promptType{
+                return true
+            }
+            return false
         }
     }
     
@@ -443,6 +489,8 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
                 return true
             case .add:
                 return false
+            case .favorite:
+                return false
             }
         case .creed:
             switch button {
@@ -453,6 +501,8 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             case .edit:
                 return false
             case .add:
+                return true
+            case .favorite:
                 return true
             }
         case .dream:
@@ -465,6 +515,8 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
                 return true
             case .add:
                 return false
+            case .favorite:
+                return true
             }
         case .aspect:
             switch button {
@@ -475,6 +527,8 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             case .edit:
                 return true
             case .add:
+                return false
+            case .favorite:
                 return false
             }
         case .goal:
@@ -487,16 +541,20 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
                 return true
             case .add:
                 return true
+            case .favorite:
+                return true
             }
         case .session:
             switch button {
             case .delete:
-                return false
+                return true
             case .help:
                 return true
             case .edit:
                 return false
             case .add:
+                return false
+            case .favorite:
                 return false
             }
         case .task:
@@ -509,6 +567,8 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
                 return true
             case .add:
                 return false
+            case .favorite:
+                return false
             }
         case .habit:
             switch button {
@@ -520,6 +580,8 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
                 return true
             case .add:
                 return false
+            case .favorite:
+                return true
             }
         case .home:
             switch button {
@@ -530,6 +592,8 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             case .edit:
                 return false
             case .add:
+                return false
+            case .favorite:
                 return false
             }
         case .chapter:
@@ -542,6 +606,8 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
                 return true
             case .add:
                 return true
+            case .favorite:
+                return true
             }
         case .entry:
             switch button {
@@ -552,6 +618,8 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             case .edit:
                 return true
             case .add:
+                return false
+            case .favorite:
                 return false
             }
         case .emotion:
@@ -564,6 +632,8 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
                 return false
             case .add:
                 return false
+            case .favorite:
+                return false
             }
         case .stats:
             switch button {
@@ -575,7 +645,44 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
                 return false
             case .add:
                 return false
+            case .favorite:
+                return false
             }
+        case .prompt:
+            return false
         }
     }
+    
+    func GetPromptTitle() -> String{
+        switch self {
+        case .value:
+            return PromptHelper.valuePrompts.randomElement()!
+        case .creed:
+            return PromptHelper.valuePrompts.randomElement()!
+        case .dream:
+            return PromptHelper.dreamPrompts.randomElement()!
+        case .session:
+            return PromptHelper.sessionPrompts.randomElement()!
+        case .entry:
+            return PromptHelper.entryPrompts.randomElement()!
+        case .emotion:
+            return PromptHelper.emotionPrompts.randomElement()!
+        default:
+            return ""
+        }
+    }
+    
+    func StartsWithVowel() -> Bool{
+        if self == .aspect || self == .entry || self == .emotion {
+            return true
+        }
+        else {
+            return false
+        }
+    }
+    
+    static func fromString(from string: String) -> Self{
+        return Self.allCases.first(where: {$0.toString() == string}) ?? .goal
+    }
+    
 }

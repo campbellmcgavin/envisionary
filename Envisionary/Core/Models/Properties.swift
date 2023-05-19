@@ -7,7 +7,8 @@
 
 import Foundation
 
-struct Properties{
+struct Properties: Identifiable, Equatable, Hashable, Codable{
+    let id: UUID
     var title: String?
     var coreValue: ValueType?
     var aspect: AspectType?
@@ -22,12 +23,19 @@ struct Properties{
     var parentObject: ObjectType?
     var image: UUID?
     var images: [UUID]?
-    var edited: Int?
-    var leftAsIs: Int?
-    var pushedOff: Int?
-    var deleted: Int?
+    
     var start: String?
     var end: String?
+    
+    var valuesDictionary: [ValueType: Bool]?
+    
+    //sessions
+    var date: Date?
+    var dateCompleted: Date?
+    var goalProperties: [Properties]?
+    var evaluationDictionary: [UUID: EvaluationType]?
+    var alignmentDictionary: [UUID: [ValueType:Bool]]?
+    var childrenAddedDictionary: [UUID: [UUID]]?
     
     init(objectType: ObjectType){
         timeframe = .day
@@ -35,14 +43,11 @@ struct Properties{
         endDate = Date()
         aspect = AspectType.allCases.randomElement()!
         priority = PriorityType.allCases.randomElement()!
-        edited = 1
-        leftAsIs = 2
-        pushedOff = 3
-        deleted = 4
         title = "Learn Spanish"
         description = "I want to learn Spanish using duo lingo over a period of 12 months. I will spend 4 hours per day, 5 days per week. I will track my metrics using the app interface and then use people I can hold myself accountable to."
         parent = nil
         image = nil
+        id = UUID()
     }
     
     init(){
@@ -51,18 +56,16 @@ struct Properties{
         endDate = nil
         aspect = nil
         priority = nil
-        edited = nil
-        leftAsIs = nil
-        pushedOff = nil
-        deleted = nil
         title = nil
         description = nil
         parent = nil
         image = nil
         images = nil
+        id = UUID()
     }
     
     init(goal: Goal?){
+        self.id = goal?.id ?? UUID()
         self.title = goal?.title ?? "Empty Goal"
         self.description = goal?.description ?? "Empty Description"
         self.timeframe = goal?.timeframe
@@ -76,6 +79,7 @@ struct Properties{
     }
     
     init(dream: Dream?){
+        self.id = dream?.id ?? UUID()
         self.title = dream?.title ?? "Empty Dream"
         self.description = dream?.description ?? "Empty Description"
         self.aspect = dream?.aspect
@@ -83,17 +87,20 @@ struct Properties{
     }
     
     init(value: CoreValue?){
+        self.id = value?.id ?? UUID()
         self.title = value?.coreValue.toString() ?? "Empty Value"
         self.coreValue = value?.coreValue
         self.description = value?.description ?? "Empty Description"
     }
     
     init(aspect: Aspect?){
+        self.id = aspect?.id ?? UUID()
         self.title = aspect?.aspect.toString() ?? "Empty Value"
         self.description = aspect?.description ?? "Empty Description"
     }
     
     init(task: Task?){
+        self.id = task?.id ?? UUID()
         self.title = task?.title ?? "Empty Value"
         self.description = task?.description ?? "Empty Description"
         self.startDate = task?.startDate
@@ -102,6 +109,7 @@ struct Properties{
     }
     
     init(creed: Bool, valueCount: Int){
+        self.id = UUID()
         self.title = "Life's Creed"
         self.description = "Your personalized life's mission statement, with a total of " + String(valueCount - 2) + " values."
         self.start = "Birth"
@@ -109,18 +117,30 @@ struct Properties{
     }
     
     init(chapter: Chapter?){
+        self.id = chapter?.id ?? UUID()
         self.title = chapter?.title ?? "Empty Chapter"
         self.description = chapter?.description ?? "Empty Description"
         self.aspect = chapter?.aspect
         self.image = chapter?.image
     }
     init(entry: Entry?){
+        self.id = entry?.id ?? UUID()
         self.title = entry?.title
         self.description = entry?.description
         self.images = entry?.images
         self.chapter = entry?.chapter
         self.startDate = entry?.startDate
         self.parent = entry?.parent
-        
+    }
+    init(session: Session?){
+        self.id = session?.id ?? UUID()
+        self.title = session?.date.toString(timeframeType: session?.timeframe ?? .day)
+        self.date = session?.date ?? Date()
+        self.dateCompleted = session?.dateCompleted ?? Date()
+        self.timeframe = session?.timeframe ?? .week
+        self.goalProperties = session?.goalProperties
+        self.evaluationDictionary = session?.evaluationDictionary
+        self.alignmentDictionary = session?.alignmentDictionary
+        self.childrenAddedDictionary = session?.childrenAddedDictionary
     }
 }

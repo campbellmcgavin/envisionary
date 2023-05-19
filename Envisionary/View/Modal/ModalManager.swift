@@ -36,12 +36,12 @@ struct ModalManager: View {
     var body: some View {
         ZStack(alignment: .top){
             
-            ModalAdd(isPresenting: $isPresentingAdd, isPresentingPhotoSource: $isPresentingPhotoSource, sourceType: $sourceType, objectId: nil, parentId: GetParentId(), properties: Properties(), objectType: GetObjectType(), modalType: .add, status: statusToAdd)
-            ModalAdd(isPresenting: $isPresentingEdit, isPresentingPhotoSource: $isPresentingPhotoSource, sourceType: $sourceType, objectId: GetObjectId(), parentId: GetParentId(), properties: properties ?? Properties(), objectType: GetObjectType(), modalType: .edit)
+            ModalAdd(isPresenting: $isPresentingAdd, isPresentingPhotoSource: $isPresentingPhotoSource, sourceType: $sourceType, objectId: nil, parentId: GetParentId(), objectType: GetObjectType(), modalType: .add, status: statusToAdd)
+            ModalAdd(isPresenting: $isPresentingEdit, isPresentingPhotoSource: $isPresentingPhotoSource, sourceType: $sourceType, objectId: GetObjectId(), parentId: GetParentId(), objectType: GetObjectType(), modalType: .edit)
             ModalFilter(isPresenting: $isPresentingFilter)
             ModalSearch(isPresenting: $isPresentingSearch, objectType: objectType ?? .goal)
             ModalGrouping(isPresenting: $isPresentingGrouping)
-            Modal(modalType: .delete, objectType: objectType ?? .goal, isPresenting: $isPresentingDelete, shouldConfirm: $shouldDelete, isPresentingImageSheet: .constant(false), modalContent: {EmptyView()}, headerContent: {EmptyView()})
+            Modal(modalType: .delete, objectType: objectType ?? .goal, isPresenting: $isPresentingDelete, shouldConfirm: $shouldDelete, isPresentingImageSheet: .constant(false), modalContent: {EmptyView()}, headerContent: {EmptyView()}, bottomContent: {EmptyView()}, betweenContent: {EmptyView()})
             ModalPhotoSource(objectType: GetObjectType(), isPresenting: $isPresentingPhotoSource, sourceType: $sourceType)
         }
         .frame(maxHeight:.infinity)
@@ -170,6 +170,8 @@ struct ModalManager: View {
                         _ = vm.DeleteDream(id: objectId)
                     case .task:
                         _ = vm.DeleteTask(id: objectId)
+                    case .session:
+                        _ = vm.DeleteSession(id: objectId)
                     default:
                         let _ = "why" //do nothing
                     }

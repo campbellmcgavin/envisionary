@@ -12,9 +12,9 @@ struct TextButton: View {
     let text: String
     let color: CustomColor
     var backgroundColor: CustomColor = .clear
-    var style: CustomFont = .h3
+    var style: CustomFont = .h2
     var shouldHaveBackground = false
-    
+    var shouldFill = true
     var body: some View {
         Button{
             isPressed.toggle()
@@ -39,21 +39,19 @@ struct TextButton: View {
                 Text(text)
                     .font(.specify(style: style))
                     .foregroundColor(.specify(color: color))
-    //                .padding([.leading,.trailing], backgroundColor != .clear ? 40 : 0)
-
                     .frame(minWidth: 0)
                     .padding([.top,.bottom], backgroundColor != .clear ? 10 : 0)
                     .padding(.leading, backgroundColor == .clear ? 10 : 0)
                   
             }
-            .frame(maxWidth: backgroundColor != .clear ? .infinity : 250)
+            .modifier(ModifierMaxWidth(infinity: shouldFill && backgroundColor != .clear))
+            .padding([.leading,.trailing])
             .background(
                 Color.specify(color: backgroundColor)
                     .frame(maxWidth:.infinity)
-                    
                     .clipShape(RoundedRectangle(cornerRadius: SizeType.cornerRadiusSmall.ToSize()))
             )
-            .padding([.leading,.trailing])
+//            .padding([.leading,.trailing])
         }
 
     }

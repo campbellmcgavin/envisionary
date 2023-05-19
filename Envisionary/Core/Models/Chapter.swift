@@ -42,7 +42,7 @@ struct Chapter: Identifiable, Codable, Equatable, Hashable  {
         self.id = chapterEntity.id ?? UUID()
         self.title = chapterEntity.title ?? ""
         self.description = chapterEntity.desc ?? ""
-        self.aspect = AspectType.allCases.first(where: {$0.toString() == chapterEntity.aspect ?? ""}) ?? .academic
+        self.aspect = AspectType.fromString(input: chapterEntity.aspect ?? "")
         self.image = chapterEntity.image
     }
     

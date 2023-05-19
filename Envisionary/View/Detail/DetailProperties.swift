@@ -49,7 +49,9 @@ struct DetailProperties: View {
 
             ForEach(PropertyType.allCases, id:\.self){
                 property in
-                BuildPropertyRow(property: property)
+                if objectType.hasProperty(property: property){
+                    BuildPropertyRow(property: property)
+                }
             }
         }
         .frame(alignment:.leading)
@@ -77,7 +79,15 @@ struct DetailProperties: View {
             }
         case .endDate:
             if properties.endDate != nil {
-                PropertyRow(propertyType: .title, text:properties.title)
+                PropertyRow(propertyType: .endDate, date:properties.endDate)
+            }
+        case .date:
+            if properties.date != nil {
+                PropertyRow(propertyType: .date, date:properties.date, timeframe: properties.timeframe)
+            }
+        case .dateCompleted:
+            if properties.dateCompleted != nil {
+                PropertyRow(propertyType: .dateCompleted, date:properties.dateCompleted)
             }
         case .aspect:
             if properties.aspect != nil {
@@ -96,21 +106,13 @@ struct DetailProperties: View {
                 PropertyRow(propertyType: .coreValue, coreValue: properties.coreValue)
             }
         case .edited:
-            if properties.edited != nil {
-                PropertyRow(propertyType: .edited, int:properties.edited)
-            }
+            PropertyRow(propertyType: .edited, int: GetEvaluationDicitonaryItem(evaluation: .editDetails))
         case .leftAsIs:
-            if properties.leftAsIs != nil {
-                PropertyRow(propertyType: .leftAsIs, int:properties.leftAsIs)
-            }
+            PropertyRow(propertyType: .leftAsIs, int: GetEvaluationDicitonaryItem(evaluation: .keepAsIs))
         case .pushedOff:
-            if properties.pushedOff != nil {
-                PropertyRow(propertyType: .pushedOff, int:properties.pushedOff)
-            }
+            PropertyRow(propertyType: .pushedOff, int: GetEvaluationDicitonaryItem(evaluation: .pushOffTillNext))
         case .deleted:
-            if properties.deleted != nil {
-                PropertyRow(propertyType: .deleted, int:properties.deleted)
-            }
+            PropertyRow(propertyType: .deleted, int: GetEvaluationDicitonaryItem(evaluation: .deleteIt))
         case .start:
             if properties.start != nil {
                 PropertyRow(propertyType: .start, text:properties.start)
@@ -133,8 +135,25 @@ struct DetailProperties: View {
                 PropertyRow(propertyType: .images, int: properties.images!.count)
             }
         case .image:
-            let _ = "why'"
+            let _ = "why"
+        case .date:
+            if properties.date != nil {
+                PropertyRow(propertyType: .date, date: properties.date)
+            }
+        case .dateCompleted:
+            if properties.date != nil {
+                PropertyRow(propertyType: .dateCompleted, date: properties.dateCompleted)
+            }
+        case .promptType:
+            let _ = "why"
         }
+    }
+    
+    func GetEvaluationDicitonaryItem(evaluation: EvaluationType) -> Int{
+        if let evaluationDictionary = properties.evaluationDictionary{
+            return evaluationDictionary.values.filter({$0 == evaluation}).count
+        }
+        return 0
     }
 }
 

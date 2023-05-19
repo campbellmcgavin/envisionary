@@ -10,6 +10,7 @@ import SwiftUI
 enum CustomFont{
     
     //item in focus
+    case h0
     case h1
     case h2
     case h3
@@ -39,6 +40,8 @@ extension Font {
         switch style{
             
             //item out of focus
+        case .h0:
+            return "ProximaNova-Bold"
         case .h1:
             return "ProximaNova-Bold"
         case .h2:
@@ -77,10 +80,12 @@ extension Font {
         switch style{
             
             //item out of focus
-        case .h1:
+        case .h0:
             return 50
+        case .h1:
+            return 38
         case .h2:
-            return 35
+            return 28
         case .h3:
             return 22
         case .h4:

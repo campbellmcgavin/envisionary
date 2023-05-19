@@ -41,7 +41,7 @@ struct Dream: Identifiable, Codable, Equatable, Hashable {
         self.id = dreamEntity.id ?? UUID()
         self.title = dreamEntity.title ?? ""
         self.description = dreamEntity.desc ?? ""
-        self.aspect = AspectType.allCases.first(where: {$0.toString() == dreamEntity.aspect ?? ""}) ?? .academic
+        self.aspect = AspectType.fromString(input: dreamEntity.aspect ?? "")
     }
     
     mutating func update(from request: UpdateDreamRequest) {

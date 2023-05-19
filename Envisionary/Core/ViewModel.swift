@@ -14,6 +14,7 @@ class ViewModel: ObservableObject, DataServiceProtocol
     @Published var grouping = ObjectGrouping()
     @Published var filtering = ObjectFiltering()
     @Published var updates = ObjectUpdates()
+    @Published var triggers = InterfaceTriggers()
     
     // MARK: - GLOBAL STATE
     
@@ -60,6 +61,33 @@ class ViewModel: ObservableObject, DataServiceProtocol
             for aspect in Aspect.samples{
                 _ = CreateAspect(request: CreateAspectRequest(aspect: aspect.aspect, description: aspect.description))
             }
+        }
+        let promptList = ListPrompts()
+        
+        for prompt in promptList{
+            DeletePrompt(id: prompt.id)
+        }
+        
+        if ListPrompts(criteria: Criteria(type: .favorite)).count < 3{
+            let goalList = ListGoals()
+            
+            for _ in 1...5 {
+                if let goal = goalList.randomElement(){
+                    let request = CreatePromptRequest(type: .favorite, title: goal.title, date: Date(), objectType: .goal, objectId: goal.id)
+                    _ = CreatePrompt(request: request)
+                }
+            }
+        }
+        
+        if ListPrompts(criteria: Criteria(type: .suggestion)).count < 3{
+            let request1 = CreatePromptRequest(type: .suggestion, title: ObjectType.session.GetPromptTitle(), date: Date(), objectType: .session, timeframe: TimeframeType.allCases.filter({$0 != .day}).randomElement())
+            _ = CreatePrompt(request: request1)
+            
+            let request2 = CreatePromptRequest(type: .suggestion, title: ObjectType.entry.GetPromptTitle(), date: Date(), objectType: .entry)
+            _ = CreatePrompt(request: request2)
+            
+            let request3 = CreatePromptRequest(type: .suggestion, title: ObjectType.value.GetPromptTitle(), date: Date(), objectType: .value)
+            _ = CreatePrompt(request: request3)
         }
     }
     
@@ -311,4 +339,48 @@ class ViewModel: ObservableObject, DataServiceProtocol
     }
     
     private func EntriesDidChange(){ updates.entry.toggle() }
+    
+// MARK: - SESSION
+
+    func CreateSession(request: CreateSessionRequest) -> UUID{
+        SessionsDidChange()
+        return dataService.CreateSession(request: request)
+    }
+
+    func GetSession(id: UUID) -> Session?{
+        return dataService.GetSession(id: id)
+    }
+
+    func ListSessions(criteria: Criteria = Criteria(), limit: Int = 50) -> [Session] {
+        return dataService.ListSessions(criteria: criteria)
+    }
+
+    func DeleteSession(id: UUID) -> Bool {
+        SessionsDidChange()
+        return dataService.DeleteSession(id: id)
+    }
+    
+    private func SessionsDidChange(){ updates.session.toggle() }
+    
+// MARK: - PROMPT
+
+    func CreatePrompt(request: CreatePromptRequest) -> UUID{
+        PromptsDidChange()
+        return dataService.CreatePrompt(request: request)
+    }
+
+    func GetPrompt(id: UUID) -> Prompt?{
+        return dataService.GetPrompt(id: id)
+    }
+
+    func ListPrompts(criteria: Criteria = Criteria(), limit: Int = 50) -> [Prompt] {
+        return dataService.ListPrompts(criteria: criteria)
+    }
+
+    func DeletePrompt(id: UUID) -> Bool {
+        PromptsDidChange()
+        return dataService.DeletePrompt(id: id)
+    }
+    
+    private func PromptsDidChange(){ updates.prompt.toggle() }
 }

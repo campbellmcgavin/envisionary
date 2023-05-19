@@ -23,7 +23,7 @@ struct AlertLabel: View {
         if isVisible {
             HStack{
                 Text(alert.keyword)
-                    .font(.specify(style:.h6))
+                    .font(.specify(style: alert.keyword.count > 12 ? .caption : .h6))
                     .padding(3)
                     .padding([.leading,.trailing],3)
                     .background(Capsule()
@@ -31,13 +31,15 @@ struct AlertLabel: View {
                         .opacity(0.2))
                     .padding(.leading,-5)
                 Text(alert.description)
+                    .multilineTextAlignment(.leading)
                     .font(.specify(style: .h6))
                     .padding([.top,.bottom],8)
+                
                 
                 Spacer()
                 
                 ZStack{
-                    Countdown(counter: $counter, timeAmount: alert.timeAmount, color: alert.alertType.GetForegroundColor(), size: .extraSmall, shouldCountDown: true, shouldShowClock: false)
+                    Countdown(counter: $counter, timeAmount: alert.timeAmount, color: alert.alertType.GetForegroundColor(), size: .extraSmall, shouldCountDown: !alert.isPersistent, shouldShowClock: false)
                     IconLabel(size: .small, iconType: alert.alertType.GetIcon(), iconColor: alert.alertType.GetForegroundColor())
                 }
 

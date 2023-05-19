@@ -9,18 +9,18 @@ import Foundation
 
 struct UpdateGoalRequest{
     
-        var title: String = ""
-        var description: String = ""
-        var priority: PriorityType = .moderate
-        var startDate: Date = Date()
-        var endDate: Date = Date()
-        var progress: Int = 0
-        var image: UUID? = nil
-        var aspect: AspectType = .academic
-        var parent: UUID? = nil
-    
+    var title: String = ""
+    var description: String = ""
+    var priority: PriorityType = .moderate
+    var startDate: Date = Date()
+    var endDate: Date = Date()
+    var progress: Int = 0
+    var image: UUID? = nil
+    var aspect: AspectType = .academic
+    var parent: UUID? = nil
+    var valuesDictionary: [ValueType:Bool]? = nil
 
-    init(title: String, description: String, priority: PriorityType, startDate: Date, endDate: Date, percentComplete: Int, image: UUID, aspect: AspectType, parent: UUID)
+    init(title: String, description: String, priority: PriorityType, startDate: Date, endDate: Date, percentComplete: Int, image: UUID, aspect: AspectType, parent: UUID, valuesDictionary: [ValueType:Bool])
     {
         self.title = title
         self.description = description
@@ -31,6 +31,7 @@ struct UpdateGoalRequest{
         self.image = image
         self.aspect = aspect
         self.parent = parent
+        self.valuesDictionary = valuesDictionary
     }
     
     init(goal: Goal){
@@ -43,6 +44,7 @@ struct UpdateGoalRequest{
         self.image = goal.image
         self.aspect = goal.aspect
         self.parent = goal.parentId
+        self.valuesDictionary = goal.valuesDictionary
     }
     
     init(properties: Properties){
@@ -55,5 +57,6 @@ struct UpdateGoalRequest{
         self.image = properties.image
         self.aspect = properties.aspect ?? .academic
         self.parent = properties.parent
+        self.valuesDictionary = properties.valuesDictionary
     }
 }

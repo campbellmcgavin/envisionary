@@ -28,8 +28,7 @@ struct ExpandedMenu: View {
                     .opacity(0.5)
                     .padding(.bottom,-10)
                 Text(vm.filtering.filterObject.toPluralString())
-
-                    .font(.specify(style: .h1))
+                    .font(.specify(style: .h0))
                     .padding(.bottom,-5)
             }
             .scaleEffect(offset > 0 ?  1.0 : 1.0 - 0.001 * offset, anchor: .bottomLeading)
@@ -185,6 +184,8 @@ struct ExpandedMenu: View {
             return true
         case .dream:
             return false
+        case .prompt:
+            return false
         }
     }
 
@@ -216,6 +217,8 @@ struct ExpandedMenu: View {
         case .emotion:
             return true
         case .dream:
+            return false
+        case .prompt:
             return false
         }
     }

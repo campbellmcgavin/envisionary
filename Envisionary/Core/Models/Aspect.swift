@@ -33,7 +33,7 @@ struct Aspect: Codable, Equatable, Hashable, Identifiable {
     
     init(from entity: AspectEntity){
         self.id = entity.id ?? UUID()
-        self.aspect = AspectType.allCases.first(where: {$0.toString() == entity.aspect}) ?? .academic
+        self.aspect = AspectType.fromString(input: entity.aspect ?? "")
         self.description = entity.desc ?? ""
     }
     

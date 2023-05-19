@@ -68,5 +68,7 @@ enum AspectType: CaseIterable, Codable{
         }
     }
     
-    
+    static func fromString(input: String) -> Self{
+        return Self.allCases.first(where: {$0.toString() == input}) ?? .academic
+    }
 }

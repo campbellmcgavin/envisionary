@@ -33,7 +33,7 @@ struct CoreValue: Codable, Equatable, Hashable, Identifiable {
     
     init(from coreValueEntity: CoreValueEntity){
         self.id = coreValueEntity.id ?? UUID()
-        self.coreValue = ValueType.allCases.first(where:{$0.toString() == coreValueEntity.coreValue ?? ""}) ?? .Kindness
+        self.coreValue = ValueType.fromString(input: coreValueEntity.coreValue ?? "")
         self.description = coreValueEntity.desc ?? ""
     }
     

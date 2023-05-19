@@ -18,12 +18,10 @@ struct ContentButton: View {
         }) {
             VStack{
                 if contentView == selectedContentView {
-                    contentView.toIconStringFilled().ToImage(imageSize: SizeType.medium.ToSize()*1.2)
-                        .foregroundColor(.specify(color:GetColor()))
+                    IconLabel(size: .medium, iconType: contentView.toFilledIcon(), iconColor: GetColor())
                 }
                 else{
-                    contentView.toIconString().ToImage(imageSize: SizeType.medium.ToSize()*1.2)
-                        .foregroundColor(.specify(color:GetColor()))
+                    IconLabel(size: .medium, iconType: contentView.toIcon(), iconColor: GetColor())
                 }
                     
                 Text(contentView.toString()).font(.specify(style: .subCaption))

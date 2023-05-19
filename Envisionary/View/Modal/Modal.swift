@@ -7,17 +7,20 @@
 
 import SwiftUI
 
-struct Modal<ModalContent: View, HeaderContent: View>: View {
+struct Modal<ModalContent: View, HeaderContent: View, BottomContent: View, BetweenContent: View>: View {
     let modalType: ModalType
     var objectType: ObjectType
     @Binding var isPresenting: Bool
     @Binding var shouldConfirm: Bool
     @Binding var isPresentingImageSheet: Bool
     var title: String?
+    var subtitle: String?
     var image: UIImage?
     
     @ViewBuilder var modalContent: ModalContent
     @ViewBuilder var headerContent: HeaderContent
+    @ViewBuilder var bottomContent: BottomContent
+    @ViewBuilder var betweenContent: BetweenContent
     @State var shouldHelp: Bool = false
     @State var headerFrame: CGSize = .zero
     @State var offset: CGPoint = .zero
@@ -44,6 +47,9 @@ struct Modal<ModalContent: View, HeaderContent: View>: View {
                             VStack{
                                 Header(offset: $offset, title: GetTitle(), subtitle: GetSubtitle(), objectType: objectType, color: GetHeaderColor(), headerFrame: $headerFrame, isPresentingImageSheet: $isPresentingImageSheet, modalType: modalType, image: image, content: {headerContent})
                                 
+                                betweenContent
+                                    .offset(y:offset.y < 150 ? 85 - offset.y/1.8 : -85)
+                                
                                 VStack{
                                     modalContent
                                     Spacer()
@@ -56,10 +62,15 @@ struct Modal<ModalContent: View, HeaderContent: View>: View {
                             }
                             .frame(alignment:.top)
                     })
+                    .safeAreaInset(edge: .bottom, content: {
+                        if isPresenting{
+                            bottomContent
+                        }
+                    })
                     .disabled(modalType == .delete)
                     .ignoresSafeArea()
                     
-                    ModalMenu(modalType: modalType, color: GetHeaderColor(), shouldHelp: $shouldHelp, shouldClose: $isPresenting, shouldConfirm: $shouldConfirm)
+                    ModalMenu(modalType: modalType, objectType: objectType, color: GetHeaderColor(), shouldHelp: $shouldHelp, shouldClose: $isPresenting, shouldConfirm: $shouldConfirm)
                         .frame(alignment:.top)
                     }
                 .frame(alignment:.top)
@@ -157,28 +168,34 @@ struct Modal<ModalContent: View, HeaderContent: View>: View {
     
     func GetSubtitle() -> String{
         
-        switch modalType {
-        case .add:
-            return "Add " + objectType.toString()
-        case .search:
-            return "Search"
-        case .group:
-            return "View"
-        case .filter:
-            return "View"
-        case .notifications:
-            return "View"
-        case .help:
-            return "Find"
-        case .edit:
-            return "Edit " + objectType.toString()
-        case .delete:
-            return "Delete " + objectType.toString()
-        case .photoSource:
-            return "Select"
-        case .photo:
-            return "View"
+        if subtitle != nil {
+            return subtitle!
         }
+        else{
+            switch modalType {
+            case .add:
+                return "Add " + objectType.toString()
+            case .search:
+                return "Search"
+            case .group:
+                return "View"
+            case .filter:
+                return "View"
+            case .notifications:
+                return "View"
+            case .help:
+                return "Find"
+            case .edit:
+                return "Edit " + objectType.toString()
+            case .delete:
+                return "Delete " + objectType.toString()
+            case .photoSource:
+                return "Select"
+            case .photo:
+                return "View"
+            }
+        }
+
     }
 }
 
@@ -191,6 +208,6 @@ struct Modal_Previews: PreviewProvider {
 //            HeaderButton(isExpanded: .constant(true), color: .grey10, header: "Hello")
 //            HeaderButton(isExpanded: .constant(true), color: .grey10, header: "Hello")
             EmptyView()
-        }, headerContent: {FormStackPicker(fieldValue: .constant("Goal"), fieldName: "Objects", options: ObjectType.allCases.map({$0.toString()}))})
+        }, headerContent: {FormStackPicker(fieldValue: .constant("Goal"), fieldName: "Objects", options: ObjectType.allCases.map({$0.toString()}))}, bottomContent: {EmptyView()}, betweenContent: {EmptyView()})
     }
 }

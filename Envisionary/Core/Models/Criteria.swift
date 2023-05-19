@@ -18,6 +18,7 @@ struct Criteria {
     var progress: Int?
     var coreValue: String?
     var parentId: UUID?
+    var promptType: PromptType?
     
     init(title: String? = nil, description: String?, timeframe: TimeframeType?, date: Date?, aspect: String?, priority: PriorityType?, progress: Int?, coreValue: String?, parentId: UUID?) {
         self.title = title
@@ -51,5 +52,8 @@ struct Criteria {
         self.progress = nil
         self.coreValue = nil
         self.parentId = nil
+    }
+    init(type: PromptType){
+        self.promptType = type
     }
 }

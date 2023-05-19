@@ -40,6 +40,17 @@ struct Entry: Identifiable, Codable, Equatable, Hashable {
         self.parentObject = request.parentObject
     }
     
+    init(){
+        self.id = UUID()
+        self.title = ""
+        self.description = ""
+        self.startDate = Date()
+        self.chapter = UUID()
+        self.images = [UUID]()
+        self.parent = nil
+        self.parentObject = nil
+    }
+    
     init(from entity: EntryEntity){
         self.id = entity.id ?? UUID()
         self.title = entity.title ?? ""

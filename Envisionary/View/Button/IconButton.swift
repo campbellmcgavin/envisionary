@@ -10,8 +10,8 @@ import SwiftUI
 struct IconButton: View {
     @Binding var isPressed: Bool
     let size: SizeType
-    let iconType: IconType
-    let iconColor: CustomColor
+    var iconType: IconType
+    var iconColor: CustomColor
     var circleColor: CustomColor = .clear
     var opacity: Double = 1
     var circleOpacity: Double = 1

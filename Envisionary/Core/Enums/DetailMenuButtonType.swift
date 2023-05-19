@@ -12,4 +12,5 @@ enum DetailMenuButtonType {
     case help
     case edit
     case add
+    case favorite
 }

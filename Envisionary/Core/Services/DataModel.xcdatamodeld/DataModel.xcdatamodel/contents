@@ -45,10 +45,29 @@
         <attribute name="startDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="timeframe" optional="YES" attributeType="String"/>
         <attribute name="title" optional="YES" attributeType="String"/>
+        <attribute name="valuesDictionary" optional="YES" attributeType="Binary"/>
     </entity>
     <entity name="ImageEntity" representedClassName="ImageEntity" syncable="YES" codeGenerationType="class">
         <attribute name="data" optional="YES" attributeType="Binary"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+    </entity>
+    <entity name="PromptEntity" representedClassName="PromptEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="objectId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="objectType" optional="YES" attributeType="String"/>
+        <attribute name="timeframe" optional="YES" attributeType="String"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <attribute name="type" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="SessionEntity" representedClassName="SessionEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="alignmentDictionary" optional="YES" attributeType="Binary"/>
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="dateCompleted" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="evaluationDictionary" optional="YES" attributeType="Binary"/>
+        <attribute name="goalProperties" optional="YES" attributeType="Binary"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="timeframe" optional="YES" attributeType="String"/>
     </entity>
     <entity name="TaskEntity" representedClassName="TaskEntity" syncable="YES" codeGenerationType="class">
         <attribute name="desc" optional="YES" attributeType="String"/>

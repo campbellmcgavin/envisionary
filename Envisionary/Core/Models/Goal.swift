@@ -20,8 +20,9 @@ struct Goal: Identifiable, Codable, Equatable, Hashable {
     var timeframe: TimeframeType
     var image: UUID?
     var parentId: UUID?
+    var valuesDictionary: [ValueType: Bool]?
     
-    init(id: UUID = UUID(), title: String, description: String, priority: PriorityType, startDate: Date, endDate: Date, percentComplete: Int, aspect: AspectType, timeframe: TimeframeType, image: UUID?, parent: UUID?, tasks: [UUID], journals: [UUID]) {
+    init(id: UUID = UUID(), title: String, description: String, priority: PriorityType, startDate: Date, endDate: Date, percentComplete: Int, aspect: AspectType, timeframe: TimeframeType, image: UUID?, parent: UUID?, tasks: [UUID], journals: [UUID]){
         self.id = id
         self.title = title
         self.description = description
@@ -33,6 +34,7 @@ struct Goal: Identifiable, Codable, Equatable, Hashable {
         self.aspect = aspect
         self.timeframe = timeframe
         self.parentId = parent
+        self.valuesDictionary = nil
     }
     
     init(){
@@ -45,6 +47,7 @@ struct Goal: Identifiable, Codable, Equatable, Hashable {
         self.progress = 0
         self.aspect = AspectType.academic
         self.timeframe = TimeframeType.day
+        self.valuesDictionary = nil
     }
     
     init(request: CreateGoalRequest){
@@ -69,10 +72,19 @@ struct Goal: Identifiable, Codable, Equatable, Hashable {
         self.startDate = entity.startDate ?? Date()
         self.endDate = entity.endDate ?? Date()
         self.progress = Int(entity.progress)
-        self.aspect = AspectType.allCases.first(where: {$0.toString() == entity.aspect ?? ""}) ?? .academic
-        self.timeframe = TimeframeType.allCases.first(where: {$0.toString() == entity.timeframe ?? ""}) ?? .day
+        self.aspect = AspectType.fromString(input: entity.aspect ?? "")
+        self.timeframe = TimeframeType.fromString(input: entity.timeframe ?? "")
         self.image = entity.image
         self.parentId = entity.parentId
+        
+        do {
+            let valuesDictionaryDecoded = try JSONSerialization.jsonObject(with: entity.valuesDictionary ?? Data(), options: [])
+            if let valuesDictionary = valuesDictionaryDecoded as? [ValueType:Bool] {
+                self.valuesDictionary = valuesDictionary
+            }
+        } catch {
+            print(error.localizedDescription)
+        }
     }
     
     mutating func update(from request: UpdateGoalRequest) {

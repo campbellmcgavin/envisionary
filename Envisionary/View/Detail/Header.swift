@@ -17,6 +17,7 @@ struct Header<Content: View>: View {
     @Binding var isPresentingImageSheet: Bool
     var modalType: ModalType?
     var image: UIImage?
+    
     @ViewBuilder var content: Content
     
     var body: some View {
@@ -33,7 +34,7 @@ struct Header<Content: View>: View {
                         .padding(.bottom,-8)
 
                     Text(title)
-                        .font(.specify(style: .h2))
+                        .font(.specify(style: .h1))
                         .lineLimit(1)
                         .foregroundColor(.specify(color: .grey10))
                         .padding(.bottom,10)
@@ -69,6 +70,18 @@ struct Header<Content: View>: View {
                 HeaderImage(offset: offset, headerFrame: headerFrame, modalType: modalType, image: image, isPresentingImageSheet: $isPresentingImageSheet)
                 
             }
+//            if modalType == nil && objectType.hasDetailMenuButton(button: .favorite){
+//                VStack(){
+//                    Spacer()
+//                    HStack{
+//                        Spacer()
+//                        IconButton(isPressed: .constant(false), size: .medium, iconType: .favorite, iconColor: .grey10, circleColor: .grey0, opacity: 0.5, circleOpacity: 0.2)
+//                    }
+//                }
+//
+//                .padding()
+////                .offset(y: ShouldShowImage() ? 100 : 50)
+//            }
         }
     }
     

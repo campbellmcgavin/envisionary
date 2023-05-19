@@ -32,4 +32,8 @@ enum PriorityType: CaseIterable, Codable{
         case .low: return "Low Priority"
         }
     }
+    
+    static func fromString(input: String) -> Self{
+        return Self.allCases.first(where: {$0.toString() == input}) ?? .low
+    }
 }

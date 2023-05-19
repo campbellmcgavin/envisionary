@@ -11,6 +11,7 @@ enum SizeType {
     case extraSmall
     case small
     case medium
+    case mediumLarge
     case large
     case extralarge
     
@@ -36,6 +37,8 @@ enum SizeType {
             return 29
         case .medium:
             return 39
+        case .mediumLarge:
+            return 50
         case .large:
             return 70
         case .extralarge:

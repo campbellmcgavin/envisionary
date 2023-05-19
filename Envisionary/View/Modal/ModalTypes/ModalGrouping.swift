@@ -19,7 +19,7 @@ struct ModalGrouping: View {
     
     @EnvironmentObject var vm: ViewModel
     var body: some View {
-        Modal(modalType: .group, objectType: .home, isPresenting: $isPresenting, shouldConfirm: $isPresenting, isPresentingImageSheet: .constant(false), modalContent: {GetContent()}, headerContent:{EmptyView()})
+        Modal(modalType: .group, objectType: .home, isPresenting: $isPresenting, shouldConfirm: $isPresenting, isPresentingImageSheet: .constant(false), modalContent: {GetContent()}, headerContent:{EmptyView()}, bottomContent: {EmptyView()}, betweenContent: {EmptyView()})
             .onAppear{
                 groupingGoal = vm.grouping.goal.toPluralString()
                 groupingDream = vm.grouping.dream.toPluralString()

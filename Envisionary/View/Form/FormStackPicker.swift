@@ -30,7 +30,7 @@ struct FormStackPicker: View {
             }
             
             if isExpanded{
-                WrappingHStack(fieldValue: $fieldValue, options: $optionsList, isRestrictingOptions: isRestrictingOptions)
+                WrappingHStack(fieldValue: $fieldValue, fieldValues: .constant([String:Bool]()), options: $optionsList, isRestrictingOptions: isRestrictingOptions)
                     .padding()
             }
         }

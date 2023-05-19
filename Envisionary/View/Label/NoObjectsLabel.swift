@@ -12,11 +12,20 @@ struct NoObjectsLabel: View {
     var objectType: ObjectType
     
     var body: some View {
-        Text("Looks like you don't have any " + objectType.toPluralString() + ". \nClick the + to get started")
-            .font(.specify(style:.h6))
-            .multilineTextAlignment(.center)
-            .foregroundColor(.specify(color: .grey3))
-            .padding(30)
+        if objectType == .prompt{
+            Text("Looks like you don't have any favorites. Mark any object as a favorite by tapping on the ★ button.")
+                .font(.specify(style:.h6))
+                .multilineTextAlignment(.center)
+                .foregroundColor(.specify(color: .grey3))
+                .padding(30)
+        }
+        else{
+            Text("Looks like you don't have any " + objectType.toPluralString() + ". \nClick the + to get started")
+                .font(.specify(style:.h6))
+                .multilineTextAlignment(.center)
+                .foregroundColor(.specify(color: .grey3))
+                .padding(30)
+        }
     }
 }
 

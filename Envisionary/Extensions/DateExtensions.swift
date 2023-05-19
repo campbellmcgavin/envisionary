@@ -8,6 +8,21 @@
 import SwiftUI
 
 extension Date{
+    
+    func StartOfTimeframe(timeframe: TimeframeType) -> Date{
+        switch timeframe {
+        case .decade:
+            return self.StartOfDecade()
+        case .year:
+            return self.StartOfYear()
+        case .month:
+            return self.StartOfMonth()
+        case .week:
+            return self.StartOfWeek()
+        case .day:
+            return self.StartOfDay()
+        }
+    }
     func StartOfDay() -> Date{
         let startDaySeconds = Calendar.current.component(.second, from: self)
         return self.addingTimeInterval(-Double(startDaySeconds))
@@ -55,64 +70,94 @@ extension Date{
         return Calendar.current.date(byAdding: DateComponents(year: 10, day: -1), to: self.StartOfDecade())!
     }
     
-    func AdvanceDate(timeframe:TimeframeType, forward: Bool) -> Date{
+    func EndOfTimeframe(timeframe: TimeframeType) -> Date{
+        switch timeframe {
+        case .decade:
+            return self.EndOfDecade()
+        case .year:
+            return self.EndOfYear()
+        case .month:
+            return self.EndOfMonth()
+        case .week:
+            return self.EndOfWeek()
+        case .day:
+            return self.EndOfDay()
+        }
+    }
+    
+    func GetSessionDate(timeframe:TimeframeType) -> Date{
+        switch timeframe {
+        case .decade:
+            return (self - self.StartOfDecade()) < (self.EndOfDecade() - self.StartOfDecade())/2 ? self : self.AdvanceDecade(forward: true)
+        case .year:
+            return (self - self.StartOfYear()) < (self.EndOfYear() - self.StartOfYear())/2 ? self : self.AdvanceYear(forward: true)
+        case .month:
+            return (self - self.StartOfMonth()) < (self.EndOfMonth() - self.StartOfMonth())/2 ? self : self.AdvanceMonth(forward: true)
+        case .week:
+            return (self - self.StartOfWeek()) < (self.EndOfWeek() - self.StartOfWeek())/2 ? self : self.AdvanceWeek(forward: true)
+        case .day:
+            return self
+        }
+    }
+    
+    func AdvanceDate(timeframe:TimeframeType, forward: Bool, count: Int = 1) -> Date{
         
         switch timeframe{
         case .day:
-            return self.AdvanceDay(forward: forward)
+            return self.AdvanceDay(forward: forward, count: count)
         case .week:
-            return self.AdvanceWeek(forward: forward)
+            return self.AdvanceWeek(forward: forward, count: count)
         case .month:
-            return self.AdvanceMonth(forward: forward)
+            return self.AdvanceMonth(forward: forward, count: count)
         case .year:
-            return self.AdvanceYear(forward: forward)
+            return self.AdvanceYear(forward: forward, count: count)
         case .decade:
-            return self.AdvanceDecade(forward: forward)
+            return self.AdvanceDecade(forward: forward, count: count)
         }
     }
     
-    func AdvanceDay(forward: Bool) -> Date{
+    func AdvanceDay(forward: Bool, count: Int = 1) -> Date{
         if(forward){
-            return Calendar.current.date(byAdding: DateComponents(day: 1), to: self)!
+            return Calendar.current.date(byAdding: DateComponents(day: count), to: self)!
         }
         else{
-            return Calendar.current.date(byAdding: DateComponents(day: -1), to: self)!
+            return Calendar.current.date(byAdding: DateComponents(day: -count), to: self)!
         }
     }
     
-    func AdvanceWeek(forward: Bool) -> Date{
+    func AdvanceWeek(forward: Bool, count: Int = 1) -> Date{
         if(forward){
-            return Calendar.current.date(byAdding: DateComponents(day: 7), to: self)!
+            return Calendar.current.date(byAdding: DateComponents(day: count*7), to: self)!
         }
         else{
-            return Calendar.current.date(byAdding: DateComponents(day: -7), to: self)!
+            return Calendar.current.date(byAdding: DateComponents(day: -count*7), to: self)!
         }
     }
 
-    func AdvanceMonth(forward: Bool) -> Date{
+    func AdvanceMonth(forward: Bool, count: Int = 1) -> Date{
         if(forward){
-            return Calendar.current.date(byAdding: DateComponents(month: 1), to: self)!
+            return Calendar.current.date(byAdding: DateComponents(month: count), to: self)!
         }
         else{
-            return Calendar.current.date(byAdding: DateComponents(month: -1), to: self)!
+            return Calendar.current.date(byAdding: DateComponents(month: -count), to: self)!
         }
     }
     
-    func AdvanceYear(forward: Bool) -> Date{
+    func AdvanceYear(forward: Bool, count: Int = 1) -> Date{
         if(forward){
-            return Calendar.current.date(byAdding: DateComponents(year: 1), to: self)!
+            return Calendar.current.date(byAdding: DateComponents(year: count), to: self)!
         }
         else{
-            return Calendar.current.date(byAdding: DateComponents(year: -1), to: self)!
+            return Calendar.current.date(byAdding: DateComponents(year: -count), to: self)!
         }
     }
     
-    func AdvanceDecade(forward: Bool) -> Date{
+    func AdvanceDecade(forward: Bool, count: Int = 1) -> Date{
         if(forward){
-            return Calendar.current.date(byAdding: DateComponents(year: 10), to: self)!
+            return Calendar.current.date(byAdding: DateComponents(year: count*10), to: self)!
         }
         else{
-            return Calendar.current.date(byAdding: DateComponents(year: -10), to: self)!
+            return Calendar.current.date(byAdding: DateComponents(year: -count*10), to: self)!
         }
     }
         
@@ -390,9 +435,7 @@ extension Date{
     func isBetween(datePair: DatePair) -> Bool {
         return (datePair.date1...datePair.date2).contains(self)
     }
-    
 
-        
     static func randomBetween(start: String, end: String, format: String = "yyyy-MM-dd") -> String {
         let date1 = Date.parse(start, format: format)
         let date2 = Date.parse(end, format: format)

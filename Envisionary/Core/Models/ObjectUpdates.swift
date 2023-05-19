@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct ObjectUpdates: Equatable {
-
     var value: Bool
     var creed: Bool
     var aspect: Bool
@@ -20,6 +19,7 @@ struct ObjectUpdates: Equatable {
     var image: Bool
     var chapter: Bool
     var entry: Bool
+    var prompt: Bool
     
     init(){
         image = false
@@ -33,6 +33,8 @@ struct ObjectUpdates: Equatable {
         dream = false
         chapter = false
         entry = false
+        session = false
+        prompt = false
     }
     
     static func == (lhs: ObjectUpdates, rhs: ObjectUpdates) -> Bool {
@@ -47,7 +49,8 @@ struct ObjectUpdates: Equatable {
         lhs.task == rhs.task &&
         lhs.chapter == rhs.chapter &&
         lhs.image == rhs.image &&
-        lhs.entry == rhs.entry
+        lhs.entry == rhs.entry &&
+        lhs.prompt == rhs.prompt
         
         return isEqual
     }

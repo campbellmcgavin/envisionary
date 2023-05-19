@@ -52,8 +52,7 @@ struct ModalSearch: View {
                     timer.upstream.connect().cancel()
                 }
             }
-        }
-        )
+        }, bottomContent: {EmptyView()}, betweenContent: {EmptyView()})
         .onChange(of:searchString){ _ in
             GetFullList()
         }

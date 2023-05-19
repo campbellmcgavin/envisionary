@@ -20,7 +20,7 @@ struct ModalPhotoSource: View {
                 TextButton(isPressed: $shouldSelectTakePhoto, text: "Take photo", color: .grey2, backgroundColor: .grey10, style: .h3, shouldHaveBackground: true)
                 TextButton(isPressed: $shouldSelectCameraRoll, text: "Photo library", color: .grey10, backgroundColor: .grey3, style: .h3, shouldHaveBackground: true)
             }
-        }, headerContent: {EmptyView()})
+        }, headerContent: {EmptyView()}, bottomContent: {EmptyView()}, betweenContent: {EmptyView()})
         .onChange(of: shouldSelectTakePhoto){
             _ in
             sourceType = .camera

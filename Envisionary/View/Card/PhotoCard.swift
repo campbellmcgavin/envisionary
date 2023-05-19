@@ -21,29 +21,13 @@ struct PhotoCard: View {
     @EnvironmentObject var vm: ViewModel
     
     var body: some View {
-//        Button
         NavigationLink(destination: Detail(objectType: objectType, objectId: objectId, properties: properties))
         {
             HStack(alignment:.center, spacing:0){
                 
                 
                 ImageCircle(imageSize: 50, image: image, iconSize: .small, icon: objectType.toIcon())
-//                if image != nil{
-//
-//                }
-//                else{
-//                    ZStack{
-//                        Circle()
-//                            .frame(width:50,height:50)
-//                            .foregroundColor(.specify(color: .grey2))
-//                        IconLabel(size: .small, iconType: objectType.toIcon(), iconColor: .grey0)
-//                    }
-//                }
 
-
-    //            ActionButton(isPressed: .constant(true), size: .medium, iconType: .value, iconColor: .grey5)
-    //                .disabled(true)
-    //                .foregroundColor(.specify(color: .grey5))
                 VStack(alignment:.leading, spacing:0){
                     Text(header)
                         .font(.specify(style: .h4))
@@ -81,11 +65,6 @@ struct PhotoCard: View {
                 }
             }
         }
-
-        
-            
-    
-
     }
     
 }

@@ -25,6 +25,8 @@ struct Detail: View {
     @State var image: UIImage? = nil
     @State var isPresentingImagePicker: Bool = false
     @State var newImage: UIImage? = nil
+    @State var shouldMarkAsFavorite = true
+    @State var finishedLoading = false
     @EnvironmentObject var vm: ViewModel
     
     @Environment(\.presentationMode) private var dismiss
@@ -41,7 +43,17 @@ struct Detail: View {
                         Header(offset: $offset, title: properties.title ?? "", subtitle: "View " + objectType.toString(), objectType: objectType, color: .purple, headerFrame: $headerFrame, isPresentingImageSheet: .constant(false), image: image, content: {EmptyView()})
                         
 //                        if(!isPresentingModal){
-                        DetailStack(offset: $offset, focusObjectId: $focusObjectid, isPresentingModal: $isPresentingModal, modalType: $modalType, statusToAdd: $statusToAdd, isPresentingSourceType: $isPresentingPhotoSource, properties: properties, objectId: objectId, objectType: objectType)
+                        ZStack(alignment:.top){
+                            DetailStack(offset: $offset, focusObjectId: $focusObjectid, isPresentingModal: $isPresentingModal, modalType: $modalType, statusToAdd: $statusToAdd, isPresentingSourceType: $isPresentingPhotoSource, properties: properties, objectId: objectId, objectType: objectType)
+//                            HStack{
+//                                Spacer()
+//                                IconButton(isPressed: .constant(false), size: .medium, iconType: .favorite, iconColor: .grey10, circleColor: .darkPurple, opacity:0.5, circleOpacity: 0.15)
+//                            }
+//                            .padding()
+////                            .offset(y: objectType.ShouldShowImage() ? -88 : -25)
+//                            .offset(y:objectType.ShouldShowImage() ? -35 : 20)
+                        }
+
 //                        }
                     }
                 }
@@ -54,7 +66,7 @@ struct Detail: View {
             .ignoresSafeArea()
 
                 
-            DetailMenu(objectType: objectType, dismiss: dismiss, isPresentingModal: $isPresentingModal, modalType: $modalType, objectId: objectId, selectedObjectID: $focusObjectid)
+            DetailMenu(objectType: objectType, dismiss: dismiss, isPresentingModal: $isPresentingModal, modalType: $modalType, objectId: objectId, selectedObjectID: $focusObjectid, shouldMarkAsFavorite: $shouldMarkAsFavorite, finishedLoading: $finishedLoading)
                 .frame(alignment:.top)
             
             ModalManager(isPresenting: $isPresentingModal, modalType: $modalType, objectType: objectType, objectId: focusObjectid, properties: properties, statusToAdd: statusToAdd, shouldDelete: $shouldDelete)
@@ -69,6 +81,24 @@ struct Detail: View {
             focusObjectid = objectId
             focusObjectType = objectType
             RefreshImage()
+            RefreshFavorite()
+            finishedLoading = true
+        }
+        .onChange(of: shouldMarkAsFavorite){
+            _ in
+            
+            if finishedLoading{
+                if shouldMarkAsFavorite {
+                    let request = CreatePromptRequest(type: .favorite, title: "", date: Date(), objectType: objectType, objectId: objectId)
+                    vm.CreatePrompt(request: request)
+                }
+                else{
+                    if let prompt = vm.ListPrompts(criteria: Criteria(type: .favorite)).first(where: {$0.objectId == objectId}){
+                        vm.DeletePrompt(id: prompt.id)
+                    }
+
+                }
+            }
         }
         .onChange(of: vm.updates){ _ in
             RefreshProperties()
@@ -117,6 +147,14 @@ struct Detail: View {
                 sourceType = nil
                 isPresentingImagePicker = false
                 isPresentingPhotoSource = false
+            }
+        }
+    }
+    
+    func RefreshFavorite(){
+        DispatchQueue.global(qos:.userInteractive).async{
+            withAnimation{
+                shouldMarkAsFavorite = vm.ListPrompts(criteria: Criteria(type: .favorite)).contains(where:{$0.objectId != nil && $0.objectId == objectId})
             }
         }
     }

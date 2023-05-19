@@ -13,18 +13,18 @@ enum ContentViewType: String, CaseIterable{
     case evaluate = "Evaluate"
     
     
-    func toIconString() -> String {
+    func toIcon() -> IconType {
         switch self {
         case .envision:
-            return "Icon_Envision"
+            return .envision
         case .plan:
-            return "Icon_Plan"
+            return .plan
         case .execute:
-            return "Icon_Execute"
+            return .execute
         case .journal:
-            return "Icon_Journal"
+            return .journal
         case .evaluate:
-            return "Icon_Evaluate"
+            return .evaluate
         }
     }
     
@@ -43,18 +43,18 @@ enum ContentViewType: String, CaseIterable{
         }
     }
     
-    func toIconStringFilled() -> String {
+    func toFilledIcon() -> IconType{
         switch self {
         case .envision:
-            return "Icon_Envision_filled"
+            return .envisionFilled
         case .plan:
-            return "Icon_Plan_filled"
+            return .planFilled
         case .execute:
-            return "Icon_Execute_filled"
+            return .executeFilled
         case .journal:
-            return "Icon_Journal_filled"
+            return .journalFilled
         case .evaluate:
-            return "Icon_Evaluate_filled"
+            return .evaluateFilled
         }
     }
     

@@ -71,6 +71,10 @@ struct PropertyRow: View {
             return date?.toString(timeframeType: timeframe ?? .day) ?? Date().toString(timeframeType: .day)
         case .endDate:
             return date?.toString(timeframeType: timeframe ?? .day) ?? Date().toString(timeframeType: .day)
+        case .date:
+            return date?.toString(timeframeType: timeframe ?? .day) ?? Date().toString(timeframeType: .day)
+        case .dateCompleted:
+            return date?.toString(timeframeType: .day) ?? Date().toString(timeframeType: .day)
         case .aspect:
             return aspect?.toString() ?? AspectType.academic.toString()
         case .priority:
@@ -87,6 +91,14 @@ struct PropertyRow: View {
             return text ?? ""
         case .end:
             return text ?? ""
+        case .leftAsIs:
+            return String(int ?? 0)
+        case .deleted:
+            return String(int ?? 0)
+        case .edited:
+            return String(int ?? 0)
+        case .pushedOff:
+            return String(int ?? 0)
         default:
             return ""
         }

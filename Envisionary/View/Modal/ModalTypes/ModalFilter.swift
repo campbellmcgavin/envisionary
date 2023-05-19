@@ -99,7 +99,7 @@ struct ModalFilter: View {
                 coreValue = ""
 //                _ = vm.UpdateFilteredGoals(criteria: vm.filtering.GetFilters())
             }
-        }, headerContent: {EmptyView()})
+        }, headerContent: {EmptyView()}, bottomContent: {EmptyView()}, betweenContent: {EmptyView()})
         
         
     }

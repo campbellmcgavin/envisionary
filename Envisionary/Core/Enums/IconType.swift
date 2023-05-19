@@ -73,6 +73,20 @@ enum IconType {
     case hambugerMenu
     case lock
     
+    case envision
+    case plan
+    case execute
+    case journal
+    case evaluate
+    
+    case envisionFilled
+    case planFilled
+    case executeFilled
+    case journalFilled
+    case evaluateFilled
+    
+    case favorite
+    
     func ToIconString() -> String{
         switch self {
         case .add:
@@ -171,6 +185,28 @@ enum IconType {
             return "Icon_Check_Small"
         case .lock:
             return "Icon_Lock"
+        case .envision:
+            return "Icon_Envision"
+        case .plan:
+            return "Icon_Plan"
+        case .execute:
+            return "Icon_Execute"
+        case .journal:
+            return "Icon_Journal"
+        case .evaluate:
+            return "Icon_Evaluate"
+        case .envisionFilled:
+            return "Icon_Envision_filled"
+        case .planFilled:
+            return "Icon_Plan_filled"
+        case .executeFilled:
+            return "Icon_Execute_filled"
+        case .journalFilled:
+            return "Icon_Journal_filled"
+        case .evaluateFilled:
+            return "Icon_Evaluate_filled"
+        case .favorite:
+            return "Icon_Star"
         }
     }
 }

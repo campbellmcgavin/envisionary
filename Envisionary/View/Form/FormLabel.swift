@@ -25,7 +25,6 @@ struct FormLabel: View {
                 
                 FormCaption(fieldName: fieldName, fieldValue: fieldValue)
                 
-                
                 HStack{
                     
                     Text(fieldValue)

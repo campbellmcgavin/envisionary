@@ -43,6 +43,10 @@ struct DetailStack: View {
                 DetailGantt(shouldExpand: $shouldExpandAll, isPresentingModal: $isPresentingModal, modalType: $modalType, focusGoal: $focusObjectId, goalId: objectId)
                 DetailKanban(shouldExpand: $shouldExpandAll, isPresentingModal: $isPresentingModal, modalType: $modalType, focusGoal: $focusObjectId, statusToAdd: $statusToAdd, goalId: objectId)
             }
+            
+            if objectType == .session{
+                DetailAffectedGoals(shouldExpand: $shouldExpandAll, sessionProperties: properties)
+            }
 
 
         }

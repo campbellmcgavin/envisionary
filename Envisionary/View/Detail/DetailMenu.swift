@@ -14,6 +14,8 @@ struct DetailMenu: View {
     @Binding var modalType: ModalType
     var objectId: UUID
     @Binding var selectedObjectID: UUID
+    @Binding var shouldMarkAsFavorite: Bool
+    @Binding var finishedLoading: Bool
     @State var shouldPresentDelete: Bool = false
     @State var shouldPresentHelp: Bool = false
     @State var shouldPresentEdit: Bool = false
@@ -27,13 +29,17 @@ struct DetailMenu: View {
             if objectType.hasDetailMenuButton(button: .delete){
                 IconButton(isPressed: $shouldPresentDelete, size: .medium, iconType: .delete, iconColor: .red, circleColor: .grey10)
             }
-            if objectType.hasDetailMenuButton(button: .help){
-                IconButton(isPressed: $shouldPresentHelp, size: .medium, iconType: .help, iconColor: .purple, circleColor: .grey10)
+            if objectType.hasDetailMenuButton(button: .favorite){
+                IconButton(isPressed: $shouldMarkAsFavorite, size: .medium, iconType: .favorite, iconColor: shouldMarkAsFavorite ? .purple : .grey8, circleColor: .grey10)
+                    .disabled(!finishedLoading)
             }
-            if objectType.hasDetailMenuButton(button: .help){
+//            if objectType.hasDetailMenuButton(button: .help){
+//                IconButton(isPressed: $shouldPresentHelp, size: .medium, iconType: .help, iconColor: .purple, circleColor: .grey10)
+//            }
+            if objectType.hasDetailMenuButton(button: .edit){
                 IconButton(isPressed: $shouldPresentEdit, size: .medium, iconType: .edit, iconColor: .purple, circleColor: .grey10)
             }
-            if objectType.hasDetailMenuButton(button: .help){
+            if objectType.hasDetailMenuButton(button: .add){
                 IconButton(isPressed: $shouldPresentAdd, size: .medium, iconType: .add, iconColor: .purple, circleColor: .grey10)
             }
         }
@@ -68,6 +74,7 @@ struct DetailMenu: View {
             selectedObjectID = objectId
             isPresentingModal.toggle()
         }
+//        .onChange(of: shouldPresent)
     }
 }
 

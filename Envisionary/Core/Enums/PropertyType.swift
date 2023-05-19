@@ -14,6 +14,8 @@ enum PropertyType: String, CaseIterable, Identifiable{
     case title = "title"
     case description = "description"
     case timeframe = "timeframe"
+    case date = "date"
+    case dateCompleted = "dateCompleted"
     case startDate = "startDate"
     case endDate = "endDate"
     
@@ -25,8 +27,8 @@ enum PropertyType: String, CaseIterable, Identifiable{
     case coreValue = "coreValue"
     
     // SESSIONS
-    case edited = "edited"
     case leftAsIs = "leftAsIs"
+    case edited = "edited"
     case pushedOff = "pushedOff"
     case deleted = "deleted"
     
@@ -39,11 +41,18 @@ enum PropertyType: String, CaseIterable, Identifiable{
     case image = "image"
     case images = "images"
     
+    // PROMPTS
+    case promptType = "type"
+    
     func toIcon() -> IconType{
         switch self {
         case .startDate:
             return .dates
         case .endDate:
+            return .dates
+        case .date:
+            return .dates
+        case .dateCompleted:
             return .dates
         case .aspect:
             return .aspect
@@ -79,6 +88,8 @@ enum PropertyType: String, CaseIterable, Identifiable{
             return .photo
         case .image:
             return .photo
+        case .promptType:
+            return .favorite
         }
     }
     
@@ -122,6 +133,62 @@ enum PropertyType: String, CaseIterable, Identifiable{
             return "Images"
         case .image:
             return "Image"
+        case .date:
+            return "Session Date"
+        case .dateCompleted:
+            return "Date Completed"
+        case .promptType:
+            return "Prompt Type"
+        }
+    }
+    
+    func isSimple() -> Bool
+    {
+        switch self {
+        case .title:
+            return true
+        case .description:
+            return false
+        case .timeframe:
+            return false
+        case .startDate:
+            return false
+        case .endDate:
+            return false
+        case .aspect:
+            return true
+        case .priority:
+            return true
+        case .progress:
+            return false
+        case .parentId:
+            return false
+        case .coreValue:
+            return true
+        case .leftAsIs:
+            return false
+        case .edited:
+            return false
+        case .pushedOff:
+            return false
+        case .deleted:
+            return false
+        case .start:
+            return false
+        case .end:
+            return false
+        case .chapter:
+            return true
+        case .image:
+            return false
+        case .images:
+            return false
+        case .date:
+            return false
+        case .dateCompleted:
+            return false
+        case .promptType:
+            return false
         }
     }
 }

@@ -5,7 +5,7 @@
 //  Created by Campbell McGavin on 3/9/23.
 //
 
-enum TimeframeType: Int, CaseIterable, Codable{
+enum TimeframeType: Int, CaseIterable, Codable, Hashable{
     case decade = 0
     case year = 1
     case month = 2
@@ -55,5 +55,9 @@ enum TimeframeType: Int, CaseIterable, Codable{
         case .day:
             return .day
         }
+    }
+    
+    static func fromString(input: String) -> TimeframeType{
+        return Self.allCases.first(where: {$0.toString() == input}) ?? .day
     }
 }

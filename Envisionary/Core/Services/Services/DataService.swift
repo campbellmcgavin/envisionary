@@ -632,7 +632,7 @@ struct DataService: DataServiceProtocol {
             request.fetchLimit = limit
             
             let CoreValuesEntityList = try container.viewContext.fetch(request)
-            return CoreValuesEntityList.map({CoreValue(from: $0)})
+            return CoreValuesEntityList.map({CoreValue(from: $0)}).filter({$0.coreValue != .Introduction && $0.coreValue != .Conclusion})
         } catch let error {
             print ("ERROR FETCHING CoreValue. \(error)")
         }
@@ -867,6 +867,161 @@ struct DataService: DataServiceProtocol {
     func DeleteEntry(id: UUID) -> Bool{
         if let EntryToDelete = GetEntryEntity(id: id){
             container.viewContext.delete(EntryToDelete)
+            saveData()
+            return true
+        }
+        return false
+    }
+    
+    // MARK: - SESSIONS
+    
+    func CreateSession(request: CreateSessionRequest) -> UUID{
+        
+        let newSession = SessionEntity(context: container.viewContext)
+        let id = UUID()
+        newSession.date = request.date
+        newSession.id = id
+        newSession.dateCompleted = request.dateCompleted
+        newSession.timeframe = request.timeframe.toString()
+        
+        do {
+//            let evaluationDictionary = ConvertFromUUIDToStringDictionary(uuidDictionary: request.evaluationDictionary)
+//            let alignmentDictionary = ConvertFromUUIDToStringDictionary(uuidDictionary: request.alignmentDictionary)
+            let encoder = JSONEncoder()
+            newSession.evaluationDictionary = try encoder.encode(request.evaluationDictionary)
+            newSession.goalProperties = try encoder.encode(request.goalProperties)
+            newSession.alignmentDictionary = try encoder.encode(request.alignmentDictionary)
+        } catch {
+            print(error.localizedDescription)
+        }
+        saveData()
+        
+        return id
+    }
+    
+    private func ConvertFromUUIDToStringDictionary<T>(uuidDictionary: [UUID: T]) -> [String: T]{
+        var stringDictionary = [String: T]()
+        
+        for id in uuidDictionary.keys{
+            stringDictionary[id.uuidString] = uuidDictionary[id]
+        }
+        return stringDictionary
+    }
+    
+    func GetSession(id: UUID) -> Session?{
+        
+        let SessionEntity = GetSessionEntity(id: id)
+        
+        if let SessionEntity{
+            return Session(from: SessionEntity)
+        }
+        return nil
+    }
+    
+    private func GetSessionEntity(id: UUID) -> SessionEntity?{
+        let request = NSFetchRequest<SessionEntity>(entityName: "SessionEntity")
+        let predicate = NSPredicate(format: "id == %@", id as CVarArg)
+        request.predicate = predicate
+        
+        do {
+            let SessionsEntityList = try container.viewContext.fetch(request)
+            
+            return SessionsEntityList.first
+            
+        } catch let error {
+            print ("ERROR FETCHING Session. \(error)")
+        }
+        return nil
+    }
+    
+    func ListSessions(criteria: Criteria, limit: Int = 50) -> [Session]{
+        
+        do {
+            let request = NSFetchRequest<SessionEntity>(entityName: "SessionEntity")
+            
+            request.predicate = NSCompoundPredicate.PredicateBuilder(criteria: Criteria(), object: .session)
+            request.fetchLimit = limit
+            
+            let SessionsEntityList = try container.viewContext.fetch(request)
+            return SessionsEntityList.map({Session(from: $0)})
+        } catch let error {
+            print ("ERROR FETCHING Session. \(error)")
+        }
+        return [Session]()
+    }
+    
+    func DeleteSession(id: UUID) -> Bool{
+        if let SessionToDelete = GetSessionEntity(id: id){
+            container.viewContext.delete(SessionToDelete)
+            saveData()
+            return true
+        }
+        return false
+    }
+    
+    // MARK: - PROMPT
+    
+    func CreatePrompt(request: CreatePromptRequest) -> UUID{
+        
+        let newPrompt = PromptEntity(context: container.viewContext)
+        let id = UUID()
+        newPrompt.id = id
+        newPrompt.date = request.date
+        newPrompt.type = request.type.toString()
+        newPrompt.title = request.title
+        newPrompt.objectType = request.objectType.toString()
+        newPrompt.objectId = request.objectId
+        newPrompt.timeframe = request.timeframe?.toString()
+        saveData()
+        
+        return id
+    }
+    
+    func GetPrompt(id: UUID) -> Prompt?{
+        
+        let PromptEntity = GetPromptEntity(id: id)
+        
+        if let PromptEntity{
+            return Prompt(from: PromptEntity)
+        }
+        return nil
+    }
+    
+    private func GetPromptEntity(id: UUID) -> PromptEntity?{
+        let request = NSFetchRequest<PromptEntity>(entityName: "PromptEntity")
+        let predicate = NSPredicate(format: "id == %@", id as CVarArg)
+        request.predicate = predicate
+        
+        do {
+            let PromptsEntityList = try container.viewContext.fetch(request)
+            
+            return PromptsEntityList.first
+            
+        } catch let error {
+            print ("ERROR FETCHING Prompt. \(error)")
+        }
+        return nil
+    }
+    
+    func ListPrompts(criteria: Criteria, limit: Int = 50) -> [Prompt]{
+        
+        do {
+            let request = NSFetchRequest<PromptEntity>(entityName: "PromptEntity")
+            
+            request.predicate = NSCompoundPredicate.PredicateBuilder(criteria: criteria, object: .prompt)
+            request.fetchLimit = limit
+            
+            let PromptsEntityList = try container.viewContext.fetch(request)
+            return PromptsEntityList.map({Prompt(from: $0)})
+        } catch let error {
+            print ("ERROR FETCHING Prompt. \(error)")
+        }
+        return [Prompt]()
+    }
+    
+    func DeletePrompt(id: UUID) -> Bool{
+        if let PromptToDelete = GetPromptEntity(id: id){
+            container.viewContext.delete(PromptToDelete)
             saveData()
             return true
         }

@@ -71,7 +71,7 @@ struct ContentView: View {
                                         ContentViewStack()
                                         
                                     }
-                                        .padding(.top,GetStackOffset() - 40)
+                                        .padding(.top,GetStackOffset())
 
                                 }
                                 .onChange(of: shouldPopScrollToHideHeader){
@@ -170,6 +170,9 @@ struct ContentView: View {
                     alerts.UpdateCalendarAlerts(object: vm.filtering.filterObject, timeframe: vm.filtering.filterTimeframe, date: vm.filtering.filterDate)
                     UpdateFilteredObjectsDictionary()
                 }
+            }
+            .onChange(of: vm.triggers.shouldPresentModal){ _ in
+                isPresentingModal.toggle()
             }
             .onChange(of: offset){ [offset] newOffset in
                                 
@@ -285,10 +288,10 @@ struct ContentView: View {
     }
     
     func GetStackOffset() -> CGFloat {
-        if offset.y < 0 {
-            return -offset.y * 0.3 + 40
+        if offset.y < -5 {
+            return -5 - offset.y * 0.3
         }
-        return  40
+        return -5
     }
 }
 

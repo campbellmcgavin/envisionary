@@ -7,214 +7,131 @@
 
 import SwiftUI
 
-enum ValueType: CaseIterable, Codable {
+enum ValueType: CaseIterable, Codable, Hashable {
     case Introduction
     case Conclusion
     
-    case Abundance
     case Acceptance
     case Accountability
-    case Accuracy
     case Achievement
     case Adaptability
     case Adventure
-    case Affection
-    case AloneTime
     case Altruism
     case AnimalRights
     case AntiRacism
     case Appreciation
-    case Artistry
     case Autonomy
     case Awareness
     case Balance
-    case Beauty
-    case Bliss
     case Boldness
     case Bravery
-    case Calmness
-    case Caring
     case Change
-    case ChangeTheWorld
-    case Charisma
     case Charity
-    case ChasingYourDreams
-    case Clarity
-    case Cleanliness
-    case ClearCommunication
-    case Cleverness
-    case Coaching
-    case Comedy
     case Community
     case Compassion
     case Confidence
-    case Conformity
-    case Consciousness
     case Consistency
-    case ConstructiveCriticism
     case Cooperation
     case Courage
     case Creativity
-    case Credibility
     case Curiosity
     case Decisiveness
     case Dedication
-    case DeepConnections
     case Dependability
     case Diversity
-    case DynamicResponses
     case Effective
     case Efficiency
     case EmotionalIntelligence
     case Empathy
-    case Encouragement
-    case Entertainment
-    case Enthusiasm
     case Entrepreneurship
     case EnvironmentalProtection
-    case EqualRelationship
     case Excellence
-    case Exhilaration
-    case Experimentation
-    case Exploration
-    case ExtraordinaryExperiences
     case Fairness
     case Faith
     case Faithfulness
     case Fame
     case FamilyFirst
-    case FastPace
     case Fidelity
     case FinancialSecurity
-    case Finesse
     case Flexibility
     case Forgiveness
     case Freedom
-    case FreeTime
-    case Friendliness
-    case Friendship
     case Generosity
-    case Gentleness
-    case GiftGiving
     case Goodness
     case Gracefulness
     case Gratitude
     case GrowthMindset
     case Happiness
-    case Harmony
-    case HealthAndFitness
     case Honesty
-    case Honor
     case Hope
     case Humility
     case Humor
     case Imagination
-    case Implementation
     case Independence
     case Influence
-    case Ingenuity
-    case InnerTruth
     case Innovation
-    case Insightfulness
     case InspireOthers
     case Integrity
-    case Intimacy
-    case Intuition
     case Joy
     case Justice
     case Kindness
     case Knowledge
     case Laughter
-    case Lawfulness
     case Leadership
     case LearningFromMistakes
-    case Leisure
     case Listening
-    case Liveliness
     case Loyalty
     case Management
     case Mentorship
     case Modesty
-    case MutualSupport
-    case NaturalLiving
-    case NonConformity
-    case NonViolence
     case OpenMindedness
-    case Openness
     case Optimism
-    case Organization
     case Originality
     case Passion
     case Patience
     case Peacefulness
-    case PeaceOfMind
     case Persistence
     case PersonalDevelopment
-    case PersonalExpression
     case Planning
-    case Playfulness
     case PositiveAttitude
-    case PositiveImpact
     case Power
     case PrideInYourWork
-    case ProblemSolving
     case Professionalism
     case Profit
-    case PromiseKeeping
     case Prosperity
-    case ProtectingOthers
-    case Quality
-    case QualityTime
     case Reciprocity
     case Reliability
-    case Religion
-    case Resourcefulness
     case Respect
     case Responsibility
-    case Restraint
     case Righteousness
     case Romance
-    case SavingMoney
     case SelfControl
     case SelfDevelopment
     case SelfDiscipline
     case Selflessness
     case SelfLove
     case SelfMotivation
-    case SelfPreservation
     case ServiceOriented
-    case ShowingAppreciation
     case Sincerity
     case Socializing
     case SocialJustice
     case Spirituality
     case Spontaneity
     case Stability
-    case Stewardship
     case Strength
     case Success
     case Sustainability
     case Sweetness
     case Teamwork
-    case ThisTooShallPass
     case Thoughtfulness
-    case Tidiness
-    case Timeliness
     case Tolerance
     case Tradition
-    case TraditionalGenderRoles
     case Transparency
-    case Travel
-    case TrialAndError
     case Trust
-    case TrustYourGut
-    case Understanding
-    case Vivaciousness
     case Warmth
     case Wealth
     case Wellness
     case Wisdom
-    case Wit
     case WorkEthic
     case WorkLifeBalance
     
@@ -224,24 +141,16 @@ enum ValueType: CaseIterable, Codable {
             return "Introduction"
         case .Conclusion:
             return "Conclusion"
-        case .Abundance:
-            return "Abundance"
         case .Acceptance:
             return "Acceptance"
         case .Accountability:
             return "Accountability"
-        case .Accuracy:
-            return "Accuracy"
         case .Achievement:
             return "Achievement"
         case .Adaptability:
             return "Adaptability"
         case .Adventure:
             return "Adventure"
-        case .Affection:
-            return "Affection"
-        case .AloneTime:
-            return "Alone Time"
         case .Altruism:
             return "Altruism"
         case .AnimalRights:
@@ -250,84 +159,44 @@ enum ValueType: CaseIterable, Codable {
             return "Anti-Racism"
         case .Appreciation:
             return "Appreciation"
-        case .Artistry:
-            return "Artistry"
         case .Autonomy:
             return "Autonomy"
         case .Awareness:
             return "Awareness"
         case .Balance:
             return "Balance"
-        case .Beauty:
-            return "Beauty"
-        case .Bliss:
-            return "Bliss"
         case .Boldness:
             return "Boldness"
         case .Bravery:
             return "Bravery"
-        case .Calmness:
-            return "Calmness"
-        case .Caring:
-            return "Caring"
         case .Change:
             return "Change"
-        case .ChangeTheWorld:
-            return "Change the World"
-        case .Charisma:
-            return "Charisma"
         case .Charity:
             return "Charity"
-        case .ChasingYourDreams:
-            return "Chasing your dreams"
-        case .Clarity:
-            return "Clarity"
-        case .Cleanliness:
-            return "Cleanliness"
-        case .ClearCommunication:
-            return "Clear Communication"
-        case .Cleverness:
-            return "Cleverness"
-        case .Coaching:
-            return "Coaching"
-        case .Comedy:
-            return "Comedy"
         case .Community:
             return "Community"
         case .Compassion:
             return "Compassion"
         case .Confidence:
             return "Confidence"
-        case .Conformity:
-            return "Conformity"
-        case .Consciousness:
-            return "Consciousness"
         case .Consistency:
             return "Consistency"
-        case .ConstructiveCriticism:
-            return "Constructive Criticism"
         case .Cooperation:
             return "Cooperation"
         case .Courage:
             return "Courage"
         case .Creativity:
             return "Creativity"
-        case .Credibility:
-            return "Credibility"
         case .Curiosity:
             return "Curiosity"
         case .Decisiveness:
             return "Decisiveness"
         case .Dedication:
             return "Dedication"
-        case .DeepConnections:
-            return "Deep Connection"
         case .Dependability:
             return "Dependability"
         case .Diversity:
             return "Diversity"
-        case .DynamicResponses:
-            return "Dynamic Responses"
         case .Effective:
             return "Effective"
         case .Efficiency:
@@ -336,28 +205,12 @@ enum ValueType: CaseIterable, Codable {
             return "Emotional Intelligence"
         case .Empathy:
             return "Empathy"
-        case .Encouragement:
-            return "Encouragement"
-        case .Entertainment:
-            return "Entertainment"
-        case .Enthusiasm:
-            return "Enthusiasm"
         case .Entrepreneurship:
             return "Entrepreneurship"
         case .EnvironmentalProtection:
             return "Environmental Protection"
-        case .EqualRelationship:
-            return "Equal Relationship"
         case .Excellence:
             return "Excellence"
-        case .Exhilaration:
-            return "Exhilaration"
-        case .Experimentation:
-            return "Experimentation"
-        case .Exploration:
-            return "Exploration"
-        case .ExtraordinaryExperiences:
-            return "Extraordinary Experience"
         case .Fairness:
             return "Fairness"
         case .Faith:
@@ -368,32 +221,18 @@ enum ValueType: CaseIterable, Codable {
             return "Fame"
         case .FamilyFirst:
             return "Family First"
-        case .FastPace:
-            return "Fast Pace"
         case .Fidelity:
             return "Fidelity"
         case .FinancialSecurity:
             return "Financial Security"
-        case .Finesse:
-            return "Finesse"
         case .Flexibility:
             return "Flexibility"
         case .Forgiveness:
             return "Forgiveness"
         case .Freedom:
             return "Freedom"
-        case .FreeTime:
-            return "Free Time"
-        case .Friendliness:
-            return "Friendliness"
-        case .Friendship:
-            return "Friendship"
         case .Generosity:
             return "Generosity"
-        case .Gentleness:
-            return "Gentleness"
-        case .GiftGiving:
-            return "Gift Giving"
         case .Goodness:
             return "Goodness"
         case .Gracefulness:
@@ -404,14 +243,8 @@ enum ValueType: CaseIterable, Codable {
             return "Growth Mindset"
         case .Happiness:
             return "Happiness"
-        case .Harmony:
-            return "Harmony"
-        case .HealthAndFitness:
-            return "Health and Fitness"
         case .Honesty:
             return "Honesty"
-        case .Honor:
-            return "Honor"
         case .Hope:
             return "Hope"
         case .Humility:
@@ -420,28 +253,16 @@ enum ValueType: CaseIterable, Codable {
             return "Humor"
         case .Imagination:
             return "Imagination"
-        case .Implementation:
-            return "Implementation"
         case .Independence:
             return "Independence"
         case .Influence:
             return "Influence"
-        case .Ingenuity:
-            return "Ingenuity"
-        case .InnerTruth:
-            return "Inner Truth"
         case .Innovation:
             return "Innovation"
-        case .Insightfulness:
-            return "Insightfulness"
         case .InspireOthers:
             return "Inspire Others"
         case .Integrity:
             return "Integrity"
-        case .Intimacy:
-            return "Intimacy"
-        case .Intuition:
-            return "Intuition"
         case .Joy:
             return "Joy"
         case .Justice:
@@ -452,18 +273,12 @@ enum ValueType: CaseIterable, Codable {
             return "Knowledge"
         case .Laughter:
             return "Laughter"
-        case .Lawfulness:
-            return "Lawfulness"
         case .Leadership:
             return "Leadership"
         case .LearningFromMistakes:
             return "Learning From Mistakes"
-        case .Leisure:
-            return "Leisure"
         case .Listening:
             return "Listening"
-        case .Liveliness:
-            return "Liveliness"
         case .Loyalty:
             return "Loyalty"
         case .Management:
@@ -472,22 +287,10 @@ enum ValueType: CaseIterable, Codable {
             return "Mentorship"
         case .Modesty:
             return "Modesty"
-        case .MutualSupport:
-            return "Mutual Support"
-        case .NaturalLiving:
-            return "Natural Living"
-        case .NonConformity:
-            return "Non-Conformity"
-        case .NonViolence:
-            return "Non-Violence"
         case .OpenMindedness:
             return "Open-Mindedness"
-        case .Openness:
-            return "Openness"
         case .Optimism:
             return "Optimism"
-        case .Organization:
-            return "Organization"
         case .Originality:
             return "Originality"
         case .Passion:
@@ -496,62 +299,36 @@ enum ValueType: CaseIterable, Codable {
             return "Patience"
         case .Peacefulness:
             return "Peacefulness"
-        case .PeaceOfMind:
-            return "Peace of Mind"
         case .Persistence:
             return "Persistence"
         case .PersonalDevelopment:
             return "Personal Development"
-        case .PersonalExpression:
-            return "Personal Expression"
         case .Planning:
             return "Planning"
-        case .Playfulness:
-            return "Playfulness"
         case .PositiveAttitude:
             return "Positive Attitude"
-        case .PositiveImpact:
-            return "Positive Impact"
         case .Power:
             return "Power"
         case .PrideInYourWork:
             return "Pride in your Work"
-        case .ProblemSolving:
-            return "Problem Solving"
         case .Professionalism:
             return "Professionalism"
         case .Profit:
             return "Profit"
-        case .PromiseKeeping:
-            return "Promise Keeping"
         case .Prosperity:
             return "Prosperity"
-        case .ProtectingOthers:
-            return "Protecting Others"
-        case .Quality:
-            return "Quality"
-        case .QualityTime:
-            return "Quality Time"
         case .Reciprocity:
             return "Reciprocity"
         case .Reliability:
             return "Reliability"
-        case .Religion:
-            return "Religion"
-        case .Resourcefulness:
-            return "Resourcefulness"
         case .Respect:
             return "Respect"
         case .Responsibility:
             return "Responsibility"
-        case .Restraint:
-            return "Restraint"
         case .Righteousness:
             return "Righteousness"
         case .Romance:
             return "Romance"
-        case .SavingMoney:
-            return "Saving Money"
         case .SelfControl:
             return "Self-Control"
         case .SelfDevelopment:
@@ -564,12 +341,8 @@ enum ValueType: CaseIterable, Codable {
             return "Self-Love"
         case .SelfMotivation:
             return "Self-Motivation"
-        case .SelfPreservation:
-            return "Self-Preservation"
         case .ServiceOriented:
             return "Service-Oriented"
-        case .ShowingAppreciation:
-            return "Showing-Appreciation"
         case .Sincerity:
             return "Sincerity"
         case .Socializing:
@@ -582,8 +355,6 @@ enum ValueType: CaseIterable, Codable {
             return "Spontaneity"
         case .Stability:
             return "Stability"
-        case .Stewardship:
-            return "Stewardship"
         case .Strength:
             return "Strength"
         case .Success:
@@ -594,34 +365,16 @@ enum ValueType: CaseIterable, Codable {
             return "Sweetness"
         case .Teamwork:
             return "Teamwork"
-        case .ThisTooShallPass:
-            return "This Too Shall Pass"
         case .Thoughtfulness:
             return "Thoughtfulness"
-        case .Tidiness:
-            return "Tidiness"
-        case .Timeliness:
-            return "Timeliness"
         case .Tolerance:
             return "Tolerance"
         case .Tradition:
             return "Tradition"
-        case .TraditionalGenderRoles:
-            return "Traditional Gender Roles"
         case .Transparency:
             return "Transparency"
-        case .Travel:
-            return "Travel"
-        case .TrialAndError:
-            return "Trial and Error"
         case .Trust:
             return "Trust"
-        case .TrustYourGut:
-            return "Trust your Gut"
-        case .Understanding:
-            return "Understanding"
-        case .Vivaciousness:
-            return "Vivaciousness"
         case .Warmth:
             return "Warmth"
         case .Wealth:
@@ -630,12 +383,14 @@ enum ValueType: CaseIterable, Codable {
             return "Welness"
         case .Wisdom:
             return "Wisdom"
-        case .Wit:
-            return "Wit"
         case .WorkEthic:
             return "Work Ethic"
         case .WorkLifeBalance:
             return "Work-Life Balance"
         }
+    }
+    
+    static func fromString(input: String) -> Self{
+        return Self.allCases.first(where: {$0.toString() == input}) ?? .Kindness
     }
 }

@@ -69,4 +69,16 @@ protocol DataServiceProtocol {
     func GroupEntries(criteria: Criteria, grouping: GroupingType) -> [String:[Entry]]
     func UpdateEntry(id: UUID, request: UpdateEntryRequest) -> Bool
     func DeleteEntry(id: UUID) -> Bool
+    
+    // MARK: - SESSION
+    func CreateSession(request: CreateSessionRequest) -> UUID
+    func GetSession(id: UUID) -> Session?
+    func ListSessions(criteria: Criteria, limit: Int) -> [Session]
+    func DeleteSession(id: UUID) -> Bool
+    
+    // MARK: - PROMPT
+    func CreatePrompt(request: CreatePromptRequest) -> UUID
+    func GetPrompt(id: UUID) -> Prompt?
+    func ListPrompts(criteria: Criteria, limit: Int) -> [Prompt]
+    func DeletePrompt(id: UUID) -> Bool
 }

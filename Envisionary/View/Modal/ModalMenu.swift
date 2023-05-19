@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ModalMenu: View {
     let modalType: ModalType
+    let objectType: ObjectType
     let color: CustomColor
     @Binding var shouldHelp: Bool
     @Binding var shouldClose: Bool
@@ -48,7 +49,7 @@ struct ModalMenu: View {
         case .confirm:
             switch modalType {
             case .add:
-                return true
+                return objectType != .session
             case .search:
                 return false
             case .group:
@@ -76,6 +77,6 @@ struct ModalMenu: View {
 
 struct ModalMenu_Previews: PreviewProvider {
     static var previews: some View {
-        ModalMenu(modalType: .add, color: .purple, shouldHelp: .constant(true), shouldClose: .constant(true), shouldConfirm: .constant(true))
+        ModalMenu(modalType: .add, objectType: .goal, color: .purple, shouldHelp: .constant(true), shouldClose: .constant(true), shouldConfirm: .constant(true))
     }
 }

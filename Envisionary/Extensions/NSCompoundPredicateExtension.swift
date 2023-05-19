@@ -144,6 +144,10 @@ extension NSCompoundPredicate {
             predicates.append(NSPredicate(format: "progress >= %i", criteria.progress!))
         }
         
+        if criteria.promptType != nil && object.hasProperty(property: .promptType){
+            predicates.append(NSPredicate(format: "type == %@", criteria.promptType!.toString()))
+        }
+        
         return NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
     }
 }

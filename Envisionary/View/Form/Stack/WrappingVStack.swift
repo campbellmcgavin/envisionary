@@ -8,8 +8,9 @@
 import SwiftUI
 struct WrappingHStack: View {
     @Binding var fieldValue: String
+    @Binding var fieldValues: [String: Bool]
     @Binding var options: [String]
-
+    var isMultiSelector = false
     var isRestrictingOptions = false
     
     @State private var totalHeight
@@ -79,8 +80,21 @@ struct WrappingHStack: View {
     private func item(for text: String) -> some View {
         
         Button{
-            fieldValue = ""
-            fieldValue = text
+            
+            if isMultiSelector{
+                if fieldValues[text] != nil{
+                    if fieldValues[text]!{
+                        fieldValues[text]! = false
+                    }
+                    else{
+                        fieldValues[text]! = true
+                    }
+                }
+            }
+            else{
+                fieldValue = ""
+                fieldValue = text
+            }
         }
         label:{
             Text(text)
@@ -88,8 +102,28 @@ struct WrappingHStack: View {
                 .frame(height:38)
                 .foregroundColor(.specify(color: .grey10))
                 .padding([.leading,.trailing],12)
-                .background(Color.specify(color:  fieldValue == text ? .purple : .grey3))
+                .background(Color.specify(color:  GetColor(text:text)))
                 .cornerRadius(22)
+        }
+    }
+    
+    private func GetColor(text: String) -> CustomColor{
+        
+        if isMultiSelector{
+            if fieldValues[text] == true{
+                return .purple
+            }
+            else{
+                return .grey3
+            }
+        }
+        else{
+            if fieldValue == text {
+                return .purple
+            }
+            else{
+                return .grey3
+            }
         }
     }
 
@@ -108,7 +142,7 @@ struct WrappingHStack_Previews : PreviewProvider {
     static var previews: some View {
         VStack {
 //            Text("Header").font(.largeTitle)
-            WrappingHStack(fieldValue: .constant("Children"), options: .constant(AspectType.allCases.map({$0.toString()})))
+            WrappingHStack(fieldValue: .constant("Children"), fieldValues: .constant([String:Bool]()), options: .constant(AspectType.allCases.map({$0.toString()})))
 
         }
         .frame(maxWidth:.infinity,maxHeight:.infinity)
