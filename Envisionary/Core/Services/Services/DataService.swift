@@ -9,7 +9,7 @@ import SwiftUI
 import CoreData
 
 struct DataService: DataServiceProtocol {
-    
+
     
     var container: NSPersistentCloudKitContainer
     
@@ -138,7 +138,7 @@ struct DataService: DataServiceProtocol {
         do {
             let request = NSFetchRequest<GoalEntity>(entityName: "GoalEntity")
             
-            request.predicate = NSCompoundPredicate.PredicateBuilder(criteria: criteria, object: .goal)
+            request.predicate = NSCompoundPredicate.PredicateBuilder(criteria: criteria, object:.goal)
             request.fetchLimit = limit
             
             let goalsEntityList = try container.viewContext.fetch(request)
@@ -306,7 +306,7 @@ struct DataService: DataServiceProtocol {
         do {
             let request = NSFetchRequest<AspectEntity>(entityName: "AspectEntity")
             
-            request.predicate = NSCompoundPredicate.PredicateBuilder(criteria: criteria, object: .aspect)
+            request.predicate = NSCompoundPredicate.PredicateBuilder(criteria: criteria, object:.aspect)
             request.fetchLimit = limit
             
             let AspectsEntityList = try container.viewContext.fetch(request)
@@ -387,7 +387,7 @@ struct DataService: DataServiceProtocol {
         do {
             let request = NSFetchRequest<TaskEntity>(entityName: "TaskEntity")
             
-            request.predicate = NSCompoundPredicate.PredicateBuilder(criteria: criteria, object: .task)
+            request.predicate = NSCompoundPredicate.PredicateBuilder(criteria: criteria, object:.task)
             request.fetchLimit = limit
             
             let tasksEntityList = try container.viewContext.fetch(request)
@@ -502,7 +502,7 @@ struct DataService: DataServiceProtocol {
         do {
             let request = NSFetchRequest<DreamEntity>(entityName: "DreamEntity")
             
-            request.predicate = NSCompoundPredicate.PredicateBuilder(criteria: criteria, object: .dream)
+            request.predicate = NSCompoundPredicate.PredicateBuilder(criteria: criteria, object:.dream)
             request.fetchLimit = limit
             
             let DreamsEntityList = try container.viewContext.fetch(request)
@@ -628,7 +628,7 @@ struct DataService: DataServiceProtocol {
         do {
             let request = NSFetchRequest<CoreValueEntity>(entityName: "CoreValueEntity")
             
-            request.predicate = NSCompoundPredicate.PredicateBuilder(criteria: criteria, object: .value)
+            request.predicate = NSCompoundPredicate.PredicateBuilder(criteria: criteria, object:.value)
             request.fetchLimit = limit
             
             let CoreValuesEntityList = try container.viewContext.fetch(request)
@@ -706,7 +706,7 @@ struct DataService: DataServiceProtocol {
         do {
             let request = NSFetchRequest<ChapterEntity>(entityName: "ChapterEntity")
             
-            request.predicate = NSCompoundPredicate.PredicateBuilder(criteria: criteria, object: .chapter)
+            request.predicate = NSCompoundPredicate.PredicateBuilder(criteria: criteria, object:.chapter)
             request.fetchLimit = limit
             
             let ChaptersEntityList = try container.viewContext.fetch(request)
@@ -813,7 +813,7 @@ struct DataService: DataServiceProtocol {
         do {
             let request = NSFetchRequest<EntryEntity>(entityName: "EntryEntity")
             
-            request.predicate = NSCompoundPredicate.PredicateBuilder(criteria: criteria, object: .entry)
+            request.predicate = NSCompoundPredicate.PredicateBuilder(criteria: criteria, object:.entry)
             request.fetchLimit = limit
             
             let EntriesEntityList = try container.viewContext.fetch(request)
@@ -939,7 +939,7 @@ struct DataService: DataServiceProtocol {
         do {
             let request = NSFetchRequest<SessionEntity>(entityName: "SessionEntity")
             
-            request.predicate = NSCompoundPredicate.PredicateBuilder(criteria: Criteria(), object: .session)
+            request.predicate = NSCompoundPredicate.PredicateBuilder(criteria: Criteria(), object:.session)
             request.fetchLimit = limit
             
             let SessionsEntityList = try container.viewContext.fetch(request)
@@ -1008,7 +1008,7 @@ struct DataService: DataServiceProtocol {
         do {
             let request = NSFetchRequest<PromptEntity>(entityName: "PromptEntity")
             
-            request.predicate = NSCompoundPredicate.PredicateBuilder(criteria: criteria, object: .prompt)
+            request.predicate = NSCompoundPredicate.PredicateBuilder(criteria: criteria, object:.prompt)
             request.fetchLimit = limit
             
             let PromptsEntityList = try container.viewContext.fetch(request)
@@ -1026,5 +1026,272 @@ struct DataService: DataServiceProtocol {
             return true
         }
         return false
+    }
+    
+    // MARK: - HABITS
+    
+    func CreateHabit(request: CreateHabitRequest) -> UUID{
+        
+        let habitId = CreateHabitHelper(request: request)
+        if let habit = GetHabit(id: habitId){
+            let recurrenceRequests = HabitHelper().CreateRecurrences(habit: habit)
+            
+            for recurrenceRequest in recurrenceRequests {
+                _ = CreateRecurrence(request: recurrenceRequest)
+            }
+        }
+        return habitId
+    }
+    
+    func CreateHabitHelper(request: CreateHabitRequest) -> UUID{
+        let newHabit = HabitEntity(context: container.viewContext)
+        newHabit.title = request.title
+        newHabit.desc = request.description
+        newHabit.priority = request.priority.toString()
+        newHabit.startDate = request.startDate
+        newHabit.endDate = request.endDate
+        newHabit.aspect = request.aspect.toString()
+        newHabit.timeframe = request.timeframe.toString()
+        newHabit.image = request.image
+        newHabit.schedule = request.schedule.toString()
+        newHabit.amount = Int16(request.amount)
+        newHabit.unitOfMeasure = request.unitOfMeasure.toString()
+        
+        newHabit.id = UUID()
+        saveData()
+        
+        return newHabit.id!
+    }
+    
+    func GetHabit(id: UUID) -> Habit?{
+        
+        let habitEntity = GetHabitEntity(id: id)
+        
+        if let habitEntity{
+            return Habit(from: habitEntity)
+        }
+        return nil
+    }
+    
+    private func GetHabitEntity(id: UUID) -> HabitEntity?{
+        let request = NSFetchRequest<HabitEntity>(entityName: "HabitEntity")
+        let predicate = NSPredicate(format: "id == %@", id as CVarArg)
+        request.predicate = predicate
+        
+        do {
+            let habitsEntityList = try container.viewContext.fetch(request)
+            
+            return habitsEntityList.first
+            
+        } catch let error {
+            print ("ERROR FETCHING GOAL. \(error)")
+        }
+        return nil
+    }
+    
+    func ListHabits(criteria: Criteria, limit: Int = 50) -> [Habit]{
+        
+        
+        do {
+            let request = NSFetchRequest<HabitEntity>(entityName: "HabitEntity")
+            
+            request.predicate = NSCompoundPredicate.PredicateBuilder(criteria: criteria, object:.habit)
+            request.fetchLimit = limit
+            
+            let habitsEntityList = try container.viewContext.fetch(request)
+            return habitsEntityList.map({Habit(from: $0)})
+        } catch let error {
+            print ("ERROR FETCHING TASK. \(error)")
+        }
+        return [Habit]()
+    }
+    
+    func UpdateHabit(id: UUID, request: UpdateHabitRequest) -> Bool {
+        
+        if var entityToUpdate = GetHabitEntity(id: id) {
+            
+            entityToUpdate.title = request.title
+            entityToUpdate.desc = request.description
+            entityToUpdate.priority = request.priority.toString()
+            entityToUpdate.aspect = request.aspect.toString()
+            entityToUpdate.image = request.image
+            
+            saveData()
+            return true
+        }
+        
+        return false
+    }
+    
+    func DeleteHabit(id: UUID) -> Bool{
+        var criteria = Criteria()
+        criteria.habitId = id
+        let recurrences = ListRecurrences(criteria: criteria)
+        
+        for recurrence in recurrences {
+            _ = DeleteRecurrence(id: recurrence.id)
+        }
+        return DeleteHabitHelper(id: id)
+    }
+    
+    func DeleteHabitHelper(id: UUID) -> Bool{
+        if let habitToDelete = GetHabitEntity(id: id){
+            
+            container.viewContext.delete(habitToDelete)
+            saveData()
+            return true
+        }
+        return false
+    }
+    
+    func GroupHabits(criteria: Criteria, grouping: GroupingType) -> [String : [Habit]] {
+        
+        let habits = ListHabits(criteria: criteria)
+        var habitsDictionary: Dictionary<String,[Habit]> = [String:[Habit]]()
+                
+        for habit in habits {
+            switch grouping {
+                
+            case .title:
+                if  habitsDictionary[String(habit.title.prefix(1))] == nil {
+                    habitsDictionary[String(habit.title.prefix(1))] = [Habit]()
+                }
+                habitsDictionary[String(habit.title.prefix(1))]!.append(habit)
+            case .aspect:
+                if  habitsDictionary[habit.aspect.toString()] == nil {
+                    habitsDictionary[habit.aspect.toString()] = [Habit]()
+                }
+                habitsDictionary[habit.aspect.toString()]!.append(habit)
+            case .priority:
+                if  habitsDictionary[habit.priority.toString()] == nil {
+                    habitsDictionary[habit.priority.toString()] = [Habit]()
+                }
+                habitsDictionary[habit.priority.toString()]!.append(habit)
+            case .schedule:
+                if  habitsDictionary[habit.schedule.toString()] == nil {
+                    habitsDictionary[habit.schedule.toString()] = [Habit]()
+                }
+                habitsDictionary[habit.schedule.toString()]!.append(habit)
+            default:
+                let _ = "why"
+            }
+        }
+        return habitsDictionary
+    }
+    
+    // MARK: - RECURRENCES
+    
+    func CreateRecurrence(request: CreateRecurrenceRequest) -> UUID{
+        
+        let newRecurrence = RecurrenceEntity(context: container.viewContext)
+        newRecurrence.habitId = request.habitId
+        newRecurrence.isComplete = false
+        newRecurrence.scheduleType = request.scheduleType.toString()
+        newRecurrence.startDate = request.startDate
+        newRecurrence.endDate = request.endDate
+        newRecurrence.amount = 0
+        newRecurrence.timeOfDay = request.timeOfDay.toString()
+        
+        newRecurrence.id = UUID()
+        saveData()
+        
+        return newRecurrence.id!
+    }
+    
+    func GetRecurrence(id: UUID) -> Recurrence?{
+        
+        let recurrenceEntity = GetRecurrenceEntity(id: id)
+        
+        if let recurrenceEntity{
+            return Recurrence(from: recurrenceEntity)
+        }
+        return nil
+    }
+    
+    private func GetRecurrenceEntity(id: UUID) -> RecurrenceEntity?{
+        let request = NSFetchRequest<RecurrenceEntity>(entityName: "RecurrenceEntity")
+        let predicate = NSPredicate(format: "id == %@", id as CVarArg)
+        request.predicate = predicate
+        
+        do {
+            let recurrencesEntityList = try container.viewContext.fetch(request)
+            
+            return recurrencesEntityList.first
+            
+        } catch let error {
+            print ("ERROR FETCHING GOAL. \(error)")
+        }
+        return nil
+    }
+    
+    func ListRecurrences(criteria: Criteria, limit: Int = 50) -> [Recurrence]{
+        
+        do {
+            let request = NSFetchRequest<RecurrenceEntity>(entityName: "RecurrenceEntity")
+            
+            request.predicate = NSCompoundPredicate.PredicateBuilder(criteria: criteria, object:.recurrence)
+            request.fetchLimit = limit
+            
+            let recurrencesEntityList = try container.viewContext.fetch(request)
+            return recurrencesEntityList.map({Recurrence(from: $0)})
+        } catch let error {
+            print ("ERROR FETCHING TASK. \(error)")
+        }
+        return [Recurrence]()
+    }
+    
+    func UpdateRecurrence(id: UUID, request: UpdateRecurrenceRequest) -> Bool {
+        
+        if var entityToUpdate = GetRecurrenceEntity(id: id) {
+            
+            entityToUpdate.isComplete = false
+            entityToUpdate.amount = 0
+            
+            saveData()
+            return true
+        }
+        
+        return false
+    }
+    
+    func DeleteRecurrence(id: UUID) -> Bool{
+        if let recurrenceToDelete = GetRecurrenceEntity(id: id){
+            
+            container.viewContext.delete(recurrenceToDelete)
+            saveData()
+            return true
+        }
+        return false
+    }
+    
+    func GroupRecurrences(criteria: Criteria, grouping: GroupingType) -> [String : [Recurrence]] {
+        
+        let recurrences = ListRecurrences(criteria: criteria)
+        var recurrencesDictionary: Dictionary<String,[Recurrence]> = [String:[Recurrence]]()
+                
+//        for recurrence in recurrences {
+//            switch grouping {
+//
+//            case .title:
+//                if  recurrencesDictionary[String(recurrence.title.prefix(1))] == nil {
+//                    recurrencesDictionary[String(recurrence.title.prefix(1))] = [Recurrence]()
+//                }
+//                recurrencesDictionary[String(recurrence.title.prefix(1))]!.append(recurrence)
+//            case .aspect:
+//                if  recurrencesDictionary[recurrence.aspect.toString()] == nil {
+//                    recurrencesDictionary[recurrence.aspect.toString()] = [Recurrence]()
+//                }
+//                recurrencesDictionary[recurrence.aspect.toString()]!.append(recurrence)
+//            case .priority:
+//                if  recurrencesDictionary[recurrence.priority.toString()] == nil {
+//                    recurrencesDictionary[recurrence.priority.toString()] = [Recurrence]()
+//                }
+//                recurrencesDictionary[recurrence.priority.toString()]!.append(recurrence)
+//
+//            default:
+//                let _ = "why"
+//            }
+//        }
+        return recurrencesDictionary
     }
 }

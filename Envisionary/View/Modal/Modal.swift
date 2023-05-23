@@ -208,6 +208,6 @@ struct Modal_Previews: PreviewProvider {
 //            HeaderButton(isExpanded: .constant(true), color: .grey10, header: "Hello")
 //            HeaderButton(isExpanded: .constant(true), color: .grey10, header: "Hello")
             EmptyView()
-        }, headerContent: {FormStackPicker(fieldValue: .constant("Goal"), fieldName: "Objects", options: ObjectType.allCases.map({$0.toString()}))}, bottomContent: {EmptyView()}, betweenContent: {EmptyView()})
+        }, headerContent: {FormStackPicker(fieldValue: .constant("Goal"), fieldName: "Objects", options: .constant(ObjectType.allCases.map({$0.toString()})))}, bottomContent: {EmptyView()}, betweenContent: {EmptyView()})
     }
 }

@@ -23,7 +23,7 @@ struct SessionReviewUpcomingCard: View {
                 FormTextConfirm(fieldValue: $confirmed, fieldName: "Evaluation", fieldDescription: GetEvaluationDescription(), iconType: .help)
             }
             else{
-                FormStackPicker(fieldValue: $evaluationString, fieldName: "Evaluation", options: EvaluationType.allCases.map({$0.toString()}),iconType: .help)
+                FormStackPicker(fieldValue: $evaluationString, fieldName: "Evaluation", options: .constant(EvaluationType.allCases.map({$0.toString()})),iconType: .help)
             }
             
             switch evaluation {

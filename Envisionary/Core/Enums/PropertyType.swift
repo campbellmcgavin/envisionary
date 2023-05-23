@@ -44,6 +44,13 @@ enum PropertyType: String, CaseIterable, Identifiable{
     // PROMPTS
     case promptType = "type"
     
+    // HABITS
+    case scheduleType = "scheduleType"
+    case unit = "unit"
+    case amount = "amount"
+    case isComplete = "isComplete"
+    case habitId = "habitId"
+    
     func toIcon() -> IconType{
         switch self {
         case .startDate:
@@ -90,6 +97,16 @@ enum PropertyType: String, CaseIterable, Identifiable{
             return .photo
         case .promptType:
             return .favorite
+        case .scheduleType:
+            return .timeframe
+        case .amount:
+            return .amount
+        case .unit:
+            return .ruler
+        case .isComplete:
+            return .confirm
+        case .habitId:
+            return .habit
         }
     }
     
@@ -139,6 +156,16 @@ enum PropertyType: String, CaseIterable, Identifiable{
             return "Date Completed"
         case .promptType:
             return "Prompt Type"
+        case .scheduleType:
+            return "Schedule Type"
+        case .amount:
+            return "Amount"
+        case .unit:
+            return "Unit of Measurement"
+        case .isComplete:
+            return "Completion"
+        case .habitId:
+            return "Habit"
         }
     }
     
@@ -188,6 +215,16 @@ enum PropertyType: String, CaseIterable, Identifiable{
         case .dateCompleted:
             return false
         case .promptType:
+            return false
+        case .scheduleType:
+            return false
+        case .amount:
+            return false
+        case .unit:
+            return false
+        case .habitId:
+            return false
+        default:
             return false
         }
     }

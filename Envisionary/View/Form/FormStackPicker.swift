@@ -10,7 +10,7 @@ import SwiftUI
 struct FormStackPicker: View {
     @Binding var fieldValue: String
     let fieldName: String
-    let options: [String]
+    @Binding var options: [String]
     var iconType: IconType?
     var isSearchable: Bool = false
     @State var isExpanded: Bool = false
@@ -36,6 +36,10 @@ struct FormStackPicker: View {
         }
         .onAppear{
             searchString = fieldValue
+            UpdateOptions()
+        }
+        .onChange(of: options){
+            _ in
             UpdateOptions()
         }
         .onChange(of: searchString){
@@ -87,22 +91,22 @@ struct FormStackPicker: View {
     }
 }
 
-struct FormStackPicker_Previews: PreviewProvider {
-    static var previews: some View {
-
-            ScrollView{
-                VStack(spacing:10){
-                FormText(fieldValue: .constant(Properties().title!), fieldName: "Title", axis: .horizontal, iconType: .title)
-                FormText(fieldValue: .constant(Properties().description!), fieldName: "Description", axis: .vertical, iconType: .description)
-                    FormStackPicker(fieldValue: .constant("Career"), fieldName: "Aspect", options: AspectType.allCases.map({$0.toString()}),iconType: .aspect)
-                    FormStackPicker(fieldValue: .constant("Day"), fieldName: "Timeframe", options: TimeframeType.allCases.map({$0.toString()}),iconType: .timeframe)
-            }
-
-        }
-        .padding()
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .modifier(ModifierCard())
-
-
-    }
-}
+//struct FormStackPicker_Previews: PreviewProvider {
+//    static var previews: some View {
+//
+//            ScrollView{
+//                VStack(spacing:10){
+//                FormText(fieldValue: .constant(Properties().title!), fieldName: "Title", axis: .horizontal, iconType: .title)
+//                FormText(fieldValue: .constant(Properties().description!), fieldName: "Description", axis: .vertical, iconType: .description)
+//                    FormStackPicker(fieldValue: .constant("Career"), fieldName: "Aspect", options: AspectType.allCases.map({$0.toString()}),iconType: .aspect)
+//                    FormStackPicker(fieldValue: .constant("Day"), fieldName: "Timeframe", options: TimeframeType.allCases.map({$0.toString()}),iconType: .timeframe)
+//            }
+//
+//        }
+//        .padding()
+//        .frame(maxWidth: .infinity, maxHeight: .infinity)
+//        .modifier(ModifierCard())
+//
+//
+//    }
+//}

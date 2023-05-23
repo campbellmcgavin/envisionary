@@ -172,6 +172,8 @@ struct ModalManager: View {
                         _ = vm.DeleteTask(id: objectId)
                     case .session:
                         _ = vm.DeleteSession(id: objectId)
+                    case .habit:
+                        _ = vm.DeleteHabit(id: objectId)
                     default:
                         let _ = "why" //do nothing
                     }

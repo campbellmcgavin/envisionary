@@ -19,6 +19,10 @@ struct Criteria {
     var coreValue: String?
     var parentId: UUID?
     var promptType: PromptType?
+    var scheduleType: ScheduleType?
+    var isComplete: Bool?
+    var amount: Int?
+    var habitId: UUID?
     
     init(title: String? = nil, description: String?, timeframe: TimeframeType?, date: Date?, aspect: String?, priority: PriorityType?, progress: Int?, coreValue: String?, parentId: UUID?) {
         self.title = title

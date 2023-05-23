@@ -17,7 +17,8 @@ struct PropertyRow: View {
     var priority: PriorityType?
     var text: String?
     var coreValue: ValueType?
-    
+    var schedule: ScheduleType?
+    var unit: UnitType?
     var body: some View {
         
         Button{
@@ -99,6 +100,12 @@ struct PropertyRow: View {
             return String(int ?? 0)
         case .pushedOff:
             return String(int ?? 0)
+        case .scheduleType:
+            return schedule?.toString() ?? ScheduleType.aCertainAmountOverTime.toString()
+        case .amount:
+            return String(int ?? 0)
+        case .unit:
+            return unit?.toString() ?? UnitType.minutes.toString()
         default:
             return ""
         }

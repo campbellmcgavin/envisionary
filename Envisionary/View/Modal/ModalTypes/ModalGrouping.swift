@@ -38,13 +38,13 @@ struct ModalGrouping: View {
     func GetContent() -> some View {
         VStack(spacing:10){
             
-            FormStackPicker(fieldValue: $groupingGoal, fieldName: "Group " + ObjectType.goal.toPluralString() + " by", options: GroupingType.allCases.filter({$0.hasObject(object: .goal)}).map({$0.toPluralString()}))
-            FormStackPicker(fieldValue: $groupingTask, fieldName: "Group " + ObjectType.task.toPluralString() + " by", options: GroupingType.allCases.filter({$0.hasObject(object: .task)}).map({$0.toPluralString()}))
-            FormStackPicker(fieldValue: $groupingHabit, fieldName: "Group " + ObjectType.habit.toPluralString() + " by", options: GroupingType.allCases.filter({$0.hasObject(object: .habit)}).map({$0.toPluralString()}))
-            FormStackPicker(fieldValue: $groupingDream, fieldName: "Group " + ObjectType.dream.toPluralString() + " by", options: GroupingType.allCases.filter({$0.hasObject(object: .dream)}).map({$0.toPluralString()}))
-            FormStackPicker(fieldValue: $groupingSession, fieldName: "Group " + ObjectType.session.toPluralString() + " by", options: GroupingType.allCases.filter({$0.hasObject(object: .session)}).map({$0.toPluralString()}))
-            FormStackPicker(fieldValue: $groupingChapter, fieldName: "Group " + ObjectType.chapter.toPluralString() + " by", options: GroupingType.allCases.filter({$0.hasObject(object: .chapter)}).map({$0.toPluralString()}))
-            FormStackPicker(fieldValue: $groupingEntry, fieldName: "Group " + ObjectType.entry.toPluralString() + " by", options: GroupingType.allCases.filter({$0.hasObject(object: .entry)}).map({$0.toPluralString()}))
+            FormStackPicker(fieldValue: $groupingGoal, fieldName: "Group " + ObjectType.goal.toPluralString() + " by", options: .constant(GroupingType.allCases.filter({$0.hasObject(object: .goal)}).map({$0.toPluralString()})))
+            FormStackPicker(fieldValue: $groupingTask, fieldName: "Group " + ObjectType.task.toPluralString() + " by", options: .constant(GroupingType.allCases.filter({$0.hasObject(object: .task)}).map({$0.toPluralString()})))
+            FormStackPicker(fieldValue: $groupingHabit, fieldName: "Group " + ObjectType.habit.toPluralString() + " by", options: .constant(GroupingType.allCases.filter({$0.hasObject(object: .habit)}).map({$0.toPluralString()})))
+            FormStackPicker(fieldValue: $groupingDream, fieldName: "Group " + ObjectType.dream.toPluralString() + " by", options: .constant(GroupingType.allCases.filter({$0.hasObject(object: .dream)}).map({$0.toPluralString()})))
+            FormStackPicker(fieldValue: $groupingSession, fieldName: "Group " + ObjectType.session.toPluralString() + " by", options: .constant(GroupingType.allCases.filter({$0.hasObject(object: .session)}).map({$0.toPluralString()})))
+            FormStackPicker(fieldValue: $groupingChapter, fieldName: "Group " + ObjectType.chapter.toPluralString() + " by", options: .constant(GroupingType.allCases.filter({$0.hasObject(object: .chapter)}).map({$0.toPluralString()})))
+            FormStackPicker(fieldValue: $groupingEntry, fieldName: "Group " + ObjectType.entry.toPluralString() + " by", options: .constant(GroupingType.allCases.filter({$0.hasObject(object: .entry)}).map({$0.toPluralString()})))
             
         }
         .padding(8)

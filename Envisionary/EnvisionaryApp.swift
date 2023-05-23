@@ -9,7 +9,7 @@ import SwiftUI
 
 @main
 struct EnvisionaryApp: App {
-    @StateObject private var vm = ViewModel()
+    @StateObject private var vm = ViewModel(fillData: true)
     
     var body: some Scene {
         WindowGroup {

@@ -12,6 +12,7 @@ enum SizeType {
     case small
     case medium
     case mediumLarge
+    case largeMedium
     case large
     case extralarge
     
@@ -39,6 +40,8 @@ enum SizeType {
             return 39
         case .mediumLarge:
             return 50
+        case .largeMedium:
+            return 60
         case .large:
             return 70
         case .extralarge:
@@ -66,6 +69,7 @@ enum SizeType {
             return 100
         case .scrollPickerWidth:
             return 65
+            
         }
     }
 }

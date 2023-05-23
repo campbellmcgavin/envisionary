@@ -15,7 +15,7 @@ struct PhotoCard: View {
     var subheader: String
     var caption: String?
     var shouldHidePadding = false
-    
+    var imageSize: SizeType = .mediumLarge
     @State var image: UIImage? = nil
     
     @EnvironmentObject var vm: ViewModel
@@ -25,8 +25,7 @@ struct PhotoCard: View {
         {
             HStack(alignment:.center, spacing:0){
                 
-                
-                ImageCircle(imageSize: 50, image: image, iconSize: .small, icon: objectType.toIcon())
+                ImageCircle(imageSize: imageSize.ToSize(), image: image, iconSize: .medium, icon: objectType.toIcon())
 
                 VStack(alignment:.leading, spacing:0){
                     Text(header)

@@ -136,15 +136,21 @@ struct DetailProperties: View {
             }
         case .image:
             let _ = "why"
-        case .date:
-            if properties.date != nil {
-                PropertyRow(propertyType: .date, date: properties.date)
-            }
-        case .dateCompleted:
-            if properties.date != nil {
-                PropertyRow(propertyType: .dateCompleted, date: properties.dateCompleted)
-            }
         case .promptType:
+            let _ = "why"
+        case .scheduleType:
+            if properties.scheduleType != nil {
+                PropertyRow(propertyType: .scheduleType, schedule: properties.scheduleType)
+            }
+        case .amount:
+            if properties.amount != nil && properties.scheduleType != nil && properties.scheduleType!.shouldShowAmount() {
+                PropertyRow(propertyType: .amount, int: properties.amount)
+            }
+        case .unit:
+            if properties.unitOfMeasure != nil && properties.scheduleType != nil && properties.scheduleType!.shouldShowAmount() {
+                PropertyRow(propertyType: .unit, unit: properties.unitOfMeasure)
+            }
+        default:
             let _ = "why"
         }
     }

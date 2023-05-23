@@ -27,6 +27,7 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
     case emotion = 11
     case stats = 12
     case prompt = 13
+    case recurrence = 14
     
     func ShouldShowImage() -> Bool{
         switch self {
@@ -57,6 +58,8 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
         case .dream:
             return false
         case .prompt:
+            return false
+        case .recurrence:
             return false
         }
     }
@@ -91,6 +94,8 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             return "Dreams"
         case .prompt:
             return "Prompts"
+        case .recurrence:
+            return "Recurrences"
         }
     }
     
@@ -124,6 +129,8 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             return "Dream"
         case .prompt:
             return "Prompt"
+        case .recurrence:
+            return "Recurrence"
         }
     }
     
@@ -157,6 +164,8 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             return .dream
         case .prompt:
             return .favorite
+        case .recurrence:
+            return .habit
         }
     }
     
@@ -191,6 +200,8 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             return "all " + self.toPluralString() + " in " + date.toString(timeframeType: timeframe)
         case .prompt:
             return ""
+        case .recurrence:
+            return ""
         }
     }
     
@@ -223,6 +234,8 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
         case .stats:
             return "are performance insights."
         case .prompt:
+            return ""
+        case .recurrence:
             return ""
         }
     }
@@ -257,6 +270,8 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             return .evaluate
         case .prompt:
             return .execute
+        case .recurrence:
+            return .execute
         }
     }
     
@@ -290,6 +305,8 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
         case .stats:
             return "Stats, or statistics, offer performance insight into various areas of your life."
         case .prompt:
+            return ""
+        case .recurrence:
             return ""
         }
     }
@@ -405,7 +422,34 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
                 return false
             }
         case .habit:
-            return false
+            switch property {
+            case .title:
+                return true
+            case .description:
+                return true
+            case .timeframe:
+                return false
+            case .startDate:
+                return true
+            case .endDate:
+                return true
+            case .aspect:
+                return true
+            case .priority:
+                return true
+            case .progress:
+                return true
+            case .parentId:
+                return true
+            case .scheduleType:
+                return true
+            case .amount:
+                return true
+            case .unit:
+                return true
+            default:
+                return false
+            }
         case .home:
             return false
         case .chapter:
@@ -474,6 +518,21 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
                 return true
             }
             return false
+        case .recurrence:
+            switch property {
+            case .startDate:
+                return true
+            case .endDate:
+                return true
+            case .scheduleType:
+                return true
+            case .unit:
+                return true
+            case .amount:
+                return true
+            default:
+                return false
+            }
         }
     }
     
@@ -649,6 +708,8 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
                 return false
             }
         case .prompt:
+            return false
+        case .recurrence:
             return false
         }
     }

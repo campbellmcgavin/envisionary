@@ -12,10 +12,10 @@ struct FormCounter: View {
     var fieldName: String
     var iconType: IconType?
     var color: CustomColor?
-    
+    var buttonSize: SizeType = .small
     let minValue = 0
     var maxValue: Int = 20
-    
+    var unit: UnitType? = nil
     @State var fieldValueString = "1"
     @State var shouldGoUp = false
     @State var shouldGoDown = false
@@ -31,7 +31,7 @@ struct FormCounter: View {
                 
                 FormCaption(fieldName: fieldName, fieldValue: fieldValueString)
                 
-                Text("\($fieldValue.wrappedValue)")
+                Text("\($fieldValue.wrappedValue) " + (unit?.toString() ?? ""))
                     .scrollDismissesKeyboard(.interactively)
                     .padding()
                     .padding(.bottom, 5)
@@ -40,7 +40,7 @@ struct FormCounter: View {
                     .foregroundColor(.specify(color: .grey10))
                     .offset(y: 8)
 
-                Counter(fieldValue: $fieldValue, maxValue: maxValue)
+                Counter(fieldValue: $fieldValue, maxValue: maxValue, size: buttonSize)
                 .offset(x:-10, y:10)
                 .onChange(of: fieldValue){
                     _ in

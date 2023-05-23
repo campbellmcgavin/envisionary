@@ -186,6 +186,8 @@ struct ExpandedMenu: View {
             return false
         case .prompt:
             return false
+        default:
+            return false
         }
     }
 
@@ -219,6 +221,8 @@ struct ExpandedMenu: View {
         case .dream:
             return false
         case .prompt:
+            return false
+        default:
             return false
         }
     }

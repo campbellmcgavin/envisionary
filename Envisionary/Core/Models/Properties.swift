@@ -29,6 +29,11 @@ struct Properties: Identifiable, Equatable, Hashable, Codable{
     
     var valuesDictionary: [ValueType: Bool]?
     
+    var scheduleType: ScheduleType?
+    var amount: Int?
+    var unitOfMeasure: UnitType?
+    
+    
     //sessions
     var date: Date?
     var dateCompleted: Date?
@@ -62,6 +67,13 @@ struct Properties: Identifiable, Equatable, Hashable, Codable{
         image = nil
         images = nil
         id = UUID()
+    }
+    
+    init(recurrence: Recurrence?){
+        self.id = recurrence?.id ?? UUID()
+        self.parent = recurrence?.habitId ?? UUID()
+        self.scheduleType = recurrence?.scheduleType ?? .morning
+        self.amount = recurrence?.amount ?? 0
     }
     
     init(goal: Goal?){
@@ -142,5 +154,21 @@ struct Properties: Identifiable, Equatable, Hashable, Codable{
         self.evaluationDictionary = session?.evaluationDictionary
         self.alignmentDictionary = session?.alignmentDictionary
         self.childrenAddedDictionary = session?.childrenAddedDictionary
+    }
+    
+    init(habit: Habit?){
+        self.id = habit?.id ?? UUID()
+        self.title = habit?.title ?? "Empty Goal"
+        self.description = habit?.description ?? "Empty Description"
+        self.timeframe = habit?.timeframe
+        self.startDate = habit?.startDate
+        self.endDate = habit?.endDate
+        self.aspect = habit?.aspect
+        self.priority = habit?.priority
+        self.parent = habit?.goalId
+        self.image = habit?.image
+        self.amount = habit?.amount
+        self.unitOfMeasure = habit?.unitOfMeasure
+        self.scheduleType = habit?.schedule
     }
 }

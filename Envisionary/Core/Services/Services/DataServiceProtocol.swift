@@ -81,4 +81,20 @@ protocol DataServiceProtocol {
     func GetPrompt(id: UUID) -> Prompt?
     func ListPrompts(criteria: Criteria, limit: Int) -> [Prompt]
     func DeletePrompt(id: UUID) -> Bool
+    
+    // MARK: - HABITS
+    func CreateHabit(request: CreateHabitRequest) -> UUID
+    func GetHabit(id: UUID) -> Habit?
+    func ListHabits(criteria: Criteria, limit: Int) -> [Habit]
+    func UpdateHabit(id: UUID, request: UpdateHabitRequest) -> Bool
+    func DeleteHabit(id: UUID) -> Bool
+    func GroupHabits(criteria: Criteria, grouping: GroupingType) -> [String:[Habit]]
+    
+    // MARK: - RECURRENCE
+    func CreateRecurrence(request: CreateRecurrenceRequest) -> UUID
+    func GetRecurrence(id: UUID) -> Recurrence?
+    func ListRecurrences(criteria: Criteria, limit: Int) -> [Recurrence]
+    func UpdateRecurrence(id: UUID, request: UpdateRecurrenceRequest) -> Bool
+    func DeleteRecurrence(id: UUID) -> Bool
+    func GroupRecurrences(criteria: Criteria, grouping: GroupingType) -> [String:[Recurrence]]
 }

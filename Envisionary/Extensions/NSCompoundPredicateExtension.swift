@@ -148,6 +148,18 @@ extension NSCompoundPredicate {
             predicates.append(NSPredicate(format: "type == %@", criteria.promptType!.toString()))
         }
         
+        if criteria.scheduleType != nil && object.hasProperty(property: .scheduleType){
+            predicates.append(NSPredicate(format: "scheduleType == %@", criteria.scheduleType!.toString()))
+        }
+        
+        if criteria.isComplete != nil && object.hasProperty(property: .isComplete){
+            predicates.append(NSPredicate(format: "isComplete == %@", criteria.isComplete!))
+        }
+        
+        if criteria.amount != nil && object.hasProperty(property: .amount){
+            predicates.append(NSPredicate(format: "amount >= %@", criteria.amount!))
+        }
+        
         return NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
     }
 }

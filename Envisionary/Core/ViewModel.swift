@@ -4,8 +4,6 @@ import CoreData
 
 class ViewModel: ObservableObject, DataServiceProtocol
 {
-
-    
     
     // MARK: - DATA SERVICE
     let dataService = DataService()
@@ -22,72 +20,74 @@ class ViewModel: ObservableObject, DataServiceProtocol
     @Published var pushToToday = false
     
     // MARK: - Initializers
-    init(){
+    init(fillData: Bool = false){
         
-        if ListTasks(criteria: Criteria()).count < 10 {
-            for i in 1...10000 {
-                var task = Task(title: "Task" + String(i), description: "")
-                let randomDays = Int.random(in: -500...500)
-                let daySeconds = Double(randomDays * 60 * 60 * 24)
-                task.startDate = Date() + daySeconds
-                task.endDate = task.startDate
-                _ = self.CreateTask(request: CreateTaskRequest(properties: Properties(task: task)))
-            }
-        }
-
-        if ListGoals(criteria: Criteria()).count < 50{
-            for _ in 1...10{
-                for goal in Goal.sampleGoals{
-                    _ = self.CreateGoal(request: CreateGoalRequest(properties: Properties(goal: goal)))
+        if fillData {
+            if ListTasks(criteria: Criteria()).count < 10 {
+                for i in 1...1000 {
+                    var task = Task(title: "Task" + String(i), description: "")
+                    let randomDays = Int.random(in: -500...500)
+                    let daySeconds = Double(randomDays * 60 * 60 * 24)
+                    task.startDate = Date() + daySeconds
+                    task.endDate = task.startDate
+                    _ = self.CreateTask(request: CreateTaskRequest(properties: Properties(task: task)))
                 }
             }
-        }
 
-        
-        if ListCoreValues(criteria: Criteria()).count < 4{
-            
-            for value in CoreValue.samples{
-                _ = CreateCoreValue(request: CreateCoreValueRequest(coreValue: value.coreValue, description: value.description))
-            }
-        }
-        
-        if ListDreams().count < 3 {
-            for dream in Dream.samples{
-                _ = CreateDream(request: CreateDreamRequest(title: dream.title, description: dream.description, aspect: dream.aspect))
-            }
-        }
-        
-        if ListAspects().count < 5 {
-            for aspect in Aspect.samples{
-                _ = CreateAspect(request: CreateAspectRequest(aspect: aspect.aspect, description: aspect.description))
-            }
-        }
-        let promptList = ListPrompts()
-        
-        for prompt in promptList{
-            DeletePrompt(id: prompt.id)
-        }
-        
-        if ListPrompts(criteria: Criteria(type: .favorite)).count < 3{
-            let goalList = ListGoals()
-            
-            for _ in 1...5 {
-                if let goal = goalList.randomElement(){
-                    let request = CreatePromptRequest(type: .favorite, title: goal.title, date: Date(), objectType: .goal, objectId: goal.id)
-                    _ = CreatePrompt(request: request)
+            if ListGoals(criteria: Criteria()).count < 50{
+                for _ in 1...10{
+                    for goal in Goal.sampleGoals{
+                        _ = self.CreateGoal(request: CreateGoalRequest(properties: Properties(goal: goal)))
+                    }
                 }
             }
-        }
-        
-        if ListPrompts(criteria: Criteria(type: .suggestion)).count < 3{
-            let request1 = CreatePromptRequest(type: .suggestion, title: ObjectType.session.GetPromptTitle(), date: Date(), objectType: .session, timeframe: TimeframeType.allCases.filter({$0 != .day}).randomElement())
-            _ = CreatePrompt(request: request1)
+
             
-            let request2 = CreatePromptRequest(type: .suggestion, title: ObjectType.entry.GetPromptTitle(), date: Date(), objectType: .entry)
-            _ = CreatePrompt(request: request2)
+            if ListCoreValues(criteria: Criteria()).count < 4{
+                
+                for value in CoreValue.samples{
+                    _ = CreateCoreValue(request: CreateCoreValueRequest(coreValue: value.coreValue, description: value.description))
+                }
+            }
             
-            let request3 = CreatePromptRequest(type: .suggestion, title: ObjectType.value.GetPromptTitle(), date: Date(), objectType: .value)
-            _ = CreatePrompt(request: request3)
+            if ListDreams().count < 3 {
+                for dream in Dream.samples{
+                    _ = CreateDream(request: CreateDreamRequest(title: dream.title, description: dream.description, aspect: dream.aspect))
+                }
+            }
+            
+            if ListAspects().count < 5 {
+                for aspect in Aspect.samples{
+                    _ = CreateAspect(request: CreateAspectRequest(aspect: aspect.aspect, description: aspect.description))
+                }
+            }
+            let promptList = ListPrompts()
+            
+            for prompt in promptList{
+                DeletePrompt(id: prompt.id)
+            }
+            
+            if ListPrompts(criteria: Criteria(type: .favorite)).count < 3{
+                let goalList = ListGoals()
+                
+                for _ in 1...5 {
+                    if let goal = goalList.randomElement(){
+                        let request = CreatePromptRequest(type: .favorite, title: goal.title, date: Date(), objectType: .goal, objectId: goal.id)
+                        _ = CreatePrompt(request: request)
+                    }
+                }
+            }
+            
+            if ListPrompts(criteria: Criteria(type: .suggestion)).count < 3{
+                let request1 = CreatePromptRequest(type: .suggestion, title: ObjectType.session.GetPromptTitle(), date: Date(), objectType: .session, timeframe: TimeframeType.allCases.filter({$0 != .day}).randomElement())
+                _ = CreatePrompt(request: request1)
+                
+                let request2 = CreatePromptRequest(type: .suggestion, title: ObjectType.entry.GetPromptTitle(), date: Date(), objectType: .entry)
+                _ = CreatePrompt(request: request2)
+                
+                let request3 = CreatePromptRequest(type: .suggestion, title: ObjectType.value.GetPromptTitle(), date: Date(), objectType: .value)
+                _ = CreatePrompt(request: request3)
+            }
         }
     }
     
@@ -383,4 +383,74 @@ class ViewModel: ObservableObject, DataServiceProtocol
     }
     
     private func PromptsDidChange(){ updates.prompt.toggle() }
+
+    // MARK: - HABITS
+    
+    func CreateHabit(request: CreateHabitRequest) -> UUID{
+        HabitsDidChange()
+        return dataService.CreateHabit(request: request)
+    }
+    
+    func GetHabit(id: UUID) -> Habit?{
+        
+        return dataService.GetHabit(id: id)
+    }
+    
+    func ListHabits(criteria: Criteria = Criteria(), limit: Int = 50) -> [Habit] {
+        
+        return dataService.ListHabits(criteria: criteria, limit: limit)
+    }
+    
+    func GroupHabits(criteria: Criteria = Criteria(), grouping: GroupingType) -> [String:[Habit]]{
+                
+        return dataService.GroupHabits(criteria: criteria, grouping: grouping)
+    }
+    
+    func UpdateHabit(id: UUID, request: UpdateHabitRequest) -> Bool {
+        HabitsDidChange()
+        return dataService.UpdateHabit(id: id, request: request)
+    }
+    
+    func DeleteHabit(id: UUID) -> Bool{
+        HabitsDidChange()
+        return dataService.DeleteHabit(id: id)
+    }
+    
+    private func HabitsDidChange(){
+        updates.habit.toggle() }
+    
+    // MARK: - RECURRENCE
+    
+    func CreateRecurrence(request: CreateRecurrenceRequest) -> UUID{
+        RecurrencesDidChange()
+        return dataService.CreateRecurrence(request: request)
+    }
+    
+    func GetRecurrence(id: UUID) -> Recurrence?{
+        
+        return dataService.GetRecurrence(id: id)
+    }
+    
+    func ListRecurrences(criteria: Criteria = Criteria(), limit: Int = 50) -> [Recurrence] {
+        
+        return dataService.ListRecurrences(criteria: criteria, limit: limit)
+    }
+    
+    func GroupRecurrences(criteria: Criteria = Criteria(), grouping: GroupingType) -> [String:[Recurrence]]{
+                
+        return dataService.GroupRecurrences(criteria: criteria, grouping: grouping)
+    }
+    
+    func UpdateRecurrence(id: UUID, request: UpdateRecurrenceRequest) -> Bool {
+        RecurrencesDidChange()
+        return dataService.UpdateRecurrence(id: id, request: request)
+    }
+    
+    func DeleteRecurrence(id: UUID) -> Bool{
+        RecurrencesDidChange()
+        return dataService.DeleteRecurrence(id: id)
+    }
+    
+    private func RecurrencesDidChange(){
+        updates.recurrence.toggle() }
 }

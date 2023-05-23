@@ -15,6 +15,8 @@ struct TextButton: View {
     var style: CustomFont = .h2
     var shouldHaveBackground = false
     var shouldFill = true
+    var iconType: IconType? = nil
+    var height: SizeType = .minimumTouchTarget
     var body: some View {
         Button{
             isPressed.toggle()
@@ -34,6 +36,28 @@ struct TextButton: View {
                     Spacer()
             }
         }
+        else if iconType != nil {
+            HStack{
+                Text(text)
+                    .font(.specify(style: style))
+                    .foregroundColor(.specify(color: color))
+                    .frame(minWidth: 0)
+                    .padding([.top,.bottom], backgroundColor != .clear ? 10 : 0)
+                    .padding(.leading, backgroundColor == .clear ? 10 : 0)
+                
+                if iconType != nil {
+                    Spacer()
+                    IconLabel(size: .medium, iconType: iconType!, iconColor: backgroundColor, circleColor: color)
+                        .padding(8)
+                }
+                  
+            }
+            .frame(height:height.ToSize())
+            .modifier(ModifierMaxWidth(infinity: shouldFill && backgroundColor != .clear))
+//            .padding([.leading,.trailing])
+            .padding(.leading, iconType != nil ? 12 : 0)
+            .modifier(ModifierForm(color:backgroundColor))
+        }
         else{
             HStack{
                 Text(text)
@@ -42,6 +66,12 @@ struct TextButton: View {
                     .frame(minWidth: 0)
                     .padding([.top,.bottom], backgroundColor != .clear ? 10 : 0)
                     .padding(.leading, backgroundColor == .clear ? 10 : 0)
+                
+                if iconType != nil {
+                    Spacer()
+                    IconLabel(size: .medium, iconType: iconType!, iconColor: backgroundColor, circleColor: color)
+                        .padding(8)
+                }
                   
             }
             .modifier(ModifierMaxWidth(infinity: shouldFill && backgroundColor != .clear))

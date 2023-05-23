@@ -164,9 +164,7 @@ struct ScrollPickerObject: View {
                 return true
             case .emotion:
                 return true
-            case .stats:
-                return false
-            case .prompt:
+            default:
                 return false
             }
         }
@@ -227,6 +225,8 @@ struct ScrollPickerObject: View {
         case .dream:
             return .envision
         case .prompt:
+            return .execute
+        case .recurrence:
             return .execute
         }
     }

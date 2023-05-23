@@ -47,6 +47,21 @@
         <attribute name="title" optional="YES" attributeType="String"/>
         <attribute name="valuesDictionary" optional="YES" attributeType="Binary"/>
     </entity>
+    <entity name="HabitEntity" representedClassName="HabitEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="amount" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="aspect" optional="YES" attributeType="String"/>
+        <attribute name="desc" optional="YES" attributeType="String"/>
+        <attribute name="endDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="goalId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="image" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="priority" optional="YES" attributeType="String"/>
+        <attribute name="schedule" optional="YES" attributeType="String"/>
+        <attribute name="startDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="timeframe" optional="YES" attributeType="String"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <attribute name="unitOfMeasure" optional="YES" attributeType="String"/>
+    </entity>
     <entity name="ImageEntity" representedClassName="ImageEntity" syncable="YES" codeGenerationType="class">
         <attribute name="data" optional="YES" attributeType="Binary"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
@@ -59,6 +74,16 @@
         <attribute name="timeframe" optional="YES" attributeType="String"/>
         <attribute name="title" optional="YES" attributeType="String"/>
         <attribute name="type" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="RecurrenceEntity" representedClassName="RecurrenceEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="amount" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="endDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="habitId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="isComplete" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="scheduleType" optional="YES" attributeType="String"/>
+        <attribute name="startDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="timeOfDay" optional="YES" attributeType="String"/>
     </entity>
     <entity name="SessionEntity" representedClassName="SessionEntity" syncable="YES" codeGenerationType="class">
         <attribute name="alignmentDictionary" optional="YES" attributeType="Binary"/>

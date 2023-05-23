@@ -87,6 +87,10 @@ enum IconType {
     
     case favorite
     
+    case time
+    case ruler
+    case amount
+    
     func ToIconString() -> String{
         switch self {
         case .add:
@@ -207,6 +211,12 @@ enum IconType {
             return "Icon_Evaluate_filled"
         case .favorite:
             return "Icon_Star"
+        case .time:
+            return "Icon_Time_Start_Stop"
+        case .ruler:
+            return "Icon_Ruler"
+        case .amount:
+            return "Icon_Number"
         }
     }
 }

@@ -16,20 +16,35 @@ struct CollapsingListCard: View {
     var body: some View {
         
         VStack{
-            VStack{
-                ForEach(propertiesList) { properties in
-                    
-                    if isExpanded || propertiesList.firstIndex(of: properties) ?? 0 < 5 {
-                        if objectType == .task {
-                            TaskCard(taskId: properties.id)
-                        }
-                        else{
-                            PhotoCard(objectType: objectType, objectId: properties.id, properties: properties, header: properties.title ?? "", subheader: properties.description ?? "")
+            
+            if objectType == .recurrence {
+                VStack{
+                    ForEach(propertiesList) { properties in
+                        
+                        if isExpanded || propertiesList.firstIndex(of: properties) ?? 0 < 5 {
+                                RecurrenceCard(recurrenceId: properties.id)
+                                .modifier(ModifierCard())
                         }
                     }
                 }
             }
-            .modifier(ModifierCard())
+            else{
+                VStack{
+                    ForEach(propertiesList) { properties in
+                        
+                        if isExpanded || propertiesList.firstIndex(of: properties) ?? 0 < 5 {
+                            if objectType == .task {
+                                TaskCard(taskId: properties.id)
+                            }
+                            else{
+                                PhotoCard(objectType: objectType, objectId: properties.id, properties: properties, header: properties.title ?? "", subheader: properties.description ?? "")
+                            }
+                        }
+                    }
+                }
+                .modifier(ModifierCard())
+            }
+
 
             if propertiesList.count >= 5 {
                 IconButton(isPressed: $isExpanded, size: .small, iconType: isExpanded ? .up : .down, iconColor: .grey6, circleColor: .grey2)
