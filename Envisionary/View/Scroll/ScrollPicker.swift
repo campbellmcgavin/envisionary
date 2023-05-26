@@ -30,7 +30,12 @@ struct ScrollPicker<Content: View>: UIViewControllerRepresentable, Equatable {
         // MARK: - UIScrollViewDelegate
         func scrollViewDidScroll(_ scrollView: UIScrollView) {
             DispatchQueue.main.async {
-                self.offset.wrappedValue = scrollView.contentOffset
+                if self.axis == .horizontal{
+                    self.offset.wrappedValue.x = scrollView.contentOffset.x
+                }
+                else{
+                    self.offset.wrappedValue.y = scrollView.contentOffset.y
+                }
             }
         }
         
@@ -75,13 +80,10 @@ struct ScrollPicker<Content: View>: UIViewControllerRepresentable, Equatable {
                     scrollView.decelerationRate = .normal
                 }
             }
-
-
         }
 
         func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-
-            // if end delcate not fired...
+            
             if !decelerate{
                 DispatchQueue.main.async{
                     if self.axis == .horizontal{
@@ -261,6 +263,7 @@ final class UIScrollViewController<Content: View> : UIViewController, Observable
         scrollView.backgroundColor                           = .clear
         scrollView.decelerationRate                          = .fast
         scrollView.bounces                                   = true
+        
         if self.onScale != nil {
             scrollView.addGestureRecognizer(UIPinchGestureRecognizer(target: self, action: #selector(self.onGesture)))
         }

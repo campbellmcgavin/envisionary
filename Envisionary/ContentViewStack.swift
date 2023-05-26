@@ -10,7 +10,7 @@ import SwiftUI
 struct ContentViewStack: View {
     @EnvironmentObject var vm: ViewModel
     @State var shouldExpandAll: Bool = true
-
+    @StateObject var alerts = AlertsService()
     @State var goalDictionary: [String:[Goal]] = [String:[Goal]]()
     @State var taskDictionary: [String:[Task]] = [String:[Task]]()
     @State var dreamDictionary: [String:[Dream]] = [String:[Dream]]()
@@ -30,7 +30,10 @@ struct ContentViewStack: View {
 //    @State var
     var body: some View {
         
+        AlertsBuilder()
+        
         VStack{
+            
             if !GetHasContent(){
                 NoObjectsLabel(objectType: vm.filtering.filterObject)
             }
@@ -46,6 +49,11 @@ struct ContentViewStack: View {
             
         }
         .onAppear(){
+            withAnimation{
+                alerts.UpdateContentAlerts(content: vm.filtering.filterContent)
+                alerts.UpdateObjectAlerts(object: vm.filtering.filterObject)
+                alerts.UpdateCalendarAlerts(object: vm.filtering.filterObject, timeframe: vm.filtering.filterTimeframe, date: vm.filtering.filterDate)
+            }
             UpdateData()
         }
         .onChange(of: vm.filtering){
@@ -56,9 +64,46 @@ struct ContentViewStack: View {
             _ in
             UpdateData()
         }
-        .onChange(of: vm.filtering.filterContent){ _ in
-            shouldExpandAll = true
+        .onChange(of: vm.grouping){
+            _ in
+            UpdateData()
         }
+        .onChange(of: vm.filtering.filterContent){
+            _ in
+            shouldExpandAll = true
+            withAnimation{
+                alerts.UpdateContentAlerts(content: vm.filtering.filterContent)
+            }
+        }
+        .onChange(of: vm.filtering.filterObject){
+            _ in
+            withAnimation{
+                alerts.UpdateObjectAlerts(object: vm.filtering.filterObject)
+                alerts.UpdateCalendarAlerts(object: vm.filtering.filterObject, timeframe: vm.filtering.filterTimeframe, date: vm.filtering.filterDate)
+            }
+        }
+        .onChange(of: vm.filtering.filterTimeframe){ _ in
+            withAnimation{
+                alerts.UpdateCalendarAlerts(object: vm.filtering.filterObject, timeframe: vm.filtering.filterTimeframe, date: vm.filtering.filterDate)
+            }
+        }
+        .onChange(of: vm.filtering.filterDate){ _ in
+            withAnimation{
+                alerts.UpdateCalendarAlerts(object: vm.filtering.filterObject, timeframe: vm.filtering.filterTimeframe, date: vm.filtering.filterDate)
+            }
+        }
+    }
+    
+    @ViewBuilder
+    func AlertsBuilder() -> some View{
+        VStack(spacing:0){
+            ForEach(alerts.alerts){
+                alert in
+                AlertLabel(alert: alert)
+            }
+        }
+        .padding(.top)
+
     }
     
     func UpdateData(){

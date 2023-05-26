@@ -22,7 +22,7 @@ struct CollapsingListCard: View {
                     ForEach(propertiesList) { properties in
                         
                         if isExpanded || propertiesList.firstIndex(of: properties) ?? 0 < 5 {
-                                RecurrenceCard(recurrenceId: properties.id)
+                            RecurrenceCard(habitId:  properties.habitId ?? UUID(), recurrenceId: properties.id, date: .constant(Date()))
                                 .modifier(ModifierCard())
                         }
                     }

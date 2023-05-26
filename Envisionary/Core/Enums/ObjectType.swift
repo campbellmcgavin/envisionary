@@ -530,6 +530,8 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
                 return true
             case .amount:
                 return true
+            case .habitId:
+                return true
             default:
                 return false
             }

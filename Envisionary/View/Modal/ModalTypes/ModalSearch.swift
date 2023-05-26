@@ -14,11 +14,7 @@ struct ModalSearch: View {
     
     @State var searchString = ""
     @State var objectType: ObjectType
-    @State var tasksFiltered = [Task]()
-    @State var valuesFiltered = [CoreValue]()
-    @State var dreamsFiltered = [Dream]()
-    @State var aspectsFiltered = [Aspect]()
-    @State var goalsFiltered = [Goal]()
+    @State var objectsFiltered = [Properties]()
     
     @State var shouldShowObject = false
     @EnvironmentObject var vm: ViewModel
@@ -62,40 +58,61 @@ struct ModalSearch: View {
         switch objectType {
         case .value:
             if searchString.count == 0 {
-                valuesFiltered = vm.ListCoreValues(criteria: Criteria())
+                objectsFiltered = vm.ListCoreValues(criteria: Criteria()).map({Properties(value: $0)})
             }
             else{
-                valuesFiltered = vm.ListCoreValues(criteria: Criteria(title: searchString))
+                objectsFiltered = vm.ListCoreValues(criteria: Criteria(title: searchString)).map({Properties(value: $0)})
             }
         case .dream:
             if searchString.count == 0 {
-                dreamsFiltered = vm.ListDreams(criteria: Criteria())
+                objectsFiltered = vm.ListDreams(criteria: Criteria()).map({Properties(dream: $0)})
             }
             else{
-                dreamsFiltered = vm.ListDreams(criteria: Criteria(title: searchString))
+                objectsFiltered = vm.ListDreams(criteria: Criteria(title: searchString)).map({Properties(dream: $0)})
             }
         case .aspect:
             if searchString.count == 0 {
-                aspectsFiltered = vm.ListAspects(criteria: Criteria())
+                objectsFiltered = vm.ListAspects(criteria: Criteria()).map({Properties(aspect: $0)})
             }
             else{
                 var criteria = Criteria()
                 criteria.aspect = searchString
-                aspectsFiltered = vm.ListAspects(criteria: Criteria(title: searchString))
+                objectsFiltered = vm.ListAspects(criteria: Criteria(title: searchString)).map({Properties(aspect: $0)})
             }
         case .goal:
             if searchString.count == 0 {
-                goalsFiltered = vm.ListGoals(criteria: Criteria())
+                objectsFiltered = vm.ListGoals(criteria: Criteria()).map({Properties(goal: $0)})
             }
             else{
-                goalsFiltered = vm.ListGoals(criteria: Criteria(title: searchString))
+                objectsFiltered = vm.ListGoals(criteria: Criteria(title: searchString)).map({Properties(goal: $0)})
+            }
+        case .habit:
+            if searchString.count == 0 {
+                objectsFiltered = vm.ListHabits().map({Properties(habit: $0)})
+            }
+            else{
+                objectsFiltered = vm.ListHabits(criteria: Criteria(title: searchString)).map({Properties(habit: $0)})
             }
         case .task:
             if searchString.count == 0 {
-                tasksFiltered = vm.ListTasks(criteria: Criteria())
+                objectsFiltered = vm.ListTasks(criteria: Criteria()).map({Properties(task: $0)})
             }
             else{
-                tasksFiltered = vm.ListTasks(criteria: Criteria(title: searchString))
+                objectsFiltered = vm.ListTasks(criteria: Criteria(title: searchString)).map({Properties(task: $0)})
+            }
+        case .chapter:
+            if searchString.count == 0 {
+                objectsFiltered = vm.ListChapters().map({Properties(chapter: $0)})
+            }
+            else{
+                objectsFiltered = vm.ListChapters(criteria: Criteria(title: searchString)).map({Properties(chapter: $0)})
+            }
+        case .entry:
+            if searchString.count == 0 {
+                objectsFiltered = vm.ListEntries().map({Properties(entry: $0)})
+            }
+            else{
+                objectsFiltered = vm.ListEntries(criteria: Criteria(title: searchString)).map({Properties(entry: $0)})
             }
         default:
             let _ = "why"
@@ -109,45 +126,11 @@ struct ModalSearch: View {
             FormText(fieldValue: $searchString, fieldName: "Search", axis: .horizontal, iconType: .search)
                 .padding(8)
             
-            
-            switch objectType {
-            case .value:
-                ScrollView(.vertical){
-                    ForEach(valuesFiltered){
-                        value in
-                        PhotoCard(objectType: .value, objectId: value.id, properties: Properties(value: value), header: value.coreValue.toString(), subheader: value.description)
-                    }
+            ScrollView(.vertical){
+                ForEach(objectsFiltered){
+                    properties in
+                    PhotoCard(objectType: objectType, objectId: properties.id, properties: properties, header: properties.title ?? "", subheader: properties.description ?? "")
                 }
-            case .dream:
-                ScrollView(.vertical){
-                    ForEach(dreamsFiltered){
-                        dream in
-                        PhotoCard(objectType: .dream, objectId: dream.id, properties: Properties(dream: dream), header: dream.title, subheader: dream.description)
-                    }
-                }
-            case .aspect:
-                ScrollView(.vertical){
-                    ForEach(aspectsFiltered){
-                        aspect in
-                        PhotoCard(objectType: .aspect, objectId: aspect.id, properties: Properties(aspect: aspect), header: aspect.aspect.toString(), subheader: aspect.description)
-                    }
-                }
-            case .goal:
-                ScrollView(.vertical){
-                    ForEach(goalsFiltered){
-                        goal in
-                        PhotoCard(objectType: .goal, objectId: goal.id, properties: Properties(goal: goal), header: goal.title, subheader: goal.description)
-                    }
-                }
-            case .task:
-                ScrollView(.vertical){
-                    ForEach(tasksFiltered){
-                        task in
-                        PhotoCard(objectType: .task, objectId: task.id, properties: Properties(task: task), header: task.title, subheader: task.description)
-                    }
-                }
-            default:
-                EmptyView()
             }
         }
     }

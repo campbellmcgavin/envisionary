@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ObjectGrouping {
+struct ObjectGrouping: Equatable {
 
     var dream: GroupingType
     var goal: GroupingType
@@ -25,5 +25,17 @@ struct ObjectGrouping {
         habit = .title
         chapter = .title
         entry = .title
+    }
+    
+    static func == (lhs: ObjectGrouping, rhs: ObjectGrouping) -> Bool {
+        
+        let isEqual =   lhs.dream == rhs.dream &&
+                        lhs.goal == rhs.goal &&
+                        lhs.session == rhs.session &&
+                        lhs.task == rhs.task &&
+                        lhs.habit == rhs.habit &&
+                        lhs.chapter == rhs.chapter &&
+                        lhs.entry == rhs.entry
+        return isEqual
     }
 }

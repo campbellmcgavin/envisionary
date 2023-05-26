@@ -17,6 +17,7 @@ struct ScrollPickerObject: View {
     @State var buttonIsChangingObject = false
     @State var objectDisplay: ObjectType = .home
     @State private var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    @State private var timerPop = Timer.publish(every: 0.5, on: .main, in: .common).autoconnect()
     @State var objectList = [ObjectType]()
     
     let weirdOffset = CGFloat(8)
@@ -65,28 +66,21 @@ struct ScrollPickerObject: View {
             }
         }
         .frame(height:ShouldShowObjects() ? SizeType.minimumTouchTarget.ToSize() : 0)
-        
-            
-        
         .onChange(of: contentOffset.x){ _ in
             objectDisplay = GetObjectFromOffset()
             self.startTimer()
-            
         }
         .onChange(of: vm.filtering.filterContent){
             _ in
-            withAnimation{
-                LoadObjects()
-            }
-            isLoadingObjects.toggle()
+            self.timerPop = Timer.publish(every: 0.16, on: .main, in: .common).autoconnect()
+
         }
         .onAppear{
             LoadObjects()
             contentOffset.x = GetOffsetFromObject()
             objectDisplay = objectType
             self.startTimer()
-            
-            isLoadingObjects.toggle()
+            self.timerPop.upstream.connect().cancel()
         }
         .onChange(of: objectList){
             _ in
@@ -110,6 +104,14 @@ struct ScrollPickerObject: View {
             _ in
             let impact = UIImpactFeedbackGenerator(style: .light)
                   impact.impactOccurred()
+        }
+        .onReceive(timerPop){
+            _ in
+            DispatchQueue.main.async{
+                withAnimation{
+                    LoadObjects()
+                }
+            }
         }
         .onReceive(timer){ _ in
             DispatchQueue.main.async{
@@ -151,7 +153,7 @@ struct ScrollPickerObject: View {
             case .goal:
                 return true
             case .session:
-                return true
+                return false
             case .task:
                 return true
             case .habit:
@@ -236,7 +238,7 @@ struct ScrollPickerObject: View {
     }
     
     func startTimer() {
-        self.timer = Timer.publish(every: 0.5, on: .main, in: .common).autoconnect()
+        self.timer = Timer.publish(every: 0.3, on: .main, in: .common).autoconnect()
     }
     
     func GetObjectFromOffset() -> ObjectType {

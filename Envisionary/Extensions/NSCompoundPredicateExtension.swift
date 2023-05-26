@@ -160,6 +160,10 @@ extension NSCompoundPredicate {
             predicates.append(NSPredicate(format: "amount >= %@", criteria.amount!))
         }
         
+        if criteria.habitId != nil && object.hasProperty(property: .habitId){
+            predicates.append(NSPredicate(format: "habitId == %@", criteria.habitId! as CVarArg))
+        }
+        
         return NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
     }
 }

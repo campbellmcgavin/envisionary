@@ -11,6 +11,7 @@ struct CalendarPickerBody: View {
     @EnvironmentObject var vm: ViewModel
     @Binding var date: Date
     @Binding var timeframe: TimeframeType
+    @Binding var dateStatuses: [DateValue]
     @State var dates: [DateValue] = [DateValue]()
     @State var datesWithContent: [DatePair] = []
     @State var dateValuesWithContent: [Int] = [Int]()
@@ -38,7 +39,9 @@ struct CalendarPickerBody: View {
                 LazyVGrid(columns: columns,spacing: 15) {
                     ForEach(dates){ value in
                         
-                        CalendarPickerCard(date: $date, filterTimeframe: $timeframe, localized: localized, isSelected: GetIsSelected(value: value), containsGoal: dateValuesWithContent.contains(where:{$0 == value.day}), value: value)
+                        let dateStatus = GetDateStatus(date: value.date)
+                        
+                        CalendarPickerCard(date: $date, filterTimeframe: $timeframe, localized: localized, isSelected: GetIsSelected(value: value), containsGoal: dateValuesWithContent.contains(where:{$0 == value.day}), shouldComplete: dateStatus != nil, isComplete: dateStatus?.day ?? 0 == 1, value: value)
                     }
                     
                 }
@@ -98,6 +101,10 @@ struct CalendarPickerBody: View {
 //                GetDateValuesHaveContent()
 //            }
 //        }
+    }
+    
+    func GetDateStatus(date: Date) -> DateValue?{
+        return dateStatuses.first(where: {$0.date.isInSameDay(as: date)})
     }
     
     
@@ -165,7 +172,7 @@ struct CalendarPickerBody: View {
 
 struct CalendarPickerBody_Previews: PreviewProvider {
     static var previews: some View {
-        CalendarPickerBody(date: .constant(Date()), timeframe: .constant(.day), localized: true)
+        CalendarPickerBody(date: .constant(Date()), timeframe: .constant(.day), dateStatuses: .constant([DateValue]()), localized: true)
     }
 }
 
@@ -175,6 +182,8 @@ struct CalendarPickerCard: View {
     let localized: Bool
     var isSelected: Bool
     var containsGoal: Bool
+    var shouldComplete: Bool = false
+    var isComplete: Bool = false
     
     @EnvironmentObject var vm: ViewModel
     var value: DateValue
@@ -184,16 +193,40 @@ struct CalendarPickerCard: View {
         
         if value.day != -1{
             
-            VStack{
-                CalendarPickerCardText(timeframe: $filterTimeframe, value: value, isSelected: isSelected)
-                if !localized{
-                    CalendarPickerCardCircle(containsGoal: containsGoal, filterTimeframe: filterTimeframe, dateValue: value, selectionDate: $date)
+            ZStack{
+                
+                VStack{
+                    if shouldComplete{
+                        if isComplete{
+                            Circle()
+                                .strokeBorder(Color.specify(color: .green), lineWidth: 3)
+                        }
+                        else{
+                            if value.date > Date(){
+                                Circle()
+                                    .strokeBorder(Color.specify(color: .grey5), lineWidth: 3)
+                            }
+                            else{
+                                Circle()
+                                    .strokeBorder(Color.specify(color: .red), lineWidth: 3)
+                            }
+                        }
+                    }
                 }
-            }
-            .foregroundColor(.specify(color: .grey8))
-            .frame(height: 30,alignment: .top)
-            .onTapGesture {
-                date = value.date
+                .frame(width:40,height:40)
+                .offset(y:3)
+                
+                VStack{
+                    CalendarPickerCardText(timeframe: $filterTimeframe, value: value, isSelected: isSelected)
+                    if !localized{
+                        CalendarPickerCardCircle(containsGoal: containsGoal, filterTimeframe: filterTimeframe, dateValue: value, selectionDate: $date)
+                    }
+                }
+                .foregroundColor(.specify(color: .grey8))
+                .frame(height: 30,alignment: .top)
+                .onTapGesture {
+                    date = value.date
+                }
             }
         }
         else{

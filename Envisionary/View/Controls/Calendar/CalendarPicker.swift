@@ -12,7 +12,7 @@ struct CalendarPicker: View {
     @EnvironmentObject var vm: ViewModel
     @Binding var date: Date
     @Binding var timeframeType: TimeframeType
-    
+    @Binding var dateStatuses: [DateValue]
     var localized: Bool
     
     
@@ -20,13 +20,13 @@ struct CalendarPicker: View {
         VStack{
             
             CalendarPickerHeader(date: $date, timeframeType: $timeframeType, localized: localized)
-            CalendarPickerBody(date: $date, timeframe: $timeframeType, localized: localized)
+            CalendarPickerBody(date: $date, timeframe: $timeframeType, dateStatuses: $dateStatuses, localized: localized)
         }
     }
 }
 
 struct CalendarPicker_Previews: PreviewProvider {
     static var previews: some View {
-        CalendarPicker(date: .constant(Date()), timeframeType: .constant(TimeframeType.day), localized: true)
+        CalendarPicker(date: .constant(Date()), timeframeType: .constant(TimeframeType.day), dateStatuses: .constant([DateValue]()), localized: true)
     }
 }

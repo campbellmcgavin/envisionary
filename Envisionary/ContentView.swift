@@ -10,8 +10,6 @@ import SwiftUI
 struct ContentView: View {
     @EnvironmentObject var vm: ViewModel
     
-    @StateObject var alerts = AlertsService()
-    
     @State var offset: CGPoint = CGPoint(x: 0, y: 0)
     @State var offsetRate: CGPoint = CGPoint(x: 0, y: 0)
 //    @State var headers = [String]()
@@ -65,9 +63,6 @@ struct ContentView: View {
                                             .frame(height:100)
                                             .id(1)
                                         
-                                            
-                                        
-                                        AlertsBuilder()
                                         ContentViewStack()
                                         
                                     }
@@ -125,6 +120,7 @@ struct ContentView: View {
                 }
 
                 ModalManager(isPresenting: $isPresentingModal, modalType: $modalType, objectType: vm.filtering.filterObject, shouldDelete: .constant(false))
+                    .frame(alignment:.bottom)
                 
                 SplashScreen(isPresenting: $isPresentingSplashScreen)
                 
@@ -138,41 +134,12 @@ struct ContentView: View {
             .onReceive(shouldDisableScrollViewTimer){ _ in
                 shouldDisableScrollView = false
             }
-            .onChange(of: vm.filtering.filterContent){
-                _ in
-                withAnimation{
-                    alerts.UpdateContentAlerts(content: vm.filtering.filterContent)
-                    UpdateFilteredObjectsDictionary()
-                }
-            }
-            .onChange(of: vm.updates.dream){
-                _ in
-                withAnimation{
-                    UpdateFilteredObjectsDictionary()
-                }
-            }
-            .onChange(of: vm.filtering.filterObject){
-                _ in
-                withAnimation{
-                    alerts.UpdateObjectAlerts(object: vm.filtering.filterObject)
-                    alerts.UpdateCalendarAlerts(object: vm.filtering.filterObject, timeframe: vm.filtering.filterTimeframe, date: vm.filtering.filterDate)
-                    UpdateFilteredObjectsDictionary()
-                }
-            }
-            .onChange(of: vm.filtering.filterTimeframe){ _ in
-                withAnimation{
-                    alerts.UpdateCalendarAlerts(object: vm.filtering.filterObject, timeframe: vm.filtering.filterTimeframe, date: vm.filtering.filterDate)
-                    UpdateFilteredObjectsDictionary()
-                }
-            }
-            .onChange(of: vm.filtering.filterDate){ _ in
-                withAnimation{
-                    alerts.UpdateCalendarAlerts(object: vm.filtering.filterObject, timeframe: vm.filtering.filterTimeframe, date: vm.filtering.filterDate)
-                    UpdateFilteredObjectsDictionary()
-                }
-            }
             .onChange(of: vm.triggers.shouldPresentModal){ _ in
                 isPresentingModal.toggle()
+            }
+            .onChange(of: vm.filtering){
+                _ in
+                vm.filtering.filterCount = vm.filtering.GetFilterCount()
             }
             .onChange(of: offset){ [offset] newOffset in
                                 
@@ -191,73 +158,11 @@ struct ContentView: View {
                     }
                 }
             }
-            .onChange(of: vm.grouping.goal){
-                _ in
-                UpdateFilteredObjectsDictionary()
-            }
-            .onChange(of: vm.grouping.dream){
-                _ in
-                UpdateFilteredObjectsDictionary()
-            }
             .onAppear{
-                withAnimation{
-                    alerts.UpdateContentAlerts(content: vm.filtering.filterContent)
-                    alerts.UpdateObjectAlerts(object: vm.filtering.filterObject)
-                    alerts.UpdateCalendarAlerts(object: vm.filtering.filterObject, timeframe: vm.filtering.filterTimeframe, date: vm.filtering.filterDate)
-                }
                 popHeaderTimer.upstream.connect().cancel()
-                UpdateFilteredObjectsDictionary()
             }
         }
 
-    }
-    
-    @ViewBuilder
-    func AlertsBuilder() -> some View{
-        VStack(spacing:0){
-            ForEach(alerts.alerts){
-                alert in
-                AlertLabel(alert: alert)
-            }
-        }
-        .padding(.top)
-
-    }
-    
-    func UpdateFilteredObjectsDictionary() {
-        let objectType = ObjectType.dream
-        filteredObjectsDictionary = [String:[UUID]]()
-        
-        switch vm.filtering.filterObject {
-//        case .value:
-//            <#code#>
-//        case .creed:
-//            <#code#>
-//        case .dream:
-//            filteredObjectsDictionary = vm.ListDreams(criteria: vm.filtering.GetFilters())
-//        case .aspect:
-//            <#code#>
-//        case .goal:
-//            filteredObjectsDictionary = vm.UpdateFilteredGoals(criteria: vm.filtering.GetFilters())
-//        case .session:
-//            <#code#>
-//        case .task:
-//            <#code#>
-//        case .habit:
-//            <#code#>
-//        case .home:
-//            <#code#>
-//        case .chapter:
-//            <#code#>
-//        case .entry:
-//            <#code#>
-//        case .emotion:
-//            <#code#>
-//        case .stats:
-//            <#code#>
-        default:
-            let _ = "why"
-        }
     }
     
     func ShouldShowFloatingActionButton() -> Bool{

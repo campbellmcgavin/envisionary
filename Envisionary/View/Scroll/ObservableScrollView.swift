@@ -37,6 +37,7 @@ struct ObservableScrollView<Content: View>: View {
         }
         .scrollDismissesKeyboard(.interactively)
         .coordinateSpace(name: coordinateSpaceName)
+        
     }
 }
 

@@ -9,19 +9,17 @@ import SwiftUI
 
 enum GroupingType: CaseIterable {
     case title
-    case date
     case aspect
     case priority
     case progress
     case schedule
     case chapter
+    case hasImages
     
     func toString() -> String{
         switch self {
         case .title:
             return "Title"
-        case .date:
-            return "Date"
         case .aspect:
             return "Aspect"
         case .priority:
@@ -32,6 +30,8 @@ enum GroupingType: CaseIterable {
             return "Schedule"
         case .chapter:
             return "Chapter"
+        case .hasImages:
+            return "Has Images"
         }
     }
     
@@ -39,8 +39,8 @@ enum GroupingType: CaseIterable {
         switch self {
         case .title:
             return "Titles"
-        case .date:
-            return "Dates"
+        case .hasImages:
+            return "Has Images"
         case .aspect:
             return "Aspects"
         case .priority:
@@ -55,196 +55,128 @@ enum GroupingType: CaseIterable {
     }
     
     func hasObject(object: ObjectType) -> Bool {
-        switch self {
-        case .title:
-            switch object {
-            
-            case .dream:
+        
+        switch object {
+        case .value:
+            return false
+        case .creed:
+            return false
+        case .dream:
+            switch self {
+            case .title:
                 return true
-            
-            case .goal:
+            case .aspect:
                 return true
-            case .session:
+            case .priority:
                 return false
-            case .task:
-                return true
-            case .habit:
-                return true
-            case .home:
+            case .progress:
+                return false
+            case .schedule:
                 return false
             case .chapter:
-                return true
-            case .entry:
-                return true
-            case .emotion:
-                return true
-            case .stats:
                 return false
-            default:
-                return false
-            }
-        case .date:
-            switch object {
-            
-            case .dream:
-                return false
-            
-            case .goal:
-                return true
-//            case .session:
-//                <#code#>
-//            case .task:
-//                <#code#>
-//            case .habit:
-//                <#code#>
-//            case .home:
-//                <#code#>
-//            case .chapter:
-//                <#code#>
-//            case .entry:
-//                <#code#>
-//            case .emotion:
-//                <#code#>
-//            case .stats:
-//                <#code#>
-            default:
+            case .hasImages:
                 return false
             }
         case .aspect:
-            switch object {
-            
-            case .dream:
+            return false
+        case .goal:
+            switch self {
+            case .title:
                 return true
-            
-            case .goal:
+            case .aspect:
                 return true
-//            case .session:
-//                <#code#>
-//            case .task:
-//                <#code#>
-//            case .habit:
-//                <#code#>
-//            case .home:
-//                <#code#>
-//            case .chapter:
-//                <#code#>
-//            case .entry:
-//                <#code#>
-//            case .emotion:
-//                <#code#>
-//            case .stats:
-//                <#code#>
-            default:
+            case .priority:
+                return true
+            case .progress:
+                return true
+            case .schedule:
+                return false
+            case .chapter:
+                return false
+            case .hasImages:
                 return false
             }
-        case .priority:
-            switch object {
-            
-            case .dream:
-                return false
-            
-            case .goal:
+        case .session:
+            return false
+        case .task:
+            switch self {
+            case .title:
                 return true
-//            case .session:
-//                <#code#>
-//            case .task:
-//                <#code#>
-//            case .habit:
-//                <#code#>
-//            case .home:
-//                <#code#>
-//            case .chapter:
-//                <#code#>
-//            case .entry:
-//                <#code#>
-//            case .emotion:
-//                <#code#>
-//            case .stats:
-//                <#code#>
-            default:
+            case .aspect:
                 return false
-            }
-        case .progress:
-            switch object {
-            
-            case .dream:
+            case .priority:
                 return false
-            
-            case .goal:
+            case .progress:
                 return true
-//            case .session:
-//                <#code#>
-//            case .task:
-//                <#code#>
-//            case .habit:
-//                <#code#>
-//            case .home:
-//                <#code#>
-//            case .chapter:
-//                <#code#>
-//            case .entry:
-//                <#code#>
-//            case .emotion:
-//                <#code#>
-//            case .stats:
-//                <#code#>
-            default:
+            case .schedule:
+                return false
+            case .chapter:
+                return false
+            case .hasImages:
                 return false
             }
-        case .schedule:
-            switch object {
-            
-            case .dream:
+        case .habit:
+            switch self {
+            case .title:
+                return true
+            case .aspect:
+                return true
+            case .priority:
+                return true
+            case .progress:
                 return false
-            
-            case .goal:
+            case .schedule:
+                return true
+            case .chapter:
                 return false
-//            case .session:
-//                <#code#>
-//            case .task:
-//                <#code#>
-//            case .habit:
-//                <#code#>
-//            case .home:
-//                <#code#>
-//            case .chapter:
-//                <#code#>
-//            case .entry:
-//                <#code#>
-//            case .emotion:
-//                <#code#>
-//            case .stats:
-//                <#code#>
-            default:
+            case .hasImages:
                 return false
             }
+        case .home:
+            return false
         case .chapter:
-            switch object {
-            
-            case .dream:
+            switch self {
+            case .title:
+                return true
+            case .aspect:
+                return true
+            case .priority:
                 return false
-            
-            case .goal:
+            case .progress:
                 return false
-//            case .session:
-//                <#code#>
-//            case .task:
-//                <#code#>
-//            case .habit:
-//                <#code#>
-//            case .home:
-//                <#code#>
-//            case .chapter:
-//                <#code#>
-//            case .entry:
-//                <#code#>
-//            case .emotion:
-//                <#code#>
-//            case .stats:
-//                <#code#>
-            default:
+            case .schedule:
+                return false
+            case .chapter:
+                return false
+            case .hasImages:
                 return false
             }
+        case .entry:
+            switch self {
+            case .title:
+                return true
+            case .aspect:
+                return false
+            case .priority:
+                return false
+            case .progress:
+                return false
+            case .schedule:
+                return false
+            case .chapter:
+                return true
+            case .hasImages:
+                return true
+            }
+        case .emotion:
+            return false
+        case .stats:
+            return false
+        case .prompt:
+            return false
+        case .recurrence:
+            return false
         }
     }
 }

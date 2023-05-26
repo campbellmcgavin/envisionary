@@ -85,6 +85,9 @@
 		614D81FA2A1BDBCA00AE7335 /* EntityType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614D81F92A1BDBCA00AE7335 /* EntityType.swift */; };
 		614D81FD2A1BE1F400AE7335 /* HabitHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614D81FC2A1BE1F300AE7335 /* HabitHelper.swift */; };
 		614D81FF2A1C6C3A00AE7335 /* RecurrenceCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614D81FE2A1C6C3A00AE7335 /* RecurrenceCard.swift */; };
+		614D82032A1DD49D00AE7335 /* DetailHabitProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614D82022A1DD49D00AE7335 /* DetailHabitProgress.swift */; };
+		614D82052A20326600AE7335 /* ScrollPicker2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614D82042A20326600AE7335 /* ScrollPicker2.swift */; };
+		614D82072A204A7E00AE7335 /* ScrollPicker3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614D82062A204A7E00AE7335 /* ScrollPicker3.swift */; };
 		617ACF1C29EA1117006569D0 /* HeaderImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617ACF1B29EA1117006569D0 /* HeaderImage.swift */; };
 		617ACF1E29EA26C6006569D0 /* ModalPhotoSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617ACF1D29EA26C6006569D0 /* ModalPhotoSource.swift */; };
 		617ACF2029EA34F4006569D0 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617ACF1F29EA34F4006569D0 /* ImagePicker.swift */; };
@@ -303,6 +306,9 @@
 		614D81F92A1BDBCA00AE7335 /* EntityType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityType.swift; sourceTree = "<group>"; };
 		614D81FC2A1BE1F300AE7335 /* HabitHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitHelper.swift; sourceTree = "<group>"; };
 		614D81FE2A1C6C3A00AE7335 /* RecurrenceCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecurrenceCard.swift; sourceTree = "<group>"; };
+		614D82022A1DD49D00AE7335 /* DetailHabitProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailHabitProgress.swift; sourceTree = "<group>"; };
+		614D82042A20326600AE7335 /* ScrollPicker2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollPicker2.swift; sourceTree = "<group>"; };
+		614D82062A204A7E00AE7335 /* ScrollPicker3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollPicker3.swift; sourceTree = "<group>"; };
 		617ACF1B29EA1117006569D0 /* HeaderImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderImage.swift; sourceTree = "<group>"; };
 		617ACF1D29EA26C6006569D0 /* ModalPhotoSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalPhotoSource.swift; sourceTree = "<group>"; };
 		617ACF1F29EA34F4006569D0 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
@@ -551,6 +557,8 @@
 				378D9F1D29BAE2DA008A34A2 /* ScrollPickerDates.swift */,
 				617E25F929D4FBED0051DC88 /* ScrollPickerSelectedRectangle.swift */,
 				378D9F1F29BAE318008A34A2 /* ScrollPickerDatesText.swift */,
+				614D82042A20326600AE7335 /* ScrollPicker2.swift */,
+				614D82062A204A7E00AE7335 /* ScrollPicker3.swift */,
 			);
 			path = Scroll;
 			sourceTree = "<group>";
@@ -597,6 +605,7 @@
 				617ACF1B29EA1117006569D0 /* HeaderImage.swift */,
 				61D990D129F3942800AEEF52 /* DetailImages.swift */,
 				617ED6C52A11E73A0085D6A2 /* DetailAffectedGoals.swift */,
+				614D82022A1DD49D00AE7335 /* DetailHabitProgress.swift */,
 			);
 			path = Detail;
 			sourceTree = "<group>";
@@ -1252,10 +1261,12 @@
 				617ED6D02A13183D0085D6A2 /* ModifierMaxWidth.swift in Sources */,
 				617E25F029D27EE60051DC88 /* MissionStatement.swift in Sources */,
 				6188488529C96F7F00525AFF /* ModalGrouping.swift in Sources */,
+				614D82072A204A7E00AE7335 /* ScrollPicker3.swift in Sources */,
 				37B6C03D29BD155900A37D1B /* HeaderWithContent.swift in Sources */,
 				6188488129C9667400525AFF /* ModalAdd.swift in Sources */,
 				617E25E529D27EB00051DC88 /* Goal.swift in Sources */,
 				61D990CE29F2CA6B00AEEF52 /* FormImages.swift in Sources */,
+				614D82032A1DD49D00AE7335 /* DetailHabitProgress.swift in Sources */,
 				617E25F829D284170051DC88 /* UpdateGoalRequest.swift in Sources */,
 				617E260929D66EA70051DC88 /* CollectDict.swift in Sources */,
 				6136AE282A0607320076E1A6 /* PhotoCardSimple.swift in Sources */,
@@ -1273,6 +1284,7 @@
 				614D81F32A1B1AB600AE7335 /* TimeOfDayType.swift in Sources */,
 				6188487629C94C7600525AFF /* FormDatePicker.swift in Sources */,
 				61DAC57529E10F71006CACC3 /* UpdateAspectRequest.swift in Sources */,
+				614D82052A20326600AE7335 /* ScrollPicker2.swift in Sources */,
 				617ED6BC2A0D70D20085D6A2 /* SessionOverview.swift in Sources */,
 				614D81E82A1AB98F00AE7335 /* ScheduleType.swift in Sources */,
 				378D9F0F29BAAA91008A34A2 /* DatePair.swift in Sources */,

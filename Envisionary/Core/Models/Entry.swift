@@ -13,20 +13,16 @@ struct Entry: Identifiable, Codable, Equatable, Hashable {
     var title: String
     var description: String
     var startDate: Date
-    var chapter: UUID
     var images: [UUID]
-    var parent: UUID?
-    var parentObject: ObjectType?
+    var chapterId: UUID?
         
-    init(id: UUID = UUID(), title: String, description: String, startDate: Date, chapter: UUID, images: [UUID], parent: UUID?, parentObject: ObjectType?) {
+    init(id: UUID = UUID(), title: String, description: String, startDate: Date, images: [UUID], chapterId: UUID) {
         self.id = id
         self.title = title
         self.description = description
         self.startDate = startDate
-        self.chapter = chapter
         self.images = images
-        self.parent = parent
-        self.parentObject = parentObject
+        self.chapterId = chapterId
     }
     
     init(request: CreateEntryRequest){
@@ -34,10 +30,9 @@ struct Entry: Identifiable, Codable, Equatable, Hashable {
         self.title = request.title
         self.description = request.description
         self.startDate = request.startDate
-        self.chapter = request.chapter
+        self.chapterId = request.chapterId
         self.images = request.images
-        self.parent = request.parent
-        self.parentObject = request.parentObject
+        self.chapterId = request.chapterId
     }
     
     init(){
@@ -45,10 +40,9 @@ struct Entry: Identifiable, Codable, Equatable, Hashable {
         self.title = ""
         self.description = ""
         self.startDate = Date()
-        self.chapter = UUID()
+        self.chapterId = UUID()
         self.images = [UUID]()
-        self.parent = nil
-        self.parentObject = nil
+        self.chapterId = nil
     }
     
     init(from entity: EntryEntity){
@@ -56,26 +50,7 @@ struct Entry: Identifiable, Codable, Equatable, Hashable {
         self.title = entity.title ?? ""
         self.description = entity.desc ?? ""
         self.startDate = entity.startDate ?? Date()
-        self.chapter = entity.chapter ?? UUID()
-//        let a = entity.images?.allObjects
-//        self.images = entity.images.allObjects
+        self.chapterId = entity.chapterId
         self.images = entity.images?.toIdArray() ?? [UUID]()
-        self.parent = entity.parent
-        self.parentObject = ObjectType.allCases.first(where: {$0.toString() == entity.parentObject ?? ""})
     }
-    
-    mutating func update(from request: UpdateEntryRequest) {
-        self.title = request.title
-        self.description = request.description
-        self.images = request.images
-        self.parent = request.parent
-        self.parentObject = request.parentObject
-    }
-}
-
-extension Entry {
-    static let sampleJournals: [Entry] =
-    [
-//        Entry(id: UUID(), title: "", description: <#T##String#>, startDate: <#T##Date#>, chapter: <#T##UUID#>, images: <#T##[UUID]#>, parent: <#T##UUID?#>, parentObject: <#T##ObjectType?#>)
-    ]
 }

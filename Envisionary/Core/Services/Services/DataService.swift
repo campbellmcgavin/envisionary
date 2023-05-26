@@ -206,7 +206,11 @@ struct DataService: DataServiceProtocol {
                     goalsDictionary[goal.priority.toString()] = [Goal]()
                 }
                 goalsDictionary[goal.priority.toString()]!.append(goal)
-                
+            case .progress:
+                if  goalsDictionary[StatusType.getStatusFromProgress(progress: goal.progress).toString()] == nil {
+                    goalsDictionary[StatusType.getStatusFromProgress(progress: goal.progress).toString()] = [Goal]()
+                }
+                goalsDictionary[StatusType.getStatusFromProgress(progress: goal.progress).toString()]!.append(goal)
             default:
                 let _ = "why"
             }
@@ -437,17 +441,11 @@ struct DataService: DataServiceProtocol {
                     tasksDictionary[String(task.title.prefix(1))] = [Task]()
                 }
                 tasksDictionary[String(task.title.prefix(1))]!.append(task)
-//            case .aspect:
-//                if  tasksDictionary[task.aspect.toString()] == nil {
-//                    tasksDictionary[task.aspect.toString()] = [Task]()
-//                }
-//                tasksDictionary[task.aspect.toString()]!.append(task)
-//            case .priority:
-//                if  tasksDictionary[task.priority.toString()] == nil {
-//                    tasksDictionary[task.priority.toString()] = [Task]()
-//                }
-//                tasksDictionary[task.priority.toString()]!.append(task)
-//
+            case .progress:
+                if  tasksDictionary[StatusType.getStatusFromProgress(progress: task.progress).toString()] == nil {
+                    tasksDictionary[StatusType.getStatusFromProgress(progress: task.progress).toString()] = [Task]()
+                }
+                tasksDictionary[StatusType.getStatusFromProgress(progress: task.progress).toString()]!.append(task)
             default:
                 let _ = "why"
             }
@@ -771,10 +769,8 @@ struct DataService: DataServiceProtocol {
         newEntry.title = request.title
         newEntry.desc = request.description
         newEntry.startDate = request.startDate
-        newEntry.chapter = request.chapter
+        newEntry.chapterId = request.chapterId
         newEntry.images = request.images.toCsvString()
-        newEntry.parent = request.parent
-        newEntry.parentObject = request.parentObject?.toString()
         newEntry.id = UUID()
         
         saveData()
@@ -839,10 +835,10 @@ struct DataService: DataServiceProtocol {
                 }
                 EntriesDictionary[String(entry.title.prefix(1))]!.append(entry)
             case .chapter:
-                if  EntriesDictionary[chapters.first(where: {$0.id == entry.chapter})?.title ?? "Unknown"] == nil {
-                    EntriesDictionary[chapters.first(where: {$0.id == entry.chapter})?.title ?? "Unknown"] = [Entry]()
+                if  EntriesDictionary[chapters.first(where: {$0.id == entry.chapterId})?.title ?? "Unassociated"] == nil {
+                    EntriesDictionary[chapters.first(where: {$0.id == entry.chapterId})?.title ?? "Unassociated"] = [Entry]()
                 }
-                EntriesDictionary[chapters.first(where: {$0.id == entry.chapter})?.title ?? "Unknown"]!.append(entry)
+                EntriesDictionary[chapters.first(where: {$0.id == entry.chapterId})?.title ?? "Unassociated"]!.append(entry)
             default:
                 let _ = "why"
             }
@@ -856,7 +852,8 @@ struct DataService: DataServiceProtocol {
         
         if var entityToUpdate = GetEntryEntity(id: id) {
             entityToUpdate.desc = request.description
-            
+            entityToUpdate.title = request.title
+            entityToUpdate.images = request.images.toCsvString()
             saveData()
             return true
         }
@@ -1244,8 +1241,8 @@ struct DataService: DataServiceProtocol {
         
         if var entityToUpdate = GetRecurrenceEntity(id: id) {
             
-            entityToUpdate.isComplete = false
-            entityToUpdate.amount = 0
+            entityToUpdate.isComplete = request.isComplete
+            entityToUpdate.amount = Int16(request.amount)
             
             saveData()
             return true

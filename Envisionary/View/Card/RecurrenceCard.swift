@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct RecurrenceCard: View {
-    let recurrenceId: UUID
-    
+    let habitId: UUID
+    var recurrenceId: UUID?
+    var showPhotoCard: Bool = true
+    @Binding var date: Date
     @State var recurrence: Recurrence = Recurrence()
     @State var habit: Habit = Habit()
     @State var shouldRecord = false
@@ -18,9 +20,29 @@ struct RecurrenceCard: View {
     @EnvironmentObject var vm: ViewModel
     
     var body: some View {
+        
+        
         VStack{
-            PhotoCard(objectType: .habit, objectId: habit.id, properties: Properties(habit:habit), header: habit.title, subheader: habit.schedule.toString(),imageSize: .mediumLarge)
-                .padding([.leading,.top],-4)
+            if showPhotoCard {
+                PhotoCard(objectType: .habit, objectId: habit.id, properties: Properties(habit:habit), header: habit.title, subheader: habit.schedule.toString(),imageSize: .mediumLarge)
+                    .padding([.leading,.top],-4)
+            }
+            else{
+                HStack{
+                    VStack(alignment:.leading){
+                        Text("Track progress")
+                            .font(.specify(style: .h4))
+                            .foregroundColor(.specify(color: .grey10))
+                        
+                        Text(date.toString(timeframeType: .day))
+                            .font(.specify(style:.caption))
+                            .foregroundColor(.specify(color: .grey7))
+                    }
+                    Spacer()
+                }
+                .padding()
+            }
+
             HStack{
                 
                 if !shouldRecord{
@@ -30,11 +52,9 @@ struct RecurrenceCard: View {
                     else{
                         FormLabel(fieldValue: "Progress", fieldName: "Check off")
                     }
-                }
-                
-                if !shouldRecord{
-                    TextButton(isPressed: $shouldRecord, text: "Record", color: .grey10, backgroundColor: .purple, style: .h4, shouldHaveBackground: true, iconType: .confirm, height:.largeMedium)
-                        .frame(width:140)
+                    
+                TextButton(isPressed: $shouldRecord, text: "Record", color: .grey10, backgroundColor: .purple, style: .h4, shouldHaveBackground: true, iconType: .confirm, height:.largeMedium)
+                    .frame(width:140)
                 }
                 else{
                     Spacer()
@@ -44,19 +64,41 @@ struct RecurrenceCard: View {
 
             }
             .padding(8)
+
+
+            
         }
         .onAppear{
-            recurrence = vm.GetRecurrence(id: recurrenceId) ?? Recurrence()
-            habit = vm.GetHabit(id: recurrence.habitId) ?? Habit()
-            shouldRecord = recurrence.isComplete
+            SetupRecurrence()
         }
         .onChange(of: shouldRecord){
             _ in
             
-            if shouldRecord{
-                vm.UpdateRecurrence(id: recurrenceId, request: UpdateRecurrenceRequest(amount: amount, isComplete: GetIsCompleted()))
+            if shouldRecord {
+                
+                if let recurrenceId {
+                    _ = vm.UpdateRecurrence(id: recurrenceId, request: UpdateRecurrenceRequest(amount: amount, isComplete: GetIsCompleted()))
+                }
+                else{
+                    let request = CreateRecurrenceRequest(habitId: habitId, scheduleType: habit.schedule, timeOfDay: .notApplicable, startDate: date.StartOfDay(), endDate: date.EndOfDay())
+                    let id = vm.CreateRecurrence(request: request)
+                    let request2 = UpdateRecurrenceRequest(amount: amount, isComplete: GetIsCompleted())
+                    _ = vm.UpdateRecurrence(id: id, request: request2)
+                }
             }
         }
+        .onChange(of: recurrenceId){
+            _ in
+            SetupRecurrence()
+        }
+    }
+    
+    func SetupRecurrence(){
+        recurrence = vm.GetRecurrence(id: recurrenceId ?? UUID()) ?? Recurrence()
+        amount = recurrence.amount
+        
+        habit = vm.GetHabit(id: habitId) ?? Habit()
+        shouldRecord = recurrence.isComplete
     }
     
     func GetIsCompleted() -> Bool{
@@ -69,7 +111,7 @@ struct RecurrenceCard: View {
 
 struct RecurrenceCard_Previews: PreviewProvider {
     static var previews: some View {
-        RecurrenceCard(recurrenceId: UUID())
+        RecurrenceCard(habitId: UUID(), recurrenceId: UUID(), date: .constant(Date()))
             .modifier(ModifierCard())
             .environmentObject(ViewModel())
     }

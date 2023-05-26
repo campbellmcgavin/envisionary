@@ -47,6 +47,10 @@ struct DetailStack: View {
             if objectType == .session{
                 DetailAffectedGoals(shouldExpand: $shouldExpandAll, sessionProperties: properties)
             }
+            
+            if objectType == .habit{
+                DetailHabitProgress(shouldExpand: $shouldExpandAll, habitId: objectId)
+            }
 
 
         }

@@ -24,12 +24,10 @@
         <attribute name="title" optional="YES" attributeType="String"/>
     </entity>
     <entity name="EntryEntity" representedClassName="EntryEntity" syncable="YES" codeGenerationType="class">
-        <attribute name="chapter" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="chapterId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="desc" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="images" optional="YES" attributeType="String"/>
-        <attribute name="parent" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="parentObject" optional="YES" attributeType="String"/>
         <attribute name="startDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="title" optional="YES" attributeType="String"/>
     </entity>

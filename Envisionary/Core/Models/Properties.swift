@@ -9,18 +9,18 @@ import Foundation
 
 struct Properties: Identifiable, Equatable, Hashable, Codable{
     let id: UUID
+    var chapterId: UUID?
+    var parentGoalId: UUID?
+    
     var title: String?
     var coreValue: ValueType?
     var aspect: AspectType?
-    var chapter: UUID?
     var description: String?
     var timeframe: TimeframeType?
     var startDate: Date?
     var endDate: Date?
     var priority: PriorityType?
     var progress: Int?
-    var parent: UUID?
-    var parentObject: ObjectType?
     var image: UUID?
     var images: [UUID]?
     
@@ -32,6 +32,7 @@ struct Properties: Identifiable, Equatable, Hashable, Codable{
     var scheduleType: ScheduleType?
     var amount: Int?
     var unitOfMeasure: UnitType?
+    var habitId: UUID?
     
     
     //sessions
@@ -50,7 +51,7 @@ struct Properties: Identifiable, Equatable, Hashable, Codable{
         priority = PriorityType.allCases.randomElement()!
         title = "Learn Spanish"
         description = "I want to learn Spanish using duo lingo over a period of 12 months. I will spend 4 hours per day, 5 days per week. I will track my metrics using the app interface and then use people I can hold myself accountable to."
-        parent = nil
+        parentGoalId = nil
         image = nil
         id = UUID()
     }
@@ -63,7 +64,7 @@ struct Properties: Identifiable, Equatable, Hashable, Codable{
         priority = nil
         title = nil
         description = nil
-        parent = nil
+        parentGoalId = nil
         image = nil
         images = nil
         id = UUID()
@@ -71,9 +72,10 @@ struct Properties: Identifiable, Equatable, Hashable, Codable{
     
     init(recurrence: Recurrence?){
         self.id = recurrence?.id ?? UUID()
-        self.parent = recurrence?.habitId ?? UUID()
+        self.parentGoalId = recurrence?.habitId ?? UUID()
         self.scheduleType = recurrence?.scheduleType ?? .morning
         self.amount = recurrence?.amount ?? 0
+        self.habitId = recurrence?.habitId
     }
     
     init(goal: Goal?){
@@ -86,7 +88,7 @@ struct Properties: Identifiable, Equatable, Hashable, Codable{
         self.aspect = goal?.aspect
         self.priority = goal?.priority
         self.progress = goal?.progress
-        self.parent = goal?.parentId
+        self.parentGoalId = goal?.parentId
         self.image = goal?.image
     }
     
@@ -140,9 +142,8 @@ struct Properties: Identifiable, Equatable, Hashable, Codable{
         self.title = entry?.title
         self.description = entry?.description
         self.images = entry?.images
-        self.chapter = entry?.chapter
+        self.chapterId = entry?.chapterId
         self.startDate = entry?.startDate
-        self.parent = entry?.parent
     }
     init(session: Session?){
         self.id = session?.id ?? UUID()
@@ -165,7 +166,7 @@ struct Properties: Identifiable, Equatable, Hashable, Codable{
         self.endDate = habit?.endDate
         self.aspect = habit?.aspect
         self.priority = habit?.priority
-        self.parent = habit?.goalId
+        self.parentGoalId = habit?.goalId
         self.image = habit?.image
         self.amount = habit?.amount
         self.unitOfMeasure = habit?.unitOfMeasure

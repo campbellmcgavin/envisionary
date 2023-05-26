@@ -21,7 +21,7 @@ struct FormCalendarPicker: View {
             VStack{
                 FormDropdown(fieldValue: $fieldValueString, isExpanded: $isExpanded, fieldName: fieldName, iconType: iconType)
                 if isExpanded{
-                    CalendarPicker(date: $fieldValue, timeframeType: $timeframeType, localized: true)
+                    CalendarPicker(date: $fieldValue, timeframeType: $timeframeType, dateStatuses: .constant([DateValue]()), localized: true)
                         .padding()
                         .padding(.bottom)
                 }

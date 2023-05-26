@@ -52,7 +52,7 @@ struct TaskCard: View {
             if isLoaded{
                 var request = UpdateTaskRequest(properties: properties)
                 request.progress = isSelected ? 100 : 0
-                properties = Properties(task: vm.GetTask(id: taskId))
+                vm.UpdateTask(id: taskId, request: request)
             }
         }
     }

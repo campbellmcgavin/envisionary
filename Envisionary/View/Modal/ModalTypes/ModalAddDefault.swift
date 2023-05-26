@@ -260,7 +260,7 @@ struct ModalAddDefault: View {
     func UpdateProperties(){
             
         if modalType == .add {
-            properties.parent = parentId
+            properties.parentGoalId = parentId
             properties.progress = status?.toInt() ?? 0
         }
     }

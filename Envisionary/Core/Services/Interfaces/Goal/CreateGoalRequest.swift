@@ -45,6 +45,6 @@ struct CreateGoalRequest{
         self.image = properties.image
         self.aspect = properties.aspect ?? .academic
         self.timeframe = properties.timeframe ?? .day
-        self.parentId = properties.parent
+        self.parentId = properties.parentGoalId
     }
 }

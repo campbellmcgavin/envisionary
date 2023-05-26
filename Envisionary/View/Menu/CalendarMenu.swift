@@ -52,7 +52,7 @@ struct CalendarMenu: View {
                             
                             //dates
                             if isPresentingExpandedCalendar{
-                                CalendarPickerBody(date: $vm.filtering.filterDate, timeframe: $vm.filtering.filterTimeframe, localized: false)
+                                CalendarPickerBody(date: $vm.filtering.filterDate, timeframe: $vm.filtering.filterTimeframe, dateStatuses: .constant([DateValue]()), localized: false)
                                     .padding(.top,10)
                             }
                             

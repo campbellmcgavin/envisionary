@@ -28,8 +28,35 @@ struct SizeCalculator: ViewModifier {
     }
 }
 
+//struct OffsetCalculator: ViewModifier {
+//    var coordinateSpace: CoordinateSpace
+//    @Binding var position: CGPoint
+//    @Binding var size: CGPoint
+//
+//    func body(content: Content) -> some View {
+//        content
+//            .background(GeometryReader { geometry in
+//                Color.clear.preference(
+//        key: PreferenceKey.self,
+//        value: geometry.frame(in: coordinateSpace).origin
+//        )
+//            })
+//            .onPreferenceChange(PreferenceKey.self) { position in
+//                self.position = position
+//            }
+//    }
+//}
+
+
+
+
+
 extension View {
     func saveSize(in size: Binding<CGSize>) -> some View {
         modifier(SizeCalculator(size: size))
     }
+    
+//    func observeOffset(in offset: Binding<CGPoint>) -> some View{
+//        modifier
+//    }
 }

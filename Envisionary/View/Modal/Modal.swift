@@ -52,13 +52,17 @@ struct Modal<ModalContent: View, HeaderContent: View, BottomContent: View, Betwe
                                 
                                 VStack{
                                     modalContent
-                                    Spacer()
+                                    
+                                    if GetIsMini(){
+                                        Spacer()
+                                    }
                                 }
-                                .frame(maxWidth: .infinity, minHeight: GetIsMini() ? 100 : UIScreen.screenHeight)
+                                .frame(maxWidth: .infinity)
                                 .modifier(ModifierCard(color: GetIsMini() ? .clear : .grey1))
                                 .offset(y:offset.y < 150 ? -offset.y/1.5 : -100)
                                 .frame(alignment:.leading)
                                 .offset(y:100)
+                                .padding(.bottom,200)
                             }
                             .frame(alignment:.top)
                     })
@@ -72,21 +76,18 @@ struct Modal<ModalContent: View, HeaderContent: View, BottomContent: View, Betwe
                     
                     ModalMenu(modalType: modalType, objectType: objectType, color: GetHeaderColor(), shouldHelp: $shouldHelp, shouldClose: $isPresenting, shouldConfirm: $shouldConfirm)
                         .frame(alignment:.top)
-                    }
-                .frame(alignment:.top)
-                .frame(height:GetHeight())
+                }
+                .frame(alignment:.bottom)
+                .frame(maxHeight:GetHeight())
                 .frame(maxWidth: .infinity)
                 .background(Color.specify(color: .grey0))
                 .cornerRadius(SizeType.cornerRadiusLarge.ToSize(), corners: [.topLeft,.topRight])
                 .transition(.move(edge:.bottom))
             }
-
-            
             }
         .frame(maxWidth: .infinity, maxHeight:.infinity,alignment:.bottom)
         .ignoresSafeArea()
         .animation(.easeInOut)
-
     }
 
     func GetIsMini() -> Bool {

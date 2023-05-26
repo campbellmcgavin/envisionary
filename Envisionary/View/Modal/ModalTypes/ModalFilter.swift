@@ -63,14 +63,7 @@ struct ModalFilter: View {
 //                GetFilterCount()
 //                _ = vm.UpdateFilteredGoals(criteria: vm.filtering.GetFilters())
 //            }
-            .onChange(of: vm.filtering){
-                _ in
-                GetFilterCount()
-            }
-            .onChange(of: vm.filtering.filterObject){
-                _ in
-                GetFilterCount()
-            }
+
             .onChange(of: progress){
                 _ in
                 vm.filtering.filterProgress = progress
@@ -102,29 +95,6 @@ struct ModalFilter: View {
         }, headerContent: {EmptyView()}, bottomContent: {EmptyView()}, betweenContent: {EmptyView()})
         
         
-    }
-    
-    func GetFilterCount(){
-        
-        var filterCount = 0
-        if vm.filtering.filterTitle.count > 0 && vm.filtering.filterObject.hasProperty(property: .title) {
-            filterCount += 1
-        }
-        if vm.filtering.filterAspect != nil && vm.filtering.filterObject.hasProperty(property: .aspect) {
-            filterCount += 1
-        }
-        if vm.filtering.filterCoreValue != nil && vm.filtering.filterObject.hasProperty(property: .coreValue) {
-            filterCount += 1
-        }
-        if vm.filtering.filterDescription.count > 0 && vm.filtering.filterObject.hasProperty(property: .description) {
-            filterCount += 1
-        }
-        if vm.filtering.filterProgress != nil && vm.filtering.filterProgress != 0 && vm.filtering.filterObject.hasProperty(property: .progress) {
-            filterCount += 1
-        }
-        withAnimation{
-            vm.filtering.filterCount = filterCount
-        }
     }
     
     @ViewBuilder

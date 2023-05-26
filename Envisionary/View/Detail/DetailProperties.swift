@@ -122,16 +122,16 @@ struct DetailProperties: View {
                 PropertyRow(propertyType: .end, text:properties.end)
             }
         case .parentId:
-            if properties.parent != nil {
-                PropertyRow(propertyType: .parentId, text: vm.GetGoal(id: properties.parent!)?.title ?? "")
+            if properties.parentGoalId != nil {
+                PropertyRow(propertyType: .parentId, text: vm.GetGoal(id: properties.parentGoalId!)?.title ?? "")
             }
         
         case .chapter:
-            if properties.chapter != nil {
-                PropertyRow(propertyType: .chapter, text: vm.GetChapter(id: properties.chapter!)?.title ?? "")
+            if properties.chapterId != nil {
+                PropertyRow(propertyType: .chapter, text: vm.GetChapter(id: properties.chapterId!)?.title ?? "")
             }
         case .images:
-            if properties.parent != nil {
+            if properties.parentGoalId != nil {
                 PropertyRow(propertyType: .images, int: properties.images!.count)
             }
         case .image:

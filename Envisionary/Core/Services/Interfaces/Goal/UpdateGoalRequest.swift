@@ -56,7 +56,7 @@ struct UpdateGoalRequest{
         self.progress = properties.progress ?? 0
         self.image = properties.image
         self.aspect = properties.aspect ?? .academic
-        self.parent = properties.parent
+        self.parent = properties.parentGoalId
         self.valuesDictionary = properties.valuesDictionary
     }
 }

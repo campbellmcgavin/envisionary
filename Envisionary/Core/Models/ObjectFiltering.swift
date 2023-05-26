@@ -27,6 +27,27 @@ struct ObjectFiltering: Equatable {
         return criteria
     }
     
+    func GetFilterCount() -> Int{
+        
+        var _filterCount = 0
+        if !filterTitle.isEmpty && filterObject.hasProperty(property: .title) {
+            _filterCount += 1
+        }
+        if !filterAspect.isEmpty && filterObject.hasProperty(property: .aspect) {
+            _filterCount += 1
+        }
+        if !filterCoreValue.isEmpty && filterObject.hasProperty(property: .coreValue) {
+            _filterCount += 1
+        }
+        if !filterDescription.isEmpty && filterObject.hasProperty(property: .description) {
+            _filterCount += 1
+        }
+        if filterProgress != nil && filterProgress != 0 && filterObject.hasProperty(property: .progress) {
+            _filterCount += 1
+        }
+        return _filterCount
+    }
+    
     static func == (lhs: ObjectFiltering, rhs: ObjectFiltering) -> Bool {
         
         let isEqual =   lhs.filterCoreValue == rhs.filterCoreValue &&
@@ -36,7 +57,6 @@ struct ObjectFiltering: Equatable {
                         lhs.filterPriority == rhs.filterPriority &&
                         lhs.filterChapter == rhs.filterChapter &&
                         lhs.filterProgress == rhs.filterProgress &&
-                        lhs.filterCount == rhs.filterCount &&
                         lhs.filterDate == rhs.filterDate &&
                         lhs.filterTimeframe == rhs.filterTimeframe &&
                         lhs.filterObject == rhs.filterObject &&
