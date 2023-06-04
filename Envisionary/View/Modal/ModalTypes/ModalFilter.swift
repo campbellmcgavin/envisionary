@@ -23,7 +23,7 @@ struct ModalFilter: View {
         
         
         
-        Modal(modalType: .filter, objectType: .home, isPresenting: $isPresenting, shouldConfirm: $isPresenting, isPresentingImageSheet: .constant(false), title: "Filters", modalContent: {
+        Modal(modalType: .filter, objectType: .home, isPresenting: $isPresenting, shouldConfirm: $isPresenting, isPresentingImageSheet: .constant(false), allowConfirm: .constant(true), title: "Filters", modalContent: {
             VStack(alignment: .leading, spacing:10){
                 
                 

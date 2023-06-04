@@ -15,7 +15,7 @@ struct IconButton: View {
     var circleColor: CustomColor = .clear
     var opacity: Double = 1
     var circleOpacity: Double = 1
-    var hasAnimation = false
+    var hasAnimation: Bool = false
     
     var body: some View {
         Button(action: {

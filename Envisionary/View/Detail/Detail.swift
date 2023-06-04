@@ -173,30 +173,22 @@ struct Detail: View {
         switch objectType {
         case .value:
             properties = Properties(value: vm.GetCoreValue(id: objectId))
-//        case .creed:
-//            <#code#>
         case .dream:
             properties = Properties(dream: vm.GetDream(id: objectId))
         case .aspect:
             properties = Properties(aspect: vm.GetAspect(id: objectId))
         case .goal:
             properties = Properties(goal: vm.GetGoal(id: objectId))
-//        case .session:
-//            <#code#>
-//        case .task:
-//            <#code#>
-//        case .habit:
-//            <#code#>
-//        case .home:
-//            <#code#>
-//        case .chapter:
-//            <#code#>
-//        case .entry:
-//            <#code#>
-//        case .emotion:
-//            <#code#>
-//        case .stats:
-//            <#code#>
+        case .session:
+            properties = Properties(session: vm.GetSession(id: objectId))
+        case .task:
+            properties = Properties(task: vm.GetTask(id: objectId))
+        case .habit:
+            properties = Properties(habit: vm.GetHabit(id: objectId))
+        case .chapter:
+            properties = Properties(chapter: vm.GetChapter(id: objectId))
+        case .entry:
+            properties = Properties(entry: vm.GetEntry(id: objectId))
         default:
             let _ = ""
         }

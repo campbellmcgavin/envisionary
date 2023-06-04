@@ -20,6 +20,6 @@ struct CreateEntryRequest {
         self.startDate = properties.startDate ?? Date()
         self.chapterId = properties.chapterId ?? UUID()
         self.images = properties.images ?? [UUID]()
-        self.chapterId = properties.parentGoalId
+        self.chapterId = properties.chapterId
     }
 }

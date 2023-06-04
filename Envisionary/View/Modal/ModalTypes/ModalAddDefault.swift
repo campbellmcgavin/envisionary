@@ -12,7 +12,8 @@ struct ModalAddDefault: View {
     @Binding var isPresentingPhotoSource: Bool
     @Binding var sourceType: UIImagePickerController.SourceType?
     let objectId: UUID?
-    var parentId: UUID?
+    var parentGoalId: UUID?
+    var parentChapterId: UUID?
     @State var properties: Properties = Properties()
     let objectType: ObjectType
     let modalType: ModalType
@@ -24,36 +25,54 @@ struct ModalAddDefault: View {
     @State var chapterString = ""
     @State var image: UIImage? = nil
     @State var images: [UIImage] = [UIImage]()
-    
+    @State var isValidForm: Bool = true
     @EnvironmentObject var vm: ViewModel
+    @StateObject var validator = FormPropertiesValidator()
     
     var body: some View {
-        Modal(modalType: modalType, objectType: objectType, isPresenting: $isPresenting, shouldConfirm: $shouldAct, isPresentingImageSheet: $isPresentingPhotoSource,  title: properties.title?.count ?? 0 > 0 ? properties.title : modalType == .add ? "New "  + objectType.toString() : "Empty " + objectType.toString(), image: image, modalContent: {
+        Modal(modalType: modalType, objectType: objectType, isPresenting: $isPresenting, shouldConfirm: $shouldAct, isPresentingImageSheet: $isPresentingPhotoSource, allowConfirm: $isValidForm,  title: properties.title?.count ?? 0 > 0 ? properties.title : modalType == .add ? "New "  + objectType.toString() : "Empty " + objectType.toString(), image: image, modalContent: {
             
             VStack(spacing:0){
                 
-                if parentId != nil {
-                    if let parentGoal = vm.GetGoal(id: parentId!){
+                if parentGoalId != nil {
+                    if let parentGoal = vm.GetGoal(id: parentGoalId!){
                         FormLabel(fieldValue: parentGoal.title, fieldName: "Parent " + parentGoal.timeframe.toString() + " goal", iconType: .arrow_up, shouldShowLock: true)
                             .padding(.bottom)
                         
-                        Text("When a " + objectType.toString() + " has a parent goal, certain attributes are set and managed by the parent goal, including timeframe, aspect and start date.")
-                            .frame(maxWidth:.infinity)
-                            .padding([.leading,.trailing])
-                            .padding(.bottom,40)
-                            .font(.specify(style: .caption))
-                            .foregroundColor(.specify(color: .grey4))
-                            .multilineTextAlignment(.leading)
+                        if objectType == .goal{
+                            Text("When a " + objectType.toString() + " has a parent goal, certain attributes are set and managed by the parent goal, including timeframe, aspect and start date.")
+                                .frame(maxWidth:.infinity)
+                                .padding([.leading,.trailing])
+                                .padding(.bottom,40)
+                                .font(.specify(style: .caption))
+                                .foregroundColor(.specify(color: .grey4))
+                                .multilineTextAlignment(.leading)
+                        }
                     }
                 }
                 
-                FormPropertiesStack(properties: $properties, images: $images, isPresentingPhotoSource: $isPresentingPhotoSource, objectType: objectType, modalType: modalType)
+                if parentChapterId != nil {
+                    if let parentChapter = vm.GetChapter(id: parentChapterId!){
+                        FormLabel(fieldValue: parentChapter.title, fieldName: "Parent chapter", iconType: .arrow_up, shouldShowLock: true)
+                            .padding(.bottom)
+                    }
+                }
+                
+                FormPropertiesStack(properties: $properties, images: $images, isPresentingPhotoSource: $isPresentingPhotoSource, isValidForm: $isValidForm, objectType: objectType, modalType: modalType, parentGoalId: parentGoalId)
+                    .environmentObject(validator)
+                    
             }
             .sheet(isPresented: $isPresentingImagePicker){
                 ImagePicker(image: $image, showImagePicker: self.$isPresentingImagePicker, sourceType: self.sourceType ?? .camera)
             }
             .onAppear{
                 SetupFields()
+                isValidForm = true
+            }
+            .onChange(of: properties){ _ in
+                if !isValidForm{
+                    isValidForm = validator.isValidForm()
+                }
             }
             .padding(8)
             .onChange(of: image){
@@ -68,8 +87,12 @@ struct ModalAddDefault: View {
 
             }
             .onChange(of: shouldAct){ _ in
-                UpdateProperties()
-                TakeAction()
+                isValidForm = validator.isValidForm()
+                
+                if isValidForm{
+                    UpdateProperties()
+                    TakeAction()
+                }
             }
             .onChange(of: sourceType){
                 _ in
@@ -84,8 +107,7 @@ struct ModalAddDefault: View {
     }
     
     func TakeAction(){
-        print(properties.priority)
-        if objectType.hasProperty(property: .image) && ( (image != nil && properties.image == nil) || (properties.image != nil && image != vm.GetImage(id: properties.image!))) {
+        if objectType.hasProperty(property: .image) && ( (properties.image == nil) || (properties.image != nil && image != vm.GetImage(id: properties.image!))) && image != nil {
             let imageId = vm.CreateImage(image: image!)
 //            let image = vm.GetImage(id: imageId)
             properties.image = imageId
@@ -210,7 +232,7 @@ struct ModalAddDefault: View {
             properties = Properties()
             
             if objectType == .goal{
-                GetValuesFromParent()
+                GetValuesFromParentGoalId()
             }
         }
         else if modalType == .edit{
@@ -224,7 +246,7 @@ struct ModalAddDefault: View {
                     if let goal = vm.GetGoal(id: objectId!){
                         properties = Properties(goal: goal)
                     }
-                    GetValuesFromParent()
+                    GetValuesFromParentGoalId()
                 case .task:
                     if let task = vm.GetTask(id: objectId!){
                         properties = Properties(task: task)
@@ -260,14 +282,14 @@ struct ModalAddDefault: View {
     func UpdateProperties(){
             
         if modalType == .add {
-            properties.parentGoalId = parentId
+            properties.parentGoalId = parentGoalId
             properties.progress = status?.toInt() ?? 0
         }
     }
     
-    func GetValuesFromParent() {
-        if parentId != nil {
-            if let goal = vm.GetGoal(id: parentId!){
+    func GetValuesFromParentGoalId() {
+        if parentGoalId != nil {
+            if let goal = vm.GetGoal(id: parentGoalId!){
                 
                 properties.timeframe = goal.timeframe.toChildTimeframe()
                 properties.startDate = goal.startDate
@@ -278,6 +300,8 @@ struct ModalAddDefault: View {
             }
         }
     }
+    
+    
 }
 
 struct ModalAddDefault_Previews: PreviewProvider {

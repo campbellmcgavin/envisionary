@@ -14,6 +14,7 @@ struct ModalMenu: View {
     @Binding var shouldHelp: Bool
     @Binding var shouldClose: Bool
     @Binding var shouldConfirm: Bool
+    @Binding var allowConfirm: Bool
     var body: some View {
         HStack{
             Spacer()
@@ -25,7 +26,7 @@ struct ModalMenu: View {
                 IconButton(isPressed: $shouldClose, size: .medium, iconType: .cancel, iconColor: color, circleColor: .grey10)
             }
             if ShouldShowButton(iconType: .confirm){
-                IconButton(isPressed: $shouldConfirm, size: .medium, iconType: .confirm, iconColor: color, circleColor: .grey10)
+                IconButton(isPressed: $shouldConfirm, size: .medium, iconType: .confirm, iconColor: color, circleColor: allowConfirm ? .grey10 : .red)
             }
 
         }
@@ -77,6 +78,6 @@ struct ModalMenu: View {
 
 struct ModalMenu_Previews: PreviewProvider {
     static var previews: some View {
-        ModalMenu(modalType: .add, objectType: .goal, color: .purple, shouldHelp: .constant(true), shouldClose: .constant(true), shouldConfirm: .constant(true))
+        ModalMenu(modalType: .add, objectType: .goal, color: .purple, shouldHelp: .constant(true), shouldClose: .constant(true), shouldConfirm: .constant(true), allowConfirm: .constant(true))
     }
 }

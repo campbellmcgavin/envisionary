@@ -22,7 +22,7 @@ struct CollapsingListCard: View {
                     ForEach(propertiesList) { properties in
                         
                         if isExpanded || propertiesList.firstIndex(of: properties) ?? 0 < 5 {
-                            RecurrenceCard(habitId:  properties.habitId ?? UUID(), recurrenceId: properties.id, date: .constant(Date()))
+                            RecurrenceCard(habitId:  properties.habitId ?? UUID(), recurrenceId: .constant(properties.id), date: .constant(Date()))
                                 .modifier(ModifierCard())
                         }
                     }
@@ -37,7 +37,7 @@ struct CollapsingListCard: View {
                                 TaskCard(taskId: properties.id)
                             }
                             else{
-                                PhotoCard(objectType: objectType, objectId: properties.id, properties: properties, header: properties.title ?? "", subheader: properties.description ?? "")
+                                PhotoCard(objectType: objectType, objectId: properties.id, properties: properties)
                             }
                         }
                     }

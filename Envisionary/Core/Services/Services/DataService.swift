@@ -8,9 +8,7 @@
 import SwiftUI
 import CoreData
 
-struct DataService: DataServiceProtocol {
-
-    
+class DataService: DataServiceProtocol {
     var container: NSPersistentCloudKitContainer
     
     init(){
@@ -1190,6 +1188,8 @@ struct DataService: DataServiceProtocol {
         newRecurrence.timeOfDay = request.timeOfDay.toString()
         
         newRecurrence.id = UUID()
+        
+        
         saveData()
         
         return newRecurrence.id!
@@ -1242,8 +1242,8 @@ struct DataService: DataServiceProtocol {
         if var entityToUpdate = GetRecurrenceEntity(id: id) {
             
             entityToUpdate.isComplete = request.isComplete
-            entityToUpdate.amount = Int16(request.amount)
-            
+            entityToUpdate.amount = Int16(request.amount < 1000 ? request.amount : 1000)
+           
             saveData()
             return true
         }

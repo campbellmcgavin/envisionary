@@ -12,9 +12,9 @@ enum ScheduleType: CaseIterable, Codable, Equatable, Hashable {
     
     case aCertainAmountPerDay
     case oncePerDay
-    case morning
-    case evening
-    case morningAndEvening
+//    case morning
+//    case evening
+//    case morningAndEvening
     
     case aCertainAmountPerWeek
     case oncePerWeek
@@ -27,12 +27,12 @@ enum ScheduleType: CaseIterable, Codable, Equatable, Hashable {
             return "A certain amount over time"
         case .aCertainAmountPerDay:
             return "A certain amount per day"
-        case .morningAndEvening:
-            return "Morning and Evening"
-        case .morning:
-            return "Morning"
-        case .evening:
-            return "Evening"
+//        case .morningAndEvening:
+//            return "Morning and Evening"
+//        case .morning:
+//            return "Morning"
+//        case .evening:
+//            return "Evening"
         case .oncePerDay:
             return "Once per day"
         case .aCertainAmountPerWeek:
@@ -58,12 +58,12 @@ enum ScheduleType: CaseIterable, Codable, Equatable, Hashable {
             return timeframe == .day
         case .oncePerDay:
             return timeframe == .day
-        case .morning:
-            return timeframe == .day
-        case .evening:
-            return timeframe == .day
-        case .morningAndEvening:
-            return timeframe == .day
+//        case .morning:
+//            return timeframe == .day
+//        case .evening:
+//            return timeframe == .day
+//        case .morningAndEvening:
+//            return timeframe == .day
             
         case .aCertainAmountPerWeek:
             return timeframe == .week

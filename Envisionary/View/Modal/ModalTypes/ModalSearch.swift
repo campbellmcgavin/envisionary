@@ -20,7 +20,7 @@ struct ModalSearch: View {
     @EnvironmentObject var vm: ViewModel
     var body: some View {
         
-        Modal(modalType: .search, objectType: objectType, isPresenting: $isPresenting, shouldConfirm: .constant(false), isPresentingImageSheet: .constant(false), modalContent: {
+        Modal(modalType: .search, objectType: objectType, isPresenting: $isPresenting, shouldConfirm: .constant(false), isPresentingImageSheet: .constant(false), allowConfirm: .constant(true), modalContent: {
             GetContent()
 
         }, headerContent: {
@@ -129,7 +129,7 @@ struct ModalSearch: View {
             ScrollView(.vertical){
                 ForEach(objectsFiltered){
                     properties in
-                    PhotoCard(objectType: objectType, objectId: properties.id, properties: properties, header: properties.title ?? "", subheader: properties.description ?? "")
+                    PhotoCard(objectType: objectType, objectId: properties.id, properties: properties)
                 }
             }
         }

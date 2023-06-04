@@ -15,6 +15,7 @@ struct SessionAddContent: View {
     let date: Date
     @State var isExpanded: Bool = true
     @State var isPresentingNewGoal = false
+    @State var isValidForm = false
     
     var body: some View {
         HeaderWithContent(shouldExpand: $isExpanded, headerColor: .grey10, header: "Affected Goals", content: {
@@ -47,10 +48,11 @@ struct SessionAddContent: View {
                     .frame(alignment:.leading)
                     .padding([.leading,.bottom])
                 
-                FormPropertiesStack(properties: $properties, images: .constant([UIImage]()), isPresentingPhotoSource: .constant(false), objectType: .goal, modalType: .add, isSimple: true)
+                FormPropertiesStack(properties: $properties, images: .constant([UIImage]()), isPresentingPhotoSource: .constant(false), isValidForm: $isValidForm, objectType: .goal, modalType: .add, isSimple: true)
                     .padding(.bottom)
                 
                 TextButton(isPressed: $shouldAddGoal, text: "Add goal", color: .grey2, backgroundColor: .grey10, style: .h3, shouldHaveBackground: true)
+                    .disabled(!isValidForm)
             }
             TextButton(isPressed: $isPresentingNewGoal, text: isPresentingNewGoal ? "Cancel" : "Add goal", color: isPresentingNewGoal ? .grey10 : .grey2, backgroundColor: isPresentingNewGoal ? .grey4 : .grey10, style: .h3, shouldHaveBackground: true)
         }

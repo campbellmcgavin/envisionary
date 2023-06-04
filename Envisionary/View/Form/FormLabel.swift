@@ -13,6 +13,7 @@ struct FormLabel: View {
     var iconType: IconType?
     var color: CustomColor?
     var shouldShowLock: Bool?
+    var isSmall: Bool = false
     var body: some View {
         
         HStack{
@@ -20,6 +21,7 @@ struct FormLabel: View {
                 IconLabel(size: SizeType.small, iconType: iconType!, iconColor: .grey4)
                     .padding(.leading,10)
                     .padding(.trailing,-20)
+                    .padding(.top, isSmall ? -3 : 0)
             }
             ZStack(alignment:.topLeading){
                 
@@ -30,11 +32,10 @@ struct FormLabel: View {
                     Text(fieldValue)
                         .padding()
                         .padding(.bottom,fieldValue.isEmpty ? 0 : 5)
-                        .frame(minHeight:60)
+                        .frame(height: isSmall ? SizeType.mediumLarge.ToSize() : SizeType.largeMedium.ToSize())
                         .font(.specify(style: .body1))
                         .foregroundColor(.specify(color: .grey10))
-                        .offset(y: fieldValue.isEmpty ? 0 : 8)
-                        .animation(.default)
+                        .offset(y: fieldValue.isEmpty ? 0 : 6)
                 }
             }
             

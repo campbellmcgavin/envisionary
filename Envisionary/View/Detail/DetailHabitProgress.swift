@@ -17,7 +17,7 @@ struct DetailHabitProgress: View {
     @State var dateStatuses: [DateValue] = [DateValue]()
     
     @State var date: Date = Date()
-    @State var recurrence: Recurrence? = nil
+    @State var recurrenceId: UUID? = nil
     var body: some View {
         
         VStack(spacing:0){
@@ -31,15 +31,14 @@ struct DetailHabitProgress: View {
                         .padding()
                         .modifier(ModifierCard())
                     
-                    if recurrence == nil {
+                    if recurrenceId == nil {
                         Text("The selected date has no associated records to track. You can add a record below.")
                             .font(.specify(style:.h6))
                             .multilineTextAlignment(.center)
                             .foregroundColor(.specify(color: .grey3))
                             .padding(30)
                     }
-                    
-                    RecurrenceCard(habitId: habitId, recurrenceId: recurrence?.id, showPhotoCard: false, date: $date)
+                    RecurrenceCard(habitId: habitId, recurrenceId: $recurrenceId, showPhotoCard: false, date: $date)
                         .modifier(ModifierCard())
                 }
                 .frame(maxWidth:.infinity)
@@ -65,6 +64,7 @@ struct DetailHabitProgress: View {
         .onChange(of: vm.updates.recurrence){
             _ in
             LoadRecurrences()
+            UpdateRecurrence()
         }
         .onAppear{
             LoadRecurrences()
@@ -76,13 +76,45 @@ struct DetailHabitProgress: View {
             var criteria = Criteria()
             criteria.habitId = habitId
             recurrences = vm.ListRecurrences(criteria: criteria, limit:360)
-            let datesStatuses1 = recurrences.map({DateValue(day: $0.isComplete ? 1 : 0, date: $0.startDate)})
+            let datesStatuses1 = recurrences.map({DateValue(day: GetDateStatus(recurrence: $0), date: $0.startDate)})
             dateStatuses = datesStatuses1
         }
     }
     
+    // 0 = grey (always available to add time to, never late)
+    // 1 = grey or red if late (always available to add time to, will be marked as late)
+    // 2 = green (completed, cannot add more)
+    // 3 = purple (partially completed, can add more)
+    
+    func GetDateStatus(recurrence: Recurrence) -> Int {
+//        let schedule = Recurrence().scheduleType
+        
+        switch recurrence.scheduleType {
+        case .aCertainAmountOverTime:
+            return recurrence.amount > 0 ? 3 : 0
+        case .aCertainAmountPerDay:
+            return recurrence.isComplete ? 2 : 1
+        case .oncePerDay:
+            return recurrence.isComplete ? 2 : 1
+//        case .morning:
+//            return recurrence.isComplete ? 2 : 1
+//        case .evening:
+//            return recurrence.isComplete ? 2 : 1
+//        case .morningAndEvening:
+//            return recurrence.isComplete ? 2 : 1
+        case .aCertainAmountPerWeek:
+            return recurrence.amount > 0 ? 3 : 0
+        case .oncePerWeek:
+            return recurrence.isComplete ? 2 : 1
+        case .weekends:
+            return recurrence.isComplete ? 2 : 1
+        case .weekdays:
+            return recurrence.isComplete ? 2 : 1
+        }
+    }
+    
     func UpdateRecurrence(){
-        recurrence = recurrences.first(where: {$0.startDate.isInSameDay(as: date)})
+        recurrenceId = recurrences.first(where: {$0.startDate.isInSameDay(as: date)})?.id
     }
 }
 

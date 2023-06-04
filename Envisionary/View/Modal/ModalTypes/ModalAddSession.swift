@@ -33,7 +33,7 @@ struct ModalAddSession: View {
     @EnvironmentObject var vm: ViewModel
     
     var body: some View {
-        Modal(modalType: .add, objectType: .session, isPresenting: $isPresenting, shouldConfirm: .constant(false), isPresentingImageSheet: .constant(false), title: GetTitle(), subtitle: GetSubtitle(), modalContent: {
+        Modal(modalType: .add, objectType: .session, isPresenting: $isPresenting, shouldConfirm: .constant(false), isPresentingImageSheet: .constant(false), allowConfirm: .constant(true), title: GetTitle(), subtitle: GetSubtitle(), modalContent: {
             VStack(alignment:.leading, spacing:0){
 //                SetupHeader()
                 SetupSessionStep()

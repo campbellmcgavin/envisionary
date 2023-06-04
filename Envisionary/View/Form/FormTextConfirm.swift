@@ -31,7 +31,7 @@ struct FormTextConfirm: View {
                     .frame(minHeight:60, alignment:.leading)
                     .font(.specify(style: .body3))
                     .foregroundColor(.specify(color: .grey10))
-                    .offset(y: 8)
+                    .offset(y: 6)
                     .animation(.default)
             }
             

@@ -35,13 +35,18 @@ struct ModalManager: View {
     
     var body: some View {
         ZStack(alignment: .top){
+            ModalAdd(isPresenting: $isPresentingAdd, isPresentingPhotoSource: $isPresentingPhotoSource, sourceType: $sourceType, objectId: nil, parentGoalId: GetParentGoalId(), objectType: GetObjectType(), modalType: .add, status: statusToAdd)
             
-            ModalAdd(isPresenting: $isPresentingAdd, isPresentingPhotoSource: $isPresentingPhotoSource, sourceType: $sourceType, objectId: nil, parentId: GetParentId(), objectType: GetObjectType(), modalType: .add, status: statusToAdd)
-            ModalAdd(isPresenting: $isPresentingEdit, isPresentingPhotoSource: $isPresentingPhotoSource, sourceType: $sourceType, objectId: GetObjectId(), parentId: GetParentId(), objectType: GetObjectType(), modalType: .edit)
+            ModalAdd(isPresenting: $isPresentingEdit, isPresentingPhotoSource: $isPresentingPhotoSource, sourceType: $sourceType, objectId: GetObjectId(), parentGoalId: GetParentGoalId(), parentChapterId: GetParentChapterId(), objectType: GetObjectType(), modalType: .edit)
+            
             ModalFilter(isPresenting: $isPresentingFilter)
+            
             ModalSearch(isPresenting: $isPresentingSearch, objectType: objectType ?? .goal)
+            
             ModalGrouping(isPresenting: $isPresentingGrouping)
-            Modal(modalType: .delete, objectType: objectType ?? .goal, isPresenting: $isPresentingDelete, shouldConfirm: $shouldDelete, isPresentingImageSheet: .constant(false), modalContent: {EmptyView()}, headerContent: {EmptyView()}, bottomContent: {EmptyView()}, betweenContent: {EmptyView()})
+            
+            Modal(modalType: .delete, objectType: objectType ?? .goal, isPresenting: $isPresentingDelete, shouldConfirm: $shouldDelete, isPresentingImageSheet: .constant(false), allowConfirm: .constant(true), modalContent: {EmptyView()}, headerContent: {EmptyView()}, bottomContent: {EmptyView()}, betweenContent: {EmptyView()})
+            
             ModalPhotoSource(objectType: GetObjectType(), isPresenting: $isPresentingPhotoSource, sourceType: $sourceType)
         }
         .frame(maxHeight:.infinity)
@@ -131,13 +136,27 @@ struct ModalManager: View {
         }
         return .goal
     }
-    func GetParentId() -> UUID?{
+    func GetParentGoalId() -> UUID?{
         
         if modalType == .add {
             return objectId
         }
         else if modalType == .edit{
-            return vm.GetGoal(id: objectId ?? UUID())?.parentId
+            
+            if objectType == .goal {
+                return vm.GetGoal(id: objectId ?? UUID())?.parentId
+            }
+            else if objectType == .entry {
+//                return vm.GetEntry(id: objectId ?? UUID())?.
+                //TODO
+            }
+        }
+        return nil
+    }
+    
+    func GetParentChapterId() -> UUID?{
+        if modalType == .add && objectType == .entry{
+            return vm.GetEntry(id: objectId ?? UUID())?.chapterId
         }
         return nil
     }

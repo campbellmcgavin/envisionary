@@ -15,6 +15,7 @@ struct SessionReviewUpcomingCard: View {
     let timeframe: TimeframeType
     @State var evaluationString: String = ""
     @State var localProperties = Properties()
+    @State var isValidForm = true
     var body: some View {
         VStack{
             PhotoCardSimple(objectType: .goal, properties: goalProperty)
@@ -31,7 +32,7 @@ struct SessionReviewUpcomingCard: View {
                 EmptyView()
             case .editDetails:
                 if !confirmed{
-                    FormPropertiesStack(properties: $localProperties, images: .constant([UIImage]()), isPresentingPhotoSource: .constant(false), objectType: .goal, modalType: .add, isSimple: true)
+                    FormPropertiesStack(properties: $localProperties, images: .constant([UIImage]()), isPresentingPhotoSource: .constant(false), isValidForm: $isValidForm, objectType: .goal, modalType: .add, isSimple: true)
                         .modifier(ModifierCard(color:.grey15))
                         .padding(.top)
                     FormTextConfirm(fieldValue: $confirmed, fieldName: GetFieldName(), fieldDescription: GetFieldDescription(), iconType: .edit, invalidColor: .darkRed)

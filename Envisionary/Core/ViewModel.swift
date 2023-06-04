@@ -6,7 +6,7 @@ class ViewModel: ObservableObject, DataServiceProtocol
 {
     
     // MARK: - DATA SERVICE
-    let dataService = DataService()
+    private let dataService = DataService()
     
     // MARK: - GROUPING, FILTERING, UPDATES
     @Published var grouping = ObjectGrouping()
@@ -422,8 +422,10 @@ class ViewModel: ObservableObject, DataServiceProtocol
     // MARK: - RECURRENCE
     
     func CreateRecurrence(request: CreateRecurrenceRequest) -> UUID{
+        
+        let response = dataService.CreateRecurrence(request: request)
         RecurrencesDidChange()
-        return dataService.CreateRecurrence(request: request)
+        return response
     }
     
     func GetRecurrence(id: UUID) -> Recurrence?{
@@ -442,8 +444,9 @@ class ViewModel: ObservableObject, DataServiceProtocol
     }
     
     func UpdateRecurrence(id: UUID, request: UpdateRecurrenceRequest) -> Bool {
+        let response = dataService.UpdateRecurrence(id: id, request: request)
         RecurrencesDidChange()
-        return dataService.UpdateRecurrence(id: id, request: request)
+        return response
     }
     
     func DeleteRecurrence(id: UUID) -> Bool{

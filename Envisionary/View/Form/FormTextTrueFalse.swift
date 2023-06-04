@@ -35,7 +35,7 @@ struct FormTextTrueFalse: View {
                         .frame(minHeight:60)
                         .font(.specify(style: .body4))
                         .foregroundColor(.specify(color: .grey10))
-                        .offset(y: 8)
+                        .offset(y: 6)
                 }
             }
             Spacer()

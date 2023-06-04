@@ -43,7 +43,7 @@ struct FormText: View {
                         .focused($isFocused)
                         .font(.specify(style: .body1))
                         .foregroundColor(.specify(color: .grey10))
-                        .offset(y: fieldValue.isEmpty ? 0 : 8)
+                        .offset(y: fieldValue.isEmpty ? 0 : 6)
                         .animation(.default)
                         
 

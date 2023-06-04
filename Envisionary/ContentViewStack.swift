@@ -251,7 +251,7 @@ struct ContentViewStack: View {
                 todayTaskList = vm.ListTasks(criteria: GetTaskCriteria()).sorted(by: {$0.progress < $1.progress}).map({Properties(task: $0)})
                 todayGoalList = vm.ListGoals(criteria: GetTaskCriteria()).sorted(by: {$0.startDate < $1.startDate}).map({Properties(goal: $0)})
                 habitDictionary = [String:[Habit]]()
-                todayRecurrenceList = vm.ListRecurrences(criteria: GetHabitCriteria()).map({Properties(recurrence: $0)})
+                todayRecurrenceList = vm.ListRecurrences(criteria: GetHabitCriteria()).sorted(by: {!$0.isComplete && $1.isComplete}).map({Properties(recurrence: $0)})
             case .habit:
                 chapterDictionary = [String:[Chapter]]()
                 taskDictionary = [String:[Task]]()
@@ -357,7 +357,7 @@ struct ContentViewStack: View {
             case .value:
                 ForEach(valueList){ coreValue in
                     if coreValue.coreValue != .Introduction && coreValue.coreValue != .Conclusion{
-                        PhotoCard(objectType: .value, objectId: coreValue.id, properties: Properties(value: coreValue), header: coreValue.coreValue.toString(), subheader: coreValue.description)
+                        PhotoCard(objectType: .value, objectId: coreValue.id, properties: Properties(value: coreValue))
                     }
                     if valueList.last != coreValue{
                         StackDivider()
@@ -366,7 +366,7 @@ struct ContentViewStack: View {
             case .aspect:
                 ForEach(aspectList){ aspect in
                     
-                    PhotoCard(objectType: .aspect, objectId: aspect.id, properties: Properties(aspect: aspect), header: aspect.aspect.toString(), subheader: aspect.description)
+                    PhotoCard(objectType: .aspect, objectId: aspect.id, properties: Properties(aspect: aspect))
                     
                     if aspectList.last != aspect{
                         StackDivider()
@@ -374,7 +374,7 @@ struct ContentViewStack: View {
                 }
             case .session:
                 ForEach(sessionList){ session in
-                    PhotoCard(objectType: .session, objectId: session.id, properties: Properties(session: session), header: session.date.toString(timeframeType: session.timeframe), subheader: "Completed on " + session.dateCompleted.toString(timeframeType: session.timeframe))
+                    PhotoCard(objectType: .session, objectId: session.id, properties: Properties(session: session))
                 }
             case .creed:
                 CreedCard()
@@ -450,7 +450,7 @@ struct ContentViewStack: View {
                                             
                                         if let dreams = dreamDictionary[header]{
                                             ForEach(dreams){ dream in
-                                                PhotoCard(objectType: .dream, objectId: dream.id, properties: Properties(dream:dream), header: dream.title, subheader: dream.description, caption: dream.aspect.toString())
+                                                PhotoCard(objectType: .dream, objectId: dream.id, properties: Properties(dream:dream))
                                                 
                                                 if dreams.last != dream{
                                                     StackDivider()
@@ -470,7 +470,7 @@ struct ContentViewStack: View {
                                             
                                         if let goals = goalDictionary[header]{
                                             ForEach(goals){ goal in
-                                                PhotoCard(objectType: .goal, objectId: goal.id, properties: Properties(goal:goal), header: goal.title, subheader: goal.description, caption: goal.startDate.toString(timeframeType: goal.timeframe, isStartDate: goal.timeframe == .week ? true : nil) + " - " + goal.endDate.toString(timeframeType: goal.timeframe, isStartDate: goal.timeframe == .week ? false : nil))
+                                                PhotoCard(objectType: .goal, objectId: goal.id, properties: Properties(goal:goal))
                                                 
                                                 if goals.last != goal{
                                                     StackDivider()
@@ -512,7 +512,7 @@ struct ContentViewStack: View {
                                             
                                         if let chapters = chapterDictionary[header]{
                                             ForEach(chapters){ chapter in
-                                                PhotoCard(objectType: .chapter, objectId: chapter.id, properties: Properties(chapter:chapter), header: chapter.title, subheader: chapter.description, caption: chapter.aspect.toString())
+                                                PhotoCard(objectType: .chapter, objectId: chapter.id, properties: Properties(chapter:chapter))
                                                 
                                                 if chapters.last != chapter{
                                                     StackDivider()
@@ -532,7 +532,7 @@ struct ContentViewStack: View {
                                             
                                         if let entries = entriesDictionary[header]{
                                             ForEach(entries){ entry in
-                                                PhotoCard(objectType: .entry, objectId: entry.id, properties: Properties(entry:entry), header: entry.title, subheader: entry.description, caption: entry.startDate.toString(timeframeType: .day))
+                                                PhotoCard(objectType: .entry, objectId: entry.id, properties: Properties(entry:entry))
                                                 
                                                 if entries.last != entry{
                                                     StackDivider()
@@ -553,7 +553,7 @@ struct ContentViewStack: View {
                                         if let habits = habitDictionary[header]{
                                             ForEach(habits){ habit in
                                                 
-                                                PhotoCard(objectType: .habit, objectId: habit.id, properties: Properties(habit:habit), header: habit.title, subheader: habit.description, caption: habit.startDate.toString(timeframeType: .day))
+                                                PhotoCard(objectType: .habit, objectId: habit.id, properties: Properties(habit:habit))
                                                 
                                                 if habits.last != habit{
                                                     StackDivider()
@@ -567,11 +567,6 @@ struct ContentViewStack: View {
                         }
                     default:
                         let _ = "why"
-//                    case .habit:
-//                        <#code#>
-
-//                    case .emotion:
-//                        <#code#>
                     }
                 }
         }

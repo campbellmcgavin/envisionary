@@ -95,7 +95,7 @@ struct Header<Content: View>: View {
     
     func GetRadius() -> CGFloat{
         if offset.y > 0 {
-            return abs( 36 - ((36 * offset.y/headerFrame.height)))
+            return abs( 36 - ((36 * offset.y/(headerFrame.height + (ShouldShowImage() ? 0 : 24)))))
         }
         return 36
     }

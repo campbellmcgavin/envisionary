@@ -26,7 +26,7 @@ struct DetailChildren: View {
                 VStack{
                     
                     ForEach(childGoals){ goal in
-                        PhotoCard(objectType: .goal, objectId: goal.id, properties: Properties(goal:goal), header: goal.title, subheader: goal.description, caption: goal.startDate.toString(timeframeType: goal.timeframe, isStartDate: goal.timeframe == .week ? true : nil) + " - " + goal.endDate.toString(timeframeType: goal.timeframe, isStartDate: goal.timeframe == .week ? false : nil))
+                        PhotoCard(objectType: .goal, objectId: goal.id, properties: Properties(goal:goal))
                         
                         if childGoals.last != goal{
                             Divider()

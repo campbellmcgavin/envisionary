@@ -43,7 +43,7 @@ struct Habit: Identifiable, Codable, Equatable, Hashable{
         description = ""
         aspect = .academic
         timeframe = .day
-        schedule = .morning
+        schedule = .oncePerDay
         priority = .low
         startDate = Date()
         endDate = Date()

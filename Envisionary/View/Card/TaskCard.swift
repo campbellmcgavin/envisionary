@@ -21,18 +21,20 @@ struct TaskCard: View {
                 .padding(.trailing,12)
             NavigationLink(destination: Detail(objectType: .task, objectId: taskId, properties: properties))
             {
-                VStack(spacing:2){
+                VStack(alignment:.leading, spacing:2){
                     Text(properties.title ?? "")
                         .font(.specify(style: .h4))
                         .foregroundColor(.specify(color: .grey10))
 
                     if let startDate = properties.startDate{
                         Text(startDate.toString(timeframeType: .day))
-                            .font(.specify(style: .subCaption))
+                            .font(.specify(style: .body4))
                             .textCase(.uppercase)
                             .foregroundColor(.specify(color: .grey4))
                     }
                 }
+                .frame(alignment:.leading)
+                
                 Spacer()
                 IconLabel(size: .small, iconType: .right, iconColor: .grey5)
             }

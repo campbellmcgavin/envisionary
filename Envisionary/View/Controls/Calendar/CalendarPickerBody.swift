@@ -41,11 +41,10 @@ struct CalendarPickerBody: View {
                         
                         let dateStatus = GetDateStatus(date: value.date)
                         
-                        CalendarPickerCard(date: $date, filterTimeframe: $timeframe, localized: localized, isSelected: GetIsSelected(value: value), containsGoal: dateValuesWithContent.contains(where:{$0 == value.day}), shouldComplete: dateStatus != nil, isComplete: dateStatus?.day ?? 0 == 1, value: value)
+                        CalendarPickerCard(date: $date, filterTimeframe: $timeframe, localized: localized, isSelected: GetIsSelected(value: value), containsGoal: dateValuesWithContent.contains(where:{$0 == value.day}), shouldComplete: dateStatus != nil, completionStatus: dateStatus?.day ?? 0, value: value)
                     }
                     
                 }
-                
             }
             else{
                 
@@ -183,7 +182,7 @@ struct CalendarPickerCard: View {
     var isSelected: Bool
     var containsGoal: Bool
     var shouldComplete: Bool = false
-    var isComplete: Bool = false
+    var completionStatus: Int = 0
     
     @EnvironmentObject var vm: ViewModel
     var value: DateValue
@@ -197,11 +196,11 @@ struct CalendarPickerCard: View {
                 
                 VStack{
                     if shouldComplete{
-                        if isComplete{
+                        switch completionStatus{
+                        case 0:
                             Circle()
-                                .strokeBorder(Color.specify(color: .green), lineWidth: 3)
-                        }
-                        else{
+                                .strokeBorder(Color.specify(color: .grey5), lineWidth: 3)
+                        case 1:
                             if value.date > Date(){
                                 Circle()
                                     .strokeBorder(Color.specify(color: .grey5), lineWidth: 3)
@@ -210,6 +209,14 @@ struct CalendarPickerCard: View {
                                 Circle()
                                     .strokeBorder(Color.specify(color: .red), lineWidth: 3)
                             }
+                        case 2:
+                            Circle()
+                                .strokeBorder(Color.specify(color: .green), lineWidth: 3)
+                        case 3:
+                            Circle()
+                                .strokeBorder(Color.specify(color: .blue), lineWidth: 3)
+                        default:
+                            let _ = "why"
                         }
                     }
                 }

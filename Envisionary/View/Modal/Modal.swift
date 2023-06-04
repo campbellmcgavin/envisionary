@@ -13,6 +13,7 @@ struct Modal<ModalContent: View, HeaderContent: View, BottomContent: View, Betwe
     @Binding var isPresenting: Bool
     @Binding var shouldConfirm: Bool
     @Binding var isPresentingImageSheet: Bool
+    @Binding var allowConfirm: Bool
     var title: String?
     var subtitle: String?
     var image: UIImage?
@@ -25,11 +26,6 @@ struct Modal<ModalContent: View, HeaderContent: View, BottomContent: View, Betwe
     @State var headerFrame: CGSize = .zero
     @State var offset: CGPoint = .zero
     var body: some View {
-        
-        
-
-        
-        
         ZStack(alignment:.bottom){
             if isPresenting{
                 Color.specify(color: .grey0)
@@ -48,7 +44,7 @@ struct Modal<ModalContent: View, HeaderContent: View, BottomContent: View, Betwe
                                 Header(offset: $offset, title: GetTitle(), subtitle: GetSubtitle(), objectType: objectType, color: GetHeaderColor(), headerFrame: $headerFrame, isPresentingImageSheet: $isPresentingImageSheet, modalType: modalType, image: image, content: {headerContent})
                                 
                                 betweenContent
-                                    .offset(y:offset.y < 150 ? 85 - offset.y/1.8 : -85)
+                                    .offset(y:GetBetweenOffset())
                                 
                                 VStack{
                                     modalContent
@@ -59,7 +55,7 @@ struct Modal<ModalContent: View, HeaderContent: View, BottomContent: View, Betwe
                                 }
                                 .frame(maxWidth: .infinity)
                                 .modifier(ModifierCard(color: GetIsMini() ? .clear : .grey1))
-                                .offset(y:offset.y < 150 ? -offset.y/1.5 : -100)
+                                .offset(y: GetOffset())
                                 .frame(alignment:.leading)
                                 .offset(y:100)
                                 .padding(.bottom,200)
@@ -74,7 +70,7 @@ struct Modal<ModalContent: View, HeaderContent: View, BottomContent: View, Betwe
                     .disabled(modalType == .delete)
                     .ignoresSafeArea()
                     
-                    ModalMenu(modalType: modalType, objectType: objectType, color: GetHeaderColor(), shouldHelp: $shouldHelp, shouldClose: $isPresenting, shouldConfirm: $shouldConfirm)
+                    ModalMenu(modalType: modalType, objectType: objectType, color: GetHeaderColor(), shouldHelp: $shouldHelp, shouldClose: $isPresenting, shouldConfirm: $shouldConfirm, allowConfirm: $allowConfirm)
                         .frame(alignment:.top)
                 }
                 .frame(alignment:.bottom)
@@ -88,6 +84,25 @@ struct Modal<ModalContent: View, HeaderContent: View, BottomContent: View, Betwe
         .frame(maxWidth: .infinity, maxHeight:.infinity,alignment:.bottom)
         .ignoresSafeArea()
         .animation(.easeInOut)
+    }
+    
+    func GetOffset() -> CGFloat{
+        if offset.y < 150 {
+            return -offset.y/1.5
+        }
+        else{
+            return -100
+        }
+    }
+    
+    func GetBetweenOffset() -> CGFloat{
+        
+        if offset.y < 150{
+            return 85 - offset.y/1.8
+        }
+        else{
+            return -85
+        }
     }
 
     func GetIsMini() -> Bool {
@@ -202,7 +217,7 @@ struct Modal<ModalContent: View, HeaderContent: View, BottomContent: View, Betwe
 
 struct Modal_Previews: PreviewProvider {
     static var previews: some View {
-        Modal(modalType: .add, objectType: .goal, isPresenting: .constant(true), shouldConfirm: .constant(false),isPresentingImageSheet:.constant(false), title: Properties(objectType: .goal).title!, modalContent: {
+        Modal(modalType: .add, objectType: .goal, isPresenting: .constant(true), shouldConfirm: .constant(false),isPresentingImageSheet:.constant(false), allowConfirm: .constant(true), title: Properties(objectType: .goal).title!, modalContent: {
 //            HeaderButton(isExpanded: .constant(true), color: .grey10, header: "Hello")
 //            HeaderButton(isExpanded: .constant(true), color: .grey10, header: "Hello")
 //            HeaderButton(isExpanded: .constant(true), color: .grey10, header: "Hello")

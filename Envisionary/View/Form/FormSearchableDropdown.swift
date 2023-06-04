@@ -42,7 +42,7 @@ struct FormSearchableDropdown: View {
                         .focused($isFocused)
                         .font(.specify(style: .body1))
                         .foregroundColor(.specify(color: .grey10))
-                        .offset(y: searchString.isEmpty ? 0 : 8)
+                        .offset(y: searchString.isEmpty ? 0 : 6)
                         .animation(.default)
                 }
                 .onChange(of: shouldErase){ _ in

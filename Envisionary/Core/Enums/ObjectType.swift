@@ -364,6 +364,8 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
                 return true
             case .parentId:
                 return true
+            case .image:
+                return true
             default:
                 return false
             }

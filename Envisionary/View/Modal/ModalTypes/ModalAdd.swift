@@ -12,7 +12,8 @@ struct ModalAdd: View {
     @Binding var isPresentingPhotoSource: Bool
     @Binding var sourceType: UIImagePickerController.SourceType?
     let objectId: UUID?
-    var parentId: UUID?
+    var parentGoalId: UUID?
+    var parentChapterId: UUID?
     let objectType: ObjectType
     let modalType: ModalType
     var status: StatusType?
@@ -25,7 +26,7 @@ struct ModalAdd: View {
         case .session:
             ModalAddSession(isPresenting: $isPresenting, sessionStep: .overview)
         default:
-            ModalAddDefault(isPresenting: $isPresenting, isPresentingPhotoSource: $isPresentingPhotoSource, sourceType: $sourceType, objectId: objectId, objectType: objectType, modalType: modalType)
+            ModalAddDefault(isPresenting: $isPresenting, isPresentingPhotoSource: $isPresentingPhotoSource, sourceType: $sourceType, objectId: objectId, parentGoalId: parentGoalId, parentChapterId: parentChapterId, objectType: objectType, modalType: modalType)
         }
     }
 }

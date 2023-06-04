@@ -42,12 +42,12 @@ struct HeaderWithContent<Content: View>: View {
 struct HeaderWithContent_Previews: PreviewProvider {
     static var previews: some View {
         HeaderWithContent(shouldExpand: .constant(false), headerColor: .grey10, header: "High Priority"){
-            PhotoCard(objectType: .goal, objectId: UUID(), properties: Properties(), header: "Study for AWS exam", subheader: "May, 2021 - June, 2021", caption: "In Progress")
-            PhotoCard(objectType: .goal, objectId: UUID(), properties: Properties(), header: "Study for AWS exam", subheader: "May, 2021 - June, 2021", caption: "In Progress")
-            PhotoCard(objectType: .goal, objectId: UUID(), properties: Properties(), header: "Study for AWS exam", subheader: "May, 2021 - June, 2021", caption: "In Progress")
-            PhotoCard(objectType: .goal, objectId: UUID(), properties: Properties(), header: "Study for AWS exam", subheader: "May, 2021 - June, 2021", caption: "In Progress")
-            PhotoCard(objectType: .goal, objectId: UUID(), properties: Properties(), header: "Study for AWS exam", subheader: "May, 2021 - June, 2021", caption: "In Progress")
-            PhotoCard(objectType: .goal, objectId: UUID(), properties: Properties(), header: "Study for AWS exam", subheader: "May, 2021 - June, 2021", caption: "In Progress")
+            PhotoCard(objectType: .goal, objectId: UUID(), properties: Properties())
+            PhotoCard(objectType: .goal, objectId: UUID(), properties: Properties())
+            PhotoCard(objectType: .goal, objectId: UUID(), properties: Properties())
+            PhotoCard(objectType: .goal, objectId: UUID(), properties: Properties())
+            PhotoCard(objectType: .goal, objectId: UUID(), properties: Properties())
+            PhotoCard(objectType: .goal, objectId: UUID(), properties: Properties())
         }
     }
 }

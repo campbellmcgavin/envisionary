@@ -25,7 +25,7 @@ struct CreedCard: View {
         VStack(alignment:.leading, spacing:0){
             
             if shouldShowCard{
-                PhotoCard(objectType: .creed, objectId: UUID(), properties: Properties(creed: true, valueCount: vm.ListCoreValues().count), header: "Creed", subheader: "", shouldHidePadding: true)
+                PhotoCard(objectType: .creed, objectId: UUID(), properties: Properties(creed: true, valueCount: vm.ListCoreValues().count), shouldHidePadding: true)
                     .padding(.top,-15)
                     .padding(.bottom,8)
             }

@@ -106,6 +106,8 @@ struct PropertyRow: View {
             return String(int ?? 0)
         case .unit:
             return unit?.toString() ?? UnitType.minutes.toString()
+        case .chapter:
+            return text ?? ""
         default:
             return ""
         }

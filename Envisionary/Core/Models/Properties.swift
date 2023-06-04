@@ -73,7 +73,7 @@ struct Properties: Identifiable, Equatable, Hashable, Codable{
     init(recurrence: Recurrence?){
         self.id = recurrence?.id ?? UUID()
         self.parentGoalId = recurrence?.habitId ?? UUID()
-        self.scheduleType = recurrence?.scheduleType ?? .morning
+        self.scheduleType = recurrence?.scheduleType ?? .oncePerDay
         self.amount = recurrence?.amount ?? 0
         self.habitId = recurrence?.habitId
     }
@@ -171,5 +171,113 @@ struct Properties: Identifiable, Equatable, Hashable, Codable{
         self.amount = habit?.amount
         self.unitOfMeasure = habit?.unitOfMeasure
         self.scheduleType = habit?.schedule
+    }
+    
+    func getFormError(propertyType: PropertyType) -> FormErrorType?{
+        switch propertyType {
+        case .title:
+            if let title = self.title{
+                if title.count > 2 && title.count < 24{
+                    return nil
+                }
+                else if title.count >= 24 {
+                    return .fieldIsTooLong
+                }
+                else {
+                    return .fieldIsTooShort
+                }
+            }
+            return .fieldCannotBeEmpty
+        case .timeframe:
+            return .fieldCannotBeEmpty
+        case .date:
+            return .fieldCannotBeEmpty
+        case .startDate:
+            return .fieldCannotBeEmpty
+        case .aspect:
+            return .fieldCannotBeEmpty
+        case .priority:
+            return .fieldCannotBeEmpty
+        case .coreValue:
+            return .fieldCannotBeEmpty
+        case .chapter:
+            return .fieldCannotBeEmpty
+        case .scheduleType:
+            return .fieldCannotBeEmpty
+        case .unit:
+            return .fieldCannotBeEmpty
+        case .amount:
+            return .fieldCannotBeZero
+        case .habitId:
+            return .fieldCannotBeEmpty
+        default:
+            return nil
+        }
+    }
+    
+    func isValid(propertyType: PropertyType, objectType: ObjectType) -> Bool{
+        switch propertyType {
+        case .title:
+            if let title = self.title{
+                if title.count > 2 && title.count < 40{
+                    return true
+                }
+                else if title.count >= 24 {
+                    return false
+                }
+                else {
+                    return false
+                }
+            }
+            else{
+                return false
+            }
+        case .timeframe:
+            return timeframe != nil
+        case .date:
+            return date != nil
+        case .startDate:
+            return startDate != nil
+        case .endDate:
+            return timeframe != nil
+        case .aspect:
+            return aspect != nil
+        case .priority:
+            return priority != nil
+        case .coreValue:
+            return coreValue != nil
+        case .chapter:
+            return chapterId != nil
+        case .scheduleType:
+            return scheduleType != nil
+        case .unit:
+            if let scheduleType{
+                if scheduleType.shouldShowAmount(){
+                    if let _ = unitOfMeasure {
+                        return true
+                    }
+                }
+                else{
+                    return true
+                }
+            }
+            return false
+        case .amount:
+            if let scheduleType{
+                if scheduleType.shouldShowAmount(){
+                    if let amount {
+                        return amount > 0
+                    }
+                }
+                else{
+                    return true
+                }
+            }
+            return false
+        case .habitId:
+            return self.habitId != nil
+        default:
+            return true
+        }
     }
 }

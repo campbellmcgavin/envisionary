@@ -18,6 +18,7 @@ struct PromptCard: View {
         VStack(alignment:.leading){
             BuildCard()
         }
+        .frame(alignment:.leading)
         .padding([.top,.bottom],5)
         .frame(maxWidth:.infinity)
         .onAppear(){
