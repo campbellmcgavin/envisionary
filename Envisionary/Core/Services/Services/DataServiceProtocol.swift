@@ -50,7 +50,7 @@ protocol DataServiceProtocol {
     // MARK: - CORE VALUE
     func CreateCoreValue(request: CreateCoreValueRequest) -> UUID
     func GetCoreValue(id: UUID) -> CoreValue?
-    func ListCoreValues(criteria: Criteria, limit: Int) -> [CoreValue]
+    func ListCoreValues(criteria: Criteria, limit: Int, filterIntroConc: Bool) -> [CoreValue]
     func UpdateCoreValue(id: UUID, request: UpdateCoreValueRequest) -> Bool
     func DeleteCoreValue(id: UUID) -> Bool
     

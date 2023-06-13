@@ -28,6 +28,21 @@ enum ContentViewType: String, CaseIterable{
         }
     }
     
+    func getNext() -> Self?{
+        switch self {
+        case .envision:
+            return .plan
+        case .plan:
+            return .execute
+        case .execute:
+            return .journal
+        case .journal:
+            return .evaluate
+        case .evaluate:
+            return nil
+        }
+    }
+    
     func toDescription() -> String {
         switch self {
         case .envision:

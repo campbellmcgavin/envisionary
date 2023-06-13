@@ -14,7 +14,10 @@ enum SizeType {
     case mediumLarge
     case largeMedium
     case large
+    case largeish
+    case larger
     case extralarge
+    case giant
     
     case minimumTouchTarget
     case cornerRadiusLarge
@@ -44,8 +47,14 @@ enum SizeType {
             return 60
         case .large:
             return 70
+        case .largeish:
+            return 88
+        case .larger:
+            return 100
         case .extralarge:
             return 150
+        case .giant:
+            return 180
             
         case .minimumTouchTarget:
             return 44

@@ -13,7 +13,6 @@ struct CreateDreamRequest{
         var description: String = ""
 //        var image: UUID? = nil
         var aspect: AspectType = .academic
-    
 
     init(title: String, description: String, aspect: AspectType)
     {

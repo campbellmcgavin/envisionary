@@ -619,7 +619,7 @@ class DataService: DataServiceProtocol {
         return nil
     }
     
-    func ListCoreValues(criteria: Criteria, limit: Int = 50) -> [CoreValue]{
+    func ListCoreValues(criteria: Criteria, limit: Int = 50, filterIntroConc: Bool) -> [CoreValue]{
         
         do {
             let request = NSFetchRequest<CoreValueEntity>(entityName: "CoreValueEntity")
@@ -628,7 +628,13 @@ class DataService: DataServiceProtocol {
             request.fetchLimit = limit
             
             let CoreValuesEntityList = try container.viewContext.fetch(request)
-            return CoreValuesEntityList.map({CoreValue(from: $0)}).filter({$0.coreValue != .Introduction && $0.coreValue != .Conclusion})
+            
+            if filterIntroConc {
+                return CoreValuesEntityList.map({CoreValue(from: $0)}).filter({$0.coreValue != .Introduction && $0.coreValue != .Conclusion})
+            }
+            else{
+                return CoreValuesEntityList.map({CoreValue(from: $0)})
+            }
         } catch let error {
             print ("ERROR FETCHING CoreValue. \(error)")
         }

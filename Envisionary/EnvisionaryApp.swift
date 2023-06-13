@@ -15,9 +15,9 @@ struct EnvisionaryApp: App {
         WindowGroup {
             ContentView()
                 .environmentObject(vm)
-//                .onAppear{
-//                    GetAllFonts()
-//                }
+                .onAppear{
+                    GetAllFonts()
+                }
         }
     }
     

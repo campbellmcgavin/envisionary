@@ -19,6 +19,7 @@ struct SessionSelectTimeframe: View {
     var body: some View {
         
         VStack{
+            FormLabel(fieldValue: "hi", fieldName: "Step ", iconType: .confirm)
             FormStackPicker(fieldValue: $timeframeString, fieldName: PropertyType.timeframe.toString(), options: .constant(TimeframeType.allCases.filter({$0 != .day}).map({$0.toString()})), iconType: .timeframe)
             FormCalendarPicker(fieldValue: $date, fieldName: PropertyType.startDate.toString(), timeframeType: $timeframe, iconType: .timeframe)
         }

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct FloatingActionButton: View {
-    @Binding var isPresentingModal: Bool
+    @Binding var shouldAct: Bool
     @Binding var modalType: ModalType
     
     @State var isPressed = false
@@ -24,7 +24,7 @@ struct FloatingActionButton: View {
                 .offset(x:-xOffset+geometry.size.width, y:-yOffset + geometry.size.height)
                 .onChange(of: isPressed){
                     _ in
-                    isPresentingModal.toggle()
+                    shouldAct.toggle()
                     modalType = .add
                 }
         }
@@ -34,7 +34,7 @@ struct FloatingActionButton: View {
     
     struct FloatingActionButton_Previews: PreviewProvider {
         static var previews: some View {
-            FloatingActionButton(isPresentingModal: .constant(true), modalType: .constant(.search))
+            FloatingActionButton(shouldAct: .constant(true), modalType: .constant(.search))
                 .environmentObject(ViewModel())
         }
     }

@@ -56,31 +56,36 @@ struct TextButton: View {
             .modifier(ModifierMaxWidth(infinity: shouldFill && backgroundColor != .clear))
 //            .padding([.leading,.trailing])
             .padding(.leading, iconType != nil ? 12 : 0)
-            .modifier(ModifierForm(color:backgroundColor))
+            .background(Capsule()
+                .foregroundColor(.specify(color: backgroundColor))
+                        
+            )
+            .frame(height:height.ToSize())
         }
         else{
-            HStack{
-                Text(text)
-                    .font(.specify(style: style))
-                    .foregroundColor(.specify(color: color))
-                    .frame(minWidth: 0)
-                    .padding([.top,.bottom], backgroundColor != .clear ? 10 : 0)
-                    .padding(.leading, backgroundColor == .clear ? 10 : 0)
-                
-                if iconType != nil {
-                    Spacer()
-                    IconLabel(size: .medium, iconType: iconType!, iconColor: backgroundColor, circleColor: color)
-                        .padding(8)
+            ZStack{
+                Capsule()
+                    .foregroundColor(.specify(color: backgroundColor))
+                    .frame(height:height.ToSize())
+                    
+                HStack{
+                    Text(text)
+                        .font(.specify(style: style))
+                        .foregroundColor(.specify(color: color))
+                        .frame(minWidth: 0)
+                        .padding([.top,.bottom], backgroundColor != .clear ? 10 : 0)
+                        .padding(.leading, backgroundColor == .clear ? 10 : 0)
+                    
+                    if iconType != nil {
+                        Spacer()
+                        IconLabel(size: .medium, iconType: iconType!, iconColor: backgroundColor, circleColor: color)
+                            .padding(8)
+                    }
+                      
                 }
-                  
+                .modifier(ModifierMaxWidth(infinity: shouldFill && backgroundColor != .clear))
             }
-            .modifier(ModifierMaxWidth(infinity: shouldFill && backgroundColor != .clear))
             .padding([.leading,.trailing])
-            .background(
-                Color.specify(color: backgroundColor)
-                    .frame(maxWidth:.infinity)
-                    .clipShape(RoundedRectangle(cornerRadius: SizeType.cornerRadiusSmall.ToSize()))
-            )
 //            .padding([.leading,.trailing])
         }
 

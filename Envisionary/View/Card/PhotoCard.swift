@@ -45,17 +45,14 @@ struct PhotoCard: View {
                                 .foregroundColor(.specify(color: .grey3))
                                 .padding(.top,3)
                         }
-
                     }
                 }
-
                 .padding(.leading)
                 Spacer()
                 IconButton(isPressed: .constant(true), size: .small, iconType: .right, iconColor: .grey5)
                     .disabled(true)
             }
             .padding(shouldHidePadding ? 0 : 15)
-//            .padding()
             .frame(maxWidth:.infinity)
             .frame(height:75)
             .onAppear{

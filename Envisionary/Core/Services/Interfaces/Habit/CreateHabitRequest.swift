@@ -33,4 +33,17 @@ struct CreateHabitRequest {
         self.unitOfMeasure = properties.unitOfMeasure ?? .minutes
         self.amount = properties.amount ?? 0
     }
+    
+    init(title: String, priority: PriorityType, startDate: Date, endDate: Date, schedule: ScheduleType, amount: Int, unitOfMeasure: UnitType, image: UUID?, aspect: AspectType, timeframe: TimeframeType){
+        self.title = title
+        self.priority = priority
+        self.startDate = startDate
+        self.endDate = endDate
+        self.schedule = schedule
+        self.amount = amount
+        self.unitOfMeasure = unitOfMeasure
+        self.image = image
+        self.aspect = aspect
+        self.timeframe = timeframe
+    }
 }

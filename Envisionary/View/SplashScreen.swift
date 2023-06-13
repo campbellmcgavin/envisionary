@@ -16,15 +16,15 @@ struct SplashScreen: View {
             
             if isPresenting{
                 
-                VStack(alignment:.center){
+                ZStack(alignment:.center){
                     "logo".ToImage(imageSize: SizeType.extralarge.ToSize())
-                    
-                    Text("Envisionary").textCase(.uppercase)
-                        .font(.specify(style: .logo))
-                        .tracking(5)
-                        .offset(y:UIScreen.screenHeight/3)
-                    
-                    
+                    VStack{
+                        Spacer()
+                        Text("Envisionary").textCase(.uppercase)
+                            .font(.specify(style: .logo))
+                            .tracking(5)
+                            .padding(.bottom,90)
+                    }
                                    
                     }
                 .foregroundColor(.specify(color: .grey10))

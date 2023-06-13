@@ -78,16 +78,14 @@ struct ProgressBar: View {
 struct Countdown: View {
 
     @Binding var counter: Double
-    
+    @Binding var shouldReset: Bool
     let timeAmount: Int
     let color: CustomColor
     let size: SizeType
     let shouldCountDown: Bool
     let shouldShowClock: Bool
-
-    @State var timer = Timer
-        .publish(every: 0.1, on: .main, in: .common)
-        .autoconnect()
+    var shouldAnimate: Bool = false
+    @State var timer = Timer.publish(every: 0.05, on: .main, in: .common).autoconnect()
         
     var body: some View {
         VStack{
@@ -100,24 +98,41 @@ struct Countdown: View {
                 }
             }
         }.onReceive(timer) { time in
+            if shouldAnimate{
+                withAnimation{
+                    Compute()
+                }
+            }
+            else{
+                Compute()
+            }
+
+        }
+        .onChange(of: shouldReset){
+            _ in
+            
+            timer = Timer.publish(every: 0.05, on: .main, in: .common).autoconnect()
+            counter = Double(timeAmount)
+        }
+    }
+    
+    func Compute(){
+        if shouldCountDown{
+            
+            if counter > 0 {
+                self.counter -= 0.1
+            }
+            else{
+                stopTimer()
+            }
+        }
+        else{
+            if Int(counter) < timeAmount{
+                self.counter += 0.1
+            }
+            else{
                 
-                if shouldCountDown{
-                    
-                    if counter > 0 {
-                        self.counter -= 0.1
-                    }
-                    else{
-                        stopTimer()
-                    }
-                }
-                else{
-                    if Int(counter) < timeAmount{
-                        self.counter += 0.1
-                    }
-                    else{
-                        
-                    }
-                }
+            }
         }
     }
     
@@ -128,6 +143,6 @@ struct Countdown: View {
 
 struct CountdownView_Previews: PreviewProvider {
     static var previews: some View {
-        Countdown(counter: .constant(0), timeAmount: 15, color: .purple, size: .small, shouldCountDown: true, shouldShowClock: false)
+        Countdown(counter: .constant(0), shouldReset: .constant(false), timeAmount: 15, color: .purple, size: .small, shouldCountDown: true, shouldShowClock: false)
     }
 }

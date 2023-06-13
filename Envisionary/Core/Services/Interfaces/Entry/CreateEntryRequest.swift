@@ -22,4 +22,20 @@ struct CreateEntryRequest {
         self.images = properties.images ?? [UUID]()
         self.chapterId = properties.chapterId
     }
+    
+    init(title: String, description: String, startDate: Date, chapterId: UUID, images: [UUID]){
+        self.title = title
+        self.description = description
+        self.startDate = startDate
+        self.chapterId = chapterId
+        self.images = images
+    }
+    
+    init(){
+        title = ""
+        description = ""
+        startDate = Date()
+        chapterId = nil
+        images = [UUID]()
+    }
 }

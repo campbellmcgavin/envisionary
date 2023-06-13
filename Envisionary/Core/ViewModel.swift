@@ -262,8 +262,8 @@ class ViewModel: ObservableObject, DataServiceProtocol
         return dataService.GetCoreValue(coreValue: coreValue)
     }
 
-    func ListCoreValues(criteria: Criteria = Criteria(), limit: Int = 50) -> [CoreValue]{
-        let list = dataService.ListCoreValues(criteria: criteria, limit: limit)
+    func ListCoreValues(criteria: Criteria = Criteria(), limit: Int = 50, filterIntroConc: Bool = true) -> [CoreValue]{
+        let list = dataService.ListCoreValues(criteria: criteria, limit: limit, filterIntroConc: filterIntroConc)
         return list
     }
     func UpdateCoreValue(id: UUID, request: UpdateCoreValueRequest) -> Bool {

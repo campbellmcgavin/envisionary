@@ -22,6 +22,7 @@ struct ContentView: View {
     @State var shouldPopScrollToHideHeader: Bool = false
     @State var isPresentingModal: Bool = false
     @State var isPresentingMainMenu: Bool = false
+    @State var isPresentingSetup: Bool = false
     @State var modalType: ModalType = .add
     @State private var scrollViewID = 1
     @State var isPresentingSplashScreen = true
@@ -67,6 +68,7 @@ struct ContentView: View {
                                         
                                     }
                                         .padding(.top,GetStackOffset())
+                                        .padding(.bottom,200)
 
                                 }
                                 .onChange(of: shouldPopScrollToHideHeader){
@@ -98,8 +100,6 @@ struct ContentView: View {
                                 }
                                 .frame(alignment:.top)
                                
-                                Spacer()
-                                    .frame(height:UIScreen.screenHeight)
                             })
                             .disabled(shouldDisableScrollView)
                         }
@@ -113,7 +113,7 @@ struct ContentView: View {
                     Spacer()
                     
                     if (ShouldShowFloatingActionButton()){
-                        FloatingActionButton(isPresentingModal: $isPresentingModal, modalType: $modalType)
+                        FloatingActionButton(shouldAct: $isPresentingModal, modalType: $modalType)
                     }
 
                     BottomNavigationBar(selectedContentView: $vm.filtering.filterContent)
@@ -121,6 +121,14 @@ struct ContentView: View {
 
                 ModalManager(isPresenting: $isPresentingModal, modalType: $modalType, objectType: vm.filtering.filterObject, shouldDelete: .constant(false))
                     .frame(alignment:.bottom)
+                
+                if isPresentingMainMenu{
+                    Tutorial(shouldClose: $isPresentingMainMenu, isPresentingSetup: $isPresentingSetup)
+                }
+                
+                if isPresentingSetup{
+                    Setup(shouldClose: $isPresentingSetup)
+                }
                 
                 SplashScreen(isPresenting: $isPresentingSplashScreen)
                 
@@ -133,6 +141,12 @@ struct ContentView: View {
             }
             .onReceive(shouldDisableScrollViewTimer){ _ in
                 shouldDisableScrollView = false
+            }
+            .onChange(of: isPresentingMainMenu){
+                _ in
+                if !isPresentingMainMenu{
+                    isPresentingSetup = true
+                }
             }
             .onChange(of: vm.triggers.shouldPresentModal){ _ in
                 isPresentingModal.toggle()

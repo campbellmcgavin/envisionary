@@ -39,7 +39,7 @@ struct AlertLabel: View {
                 Spacer()
                 
                 ZStack{
-                    Countdown(counter: $counter, timeAmount: alert.timeAmount, color: alert.alertType.GetForegroundColor(), size: .extraSmall, shouldCountDown: !alert.isPersistent, shouldShowClock: false)
+                    Countdown(counter: $counter, shouldReset: .constant(false), timeAmount: alert.timeAmount, color: alert.alertType.GetForegroundColor(), size: .extraSmall, shouldCountDown: !alert.isPersistent, shouldShowClock: false)
                     IconLabel(size: .small, iconType: alert.alertType.GetIcon(), iconColor: alert.alertType.GetForegroundColor())
                 }
 

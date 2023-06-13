@@ -29,21 +29,31 @@ struct CreedCard: View {
                     .padding(.top,-15)
                     .padding(.bottom,8)
             }
-            
-            VStack(alignment:.leading, spacing:0){
-                Item(caption: "Introduction", body: vm.GetCoreValue(coreValue: .Introduction)?.description ?? "")
-                
-                ForEach(vm.ListCoreValues()){ coreValue in
-                    if coreValue.coreValue != .Introduction && coreValue.coreValue != .Conclusion {
-                        Item(caption: coreValue.coreValue.toString(), body: coreValue.description)
-                    }
-                }
-                
-                Item(caption: "Conclusion", body: vm.GetCoreValue(coreValue: .Conclusion)?.description ?? "")
-            }
+
+            CreedCardList()
             .padding(.top,5)
             .frame(alignment:.leading)
             .modifier(ModifierCard(color: .grey15,radius:SizeType.cornerRadiusSmall.ToSize()))
+        }
+    }
+}
+
+struct CreedCardList: View{
+    
+    @EnvironmentObject var vm: ViewModel
+    
+    var body: some View{
+        VStack(alignment:.leading, spacing:0){
+            Item(caption: "Introduction", body: vm.GetCoreValue(coreValue: .Introduction)?.description ?? "")
+            
+            let coreValues = vm.ListCoreValues()
+            ForEach(coreValues){ coreValue in
+                if coreValue.coreValue != .Introduction && coreValue.coreValue != .Conclusion {
+                    Item(caption: coreValue.coreValue.toString(), body: coreValue.description)
+                }
+            }
+            
+            Item(caption: "Conclusion", body: vm.GetCoreValue(coreValue: .Conclusion)?.description ?? "")
         }
     }
     

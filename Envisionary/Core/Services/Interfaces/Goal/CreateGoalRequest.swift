@@ -21,7 +21,7 @@ struct CreateGoalRequest{
         var parentId: UUID? = nil
     
 
-    init(title: String, description: String, priority: PriorityType, startDate: Date, endDate: Date, percentComplete: Int, image: UUID, aspect: AspectType, timeframe: TimeframeType, parent: UUID)
+    init(title: String, description: String, priority: PriorityType, startDate: Date, endDate: Date, percentComplete: Int, image: UUID?, aspect: AspectType, timeframe: TimeframeType, parent: UUID?)
     {
         self.title = title
         self.description = description

@@ -12,6 +12,7 @@ struct WrappingHStack: View {
     @Binding var options: [String]
     var isMultiSelector = false
     var isRestrictingOptions = false
+    var maxCount = 20
     
     @State private var totalHeight
           = CGFloat.zero       // << variant for ScrollView/List
@@ -80,7 +81,6 @@ struct WrappingHStack: View {
     private func item(for text: String) -> some View {
         
         Button{
-            
             if isMultiSelector{
                 if fieldValues[text] != nil{
                     if fieldValues[text]!{

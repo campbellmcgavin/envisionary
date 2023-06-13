@@ -16,7 +16,8 @@ struct TopNavigationBar: View {
     var body: some View {
         
             HStack{
-//                IconButton(isPressed: $isPresentingMainMenu, size: .medium, iconType: .hambugerMenu, iconColor: .grey10)
+                IconButton(isPressed: $isPresentingMainMenu, size: .medium, iconType: .hambugerMenu, iconColor: .grey10)
+                    .opacity(0.0)
                 Spacer()
                 
                 if offset > 0 {
@@ -68,7 +69,7 @@ struct TopNavigationBar: View {
                 }
                 
                 Spacer()
-//                IconButton(isPressed: $isPresentingMainMenu, size: .medium, iconType: .help, iconColor: .grey10)
+                IconButton(isPressed: $isPresentingMainMenu, size: .medium, iconType: .help, iconColor: .grey10)
             }
             .padding([.leading,.trailing],8)
             .frame(height:40)

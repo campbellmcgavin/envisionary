@@ -38,6 +38,27 @@ extension String {
         }
     }
     
+    func ToImageNative(imageSize: CGFloat) -> Image{
+        if(isSingleEmoji){
+            let nsString = (self as NSString)
+            let font = UIFont.systemFont(ofSize: imageSize) // you can change your font size here
+            let stringAttributes = [NSAttributedString.Key.font: font]
+            let sizeOfImage = nsString.size(withAttributes: stringAttributes)
+
+            UIGraphicsBeginImageContextWithOptions(sizeOfImage, false, 0) //  begin image context
+            UIColor.clear.set() // clear background
+            UIRectFill(CGRect(origin: CGPoint(), size: sizeOfImage)) // set rect size
+            nsString.draw(at: CGPoint.zero, withAttributes: stringAttributes) // draw text within rect
+            let image = UIGraphicsGetImageFromCurrentImageContext() // create image from context
+            UIGraphicsEndImageContext() //  end image context
+
+            return Image(uiImage: image!)
+        }
+        else{
+            return Image(self)
+        }
+    }
+    
     
     var isSingleEmoji: Bool { count == 1 && containsEmoji }
 

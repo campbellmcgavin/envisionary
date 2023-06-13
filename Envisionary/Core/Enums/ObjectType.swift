@@ -18,9 +18,9 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
     case dream = 2
     case aspect = 3
     case goal = 4
-    case session = 5
-    case task = 6
-    case habit = 7
+    case habit = 5
+    case session = 6
+    case task = 7
     case home = 8
     case chapter = 9
     case entry = 10
@@ -222,7 +222,7 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
         case .task:
             return "are the smallest, most bite-sized action."
         case .habit:
-            return "are tasks that repeat themselves."
+            return "are actions that repeat themselves."
         case .home:
             return " is what you need to get done today."
         case .chapter:
