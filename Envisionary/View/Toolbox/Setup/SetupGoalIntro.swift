@@ -27,7 +27,6 @@ struct SetupGoalIntro: View {
         .offset(y:25)
         .frame(height:400)
         .padding([.top,.bottom],8)
-        .modifier(ModifierForm())
         .onReceive(timer, perform: { _ in
             shouldWiggle = true
         })

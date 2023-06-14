@@ -18,7 +18,6 @@ struct SetupAspect: View {
     var body: some View {
         WrappingHStack(fieldValue: .constant(""), fieldValues: $Aspects, options: .constant(options), isMultiSelector: true)
             .padding(8)
-            .modifier(ModifierForm())
             .onChange(of: Aspects, perform: { _ in
                 let count = Aspects.values.filter({$0}).count
                 canProceed = count > 3 && count < 11

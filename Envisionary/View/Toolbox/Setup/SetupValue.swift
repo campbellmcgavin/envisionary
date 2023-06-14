@@ -16,7 +16,6 @@ struct SetupValue: View {
     var body: some View {
         WrappingHStack(fieldValue: .constant(""), fieldValues: $values, options: .constant(options), isMultiSelector: true)
             .padding(8)
-            .modifier(ModifierForm())
             .onChange(of: values, perform: { _ in
                 let count = values.values.filter({$0}).count
                 canProceed = count > 4 && count < 11

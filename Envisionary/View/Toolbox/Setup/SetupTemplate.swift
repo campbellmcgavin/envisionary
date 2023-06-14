@@ -39,6 +39,8 @@ struct SetupTemplate<Content: View>: View {
             if shouldShowIndex > textArray.count {
                 content
                     .transition(transition)
+                    .modifier(ModifierForm())
+                    .padding(.bottom,-7)
             }
             else{
                 HStack{
@@ -65,7 +67,7 @@ struct SetupTemplate<Content: View>: View {
                 
                 timeStamps.append( multiply)
             }
-            timeStamps.append(Double.random(in: 5...6))
+            timeStamps.append(Double.random(in: 3.0...4.0))
         }
         .onChange(of: counter){ _ in
             if (timeStamps.count > shouldShowIndex) && timeStamps[shouldShowIndex] <= counter {

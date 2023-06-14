@@ -18,7 +18,6 @@ struct SetupHabit: View {
     var body: some View {
         WrappingHStack(fieldValue: .constant(""), fieldValues: $Habits, options: .constant(options), isMultiSelector: true)
             .padding(8)
-            .modifier(ModifierForm())
             .onChange(of: Habits, perform: { _ in
                 let count = Habits.values.filter({$0}).count
                 canProceed = count > 3 && count < 11

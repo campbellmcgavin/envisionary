@@ -13,7 +13,6 @@ struct SetupCreed: View {
     var body: some View {
         CreedCardList()
             .padding([.top,.bottom],8)
-            .modifier(ModifierForm())
             .onAppear(){
                 canProceed = true
             }

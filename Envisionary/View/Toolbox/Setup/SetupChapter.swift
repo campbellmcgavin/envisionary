@@ -18,7 +18,6 @@ struct SetupChapter: View {
     var body: some View {
         WrappingHStack(fieldValue: .constant(""), fieldValues: $Chapters, options: .constant(options), isMultiSelector: true)
             .padding(8)
-            .modifier(ModifierForm())
             .onChange(of: Chapters, perform: { _ in
                 let count = Chapters.values.filter({$0}).count
                 canProceed = count > 2 && count < 6

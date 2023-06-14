@@ -122,12 +122,12 @@ struct ContentView: View {
                 ModalManager(isPresenting: $isPresentingModal, modalType: $modalType, objectType: vm.filtering.filterObject, shouldDelete: .constant(false))
                     .frame(alignment:.bottom)
                 
-                if isPresentingMainMenu{
-                    Tutorial(shouldClose: $isPresentingMainMenu, isPresentingSetup: $isPresentingSetup)
-                }
+//                if isPresentingMainMenu{
+////                    Tutorial(shouldClose: $isPresentingMainMenu, isPresentingSetup: $isPresentingSetup)
+//                }
                 
-                if isPresentingSetup{
-                    Setup(shouldClose: $isPresentingSetup)
+                if isPresentingMainMenu{
+                    Setup(shouldClose: $isPresentingMainMenu)
                 }
                 
                 SplashScreen(isPresenting: $isPresentingSplashScreen)

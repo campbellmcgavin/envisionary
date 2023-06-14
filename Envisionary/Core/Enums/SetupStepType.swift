@@ -9,6 +9,16 @@ import SwiftUI
 
 enum SetupStepType {
 
+    case welcome
+    case envisionary
+    case phases
+    case envision
+    case plan
+    case execute
+    case journal
+    case evaluate
+    case objects
+    case getStarted
     case value
     case creed
     case dream
@@ -24,7 +34,59 @@ enum SetupStepType {
 //    case emotion
     case garduated
     
-    func toObject() -> ObjectType{
+    
+    func toContentView() -> ContentViewType{
+        switch self {
+        case .welcome:
+            return .envision
+        case .envisionary:
+            return .envision
+        case .phases:
+            return .envision
+        case .envision:
+            return .envision
+        case .plan:
+            return .plan
+        case .execute:
+            return .execute
+        case .journal:
+            return .journal
+        case .evaluate:
+            return .evaluate
+        case .objects:
+            return .envision
+        case .getStarted:
+            return .envision
+        case .value:
+            return .envision
+        case .creed:
+            return .envision
+        case .dream:
+            return .envision
+        case .aspect:
+            return .envision
+        case .goalIntro:
+            return .plan
+        case .goalContext:
+            return .plan
+        case .goalSetup:
+            return .plan
+        case .habit:
+            return .plan
+        case .session:
+            return .plan
+        case .home:
+            return .execute
+        case .chapter:
+            return .journal
+        case .entry:
+            return .journal
+        case .garduated:
+            return .execute
+        }
+    }
+    
+    func toObject() -> ObjectType?{
         switch self {
         case .value:
             return .value
@@ -52,13 +114,120 @@ enum SetupStepType {
             return .entry
 //        case .emotion:
 //            return .emotion
+//        case .garduated:
+//            return .stats
+        default:
+            return nil
+        }
+    }
+    
+    func GetSubheader() -> String{
+        switch self {
+        case .welcome:
+            return "Hello, and"
+        case .envisionary:
+            return "What is"
+        case .phases:
+            return "What are"
+        case .envision:
+            return "What is"
+        case .plan:
+            return "What is"
+        case .execute:
+            return "What is"
+        case .journal:
+            return "What is"
+        case .evaluate:
+            return "What is"
+        case .objects:
+            return "Each phase has"
+        case .getStarted:
+            return "You're ready to"
         case .garduated:
-            return .stats
+            return "Welcome to your"
+        default:
+            return self.toObject()?.toContentType().toString() ?? ""
+        }
+    }
+    
+    func GetHeader() -> String{
+        switch self {
+        case .welcome:
+            return "Welcome!"
+        case .envisionary:
+            return "Envisionary?"
+        case .phases:
+            return "Phases?"
+        case .envision:
+            return "Envision?"
+        case .plan:
+            return "Plan?"
+        case .execute:
+            return "Execute?"
+        case .journal:
+            return "Journal?"
+        case .evaluate:
+            return "Evaluate?"
+        case .objects:
+            return "Objects."
+        case .getStarted:
+            return "Get started!"
+        case .garduated:
+            return "Graduation"
+        default:
+            return self.toObject()?.toString() ?? ""
+        }
+    }
+    
+    func GetColor() -> CustomColor {
+        switch self {
+        case .welcome:
+            return .grey2
+        case .envisionary:
+            return .grey2
+        case .phases:
+            return .grey2
+        case .envision:
+            return .grey2
+        case .plan:
+            return .grey2
+        case .execute:
+            return .grey2
+        case .journal:
+            return .grey2
+        case .evaluate:
+            return .grey2
+        case .objects:
+            return .grey2
+        case .getStarted:
+            return .grey2
+        default:
+            return .purple
         }
     }
     
     func GetNext() -> Self{
         switch self {
+        case .welcome:
+            return .envisionary
+        case .envisionary:
+            return .phases
+        case .phases:
+            return .envision
+        case .envision:
+            return .plan
+        case .plan:
+            return .execute
+        case .execute:
+            return .journal
+        case .journal:
+            return .evaluate
+        case .evaluate:
+            return .objects
+        case .objects:
+            return .getStarted
+        case .getStarted:
+            return .value
         case .value:
             return .creed
         case .creed:
@@ -90,14 +259,40 @@ enum SetupStepType {
         }
     }
     
+    
+    
     func toTextArray() -> [String]{
         
         var array = [String]()
         
         if self != .goalSetup && self != .goalContext && self != .garduated{
-            array.append(self.toObject().toPluralString() + " " + self.toObject().toDescription())
+            if let object = self.toObject(){
+                array.append(object.toPluralString() + " " + object.toDescription())
+            }
         }
         switch self {
+        case .welcome:
+            array.append("You’ve been waiting for this moment your entire life!")
+            array.append("You just didn’t know it yet. 😛")
+        case .envisionary:
+            array.append("A productivity platform that emboldens you to envision your entire life’s work... 🏆")
+            array.append("... and then break it down into manageable chunks. 🧀")
+        case .phases:
+            array.append("Distinct segments of the process for mapping out and accomplishing everything in life.")
+        case .envision:
+            array.append("The phase for creating the vision of who you want to become.")
+        case .plan:
+            array.append("The phase for mapping out concrete plans to achieve your vision.")
+        case .execute:
+            array.append("The phase for executing day to day work that leads to the vision.")
+        case .journal:
+            array.append("The phase for recording your thoughts, and emotions along the way.")
+        case .evaluate:
+            array.append("The phase for quantifying performance, growth and progress.")
+        case .objects:
+            array.append("For example, the envision phase allows you to create Values, Creed, Dreams and Aspects.")
+        case .getStarted:
+            array.append("Let’s jump in and start adding your first objects.")
         case .value:
             array.append("Take a minute to add 5 to 10 personal values that resonate with you.")
             array.append("You can change this later.")

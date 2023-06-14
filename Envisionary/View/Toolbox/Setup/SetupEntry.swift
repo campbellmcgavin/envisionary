@@ -34,7 +34,6 @@ struct SetupEntry: View {
                     .multilineTextAlignment(.leading)
             }
             .padding()
-            .modifier(ModifierForm())
             .padding(.bottom)
             
             TextButton(isPressed: $shouldAdd, text: shouldShowButton ? "Add entry" : "Added", color: .grey10, backgroundColor: shouldShowButton ? .green : .grey5, style:.h3, shouldHaveBackground: true, shouldFill: true)

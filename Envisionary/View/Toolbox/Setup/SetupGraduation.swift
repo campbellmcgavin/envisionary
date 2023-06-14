@@ -20,7 +20,6 @@ struct SetupGraduation: View {
         .frame(maxWidth:.infinity)
         .frame(height:400)
         .offset(y:80)
-        .modifier(ModifierForm())
         .onReceive(timer, perform: { _ in
             if !shouldWiggle{
                 shouldWiggle = true

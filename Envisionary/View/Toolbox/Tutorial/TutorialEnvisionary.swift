@@ -8,8 +8,12 @@
 import SwiftUI
 
 struct TutorialEnvisionary: View {
-    
+    @Binding var canProceed: Bool
+    @State var shouldWiggle: Bool = false
     var body: some View {
+        
+        let timer = Timer.publish(every: 0.25, on: .main, in: .common).autoconnect()
+        
         VStack{
             ZStack{
                 ForEach(0...7, id:\.self){
@@ -20,7 +24,15 @@ struct TutorialEnvisionary: View {
             .frame(maxWidth:.infinity)
             Spacer()
         }
-        .frame(height:450)
+        .frame(height:500)
+        .offset(y:30)
+        .onAppear{
+            canProceed = true
+        }
+        .onReceive(timer){
+            _ in
+            shouldWiggle = true
+        }
     }
     
     @ViewBuilder
@@ -41,7 +53,7 @@ struct TutorialEnvisionary: View {
             }
         }
         .offset(x: offset.x, y: offset.y)
-        .wiggling(intensity: 1.2)
+        .wiggling(shouldWiggle: shouldWiggle, intensity: 1.2)
     }
     
     func GetOffset(item: Int) -> Position{
@@ -96,6 +108,6 @@ struct Position{
 
 struct TutorialEnvisionary_Previews: PreviewProvider {
     static var previews: some View {
-        TutorialEnvisionary()
+        TutorialEnvisionary(canProceed: .constant(true))
     }
 }

@@ -32,7 +32,6 @@ struct SetupSession: View {
                 canProceed = true
             }
             .frame(maxWidth:.infinity)
-            .modifier(ModifierForm())
             .onReceive(timer){
                 _ in
                 shouldWiggle = true

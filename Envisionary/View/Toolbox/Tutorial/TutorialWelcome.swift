@@ -8,9 +8,11 @@
 import SwiftUI
 
 struct TutorialWelcome: View {
+    @Binding var canProceed: Bool
     @State var imageArray: [Image] = [Image]()
-    
+    @State var isWiggling = false
     var body: some View {
+        let timer = Timer.publish(every: 0.25, on: .main, in: .common).autoconnect()
             ZStack(alignment:.center){
                 ForEach(WelcomeTutorialEmojis.allCases, id:\.self){
                     emoji in
@@ -18,13 +20,18 @@ struct TutorialWelcome: View {
                 }
                 Spacer()
             }
-            .frame(height:690)
-            .offset(y:-290)
+            .frame(height:440)
+            .offset(y:-110)
+            .frame(maxWidth:.infinity)
         .onAppear{
             imageArray = [Image]()
             for emoji in WelcomeTutorialEmojis.allCases {
                 imageArray.append( emoji.rawValue.ToImageNative(imageSize: SizeType.medium.ToSize()))
             }
+            canProceed = true
+        }
+        .onReceive(timer){ _ in
+            isWiggling = true
         }
     }
     
@@ -36,21 +43,21 @@ struct TutorialWelcome: View {
         
         if imageArray.count > itemNumber{
             ZStack{
-                ShapeLabel(size: .larger, shapeType: .pin, shapeColor: .purple)
+                ShapeLabel(size: emoji == .envisionary ? .extralarge : .largeish, shapeType: .pin, shapeColor: .purple)
                 Circle()
                     .foregroundColor(.specify(color: .grey10))
-                    .frame(width:SizeType.large.ToSize()-8)
-                    .offset(y:-10)
+                    .frame(width:emoji == .envisionary ? 90 : SizeType.largeMedium.ToSize()-8)
+                    .offset(y:emoji == .envisionary ? -16 : -10)
                 
                 imageArray[itemNumber]
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: SizeType.medium.ToSize(), height: SizeType.medium.ToSize(), alignment: .center)
-                    .offset(y:-10)
+                    .frame(width: emoji == .envisionary ? 70 : SizeType.medium.ToSize(), alignment: .center)
+                    .offset(y:emoji == .envisionary ? -16 : -10)
                     .foregroundColor(.specify(color: .purple))
             }
             .offset(y:-60)
-            .wiggling()
+            .wiggling(shouldWiggle: isWiggling)
             .offset(x: position.x, y: position.y)
             .padding(.bottom,-35)
         }
@@ -59,23 +66,21 @@ struct TutorialWelcome: View {
     func GetOffset(emoji: WelcomeTutorialEmojis) -> Position{
         switch emoji {
         case .baby:
-            return Position(x: 0, y: 0)
+            return Position(x: -120, y: 0)
         case .girl:
-            return Position(x: -80, y: 55)
+            return Position(x: -40, y: 0)
         case .teenager:
-            return Position(x: -120, y: 160)
+            return Position(x: 40, y: 0)
         case .woman:
-            return Position(x: -80, y: 160-55 + 160)
+            return Position(x: 120, y: 0)
         case .school:
-            return Position(x: 0, y: 265+55)
+            return Position(x: -80, y: 120)
         case .graduate:
-            return Position(x: 80, y: 265+55+55)
-        case .celebrate:
-            return Position(x: 120, y: 480)
+            return Position(x:0, y: 120)
         case .house:
-            return Position(x: 80,y: 480-55 + 160)
+            return Position(x: 80,y: 120)
         case .envisionary:
-            return Position(x: 0, y: 480+160)
+            return Position(x: 0, y: 260)
         }
     }
 }
@@ -87,7 +92,6 @@ enum WelcomeTutorialEmojis: String,CaseIterable{
     case woman = "💁‍♀️"
     case school = "📚"
     case graduate = "👩‍🎓"
-    case celebrate = "🎉"
     case house = "🏡"
     case envisionary = "logo"
     
@@ -105,18 +109,16 @@ enum WelcomeTutorialEmojis: String,CaseIterable{
             return 4
         case .graduate:
             return 5
-        case .celebrate:
-            return 6
         case .house:
-            return 7
+            return 6
         case .envisionary:
-            return 8
+            return 7
         }
     }
 }
 
 struct TutorialWelcome_Previews: PreviewProvider {
     static var previews: some View {
-        TutorialWelcome()
+        TutorialWelcome(canProceed: .constant(true))
     }
 }

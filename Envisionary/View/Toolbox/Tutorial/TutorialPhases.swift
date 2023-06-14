@@ -8,10 +8,15 @@
 import SwiftUI
 
 struct TutorialPhases: View {
-    @Binding var selectedContent: ContentViewType?
+    @Binding var canProceed: Bool
+    @Binding var selectedContent: ContentViewType
+    var isOverview = false
     let distance: CGFloat = 100
+    @State var shouldWiggle = false
     
     var body: some View {
+        let timer = Timer.publish(every: 0.25, on: .main, in: .common).autoconnect()
+        
         VStack{
             ZStack{
                 ForEach(ContentViewType.allCases, id:\.self){
@@ -26,18 +31,37 @@ struct TutorialPhases: View {
             .frame(maxWidth:.infinity)
         }
         .frame(height:360)
+        .onAppear{
+            canProceed = true
+        }
+        .onReceive(timer){
+            _ in
+            shouldWiggle = true
+        }
     }
     
     @ViewBuilder
     func SetupButton(contentView: ContentViewType) -> some View{
         let wiggle = GetIsWiggling(contentView: contentView)
         let offset = GetOffset(contentView: contentView)
-        IconLabel(size: .largeish, iconType: contentView.toIcon(), iconColor: .grey10,circleColor: .purple)
-            .opacity(wiggle ? 1.0 : 0.4)
-            .scaleEffect(contentView == selectedContent ? 1.2 : 1.0)
-            .wiggling(shouldWiggle: wiggle, intensity: 5.0)
-            .wiggling(shouldWiggle: contentView == selectedContent, intensity: 6)
+        IconLabel(size: .largeish, iconType: contentView.toIcon(), iconColor: .grey10, circleColor: .purple)
+            .opacity(GetOpacity(contentView: contentView))
+            .scaleEffect(!isOverview && contentView == selectedContent ? 1.2 : 1.0)
+            .wiggling(shouldWiggle: wiggle && shouldWiggle, intensity: 5.0)
+            .wiggling(shouldWiggle: contentView == selectedContent && shouldWiggle && !isOverview, intensity: 6)
             .offset(x:offset.x,y:offset.y)
+    }
+    
+    func GetOpacity(contentView: ContentViewType) -> CGFloat{
+        if isOverview{
+            return 1.0
+        }
+        
+        if contentView == selectedContent{
+            return 1.0
+        }
+        
+        return 0.4
     }
     
     @ViewBuilder
@@ -49,10 +73,10 @@ struct TutorialPhases: View {
             
             Text(contentView.toString())
                 .font(.specify(style: .caption))
-                .foregroundColor(.specify(color: .grey8))
+                .foregroundColor(.specify(color: .grey9))
                 .padding(4)
-                .background(RoundedRectangle(cornerSize: CGSize(width: 5, height: 5)).foregroundColor(.specify(color: .grey2)))
-                .wiggling(shouldWiggle: wiggle, intensity: 2.0)
+                .background(RoundedRectangle(cornerSize: CGSize(width: 5, height: 5)).foregroundColor(.specify(color: .grey3)))
+                .wiggling(shouldWiggle: wiggle && shouldWiggle, intensity: 2.0)
                 .offset(x: offset.x, y:offset.y + 55)
         }
     }
@@ -73,19 +97,19 @@ struct TutorialPhases: View {
     }
     
     func GetIsWiggling(contentView: ContentViewType) -> Bool{
-        if let selectedContent {
-            if contentView == selectedContent {
-                return true
-            }
-            return false
-        }
         
-        return true
+        if isOverview{
+            return true
+        }
+        else if contentView == selectedContent {
+            return true
+        }
+        return false
     }
 }
 
 struct TutorialPhases_Previews: PreviewProvider {
     static var previews: some View {
-        TutorialPhases(selectedContent: .constant(nil))
+        TutorialPhases(canProceed: .constant(true), selectedContent: .constant(.envision))
     }
 }

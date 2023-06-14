@@ -21,7 +21,6 @@ struct SetupHome: View {
         .offset(y:8)
         .frame(height:400)
         .padding([.top,.bottom],8)
-        .modifier(ModifierForm())
         .onReceive(timer, perform: { _ in
             if !shouldWiggle{
                 shouldWiggle = true

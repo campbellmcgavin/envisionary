@@ -18,7 +18,6 @@ struct SetupDream: View {
     var body: some View {
         WrappingHStack(fieldValue: .constant(""), fieldValues: $Dreams, options: .constant(options), isMultiSelector: true)
             .padding(8)
-            .modifier(ModifierForm())
             .onChange(of: Dreams, perform: { _ in
                 let count = Dreams.values.filter({$0}).count
                 canProceed = count > 3 && count < 11

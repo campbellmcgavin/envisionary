@@ -20,7 +20,6 @@ struct SetupGoalContext: View {
         .offset(y:25)
         .frame(height:350)
         .padding([.top,.bottom],8)
-        .modifier(ModifierForm())
         .onReceive(timer, perform: { _ in
             if !shouldWiggle{
                 shouldWiggle = true

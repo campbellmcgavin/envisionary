@@ -52,7 +52,6 @@ struct SetupGoalSetup: View {
         }
         .frame(minHeight:400)
         .padding()
-            .modifier(ModifierForm())
             .onAppear{
                 
                 let goals = vm.ListGoals(limit:200)

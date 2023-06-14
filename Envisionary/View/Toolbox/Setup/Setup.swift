@@ -9,7 +9,7 @@ import SwiftUI
 
 struct Setup: View {
     @Binding var shouldClose: Bool
-    @State var setupStep: SetupStepType = .value
+    @State var setupStep: SetupStepType = .welcome
     @State var shouldAct: Bool = false
     @State var canProceedStep: [SetupStepType: Bool] = [SetupStepType: Bool]()
     @State var canProceedMessages: [SetupStepType: Bool] = [SetupStepType: Bool]()
@@ -32,11 +32,11 @@ struct Setup: View {
                         EmptyView()
                             .id(0)
                         VStack(alignment: .leading){
-                            Text(setupStep.toObject().toContentType().toString())
+                            Text(setupStep.GetSubheader())
                                 .foregroundColor(.specify(color: .grey8))
                                 .font(.specify(style: .h5))
                                 .frame(maxWidth:.infinity, alignment:.leading)
-                            Text(setupStep.toObject().toPluralString())
+                            Text(setupStep.GetHeader())
                                 .foregroundColor(.specify(color: .grey10))
                                 .font(.specify(style: .h1))
                                 .padding(.bottom,20)
@@ -48,7 +48,7 @@ struct Setup: View {
                         .transition(.slide)
                         .padding([.leading,.trailing])
                         .background(
-                            Color.specify(color: .purple)
+                            Color.specify(color: setupStep.GetColor())
                                 .modifier(ModifierRoundedCorners(radius: 36))
                                 .edgesIgnoringSafeArea(.all)
                                 .padding(.top,-3000)
@@ -76,23 +76,26 @@ struct Setup: View {
                     }
                     .onChange(of: shouldAct){
                         _ in
-                        value.scrollTo(0,anchor:.top)
-                        withAnimation(.spring()){
-                            startTimer()
-                        }
+                        startTimer()
                     }
                     .onReceive(timer, perform: {
                         _ in
-                        setupStep = setupStep.GetNext()
+                        
                         stopTimer()
+                        withAnimation(.spring()){
+                            value.scrollTo(0,anchor:.top)
+                            setupStep = setupStep.GetNext()
+                        }
                     })
                 }
             }
             
-            VStack{
-                Spacer()
-                BottomNavigationBar(selectedContentView: $contentView)
-                    .disabled(true)
+            if setupStep.GetColor() == .purple {
+                VStack{
+                    Spacer()
+                    BottomNavigationBar(selectedContentView: $contentView)
+                        .disabled(true)
+                }
             }
             
             VStack{
@@ -106,7 +109,6 @@ struct Setup: View {
                             let disabled = GetDisabled()
                             
                             IconButton(isPressed: $shouldAct, size: .large, iconType: .right, iconColor: disabled ? .clear : .grey0, circleColor: disabled ? .clear : .grey10)
-//                                .disabled(disabled)
                         }
                         else if !disabled{
                         HStack{
@@ -120,15 +122,16 @@ struct Setup: View {
 //                                .opacity(0.4)
 //                        }
                     }
-                    .offset(x:-20, y:-(70))
+        
                 }
             }
+            .offset(x:-20, y:setupStep.toObject() != nil ? -70 : 0)
             
         }
         .background(Color.specify(color: .grey0))
         .onChange(of: setupStep, perform: {
             _ in
-            contentView = setupStep.toObject().toContentType()
+            contentView = setupStep.toContentView()
         })
         .onAppear(){
             stopTimer()
@@ -139,8 +142,31 @@ struct Setup: View {
     func GetSetupStepView() -> some View {
 
         switch setupStep {
+        case .welcome:
+            SetupTemplate(canProceed: BindingCanProceedMessages(for: .welcome), bumpScrollView: $bumpScrollView, textArray: SetupStepType.welcome.toTextArray(), content: {TutorialWelcome(canProceed: BindingCanProceedStep(for: .welcome))})
+            
+        case .envisionary:
+            SetupTemplate(canProceed: BindingCanProceedMessages(for: .envisionary), bumpScrollView: $bumpScrollView, textArray: SetupStepType.envisionary.toTextArray(), content: {TutorialEnvisionary(canProceed: BindingCanProceedStep(for: .envisionary))})
+            
+        case .phases:
+            SetupTemplate(canProceed: BindingCanProceedMessages(for: .phases), bumpScrollView: $bumpScrollView, textArray: SetupStepType.phases.toTextArray(), content: {TutorialPhases(canProceed: BindingCanProceedStep(for: .phases), selectedContent: $contentView, isOverview: true)})
+        case .envision:
+            SetupTemplate(canProceed: BindingCanProceedMessages(for: .envision), bumpScrollView: $bumpScrollView, textArray: SetupStepType.envision.toTextArray(), content: {TutorialPhases(canProceed: BindingCanProceedStep(for: .envision), selectedContent: $contentView)})
+        case .plan:
+            SetupTemplate(canProceed: BindingCanProceedMessages(for: .plan), bumpScrollView: $bumpScrollView, textArray: SetupStepType.plan.toTextArray(), content: {TutorialPhases(canProceed: BindingCanProceedStep(for: .plan), selectedContent: $contentView)})
+        case .execute:
+            SetupTemplate(canProceed: BindingCanProceedMessages(for: .execute), bumpScrollView: $bumpScrollView, textArray: SetupStepType.execute.toTextArray(), content: {TutorialPhases(canProceed: BindingCanProceedStep(for: .execute), selectedContent: $contentView)})
+        case .journal:
+            SetupTemplate(canProceed: BindingCanProceedMessages(for: .journal), bumpScrollView: $bumpScrollView, textArray: SetupStepType.journal.toTextArray(), content: {TutorialPhases(canProceed: BindingCanProceedStep(for: .journal), selectedContent: $contentView)})
+        case .evaluate:
+            SetupTemplate(canProceed: BindingCanProceedMessages(for: .evaluate), bumpScrollView: $bumpScrollView, textArray: SetupStepType.evaluate.toTextArray(), content: {TutorialPhases(canProceed: BindingCanProceedStep(for: .evaluate), selectedContent: $contentView)})
+        case .objects:
+            SetupTemplate(canProceed: BindingCanProceedMessages(for: .objects), bumpScrollView: $bumpScrollView, textArray: SetupStepType.objects.toTextArray(), content: {TutorialObjects(canProceed: BindingCanProceedStep(for: .objects))})
+        case .getStarted:
+            SetupTemplate(canProceed: BindingCanProceedMessages(for: .getStarted), bumpScrollView: $bumpScrollView, textArray: SetupStepType.getStarted.toTextArray(), content: {TutorialGetStarted(canProceed: BindingCanProceedStep(for: .getStarted))})
         case .value:
             SetupTemplate(canProceed: BindingCanProceedMessages(for: .value), bumpScrollView: $bumpScrollView, textArray: SetupStepType.value.toTextArray(), content: {SetupValue(canProceed: BindingCanProceedStep(for: .value), shouldAct: $shouldAct)})
+                .transition(.opacity)
         case .creed:
             SetupTemplate(canProceed: BindingCanProceedMessages(for: .creed), bumpScrollView: $bumpScrollView, textArray: SetupStepType.creed.toTextArray(), content: {SetupCreed(canProceed: BindingCanProceedStep(for: .creed))})
         case .dream:
