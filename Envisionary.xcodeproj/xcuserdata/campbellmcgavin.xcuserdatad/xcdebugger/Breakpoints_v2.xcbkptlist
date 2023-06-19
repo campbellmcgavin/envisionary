@@ -5345,7 +5345,7 @@
             startingLineNumber = "128"
             endingLineNumber = "128"
             landmarkName = "GetCaption()"
-            landmarkType = "9">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -5760,7 +5760,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "108"
                   endingLineNumber = "108"
-                  offsetFromSymbolStart = "184">
+                  offsetFromSymbolStart = "119">
                </Location>
                <Location
                   uuid = "28C27CBF-FB9A-452B-98DB-CF0B1451A005 - 778ceb882221e3e5"
@@ -5775,7 +5775,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "109"
                   endingLineNumber = "109"
-                  offsetFromSymbolStart = "36">
+                  offsetFromSymbolStart = "29">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -6225,7 +6225,7 @@
             startingLineNumber = "87"
             endingLineNumber = "87"
             landmarkName = "GetHeader()"
-            landmarkType = "9">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -7026,6 +7026,54 @@
             endingLineNumber = "79"
             landmarkName = "body"
             landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6FE50F67-9E50-4F01-A4B3-E96D979E4B28"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/View/Card/PhotoCard.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "43"
+            endingLineNumber = "43"
+            landmarkName = "BuildCard()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "6FE50F67-9E50-4F01-A4B3-E96D979E4B28 - c7d71d054f0a837b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; SwiftUI.TupleView&lt;(SwiftUI.Text, Swift.Optional&lt;Swift.Optional&lt;&lt;&lt;opaque return type of SwiftUI.View.foregroundColor(Swift.Optional&lt;SwiftUI.Color&gt;) -&gt; some&gt;&gt;.0&gt;&gt;, Swift.Optional&lt;Swift.Optional&lt;&lt;&lt;opaque return type of SwiftUI.View.padding(SwiftUI.Edge.Set, Swift.Optional&lt;CoreGraphics.CGFloat&gt;) -&gt; some&gt;&gt;.0&gt;&gt;)&gt; in closure #1 () -&gt; SwiftUI.TupleView&lt;(Envisionary.ImageCircle, &lt;&lt;opaque return type of SwiftUI.View.padding(SwiftUI.Edge.Set, Swift.Optional&lt;CoreGraphics.CGFloat&gt;) -&gt; some&gt;&gt;.0, SwiftUI.Spacer, &lt;&lt;opaque return type of SwiftUI.View.disabled(Swift.Bool) -&gt; some&gt;&gt;.0)&gt; in Envisionary.PhotoCard.BuildCard() -&gt; some"
+                  moduleName = "Envisionary"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/campbellmcgavin/Documents/Envisionary/Envisionary/View/Card/PhotoCard.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "43"
+                  endingLineNumber = "43"
+                  offsetFromSymbolStart = "1393">
+               </Location>
+               <Location
+                  uuid = "6FE50F67-9E50-4F01-A4B3-E96D979E4B28 - c7d71d054f0a837b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; SwiftUI.TupleView&lt;(SwiftUI.Text, Swift.Optional&lt;Swift.Optional&lt;&lt;&lt;opaque return type of SwiftUI.View.foregroundColor(Swift.Optional&lt;SwiftUI.Color&gt;) -&gt; some&gt;&gt;.0&gt;&gt;, Swift.Optional&lt;Swift.Optional&lt;&lt;&lt;opaque return type of SwiftUI.View.padding(SwiftUI.Edge.Set, Swift.Optional&lt;CoreGraphics.CGFloat&gt;) -&gt; some&gt;&gt;.0&gt;&gt;)&gt; in closure #1 () -&gt; SwiftUI.TupleView&lt;(Envisionary.ImageCircle, &lt;&lt;opaque return type of SwiftUI.View.padding(SwiftUI.Edge.Set, Swift.Optional&lt;CoreGraphics.CGFloat&gt;) -&gt; some&gt;&gt;.0, SwiftUI.Spacer, &lt;&lt;opaque return type of SwiftUI.View.disabled(Swift.Bool) -&gt; some&gt;&gt;.0)&gt; in Envisionary.PhotoCard.BuildCard() -&gt; some"
+                  moduleName = "Envisionary"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/campbellmcgavin/Documents/Envisionary/Envisionary/View/Card/PhotoCard.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "43"
+                  endingLineNumber = "43"
+                  offsetFromSymbolStart = "3743">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
