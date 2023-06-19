@@ -40,15 +40,16 @@ struct PhotoCard: View {
                 Text(GetHeader())
                     .font(.specify(style: .h4))
                     .foregroundColor(.specify(color: .grey10))
-                if let subheader = GetSubheader(){
+                
+                let subheader = GetSubheader()
                     
-                    if !subheader.isEmpty {
-                        Text(subheader)
-                            .font(.specify(style: .body2))
-                            .lineLimit(1)
-                            .foregroundColor(.specify(color: .grey6))
-                    }
+                if !subheader.isEmpty {
+                    Text(subheader)
+                        .font(.specify(style: .body2))
+                        .lineLimit(1)
+                        .foregroundColor(.specify(color: .grey6))
                 }
+                
                 if let caption = GetCaption() {
                     if !caption.isEmpty {
                         Text(caption)
