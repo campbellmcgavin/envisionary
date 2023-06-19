@@ -512,6 +512,7 @@
 		61DAEB8129E5CEEA001D7600 /* ObjectGrouping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectGrouping.swift; sourceTree = "<group>"; };
 		61DAEB9329E641E8001D7600 /* NSCompoundPredicateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSCompoundPredicateExtension.swift; sourceTree = "<group>"; };
 		61DAEB9529E65017001D7600 /* ObjectFiltering.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectFiltering.swift; sourceTree = "<group>"; };
+		61E982392A409E0B00772BA6 /* Proxima Nova Alt Extra Condensed Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Proxima Nova Alt Extra Condensed Bold.otf"; sourceTree = "<group>"; };
 		61F31C862A400C07007FF732 /* ProximaNovaCondensed.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = ProximaNovaCondensed.otf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -765,6 +766,7 @@
 		37FE65F529B85D730013109C /* Brand */ = {
 			isa = PBXGroup;
 			children = (
+				61E982392A409E0B00772BA6 /* Proxima Nova Alt Extra Condensed Bold.otf */,
 				61F31C862A400C07007FF732 /* ProximaNovaCondensed.otf */,
 				3755B40429B86262003C61DC /* ProximaNovaBold.otf */,
 				3755B40529B86279003C61DC /* ProximaNovaFont.otf */,

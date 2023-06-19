@@ -6872,7 +6872,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "F886E718-24A0-4D6D-B1DB-15738291175C"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Envisionary/Core/Enums/SetupStepType.swift"

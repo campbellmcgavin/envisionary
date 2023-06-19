@@ -71,7 +71,7 @@ extension Font {
             return "ProximaNova-Bold"
             
         case .logo:
-            return "ProximaNovaExCn-Bold"
+            return "ProximaNovaAExCn-Bold"
 
         }
     }
