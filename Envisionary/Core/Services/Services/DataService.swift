@@ -11,6 +11,7 @@ import CoreData
 class DataService: DataServiceProtocol {
     var container: NSPersistentCloudKitContainer
     
+    let lock = NSLock()
     init(){
         self.container = NSPersistentCloudKitContainer(name: "DataModel")
         container.loadPersistentStores(completionHandler: {(description, error) in
@@ -21,19 +22,23 @@ class DataService: DataServiceProtocol {
                 print("SUCCESSFULLY LOADED TASK DATA.")
             }
         })
+        
     }
     
     func saveData() {
+    
+        lock.lock()
         do {
             try container.viewContext.save()
         } catch let error {
-            print ("ERROR SAVING TASK DATA. \(error)")
+            print ("ERROR SAVING DATA. \(error)")
         }
+        lock.unlock()
     }
     
     // MARK: - IMAGE
     func CreateImage(image: UIImage) -> UUID{
-        let data = image.jpegData(compressionQuality: 0.5)
+        let data = image.jpegData(compressionQuality: 0.1)
         let newImage = ImageEntity(context: container.viewContext)
         newImage.data = data
         let id = UUID()
@@ -67,12 +72,15 @@ class DataService: DataServiceProtocol {
     }
     
     private func GetImageEntity(id: UUID) -> ImageEntity? {
+        
         let request = NSFetchRequest<ImageEntity>(entityName: "ImageEntity")
         let predicate = NSPredicate(format: "id == %@", id as CVarArg)
         request.predicate = predicate
         
         do {
-            let imageEntityList = try container.viewContext.fetch(request)
+            let context = container.newBackgroundContext()
+            
+            let imageEntityList = try context.fetch(request)
             
             return imageEntityList.first
             
@@ -342,114 +350,114 @@ class DataService: DataServiceProtocol {
     
     // MARK: - TASKS
     
-    func CreateTask(request: CreateTaskRequest) -> UUID{
-        
-        let newTask = TaskEntity(context: container.viewContext)
-        newTask.title = request.title
-        newTask.desc = request.description
-        newTask.startDate = request.startDate
-        newTask.endDate = request.endDate
-        newTask.progress = 0
-        
-        newTask.id = UUID()
-        saveData()
-        
-        return newTask.id ?? UUID()
-    }
-    
-    func GetTask(id: UUID) -> Task?{
-        
-        let taskEntity = GetTaskEntity(id: id)
-        
-        if let taskEntity{
-            return Task(from: taskEntity)
-        }
-        return nil
-    }
-    
-    private func GetTaskEntity(id: UUID) -> TaskEntity?{
-        let request = NSFetchRequest<TaskEntity>(entityName: "TaskEntity")
-        let predicate = NSPredicate(format: "id == %@", id as CVarArg)
-        request.predicate = predicate
-        
-        do {
-            let tasksEntityList = try container.viewContext.fetch(request)
-            
-            return tasksEntityList.first
-            
-        } catch let error {
-            print ("ERROR FETCHING TASK. \(error)")
-        }
-        return nil
-    }
-    
-    func ListTasks(criteria: Criteria, limit: Int = 50) -> [Task]{
-        
-        
-        do {
-            let request = NSFetchRequest<TaskEntity>(entityName: "TaskEntity")
-            
-            request.predicate = NSCompoundPredicate.PredicateBuilder(criteria: criteria, object:.task)
-            request.fetchLimit = limit
-            
-            let tasksEntityList = try container.viewContext.fetch(request)
-            return tasksEntityList.map({Task(from: $0)})
-        } catch let error {
-            print ("ERROR FETCHING TASK. \(error)")
-        }
-        return [Task]()
-    }
-    
-    func UpdateTask(id: UUID, request: UpdateTaskRequest) -> Bool {
-        
-        if var entityToUpdate = GetTaskEntity(id: id) {
-            
-            entityToUpdate.title = request.title
-            entityToUpdate.desc = request.description
-            entityToUpdate.startDate = request.startDate
-            entityToUpdate.endDate = request.endDate
-            entityToUpdate.progress = Int64(request.progress)
-            
-            saveData()
-            return true
-        }
-        
-        return false
-    }
-    
-    func DeleteTask(id: UUID) -> Bool{
-        if let taskToDelete = GetTaskEntity(id: id){
-            container.viewContext.delete(taskToDelete)
-            saveData()
-            return true
-        }
-        return false
-    }
-
-    func GroupTasks(criteria: Criteria, grouping: GroupingType) -> [String : [Task]] {
-        
-        let tasks = ListTasks(criteria: criteria)
-        var tasksDictionary: Dictionary<String,[Task]> = [String:[Task]]()
-                
-        for task in tasks {
-            switch grouping {
-                
-            case .title:
-                if  tasksDictionary[String(task.title.prefix(1))] == nil {
-                    tasksDictionary[String(task.title.prefix(1))] = [Task]()
-                }
-                tasksDictionary[String(task.title.prefix(1))]!.append(task)
-            case .progress:
-                if  tasksDictionary[StatusType.getStatusFromProgress(progress: task.progress).toString()] == nil {
-                    tasksDictionary[StatusType.getStatusFromProgress(progress: task.progress).toString()] = [Task]()
-                }
-                tasksDictionary[StatusType.getStatusFromProgress(progress: task.progress).toString()]!.append(task)
-            default:
-                let _ = "why"
-            }
-        }
-        return tasksDictionary
-    }
+//    func CreateTask(request: CreateTaskRequest) -> UUID{
+//
+//        let newTask = TaskEntity(context: container.viewContext)
+//        newTask.title = request.title
+//        newTask.desc = request.description
+//        newTask.startDate = request.startDate
+//        newTask.endDate = request.endDate
+//        newTask.progress = 0
+//
+//        newTask.id = UUID()
+//        saveData()
+//
+//        return newTask.id ?? UUID()
+//    }
+//
+//    func GetTask(id: UUID) -> Task?{
+//
+//        let taskEntity = GetTaskEntity(id: id)
+//
+//        if let taskEntity{
+//            return Task(from: taskEntity)
+//        }
+//        return nil
+//    }
+//
+//    private func GetTaskEntity(id: UUID) -> TaskEntity?{
+//        let request = NSFetchRequest<TaskEntity>(entityName: "TaskEntity")
+//        let predicate = NSPredicate(format: "id == %@", id as CVarArg)
+//        request.predicate = predicate
+//
+//        do {
+//            let tasksEntityList = try container.viewContext.fetch(request)
+//
+//            return tasksEntityList.first
+//
+//        } catch let error {
+//            print ("ERROR FETCHING TASK. \(error)")
+//        }
+//        return nil
+//    }
+//
+//    func ListTasks(criteria: Criteria, limit: Int = 50) -> [Task]{
+//
+//
+//        do {
+//            let request = NSFetchRequest<TaskEntity>(entityName: "TaskEntity")
+//
+//            request.predicate = NSCompoundPredicate.PredicateBuilder(criteria: criteria, object:.task)
+//            request.fetchLimit = limit
+//
+//            let tasksEntityList = try container.viewContext.fetch(request)
+//            return tasksEntityList.map({Task(from: $0)})
+//        } catch let error {
+//            print ("ERROR FETCHING TASK. \(error)")
+//        }
+//        return [Task]()
+//    }
+//
+//    func UpdateTask(id: UUID, request: UpdateTaskRequest) -> Bool {
+//
+//        if var entityToUpdate = GetTaskEntity(id: id) {
+//
+//            entityToUpdate.title = request.title
+//            entityToUpdate.desc = request.description
+//            entityToUpdate.startDate = request.startDate
+//            entityToUpdate.endDate = request.endDate
+//            entityToUpdate.progress = Int64(request.progress)
+//
+//            saveData()
+//            return true
+//        }
+//
+//        return false
+//    }
+//
+//    func DeleteTask(id: UUID) -> Bool{
+//        if let taskToDelete = GetTaskEntity(id: id){
+//            container.viewContext.delete(taskToDelete)
+//            saveData()
+//            return true
+//        }
+//        return false
+//    }
+//
+//    func GroupTasks(criteria: Criteria, grouping: GroupingType) -> [String : [Task]] {
+//
+//        let tasks = ListTasks(criteria: criteria)
+//        var tasksDictionary: Dictionary<String,[Task]> = [String:[Task]]()
+//
+//        for task in tasks {
+//            switch grouping {
+//
+//            case .title:
+//                if  tasksDictionary[String(task.title.prefix(1))] == nil {
+//                    tasksDictionary[String(task.title.prefix(1))] = [Task]()
+//                }
+//                tasksDictionary[String(task.title.prefix(1))]!.append(task)
+//            case .progress:
+//                if  tasksDictionary[StatusType.getStatusFromProgress(progress: task.progress).toString()] == nil {
+//                    tasksDictionary[StatusType.getStatusFromProgress(progress: task.progress).toString()] = [Task]()
+//                }
+//                tasksDictionary[StatusType.getStatusFromProgress(progress: task.progress).toString()]!.append(task)
+//            default:
+//                let _ = "why"
+//            }
+//        }
+//        return tasksDictionary
+//    }
     
     // MARK: - DREAMS
     
@@ -619,7 +627,7 @@ class DataService: DataServiceProtocol {
         return nil
     }
     
-    func ListCoreValues(criteria: Criteria, limit: Int = 50, filterIntroConc: Bool) -> [CoreValue]{
+    func ListCoreValues(criteria: Criteria, limit: Int = 50, filterIntroConc: Bool = true) -> [CoreValue]{
         
         do {
             let request = NSFetchRequest<CoreValueEntity>(entityName: "CoreValueEntity")
@@ -633,7 +641,7 @@ class DataService: DataServiceProtocol {
                 return CoreValuesEntityList.map({CoreValue(from: $0)}).filter({$0.coreValue != .Introduction && $0.coreValue != .Conclusion})
             }
             else{
-                return CoreValuesEntityList.map({CoreValue(from: $0)})
+                return CoreValuesEntityList.map({CoreValue(from: $0)})       
             }
         } catch let error {
             print ("ERROR FETCHING CoreValue. \(error)")

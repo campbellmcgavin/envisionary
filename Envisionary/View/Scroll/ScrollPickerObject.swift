@@ -154,8 +154,8 @@ struct ScrollPickerObject: View {
                 return true
             case .session:
                 return false
-            case .task:
-                return true
+//            case .task:
+//                return true
             case .habit:
                 return true
             case .home:
@@ -176,7 +176,7 @@ struct ScrollPickerObject: View {
             case .envision:
                 return object == .value || object == .creed || object == .dream || object == .aspect
             case .plan:
-                return object == .goal || object == .session || object == .task || object == .habit
+                return object == .goal || object == .session || object == .habit //|| object == .task
             case .execute:
                 return object == .home
             case .journal:
@@ -210,8 +210,8 @@ struct ScrollPickerObject: View {
             return .plan
         case .session:
             return .plan
-        case .task:
-            return .plan
+//        case .task:
+//            return .plan
         case .habit:
             return .plan
         case .home:

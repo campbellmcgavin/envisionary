@@ -41,8 +41,9 @@ struct DotView: View {
             }
             .buttonStyle(.plain)
             .onAppear{
-                DispatchQueue.global(qos:.userInteractive).async{
-                    goal = vm.GetGoal(id: goalId) ?? Goal()
+                goal = vm.GetGoal(id: goalId) ?? Goal()
+                
+                DispatchQueue.global(qos:.background).async{
                     if goal.image != nil {
                         image = vm.GetImage(id: goal.image!)
                     }
@@ -50,9 +51,9 @@ struct DotView: View {
             }
             .onChange(of: vm.updates){
                 _ in
+                goal = vm.GetGoal(id: goalId) ?? Goal()
                 
-                DispatchQueue.global(qos:.userInteractive).async{
-                    goal = vm.GetGoal(id: goalId) ?? Goal()
+                DispatchQueue.global(qos:.background).async{
                     if goal.image != nil {
                         image = vm.GetImage(id: goal.image!)
                     }

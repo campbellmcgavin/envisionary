@@ -26,8 +26,8 @@ struct ModalAddDefault: View {
     @State var image: UIImage? = nil
     @State var images: [UIImage] = [UIImage]()
     @State var isValidForm: Bool = true
+    @State var didAttemptToSave = false
     @EnvironmentObject var vm: ViewModel
-    @StateObject var validator = FormPropertiesValidator()
     
     var body: some View {
         Modal(modalType: modalType, objectType: objectType, isPresenting: $isPresenting, shouldConfirm: $shouldAct, isPresentingImageSheet: $isPresentingPhotoSource, allowConfirm: $isValidForm,  title: properties.title?.count ?? 0 > 0 ? properties.title : modalType == .add ? "New "  + objectType.toString() : "Empty " + objectType.toString(), image: image, modalContent: {
@@ -58,8 +58,7 @@ struct ModalAddDefault: View {
                     }
                 }
                 
-                FormPropertiesStack(properties: $properties, images: $images, isPresentingPhotoSource: $isPresentingPhotoSource, isValidForm: $isValidForm, objectType: objectType, modalType: modalType, parentGoalId: parentGoalId)
-                    .environmentObject(validator)
+                FormPropertiesStack(properties: $properties, images: $images, isPresentingPhotoSource: $isPresentingPhotoSource, isValidForm: $isValidForm, didAttemptToSave: $didAttemptToSave, objectType: objectType, modalType: modalType, parentGoalId: parentGoalId)
                     
             }
             .sheet(isPresented: $isPresentingImagePicker){
@@ -68,11 +67,6 @@ struct ModalAddDefault: View {
             .onAppear{
                 SetupFields()
                 isValidForm = true
-            }
-            .onChange(of: properties){ _ in
-                if !isValidForm{
-                    isValidForm = validator.isValidForm()
-                }
             }
             .padding(8)
             .onChange(of: image){
@@ -87,12 +81,11 @@ struct ModalAddDefault: View {
 
             }
             .onChange(of: shouldAct){ _ in
-                isValidForm = validator.isValidForm()
-                
                 if isValidForm{
                     UpdateProperties()
                     TakeAction()
                 }
+                didAttemptToSave = true
             }
             .onChange(of: sourceType){
                 _ in
@@ -181,13 +174,13 @@ struct ModalAddDefault: View {
             if modalType == .edit && objectId != nil {
                 _ = vm.UpdateGoal(id: objectId!, request: UpdateGoalRequest(properties: properties))
             }
-        case .task:
-            if modalType == .add {
-                _ = vm.CreateTask(request: CreateTaskRequest(properties: properties))
-            }
-            if modalType == .edit && objectId != nil {
-                _ = vm.UpdateTask(id: objectId!, request: UpdateTaskRequest(properties: properties))
-            }
+//        case .task:
+//            if modalType == .add {
+//                _ = vm.CreateTask(request: CreateTaskRequest(properties: properties))
+//            }
+//            if modalType == .edit && objectId != nil {
+//                _ = vm.UpdateTask(id: objectId!, request: UpdateTaskRequest(properties: properties))
+//            }
         case .chapter:
             if modalType == .add {
                 _ = vm.CreateChapter(request: CreateChapterRequest(properties: properties))
@@ -247,10 +240,10 @@ struct ModalAddDefault: View {
                         properties = Properties(goal: goal)
                     }
                     GetValuesFromParentGoalId()
-                case .task:
-                    if let task = vm.GetTask(id: objectId!){
-                        properties = Properties(task: task)
-                    }
+//                case .task:
+//                    if let task = vm.GetTask(id: objectId!){
+//                        properties = Properties(task: task)
+//                    }
                 case .dream:
                     if let dream = vm.GetDream(id: objectId!){
                         properties = Properties(dream: dream)

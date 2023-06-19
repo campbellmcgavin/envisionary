@@ -52,9 +52,9 @@ struct GanttMain: View {
         }
         .onChange(of: vm.updates.goal){
             _ in
+            goal = vm.GetGoal(id: goalId) ?? Goal()
+            
             DispatchQueue.global(qos: .userInteractive).async{
-                
-                    goal = vm.GetGoal(id: goalId) ?? Goal()
                     GetDateValues()
             }
         }

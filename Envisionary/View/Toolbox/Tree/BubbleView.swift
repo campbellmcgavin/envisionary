@@ -16,6 +16,7 @@ struct BubbleView: View {
     var shouldShowDetails = true
     @State var goal: Goal? = Goal()
     @EnvironmentObject var vm: ViewModel
+    @State var shouldLoadImage = false
     
     @State var image: UIImage? = nil
     
@@ -68,25 +69,25 @@ struct BubbleView: View {
         }
         .buttonStyle(.plain)
         .onAppear{
-            DispatchQueue.global(qos:.userInteractive).async{
-                goal = vm.GetGoal(id: goalId)
-                if goal?.image != nil {
-                    image = vm.GetImage(id: goal!.image!)
-                }
-            }
+            shouldLoadImage.toggle()
         }
-        .onChange(of: vm.updates){
+        .onChange(of: vm.updates.image){
             _ in
-            DispatchQueue.global(qos:.userInteractive).async{
-                goal = vm.GetGoal(id: goalId)
-                if goal?.image != nil {
-                    image = vm.GetImage(id: goal!.image!)
-                }
+            shouldLoadImage.toggle()
+        }
+        .onChange(of: shouldLoadImage){
+            _ in
+            LoadImage()
+        }
+    }
+    
+    func LoadImage(){
+        goal = vm.GetGoal(id: goalId)
+        DispatchQueue.global(qos:.background).async{
+            if goal?.image != nil {
+                image = vm.GetImage(id: goal!.image!)
             }
         }
-        
-
-        
     }
 }
 

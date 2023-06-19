@@ -117,8 +117,8 @@ struct CalendarMenu: View {
             return true
         case .session:
             return true
-        case .task:
-            return true
+//        case .task:
+//            return true
         case .habit:
             return true
         case .home:
@@ -153,8 +153,8 @@ struct CalendarMenu: View {
             return true
         case .session:
             return false
-        case .task:
-            return true
+//        case .task:
+//            return true
         case .habit:
             return true
         case .home:

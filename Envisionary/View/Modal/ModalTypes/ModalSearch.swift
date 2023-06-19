@@ -93,13 +93,13 @@ struct ModalSearch: View {
             else{
                 objectsFiltered = vm.ListHabits(criteria: Criteria(title: searchString)).map({Properties(habit: $0)})
             }
-        case .task:
-            if searchString.count == 0 {
-                objectsFiltered = vm.ListTasks(criteria: Criteria()).map({Properties(task: $0)})
-            }
-            else{
-                objectsFiltered = vm.ListTasks(criteria: Criteria(title: searchString)).map({Properties(task: $0)})
-            }
+//        case .task:
+//            if searchString.count == 0 {
+//                objectsFiltered = vm.ListTasks(criteria: Criteria()).map({Properties(task: $0)})
+//            }
+//            else{
+//                objectsFiltered = vm.ListTasks(criteria: Criteria(title: searchString)).map({Properties(task: $0)})
+//            }
         case .chapter:
             if searchString.count == 0 {
                 objectsFiltered = vm.ListChapters().map({Properties(chapter: $0)})

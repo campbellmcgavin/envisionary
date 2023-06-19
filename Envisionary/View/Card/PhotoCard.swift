@@ -13,54 +13,65 @@ struct PhotoCard: View {
     var properties: Properties
     var shouldHidePadding = false
     var imageSize: SizeType = .mediumLarge
+    var shouldHaveLink: Bool = true
+    
     @State var image: UIImage? = nil
     
     @EnvironmentObject var vm: ViewModel
     
     var body: some View {
-        NavigationLink(destination: Detail(objectType: objectType, objectId: objectId, properties: properties))
-        {
-            HStack(alignment:.center, spacing:0){
-                
-                ImageCircle(imageSize: imageSize.ToSize(), image: image, iconSize: .medium, icon: objectType.toIcon())
+        if shouldHaveLink{
+            NavigationLink(destination: Detail(objectType: objectType, objectId: objectId, properties: properties), label:{
+                BuildCard()
+            })
+        }
+        else{
+            BuildCard()
+        }
+    }
+    
+    @ViewBuilder
+    func BuildCard() -> some View{
+        HStack(alignment:.center, spacing:0){
+            
+            ImageCircle(imageSize: imageSize.ToSize(), image: image, iconSize: .medium, icon: objectType.toIcon())
 
-                VStack(alignment:.leading, spacing:0){
-                    Text(GetHeader())
-                        .font(.specify(style: .h4))
-                        .foregroundColor(.specify(color: .grey10))
-                    if let subheader = GetSubheader(){
-                        
-                        if !subheader.isEmpty {
-                            Text(subheader)
-                                .font(.specify(style: .body2))
-                                .lineLimit(1)
-                                .foregroundColor(.specify(color: .grey6))
-                        }
-                    }
-                    if let caption = GetCaption() {
-                        if !caption.isEmpty {
-                            Text(caption)
-                                .font(.specify(style: .subCaption))
-                                .textCase(.uppercase)
-                                .foregroundColor(.specify(color: .grey3))
-                                .padding(.top,3)
-                        }
+            VStack(alignment:.leading, spacing:0){
+                Text(GetHeader())
+                    .font(.specify(style: .h4))
+                    .foregroundColor(.specify(color: .grey10))
+                if let subheader = GetSubheader(){
+                    
+                    if !subheader.isEmpty {
+                        Text(subheader)
+                            .font(.specify(style: .body2))
+                            .lineLimit(1)
+                            .foregroundColor(.specify(color: .grey6))
                     }
                 }
-                .padding(.leading)
-                Spacer()
-                IconButton(isPressed: .constant(true), size: .small, iconType: .right, iconColor: .grey5)
-                    .disabled(true)
-            }
-            .padding(shouldHidePadding ? 0 : 15)
-            .frame(maxWidth:.infinity)
-            .frame(height:75)
-            .onAppear{
-                
-                if properties.image != nil {
-                    DispatchQueue.global(qos:.userInitiated).async{
-                        image = vm.GetImage(id: properties.image!)
+                if let caption = GetCaption() {
+                    if !caption.isEmpty {
+                        Text(caption)
+                            .font(.specify(style: .subCaption))
+                            .textCase(.uppercase)
+                            .foregroundColor(.specify(color: .grey3))
+                            .padding(.top,3)
                     }
+                }
+            }
+            .padding(.leading)
+            Spacer()
+            IconButton(isPressed: .constant(true), size: .small, iconType: .right, iconColor: .grey5)
+                .disabled(true)
+        }
+        .padding(shouldHidePadding ? 0 : 15)
+        .frame(maxWidth:.infinity)
+        .frame(height:75)
+        .onAppear{
+            
+            if properties.image != nil {
+                DispatchQueue.global(qos:.userInitiated).async{
+                    image = vm.GetImage(id: properties.image!)
                 }
             }
         }
@@ -101,8 +112,8 @@ struct PhotoCard: View {
                 }
             }
             return properties.description ?? ""
-        case .task:
-            return properties.startDate?.toString(timeframeType: .day) ?? ""
+//        case .task:
+//            return properties.startDate?.toString(timeframeType: .day) ?? ""
         default:
             return properties.description ?? ""
         }

@@ -369,15 +369,15 @@ enum SetupStepType {
             array.append("Let's write about it.")
         case .garduated:
             array.append("10 years later")
-            array.append("......... ......... What's that sound? ")
-            array.append("......... It's music... It's definitely music.")
+            array.append("......... What's that sound? ")
+            array.append("It's music... It's definitely music.")
             array.append("Is that... Pomp and Circumtance? It must be! 🎶 🎶 🎶 🎶 🎻 🎻 🎻")
             array.append("Wait... this is your graduation! 👩‍🎓👩‍🎓👩‍🎓")
             array.append("You were able to successfully complete the grueling certifications, apply to Envisionary University, and get accepted! And turns out, you graduated top of your class. Congratulations!!!")
             array.append("You shake hands with the dean and they make you promise something.")
             array.append("'Go forward in life, implementing the tools you learned at EU.'")
             array.append("By doing so, you will be able to become whatever you can dream of.")
-            array.append("And as such, it is now bestowed upon you, the keys to the application. Happy graduation, and let's get planning.")
+            array.append("And as such, it is now bestowed upon you, the keys to the application. Happy graduation, and let's get envisioning.")
 //        case .stats:
 //            <#code#>
 //        case .prompt:

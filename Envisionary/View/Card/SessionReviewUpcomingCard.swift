@@ -13,15 +13,20 @@ struct SessionReviewUpcomingCard: View {
     @Binding var pushOff: Int
     @Binding var confirmed: Bool
     let timeframe: TimeframeType
+    @State var shouldConfirm = false
     @State var evaluationString: String = ""
     @State var localProperties = Properties()
     @State var isValidForm = true
+    @State var didAttemptToSave = false
+    
     var body: some View {
         VStack{
             PhotoCardSimple(objectType: .goal, properties: goalProperty)
             
             if confirmed {
-                FormTextConfirm(fieldValue: $confirmed, fieldName: "Evaluation", fieldDescription: GetEvaluationDescription(), iconType: .help)
+//                GetButton()
+                
+                FormTextConfirm(fieldValue: $confirmed, fieldName: "Evaluation", fieldDescription: GetEvaluationDescription(), iconType: .confirm)
             }
             else{
                 FormStackPicker(fieldValue: $evaluationString, fieldName: "Evaluation", options: .constant(EvaluationType.allCases.map({$0.toString()})),iconType: .help)
@@ -32,21 +37,21 @@ struct SessionReviewUpcomingCard: View {
                 EmptyView()
             case .editDetails:
                 if !confirmed{
-                    FormPropertiesStack(properties: $localProperties, images: .constant([UIImage]()), isPresentingPhotoSource: .constant(false), isValidForm: $isValidForm, objectType: .goal, modalType: .add, isSimple: true)
+                    FormPropertiesStack(properties: $localProperties, images: .constant([UIImage]()), isPresentingPhotoSource: .constant(false), isValidForm: $isValidForm, didAttemptToSave: $didAttemptToSave, objectType: .goal, modalType: .add, isSimple: true)
                         .modifier(ModifierCard(color:.grey15))
                         .padding(.top)
-                    FormTextConfirm(fieldValue: $confirmed, fieldName: GetFieldName(), fieldDescription: GetFieldDescription(), iconType: .edit, invalidColor: .darkRed)
+                    GetButton()
                 }
                 
             case .pushOffTillNext:
                 if !confirmed {
                     FormCounter(fieldValue: $pushOff, fieldName: "Number of " + timeframe.toString(), iconType: .timeForward)
-                    FormTextConfirm(fieldValue: $confirmed, fieldName: GetFieldName(), fieldDescription: GetFieldDescription(), iconType: .help)
+                    GetButton()
                 }
                 
             case .deleteIt:
                 if !confirmed {
-                    FormTextConfirm(fieldValue: $confirmed, fieldName: GetFieldName(), fieldDescription: GetFieldDescription(), iconType: .delete)
+                    GetButton()
                 }
             }
         }
@@ -60,10 +65,24 @@ struct SessionReviewUpcomingCard: View {
             _ in
             evaluation = EvaluationType.fromString(from: evaluationString)
         }
-        .onChange(of: confirmed){
+        .onChange(of: shouldConfirm){
             _ in
+            didAttemptToSave = true
+            
+            if isValidForm{
+                confirmed = true
+            }
+        }
+        .onChange(of: confirmed){ _ in
             goalProperty = localProperties
         }
+    }
+    
+    @ViewBuilder
+    func GetButton() -> some View{
+        TextButton(isPressed: $shouldConfirm, text: confirmed ? "Confirmed" : "Confirm", color: confirmed ? .grey7 : .grey0, backgroundColor: confirmed ? .grey4 : didAttemptToSave && !isValidForm ? .grey5 : .grey10, style: .h3, shouldHaveBackground: true)
+            .padding(.top)
+            .disabled(confirmed)
     }
     
     func GetEvaluationDescription() -> String{

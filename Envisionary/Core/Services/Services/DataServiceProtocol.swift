@@ -25,12 +25,12 @@ protocol DataServiceProtocol {
     func ListAffectedGoals(id: UUID) -> [Goal]
 
     // MARK: - TASKS
-    func GetTask(id: UUID) -> Task?
-    func CreateTask(request: CreateTaskRequest) -> UUID
-    func UpdateTask(id: UUID, request: UpdateTaskRequest) -> Bool
-    func ListTasks(criteria: Criteria, limit: Int) -> [Task]
-    func DeleteTask(id: UUID) -> Bool
-    func GroupTasks(criteria: Criteria, grouping: GroupingType) -> [String:[Task]]
+//    func GetTask(id: UUID) -> Task?
+//    func CreateTask(request: CreateTaskRequest) -> UUID
+//    func UpdateTask(id: UUID, request: UpdateTaskRequest) -> Bool
+//    func ListTasks(criteria: Criteria, limit: Int) -> [Task]
+//    func DeleteTask(id: UUID) -> Bool
+//    func GroupTasks(criteria: Criteria, grouping: GroupingType) -> [String:[Task]]
     
     // MARK: - ASPECT
     func CreateAspect(request: CreateAspectRequest) -> UUID

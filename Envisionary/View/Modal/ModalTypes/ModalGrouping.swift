@@ -64,8 +64,8 @@ struct ModalGrouping: View {
             
             FormStackPicker(fieldValue: $groupingHabit, fieldName: "Group " + ObjectType.habit.toPluralString() + " by", options: .constant(GroupingType.allCases.filter({$0.hasObject(object: .habit)}).map({$0.toPluralString()})), iconType: .group)
             
-            FormStackPicker(fieldValue: $groupingTask, fieldName: "Group " + ObjectType.task.toPluralString() + " by", options: .constant(GroupingType.allCases.filter({$0.hasObject(object: .task)}).map({$0.toPluralString()})), iconType: .group)
-            
+//            FormStackPicker(fieldValue: $groupingTask, fieldName: "Group " + ObjectType.task.toPluralString() + " by", options: .constant(GroupingType.allCases.filter({$0.hasObject(object: .task)}).map({$0.toPluralString()})), iconType: .group)
+//            
             FormStackPicker(fieldValue: $groupingChapter, fieldName: "Group " + ObjectType.chapter.toPluralString() + " by", options: .constant(GroupingType.allCases.filter({$0.hasObject(object: .chapter)}).map({$0.toPluralString()})), iconType: .group)
             
             FormStackPicker(fieldValue: $groupingEntry, fieldName: "Group " + ObjectType.entry.toPluralString() + " by", options: .constant(GroupingType.allCases.filter({$0.hasObject(object: .entry)}).map({$0.toPluralString()})), iconType: .group)

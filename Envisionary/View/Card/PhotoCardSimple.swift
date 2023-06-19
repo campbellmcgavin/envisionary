@@ -10,7 +10,8 @@ import SwiftUI
 struct PhotoCardSimple: View {
     var objectType: ObjectType
     var properties: Properties
-    var imageSize: SizeType = .large
+    var imageSize: SizeType = .mediumLarge
+    var iconSize: SizeType = .medium
     @State var image: UIImage? = nil
     
     @EnvironmentObject var vm: ViewModel
@@ -19,7 +20,7 @@ struct PhotoCardSimple: View {
         HStack(alignment:.center, spacing:0){
             
             
-            ImageCircle(imageSize: imageSize.ToSize(), image: image, iconSize: .small, icon: objectType.toIcon())
+            ImageCircle(imageSize: imageSize.ToSize(), image: image, iconSize: iconSize, icon: objectType.toIcon())
 
             VStack(alignment:.leading, spacing:0){
                 Text(properties.title ?? "")

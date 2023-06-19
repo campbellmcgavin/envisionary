@@ -20,14 +20,14 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
     case goal = 4
     case habit = 5
     case session = 6
-    case task = 7
-    case home = 8
-    case chapter = 9
-    case entry = 10
-    case emotion = 11
-    case stats = 12
-    case prompt = 13
-    case recurrence = 14
+//    case task = 7
+    case home = 7
+    case chapter = 8
+    case entry = 9
+    case emotion = 10
+    case stats = 11
+    case prompt = 12
+    case recurrence = 13
     
     func ShouldShowImage() -> Bool{
         switch self {
@@ -41,8 +41,8 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             return true
         case .session:
             return false
-        case .task:
-            return false
+//        case .task:
+//            return false
         case .habit:
             return false
         case .home:
@@ -72,8 +72,8 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             return "Aspects"
         case .goal:
             return "Goals"
-        case .task:
-            return "Tasks"
+//        case .task:
+//            return "Tasks"
         case .habit:
             return "Habits"
         case .chapter:
@@ -111,8 +111,8 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             return "Goal"
         case .session:
             return "Session"
-        case .task:
-            return "Task"
+//        case .task:
+//            return "Task"
         case .habit:
             return "Habit"
         case .home:
@@ -146,8 +146,8 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             return .goal
         case .session:
             return .session
-        case .task:
-            return .task
+//        case .task:
+//            return .task
         case .habit:
             return .habit
         case .home:
@@ -184,8 +184,8 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             return "only " + timeframe.toString() + " " + self.toPluralString() + " in " + date.toString(timeframeType: timeframe)
         case .session:
             return "only " + timeframe.toString() + " " + self.toPluralString()
-        case .task:
-            return "all " + self.toPluralString() + " in " + date.toString(timeframeType: timeframe)
+//        case .task:
+//            return "all " + self.toPluralString() + " in " + date.toString(timeframeType: timeframe)
         case .habit:
             return "all " + self.toPluralString() + " in " + date.toString(timeframeType: timeframe)
         case .home:
@@ -219,8 +219,8 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             return "are the base unit to accomplish everything."
         case .session:
             return "are the mechanism for changing the plan."
-        case .task:
-            return "are the smallest, most bite-sized action."
+//        case .task:
+//            return "are the smallest, most bite-sized action."
         case .habit:
             return "are actions that repeat themselves."
         case .home:
@@ -254,8 +254,8 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             return .plan
         case .session:
             return .plan
-        case .task:
-            return .plan
+//        case .task:
+//            return .plan
         case .habit:
             return .plan
         case .home:
@@ -290,8 +290,8 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             return "Goals are the base unit for accomplishing everything. A goal has a clear explanation of what needs to happen to complete the goal, as well as a start date and end date."
         case .session:
             return "Sessions, or Planning Sessions, are the mechanism for constantly evaluating and re-evaluating your plans. Sessions allow you to choose a timeframe and date, view the currently planned goals, and then walk through and make revisions and additions to the affected goals."
-        case .task:
-            return "Tasks are at the bottom of the execution pyramid and are the smallest, most bite-sized action."
+//        case .task:
+//            return "Tasks are at the bottom of the execution pyramid and are the smallest, most bite-sized action."
         case .habit:
             return "Habits are tasks that repeat themselves over a specific schedule, with a start date and an end date."
         case .home:
@@ -392,37 +392,37 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             default:
                 return false
             }
-        case .task:
-            switch property {
-            case .timeframe:
-                return false
-            case .startDate:
-                return true
-            case .endDate:
-                return true
-            case .aspect:
-                return false
-            case .priority:
-                return false
-            case .progress:
-                return true
-            case .edited:
-                return false
-            case .leftAsIs:
-                return false
-            case .pushedOff:
-                return false
-            case .deleted:
-                return false
-            case .title:
-                return true
-            case .description:
-                return false
-            case .coreValue:
-                return false
-            default:
-                return false
-            }
+//        case .task:
+//            switch property {
+//            case .timeframe:
+//                return false
+//            case .startDate:
+//                return true
+//            case .endDate:
+//                return true
+//            case .aspect:
+//                return false
+//            case .priority:
+//                return false
+//            case .progress:
+//                return true
+//            case .edited:
+//                return false
+//            case .leftAsIs:
+//                return false
+//            case .pushedOff:
+//                return false
+//            case .deleted:
+//                return false
+//            case .title:
+//                return true
+//            case .description:
+//                return false
+//            case .coreValue:
+//                return false
+//            default:
+//                return false
+//            }
         case .habit:
             switch property {
             case .title:
@@ -620,19 +620,19 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             case .favorite:
                 return false
             }
-        case .task:
-            switch button {
-            case .delete:
-                return true
-            case .help:
-                return true
-            case .edit:
-                return true
-            case .add:
-                return false
-            case .favorite:
-                return false
-            }
+//        case .task:
+//            switch button {
+//            case .delete:
+//                return true
+//            case .help:
+//                return true
+//            case .edit:
+//                return true
+//            case .add:
+//                return false
+//            case .favorite:
+//                return false
+//            }
         case .habit:
             switch button {
             case .delete:

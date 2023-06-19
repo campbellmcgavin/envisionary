@@ -9,13 +9,13 @@ import SwiftUI
 
 struct ModifierFormValidator: ViewModifier {
     @Binding var fieldPropertyValidator: FormPropertyValidator
-    @Binding var isValidForm: Bool
+    @Binding var isDirtyForm: Bool
     let propertyType: PropertyType
     var hasIcon = true
     func body(content: Content) -> some View {
         ZStack(alignment:.topLeading){
             content
-            if (!fieldPropertyValidator.isValid && fieldPropertyValidator.isDirty) || (!fieldPropertyValidator.isValid && !isValidForm){
+            if (!fieldPropertyValidator.isValid && fieldPropertyValidator.isDirty) || (!fieldPropertyValidator.isValid && isDirtyForm){
                 if let error = fieldPropertyValidator.error{
                     Text(error.toString(propertyType: propertyType))
                         .font(.specify(style: .subCaption))

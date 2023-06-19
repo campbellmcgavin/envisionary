@@ -152,19 +152,15 @@ struct Detail: View {
     }
     
     func RefreshFavorite(){
-        DispatchQueue.global(qos:.userInteractive).async{
-            withAnimation{
-                shouldMarkAsFavorite = vm.ListPrompts(criteria: Criteria(type: .favorite)).contains(where:{$0.objectId != nil && $0.objectId == objectId})
-            }
+        withAnimation{
+            shouldMarkAsFavorite = vm.ListPrompts(criteria: Criteria(type: .favorite)).contains(where:{$0.objectId != nil && $0.objectId == objectId})
         }
     }
     
     func RefreshImage(){
         if properties.image != nil {
-            DispatchQueue.global(qos:.userInteractive).async{
-                withAnimation{
-                    image = vm.GetImage(id: properties.image!)
-                }
+            withAnimation{
+                image = vm.GetImage(id: properties.image!)
             }
         }
     }
@@ -181,8 +177,8 @@ struct Detail: View {
             properties = Properties(goal: vm.GetGoal(id: objectId))
         case .session:
             properties = Properties(session: vm.GetSession(id: objectId))
-        case .task:
-            properties = Properties(task: vm.GetTask(id: objectId))
+//        case .task:
+//            properties = Properties(task: vm.GetTask(id: objectId))
         case .habit:
             properties = Properties(habit: vm.GetHabit(id: objectId))
         case .chapter:

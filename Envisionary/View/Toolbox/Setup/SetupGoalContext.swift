@@ -16,8 +16,9 @@ struct SetupGoalContext: View {
         
         VStack{
             GetStack(shouldWiggle: shouldWiggle)
+                .scaleEffect(1.05)
         }
-        .offset(y:25)
+        .offset(y:30)
         .frame(height:350)
         .padding([.top,.bottom],8)
         .onReceive(timer, perform: { _ in

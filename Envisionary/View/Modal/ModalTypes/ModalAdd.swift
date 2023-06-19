@@ -17,7 +17,7 @@ struct ModalAdd: View {
     let objectType: ObjectType
     let modalType: ModalType
     var status: StatusType?
-    
+    @StateObject var validator = FormPropertiesValidator()
     @EnvironmentObject var vm: ViewModel
     
     var body: some View {
@@ -25,8 +25,10 @@ struct ModalAdd: View {
         switch objectType {
         case .session:
             ModalAddSession(isPresenting: $isPresenting, sessionStep: .overview)
+                .environmentObject(validator)
         default:
             ModalAddDefault(isPresenting: $isPresenting, isPresentingPhotoSource: $isPresentingPhotoSource, sourceType: $sourceType, objectId: objectId, parentGoalId: parentGoalId, parentChapterId: parentChapterId, objectType: objectType, modalType: modalType)
+                .environmentObject(validator)
         }
     }
 }

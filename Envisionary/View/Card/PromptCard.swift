@@ -70,8 +70,8 @@ struct PromptCard: View {
                 properties = Properties(goal: vm.GetGoal(id: objectId) ?? Goal())
             case .session:
                 properties = Properties(session: vm.GetSession(id: objectId) ?? Session())
-            case .task:
-                properties = Properties(task: vm.GetTask(id: objectId) ?? Task())
+//            case .task:
+//                properties = Properties(task: vm.GetTask(id: objectId) ?? Task())
 //            case .habit:
 //                properties = Properties(habit: vm.Geth(id: objectId) ?? Goal())
             case .chapter:

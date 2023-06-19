@@ -30,6 +30,7 @@ struct ModalAddSession: View {
     @State var shouldAddGoal = false
     @State var properties = Properties()
     @State var valuesTemplateDictionary = [String:Bool]()
+    @State var sessionId: UUID? = nil
     @EnvironmentObject var vm: ViewModel
     
     var body: some View {
@@ -162,7 +163,7 @@ struct ModalAddSession: View {
         
         let sessionRequest = CreateSessionRequest(properties: sessionProperties)
         
-        let _ = vm.CreateSession(request: sessionRequest)
+        sessionId = vm.CreateSession(request: sessionRequest)
     }
     
     func ConvertAlignmentDictionary() -> [UUID: [ValueType: Bool]]{
@@ -191,7 +192,6 @@ struct ModalAddSession: View {
                 tempAlignmentDictionary[ValueType.fromString(input: valueString)] = alignmentDictionary[id]![valueString]!
             }
         }
-        
         return tempAlignmentDictionary
     }
     
@@ -216,6 +216,11 @@ struct ModalAddSession: View {
             if sessionStep.toStepNumber() < 6 && sessionStep != .overview && !shouldSave {
                 let stepAlert1 = Alert(alertType: .warn, keyword: "Unsaved", description: "Closing will result in loss of content.", timeAmount: 1, isPersistent: true)
                 AlertLabel(alert: stepAlert1)
+            }
+            
+            if sessionStep == .addContent && NotEnoughContent(){
+                let stepAlert2 = Alert(alertType: .error, keyword: "No content", description: "Sessions require at least one goal.", timeAmount: 1, isPersistent: true)
+                AlertLabel(alert: stepAlert2)
             }
         }
     }
@@ -249,43 +254,70 @@ struct ModalAddSession: View {
     
     @ViewBuilder
     func SetupButtons() -> some View {
+        
         HStack(){
-            IconButton(isPressed: $shouldGoBackward, size: .medium, iconType: .arrow_left, iconColor: .grey10, circleColor: .grey0)
-                .disabled(true)
-                .opacity(ShouldShowBackButton() ? 0.3 : 0.0)
-            Text(GetBackwardsStep().toString())
-                .foregroundColor(.specify(color:.grey0))
-                .font(.specify(style:.subCaption))
-                .frame(alignment:.leading)
-                .multilineTextAlignment(.leading)
-                .frame(width:55)
-                .opacity(ShouldShowBackButton() ? 0.3 : 0.0)
-            Spacer()
-            Text(sessionStep.toString())
-                .multilineTextAlignment(.center)
-                .font(.specify(style:.h6))
-                .padding(3)
-                .padding([.leading,.trailing],3)
-                .foregroundColor(.specify(color: .grey0))
-                .frame(width:85)
-            Spacer()
-            Text(GetForwardsStep().toString())
-                .foregroundColor(.specify(color:.grey0))
-                .font(.specify(style:.subCaption))
-                .frame(alignment:.leading)
-                .multilineTextAlignment(.trailing)
-                .frame(width:55)
-                .opacity(ShouldShowForwardButton() ? 1.0 : 0.0)
-            
-            IconButton(isPressed: $shouldGoForward, size: .medium, iconType: .arrow_right, iconColor: .grey10, circleColor: .grey0)
-                .disabled(!ShouldShowForwardButton())
-                .opacity(ShouldShowForwardButton() ? 1.0 : 0.0)
+            if sessionStep == .conclude {
+                Spacer()
+                Text("Finish up")
+                    .foregroundColor(.specify(color:.grey0))
+                    .font(.specify(style:.subCaption))
+                    .frame(alignment:.leading)
+                    .multilineTextAlignment(.trailing)
+                    .frame(width:55)
+                    .opacity(ShouldShowForwardButton() ? 1.0 : 0.0)
+                    .opacity(NotEnoughContent() ? 0.4 : 1.0)
+                
+                IconButton(isPressed: $isPresenting, size: .medium, iconType: .arrow_right, iconColor: .grey10, circleColor: .grey0)
+                    .disabled(!ShouldShowForwardButton() || NotEnoughContent())
+                    .opacity(ShouldShowForwardButton() ? 1.0 : 0.0)
+                    .opacity(NotEnoughContent() ? 0.4 : 1.0)
+            }
+            else{
+                IconButton(isPressed: $shouldGoBackward, size: .medium, iconType: .arrow_left, iconColor: .grey10, circleColor: .grey0)
+                    .disabled(true)
+                    .opacity(ShouldShowBackButton() ? 0.3 : 0.0)
+                Text(GetBackwardsStep().toString())
+                    .foregroundColor(.specify(color:.grey0))
+                    .font(.specify(style:.subCaption))
+                    .frame(alignment:.leading)
+                    .multilineTextAlignment(.leading)
+                    .frame(width:55)
+                    .opacity(ShouldShowBackButton() ? 0.3 : 0.0)
+                Spacer()
+                Text(sessionStep.toString())
+                    .multilineTextAlignment(.center)
+                    .font(.specify(style:.h6))
+                    .padding(3)
+                    .padding([.leading,.trailing],3)
+                    .foregroundColor(.specify(color: .grey0))
+                    .frame(width:85)
+                Spacer()
+                Text(GetForwardsStep().toString())
+                    .foregroundColor(.specify(color:.grey0))
+                    .font(.specify(style:.subCaption))
+                    .frame(alignment:.leading)
+                    .multilineTextAlignment(.trailing)
+                    .frame(width:55)
+                    .opacity(ShouldShowForwardButton() ? 1.0 : 0.0)
+                    .opacity(NotEnoughContent() ? 0.4 : 1.0)
+                
+                IconButton(isPressed: $shouldGoForward, size: .medium, iconType: .arrow_right, iconColor: .grey10, circleColor: .grey0)
+                    .disabled(!ShouldShowForwardButton() || NotEnoughContent())
+                    .opacity(ShouldShowForwardButton() ? 1.0 : 0.0)
+                    .opacity(NotEnoughContent() ? 0.4 : 1.0)
+            }
+
+
         }
         .padding(8)
         .modifier(ModifierForm(color: .grey10))
         .shadow(color: .specify(color: .grey0),radius: 50)
         .padding([.leading,.trailing],8)
         .padding(.bottom,35)
+    }
+            
+    func NotEnoughContent() -> Bool{
+        return goalProperties.count == 0 && sessionStep == .addContent
     }
     
     @ViewBuilder
@@ -382,18 +414,21 @@ struct ModalAddSession: View {
                 SessionOverview()
             case .selectTimeframe:
                 SessionSelectTimeframe(timeframe: $timeframe, date: $date, isDisabled: false)
+                    
             case .alignValues:
                 SessionValueAlignment(goalProperties: $goalProperties, alignmentDictionary: $alignmentDictionary)
             case .reviewUpcoming:
                 SessionReviewUpcoming(goalProperties: $goalProperties, evaluationDictionary: $evaluationDictionary, pushOffDictionary: $pushOffDictionary, confirmDictionary: $confirmedDictionary, timeframe: timeframe)
             case .addContent:
                 SessionAddContent(shouldAddGoal: $shouldAddGoal, properties: $properties, goalProperties: goalProperties, timeframe: timeframe, date: date)
-//                sessionReviewUpcoming(goals: $sessionGoals, evaluationDictionary: $evaluationDictionary, alignmentDictionary: $alignmentDictionary, pushOffDictionary: $pushOffDictionary, propertyTypeMenu: $propertyTypeMenu)
-//            case .conclude:
-//                CardMenuProperty(session:session)
-//                    .environmentObject(dataModel)
-//            case .lookingForward:
-//                sessionLookingForward(sessionGoals: $sessionGoals, propertyTypeMenu: $propertyTypeMenu, sessionTimeframe: sessionTimeframe)
+            case .addJournal:
+                SessionEntry()
+            case .conclude:
+                if let sessionId{
+                    SessionConclude(sessionId: sessionId)
+                }
+            case .lookingForward:
+                SessionLookingForward(goalProperties: goalProperties)
             case .saveCheckpoint:
                 SessionSaveCheckpoint(shouldSave: $shouldSave)
             default:

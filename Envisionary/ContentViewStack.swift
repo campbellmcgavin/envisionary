@@ -12,7 +12,7 @@ struct ContentViewStack: View {
     @State var shouldExpandAll: Bool = true
     @StateObject var alerts = AlertsService()
     @State var goalDictionary: [String:[Goal]] = [String:[Goal]]()
-    @State var taskDictionary: [String:[Task]] = [String:[Task]]()
+//    @State var taskDictionary: [String:[Task]] = [String:[Task]]()
     @State var dreamDictionary: [String:[Dream]] = [String:[Dream]]()
     @State var chapterDictionary: [String:[Chapter]] = [String:[Chapter]]()
     @State var entriesDictionary: [String:[Entry]] = [String:[Entry]]()
@@ -24,7 +24,7 @@ struct ContentViewStack: View {
     @State var favoriteList: [Prompt] = [Prompt]()
     @State var suggestionList: [Prompt] = [Prompt]()
     
-    @State var todayTaskList: [Properties] = [Properties]()
+//    @State var todayTaskList: [Properties] = [Properties]()
     @State var todayGoalList: [Properties] = [Properties]()
     @State var todayRecurrenceList: [Properties] = [Properties]()
 //    @State var
@@ -35,7 +35,7 @@ struct ContentViewStack: View {
         VStack{
             
             if !GetHasContent(){
-                NoObjectsLabel(objectType: vm.filtering.filterObject)
+                NoObjectsLabel(objectType: vm.filtering.filterObject, labelType: .page)
             }
             else if vm.filtering.filterObject == .home{
                 HomeBuilder()
@@ -43,7 +43,7 @@ struct ContentViewStack: View {
             else if vm.filtering.filterObject == .value || vm.filtering.filterObject == .aspect || vm.filtering.filterObject == .creed || vm.filtering.filterObject == .session{
                     ListBuilder()
                 }
-            else if vm.filtering.filterObject == .goal || vm.filtering.filterObject == .task || vm.filtering.filterObject == .dream || vm.filtering.filterObject == .chapter || vm.filtering.filterObject == .entry || vm.filtering.filterObject == .habit {
+            else if vm.filtering.filterObject == .goal ||  vm.filtering.filterObject == .dream || vm.filtering.filterObject == .chapter || vm.filtering.filterObject == .entry || vm.filtering.filterObject == .habit { //vm.filtering.filterObject == .task ||{
                     GroupBuilder()
             }
             
@@ -113,28 +113,28 @@ struct ContentViewStack: View {
                 valueList = vm.ListCoreValues(criteria: vm.filtering.GetFilters()).sorted(by: {$0.coreValue.toString() < $1.coreValue.toString()})
                 aspectList = [Aspect]()
                 sessionList = [Session]()
-                taskDictionary = [String:[Task]]()
+//                taskDictionary = [String:[Task]]()
                 goalDictionary = [String:[Goal]]()
                 dreamDictionary = [String:[Dream]]()
                 chapterDictionary = [String:[Chapter]]()
                 entriesDictionary = [String:[Entry]]()
                 favoriteList = [Prompt]()
                 suggestionList = [Prompt]()
-                todayTaskList = [Properties]()
+//                todayTaskList = [Properties]()
                 todayGoalList = [Properties]()
                 habitDictionary = [String:[Habit]]()
             case .creed:
                 valueList = vm.ListCoreValues(criteria: vm.filtering.GetFilters()).sorted(by: {$0.coreValue.toString() < $1.coreValue.toString()}).filter({$0.coreValue != .Introduction && $0.coreValue != .Conclusion})
                 aspectList = [Aspect]()
                 sessionList = [Session]()
-                taskDictionary = [String:[Task]]()
+//                taskDictionary = [String:[Task]]()
                 goalDictionary = [String:[Goal]]()
                 dreamDictionary = [String:[Dream]]()
                 chapterDictionary = [String:[Chapter]]()
                 entriesDictionary = [String:[Entry]]()
                 favoriteList = [Prompt]()
                 suggestionList = [Prompt]()
-                todayTaskList = [Properties]()
+//                todayTaskList = [Properties]()
                 todayGoalList = [Properties]()
                 habitDictionary = [String:[Habit]]()
             case .dream:
@@ -142,27 +142,27 @@ struct ContentViewStack: View {
                 valueList = [CoreValue]()
                 aspectList = [Aspect]()
                 sessionList = [Session]()
-                taskDictionary = [String:[Task]]()
+//                taskDictionary = [String:[Task]]()
                 goalDictionary = [String:[Goal]]()
                 chapterDictionary = [String:[Chapter]]()
                 entriesDictionary = [String:[Entry]]()
                 favoriteList = [Prompt]()
                 suggestionList = [Prompt]()
-                todayTaskList = [Properties]()
+//                todayTaskList = [Properties]()
                 todayGoalList = [Properties]()
                 habitDictionary = [String:[Habit]]()
             case .aspect:
                 aspectList = vm.ListAspects(criteria: vm.filtering.GetFilters()).sorted(by: {$0.aspect.toString() < $1.aspect.toString()})
                 valueList = [CoreValue]()
                 sessionList = [Session]()
-                taskDictionary = [String:[Task]]()
+//                taskDictionary = [String:[Task]]()
                 goalDictionary = [String:[Goal]]()
                 dreamDictionary = [String:[Dream]]()
                 chapterDictionary = [String:[Chapter]]()
                 entriesDictionary = [String:[Entry]]()
                 favoriteList = [Prompt]()
                 suggestionList = [Prompt]()
-                todayTaskList = [Properties]()
+//                todayTaskList = [Properties]()
                 todayGoalList = [Properties]()
                 habitDictionary = [String:[Habit]]()
             case .goal:
@@ -170,32 +170,32 @@ struct ContentViewStack: View {
                 valueList = [CoreValue]()
                 aspectList = [Aspect]()
                 sessionList = [Session]()
-                taskDictionary = [String:[Task]]()
+//                taskDictionary = [String:[Task]]()
                 dreamDictionary = [String:[Dream]]()
                 chapterDictionary = [String:[Chapter]]()
                 entriesDictionary = [String:[Entry]]()
                 favoriteList = [Prompt]()
                 suggestionList = [Prompt]()
-                todayTaskList = [Properties]()
+//                todayTaskList = [Properties]()
                 todayGoalList = [Properties]()
                 habitDictionary = [String:[Habit]]()
-            case .task:
-                taskDictionary = vm.GroupTasks(criteria: vm.filtering.GetFilters(), grouping: vm.grouping.task)
-                valueList = [CoreValue]()
-                aspectList = [Aspect]()
-                sessionList = [Session]()
-                goalDictionary = [String:[Goal]]()
-                dreamDictionary = [String:[Dream]]()
-                chapterDictionary = [String:[Chapter]]()
-                entriesDictionary = [String:[Entry]]()
-                favoriteList = [Prompt]()
-                suggestionList = [Prompt]()
-                todayTaskList = [Properties]()
-                todayGoalList = [Properties]()
-                habitDictionary = [String:[Habit]]()
+//            case .task:
+////                taskDictionary = vm.GroupTasks(criteria: vm.filtering.GetFilters(), grouping: vm.grouping.task)
+//                valueList = [CoreValue]()
+//                aspectList = [Aspect]()
+//                sessionList = [Session]()
+//                goalDictionary = [String:[Goal]]()
+//                dreamDictionary = [String:[Dream]]()
+//                chapterDictionary = [String:[Chapter]]()
+//                entriesDictionary = [String:[Entry]]()
+//                favoriteList = [Prompt]()
+//                suggestionList = [Prompt]()
+////                todayTaskList = [Properties]()
+//                todayGoalList = [Properties]()
+//                habitDictionary = [String:[Habit]]()
             case .chapter:
                 chapterDictionary = vm.GroupChapters(criteria: vm.filtering.GetFilters(), grouping: vm.grouping.chapter)
-                taskDictionary = [String:[Task]]()
+//                taskDictionary = [String:[Task]]()
                 valueList = [CoreValue]()
                 sessionList = [Session]()
                 aspectList = [Aspect]()
@@ -204,12 +204,12 @@ struct ContentViewStack: View {
                 entriesDictionary = [String:[Entry]]()
                 favoriteList = [Prompt]()
                 suggestionList = [Prompt]()
-                todayTaskList = [Properties]()
+//                todayTaskList = [Properties]()
                 todayGoalList = [Properties]()
                 habitDictionary = [String:[Habit]]()
             case .entry:
                 chapterDictionary = [String:[Chapter]]()
-                taskDictionary = [String:[Task]]()
+//                taskDictionary = [String:[Task]]()
                 valueList = [CoreValue]()
                 aspectList = [Aspect]()
                 sessionList = [Session]()
@@ -218,12 +218,12 @@ struct ContentViewStack: View {
                 favoriteList = [Prompt]()
                 entriesDictionary = vm.GroupEntries(criteria: vm.filtering.GetFilters(), grouping: vm.grouping.entry)
                 suggestionList = [Prompt]()
-                todayTaskList = [Properties]()
+//                todayTaskList = [Properties]()
                 todayGoalList = [Properties]()
                 habitDictionary = [String:[Habit]]()
             case .session:
                 chapterDictionary = [String:[Chapter]]()
-                taskDictionary = [String:[Task]]()
+//                taskDictionary = [String:[Task]]()
                 valueList = [CoreValue]()
                 aspectList = [Aspect]()
                 sessionList = [Session]()
@@ -233,12 +233,12 @@ struct ContentViewStack: View {
                 sessionList = vm.ListSessions(criteria: vm.filtering.GetFilters())
                 favoriteList = [Prompt]()
                 suggestionList = [Prompt]()
-                todayTaskList = [Properties]()
+//                todayTaskList = [Properties]()
                 todayGoalList = [Properties]()
                 habitDictionary = [String:[Habit]]()
             case .home:
                 chapterDictionary = [String:[Chapter]]()
-                taskDictionary = [String:[Task]]()
+//                taskDictionary = [String:[Task]]()
                 valueList = [CoreValue]()
                 aspectList = [Aspect]()
                 sessionList = [Session]()
@@ -248,13 +248,13 @@ struct ContentViewStack: View {
                 sessionList = vm.ListSessions(criteria: vm.filtering.GetFilters())
                 favoriteList = vm.ListPrompts(criteria: Criteria(type: .favorite))
                 suggestionList = vm.ListPrompts(criteria: Criteria(type: .suggestion))
-                todayTaskList = vm.ListTasks(criteria: GetTaskCriteria()).sorted(by: {$0.progress < $1.progress}).map({Properties(task: $0)})
+//                todayTaskList = vm.ListTasks(criteria: GetTaskCriteria()).sorted(by: {$0.progress < $1.progress}).map({Properties(task: $0)})
                 todayGoalList = vm.ListGoals(criteria: GetTaskCriteria()).sorted(by: {$0.startDate < $1.startDate}).map({Properties(goal: $0)})
                 habitDictionary = [String:[Habit]]()
                 todayRecurrenceList = vm.ListRecurrences(criteria: GetHabitCriteria()).sorted(by: {!$0.isComplete && $1.isComplete}).map({Properties(recurrence: $0)})
             case .habit:
                 chapterDictionary = [String:[Chapter]]()
-                taskDictionary = [String:[Task]]()
+//                taskDictionary = [String:[Task]]()
                 valueList = [CoreValue]()
                 aspectList = [Aspect]()
                 sessionList = [Session]()
@@ -264,7 +264,7 @@ struct ContentViewStack: View {
                 sessionList = [Session]()
                 favoriteList = [Prompt]()
                 suggestionList = [Prompt]()
-                todayTaskList = [Properties]()
+//                todayTaskList = [Properties]()
                 todayGoalList = [Properties]()
                 habitDictionary = vm.GroupHabits(criteria: vm.filtering.GetFilters(), grouping: vm.grouping.habit)
             default:
@@ -295,22 +295,22 @@ struct ContentViewStack: View {
             
             ParentHeaderButton(shouldExpandAll: $shouldExpandAll, color: .purple, header: "Expand All", headerCollapsed:  "Collapse All")
             
-            HeaderWithContent(shouldExpand: $shouldExpandAll, headerColor: .grey10, header: "Tasks", content: {
-                
-                if todayTaskList.count > 0{
-                    CollapsingListCard(propertiesList: $todayTaskList, objectType: .task)
-                }
-                else {
-                    NoObjectsLabel(objectType: .task)
-                }
-            })
+//            HeaderWithContent(shouldExpand: $shouldExpandAll, headerColor: .grey10, header: "Tasks", content: {
+//
+//                if todayTaskList.count > 0{
+//                    CollapsingListCard(propertiesList: $todayTaskList, objectType: .task)
+//                }
+//                else {
+//                    NoObjectsLabel(objectType: .task, labelType: .home)
+//                }
+//            })
             
             HeaderWithContent(shouldExpand: $shouldExpandAll, headerColor: .grey10, header: "Habits", content: {
                 if todayRecurrenceList.count > 0 {
                     CollapsingListCard(propertiesList: $todayRecurrenceList, objectType: .recurrence)
                 }
                 else{
-                    NoObjectsLabel(objectType: .habit)
+                    NoObjectsLabel(objectType: .habit, labelType: .home)
                 }
             })
 
@@ -319,7 +319,7 @@ struct ContentViewStack: View {
                     CollapsingListCard(propertiesList: $todayGoalList, objectType: .goal)
                 }
                 else{
-                    NoObjectsLabel(objectType: .goal)
+                    NoObjectsLabel(objectType: .goal, labelType: .home)
                 }
             })
             
@@ -341,7 +341,7 @@ struct ContentViewStack: View {
                         PromptCard(prompt: prompt)
                     }
                     if favoriteList.count == 0{
-                        NoObjectsLabel(objectType: .prompt)
+                        NoObjectsLabel(objectType: .prompt, labelType: .home)
                     }
                 }
             })
@@ -401,8 +401,8 @@ struct ContentViewStack: View {
                 return goalDictionary.keys.count > 0
                 //        case .session:
                 //            return
-            case .task:
-                return taskDictionary.keys.count > 0
+//            case .task:
+//                return taskDictionary.keys.count > 0
             case .chapter:
                 return chapterDictionary.keys.count > 0
             case .entry:
@@ -482,28 +482,28 @@ struct ContentViewStack: View {
                                 })
                             }
                         }
-                    case .task:
-                        ForEach(headers, id:\.self){ header in
-                            VStack(spacing:0){
-                                HeaderWithContent(shouldExpand: $shouldExpandAll, headerColor: .grey10, header: header, isExpanded: shouldExpandAll, content: {
-                                    VStack(spacing:0){
-                                            
-                                        if let tasks = taskDictionary[header]{
-                                            ForEach(tasks){ task in
-                                                TaskCard(taskId: task.id, properties: Properties(task: task))
-//                                                PhotoCard(objectType: .task, objectId: task.id, properties: Properties(task:task), header: task.title, subheader: task.description)
-                                                
-                                                if tasks.last != task{
-                                                    StackDivider()
-                                                }
-                                            }
-                                        }
-                                    }
-                                    .padding([.top,.bottom],3)
-                                    .modifier(ModifierCard())
-                                })
-                            }
-                        }
+//                    case .task:
+//                        ForEach(headers, id:\.self){ header in
+//                            VStack(spacing:0){
+//                                HeaderWithContent(shouldExpand: $shouldExpandAll, headerColor: .grey10, header: header, isExpanded: shouldExpandAll, content: {
+//                                    VStack(spacing:0){
+//
+//                                        if let tasks = taskDictionary[header]{
+//                                            ForEach(tasks){ task in
+//                                                TaskCard(taskId: task.id, properties: Properties(task: task))
+////                                                PhotoCard(objectType: .task, objectId: task.id, properties: Properties(task:task), header: task.title, subheader: task.description)
+//
+//                                                if tasks.last != task{
+//                                                    StackDivider()
+//                                                }
+//                                            }
+//                                        }
+//                                    }
+//                                    .padding([.top,.bottom],3)
+//                                    .modifier(ModifierCard())
+//                                })
+//                            }
+//                        }
                     case .chapter:
                         ForEach(headers, id:\.self){ header in
                             VStack(spacing:0){
@@ -574,8 +574,8 @@ struct ContentViewStack: View {
     
     func GetHeaders() -> [String]{
         switch vm.filtering.filterObject{
-        case .task:
-            return Array(taskDictionary.keys.map({String($0)}).sorted(by: {$0 < $1}))
+//        case .task:
+//            return Array(taskDictionary.keys.map({String($0)}).sorted(by: {$0 < $1}))
         case .goal:
             return Array(goalDictionary.keys.map({String($0)}).sorted(by: {$0 < $1}))
         case .dream:

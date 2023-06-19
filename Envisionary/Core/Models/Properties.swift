@@ -114,14 +114,14 @@ struct Properties: Identifiable, Equatable, Hashable, Codable{
         self.description = aspect?.description ?? "Empty Description"
     }
     
-    init(task: Task?){
-        self.id = task?.id ?? UUID()
-        self.title = task?.title ?? "Empty Value"
-        self.description = task?.description ?? "Empty Description"
-        self.startDate = task?.startDate
-        self.endDate = task?.endDate
-        self.progress = task?.progress
-    }
+//    init(task: Task?){
+//        self.id = task?.id ?? UUID()
+//        self.title = task?.title ?? "Empty Value"
+//        self.description = task?.description ?? "Empty Description"
+//        self.startDate = task?.startDate
+//        self.endDate = task?.endDate
+//        self.progress = task?.progress
+//    }
     
     init(creed: Bool, valueCount: Int){
         self.id = UUID()

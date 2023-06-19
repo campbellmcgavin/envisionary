@@ -11,14 +11,16 @@ struct DetailChildren: View {
     @Binding var shouldExpand: Bool
     let objectId: UUID
     let objectType: ObjectType
-    
+    let shouldAllowNavigation: Bool = false
+    var shouldShowBackground = true
     @State var isExpanded: Bool = true
     @EnvironmentObject var vm: ViewModel
     
     var body: some View {
         
         VStack(spacing:0){
-            HeaderButton(isExpanded: $isExpanded, color: .grey10, header: "Children")
+            let goal = vm.GetGoal(id: objectId)
+            HeaderButton(isExpanded: $isExpanded, color: .grey10, header: (goal?.timeframe.toChildTimeframe().toString() ?? "") + " goals")
             
             if isExpanded {
                 let childGoals = vm.ListChildGoals(id: objectId)
@@ -26,7 +28,13 @@ struct DetailChildren: View {
                 VStack{
                     
                     ForEach(childGoals){ goal in
-                        PhotoCard(objectType: .goal, objectId: goal.id, properties: Properties(goal:goal))
+                        
+                        if shouldAllowNavigation{
+                            PhotoCard(objectType: .goal, objectId: goal.id, properties: Properties(goal:goal))
+                        }
+                        else{
+                            PhotoCardSimple(objectType: .goal, properties: Properties(goal:goal))
+                        }
                         
                         if childGoals.last != goal{
                             Divider()
@@ -37,13 +45,14 @@ struct DetailChildren: View {
                     }
                     
                     if childGoals.count == 0 {
-                        NoObjectsLabel(objectType: objectType)
+                        NoObjectsLabel(objectType: objectType, labelType: .session)
                     }
                 }
                 .frame(maxWidth:.infinity)
                 .frame(alignment:.leading)
                 .frame(minHeight: childGoals.count == 0 ? 70 : 0)
-                .modifier(ModifierCard())
+                .padding(8)
+                .modifier(ModifierCard(color: shouldShowBackground ? .grey1 : .clear ))
 
             }
         }

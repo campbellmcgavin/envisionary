@@ -23,16 +23,6 @@ class ViewModel: ObservableObject, DataServiceProtocol
     init(fillData: Bool = false){
         
         if fillData {
-            if ListTasks(criteria: Criteria()).count < 10 {
-                for i in 1...1000 {
-                    var task = Task(title: "Task" + String(i), description: "")
-                    let randomDays = Int.random(in: -500...500)
-                    let daySeconds = Double(randomDays * 60 * 60 * 24)
-                    task.startDate = Date() + daySeconds
-                    task.endDate = task.startDate
-                    _ = self.CreateTask(request: CreateTaskRequest(properties: Properties(task: task)))
-                }
-            }
 
             if ListGoals(criteria: Criteria()).count < 50{
                 for _ in 1...10{
@@ -156,35 +146,35 @@ class ViewModel: ObservableObject, DataServiceProtocol
 
 // MARK: - TASKS
 
-    func CreateTask(request: CreateTaskRequest) -> UUID{
-        TasksDidChange()
-        return dataService.CreateTask(request: request)
-    }
-
-    func GetTask(id: UUID) -> Task?{
-        TasksDidChange()
-        return dataService.GetTask(id: id)
-    }
-
-    func ListTasks(criteria: Criteria = Criteria(), limit: Int = 50) -> [Task] {
-        return dataService.ListTasks(criteria: criteria, limit: limit)
-    }
-    
-    func GroupTasks(criteria: Criteria = Criteria(), grouping: GroupingType) -> [String : [Task]] {
-        return dataService.GroupTasks(criteria: criteria, grouping: grouping)
-    }
-    
-    func UpdateTask(id: UUID, request: UpdateTaskRequest) -> Bool {
-        TasksDidChange()
-        return dataService.UpdateTask(id: id, request: request)
-    }
-
-    func DeleteTask(id: UUID) -> Bool {
-        TasksDidChange()
-        return dataService.DeleteTask(id: id)
-    }
-    
-    private func TasksDidChange(){ updates.task.toggle() }
+//    func CreateTask(request: CreateTaskRequest) -> UUID{
+//        TasksDidChange()
+//        return dataService.CreateTask(request: request)
+//    }
+//
+//    func GetTask(id: UUID) -> Task?{
+//        TasksDidChange()
+//        return dataService.GetTask(id: id)
+//    }
+//
+//    func ListTasks(criteria: Criteria = Criteria(), limit: Int = 50) -> [Task] {
+//        return dataService.ListTasks(criteria: criteria, limit: limit)
+//    }
+//
+//    func GroupTasks(criteria: Criteria = Criteria(), grouping: GroupingType) -> [String : [Task]] {
+//        return dataService.GroupTasks(criteria: criteria, grouping: grouping)
+//    }
+//
+//    func UpdateTask(id: UUID, request: UpdateTaskRequest) -> Bool {
+//        TasksDidChange()
+//        return dataService.UpdateTask(id: id, request: request)
+//    }
+//
+//    func DeleteTask(id: UUID) -> Bool {
+//        TasksDidChange()
+//        return dataService.DeleteTask(id: id)
+//    }
+//
+//    private func TasksDidChange(){ updates.task.toggle() }
     
     // MARK: - ASPECTS
 

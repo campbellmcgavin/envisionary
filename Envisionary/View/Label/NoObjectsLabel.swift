@@ -10,27 +10,42 @@ import SwiftUI
 struct NoObjectsLabel: View {
     
     var objectType: ObjectType
-    
+    let labelType: NoObjectLabelType
     var body: some View {
-        if objectType == .prompt{
-            Text("Looks like you don't have any favorites. Mark any object as a favorite by tapping on the ★ button.")
-                .font(.specify(style:.h6))
-                .multilineTextAlignment(.center)
-                .foregroundColor(.specify(color: .grey3))
-                .padding(30)
+        
+        Text(GetText())
+            .font(.specify(style:.h6))
+            .multilineTextAlignment(.center)
+            .foregroundColor(.specify(color: .grey3))
+            .padding(30)
+    }
+    
+    func GetText() -> String{
+        if objectType == .prompt {
+            return "Looks like you don't have any favorites. Mark any object as a favorite by tapping on the ★ button."
         }
         else{
-            Text("Looks like you don't have any " + objectType.toPluralString() + ". \nClick the + to get started")
-                .font(.specify(style:.h6))
-                .multilineTextAlignment(.center)
-                .foregroundColor(.specify(color: .grey3))
-                .padding(30)
+            switch labelType {
+            case .home:
+                return "Looks like you don't have any " + objectType.toPluralString() + ". \nGo to the " + objectType.toPluralString() + " page and click the + to get started"
+            case .session:
+                return "Looks like you don't have any " + objectType.toPluralString() + ". \nClick 'add goal' to get started"
+            case .page:
+                return "Looks like you don't have any " + objectType.toPluralString() + ". \nClick the + to get started"
+            }
         }
     }
 }
 
 struct NoObjectsLabel_Previews: PreviewProvider {
     static var previews: some View {
-        NoObjectsLabel(objectType: .goal)
+        NoObjectsLabel(objectType: .goal, labelType: .page)
     }
+}
+
+
+enum NoObjectLabelType{
+    case home
+    case session
+    case page
 }

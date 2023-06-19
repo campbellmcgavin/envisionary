@@ -20,7 +20,7 @@ struct SetupHabit: View {
             .padding(8)
             .onChange(of: Habits, perform: { _ in
                 let count = Habits.values.filter({$0}).count
-                canProceed = count > 3 && count < 11
+                canProceed = count > 2 && count < 6
             })
             .onChange(of: shouldAct){
                 _ in

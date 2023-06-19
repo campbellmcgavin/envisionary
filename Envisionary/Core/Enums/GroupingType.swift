@@ -99,23 +99,23 @@ enum GroupingType: CaseIterable {
             }
         case .session:
             return false
-        case .task:
-            switch self {
-            case .title:
-                return true
-            case .aspect:
-                return false
-            case .priority:
-                return false
-            case .progress:
-                return true
-            case .schedule:
-                return false
-            case .chapter:
-                return false
-            case .hasImages:
-                return false
-            }
+//        case .task:
+//            switch self {
+//            case .title:
+//                return true
+//            case .aspect:
+//                return false
+//            case .priority:
+//                return false
+//            case .progress:
+//                return true
+//            case .schedule:
+//                return false
+//            case .chapter:
+//                return false
+//            case .hasImages:
+//                return false
+//            }
         case .habit:
             switch self {
             case .title:

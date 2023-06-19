@@ -8,6 +8,8 @@
 import SwiftUI
 
 class FormPropertiesValidator: ObservableObject {
+    @Published var isDirty: Bool = false
+    
     @Published var title = FormPropertyValidator(propertyType: .title)
     @Published var timeframe = FormPropertyValidator(propertyType: .timeframe)
     @Published var startDate = FormPropertyValidator(propertyType: .startDate)

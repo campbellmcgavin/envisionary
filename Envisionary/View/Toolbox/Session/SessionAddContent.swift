@@ -17,21 +17,29 @@ struct SessionAddContent: View {
     @State var isPresentingNewGoal = false
     @State var isValidForm = false
     
+    @State var shouldAttemptAddGoal = false
+    @State var didAttemptToSave = false
+    
     var body: some View {
         HeaderWithContent(shouldExpand: $isExpanded, headerColor: .grey10, header: "Affected Goals", content: {
             
-            VStack{
-                
-                ForEach(goalProperties) { goalProperty in
-                    PhotoCardSimple(objectType: .goal, properties: goalProperty)
-                        .padding([.leading, .trailing])
-                    if goalProperties.last != goalProperty{
-                        StackDivider()
+            if goalProperties.count > 0 {
+                VStack{
+                    
+                    ForEach(goalProperties) { goalProperty in
+                        PhotoCardSimple(objectType: .goal, properties: goalProperty, imageSize: .mediumLarge)
+                            .padding([.leading, .trailing],11)
+                        if goalProperties.last != goalProperty{
+                            StackDivider()
+                        }
                     }
                 }
+                .padding([.top,.bottom],11)
+                .modifier(ModifierForm(color:.grey15))
             }
-            .padding([.top,.bottom])
-            .modifier(ModifierForm(color:.grey15))
+            else{
+                NoObjectsLabel(objectType: .goal, labelType: .session)
+            }
         })
         VStack(alignment:.leading){
             
@@ -48,11 +56,10 @@ struct SessionAddContent: View {
                     .frame(alignment:.leading)
                     .padding([.leading,.bottom])
                 
-                FormPropertiesStack(properties: $properties, images: .constant([UIImage]()), isPresentingPhotoSource: .constant(false), isValidForm: $isValidForm, objectType: .goal, modalType: .add, isSimple: true)
+                FormPropertiesStack(properties: $properties, images: .constant([UIImage]()), isPresentingPhotoSource: .constant(false), isValidForm: $isValidForm, didAttemptToSave: $didAttemptToSave, objectType: .goal, modalType: .add, isSimple: true)
                     .padding(.bottom)
                 
-                TextButton(isPressed: $shouldAddGoal, text: "Add goal", color: .grey2, backgroundColor: .grey10, style: .h3, shouldHaveBackground: true)
-                    .disabled(!isValidForm)
+                TextButton(isPressed: $shouldAttemptAddGoal, text: "Add goal", color: .grey2, backgroundColor: !isValidForm && didAttemptToSave ? .grey3 : .grey10, style: .h3, shouldHaveBackground: true)
             }
             TextButton(isPressed: $isPresentingNewGoal, text: isPresentingNewGoal ? "Cancel" : "Add goal", color: isPresentingNewGoal ? .grey10 : .grey2, backgroundColor: isPresentingNewGoal ? .grey4 : .grey10, style: .h3, shouldHaveBackground: true)
         }
@@ -63,6 +70,13 @@ struct SessionAddContent: View {
         .onChange(of: shouldAddGoal){
             _ in
             isPresentingNewGoal = false
+        }
+        .onChange(of:shouldAttemptAddGoal){
+            _ in
+            if isValidForm {
+                shouldAddGoal.toggle()
+            }
+            didAttemptToSave = true
         }
     }
 }

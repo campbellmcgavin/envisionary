@@ -12,6 +12,7 @@ struct FormPropertiesStack: View {
     @Binding var images: [UIImage]
     @Binding var isPresentingPhotoSource: Bool
     @Binding var isValidForm: Bool
+    @Binding var didAttemptToSave: Bool
 
     let objectType: ObjectType
     let modalType: ModalType
@@ -50,7 +51,7 @@ struct FormPropertiesStack: View {
     
     @State private var titleDirtyTimer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
     
-    @EnvironmentObject var validator: FormPropertiesValidator
+    @StateObject var validator: FormPropertiesValidator = FormPropertiesValidator()
     @EnvironmentObject var vm: ViewModel
     
     var body: some View {
@@ -66,10 +67,7 @@ struct FormPropertiesStack: View {
         .onAppear{
             title = properties.title ?? ""
             description = properties.description ?? ""
-            
             aspectString = properties.aspect?.toString() ?? ""
-            
-
             
             if objectType == .habit {
                 timeframe = .month
@@ -93,13 +91,21 @@ struct FormPropertiesStack: View {
             scheduleString = properties.scheduleType?.toString() ?? schedule.toString()
             scheduleOptions = GetSchedules()
             unitString = unit.toString()
+            
             validator.reset()
             validator.validateForm(properties: properties, objectType: objectType)
+            isValidForm = validator.isValidForm()
+            
             titleDirtyTimer.upstream.connect().cancel()
         }
         .onChange(of: properties){
             _ in
             validator.validateForm(properties: properties, objectType: objectType)
+            isValidForm = validator.isValidForm()
+        }
+        .onChange(of: didAttemptToSave){
+            _ in
+            validator.isDirty = true
         }
         .onChange(of: timeframeString){
             _ in
@@ -212,7 +218,7 @@ struct FormPropertiesStack: View {
             }
             else{
                 FormText(fieldValue: $title, fieldName: PropertyType.title.toString(), axis: .horizontal, iconType: .title)
-                    .modifier(ModifierFormValidator(fieldPropertyValidator: $validator.title, isValidForm: $isValidForm, propertyType: .title))
+                    .modifier(ModifierFormValidator(fieldPropertyValidator: $validator.title, isDirtyForm: $validator.isDirty, propertyType: .title))
             }
         case .description:
             FormText(fieldValue: $description, fieldName: GetDescriptionFieldName(), axis: .vertical, iconType: .description)
@@ -222,11 +228,11 @@ struct FormPropertiesStack: View {
             }
             else{
                 FormStackPicker(fieldValue: $timeframeString, fieldName: PropertyType.timeframe.toString(), options: .constant(TimeframeType.allCases.map({$0.toString()})),iconType: .timeframe)
-                    .modifier(ModifierFormValidator(fieldPropertyValidator: $validator.timeframe, isValidForm: $isValidForm, propertyType: .timeframe))
+                    .modifier(ModifierFormValidator(fieldPropertyValidator: $validator.timeframe, isDirtyForm: $validator.isDirty, propertyType: .timeframe))
             }
         case .startDate:
             FormCalendarPicker(fieldValue: $startDate, fieldName: GetStartDateFieldName(), timeframeType: $timeframe, iconType: .dates, isStartDate: true)
-                .modifier(ModifierFormValidator(fieldPropertyValidator: $validator.startDate, isValidForm: $isValidForm, propertyType: .startDate))
+                .modifier(ModifierFormValidator(fieldPropertyValidator: $validator.startDate, isDirtyForm: $validator.isDirty, propertyType: .startDate))
         case .endDate:
             FormCounter(fieldValue: $numberOf, fieldName: GetNumberOfFieldName(), iconType: .dates, maxValue: ComputeMaxValue())
             FormLabel(fieldValue: endDate.toString(timeframeType: timeframe, isStartDate: false), fieldName: PropertyType.endDate.toString(), iconType: .dates, shouldShowLock: true)
@@ -237,16 +243,16 @@ struct FormPropertiesStack: View {
                 }
                 else{
                     FormStackPicker(fieldValue: $aspectString, fieldName: PropertyType.aspect.toString(), options: .constant(vm.ListAspects().map({$0.aspect.toString()})),iconType: .aspect)
-                        .modifier(ModifierFormValidator(fieldPropertyValidator: $validator.aspect, isValidForm: $isValidForm, propertyType: .aspect))
+                        .modifier(ModifierFormValidator(fieldPropertyValidator: $validator.aspect, isDirtyForm: $validator.isDirty, propertyType: .aspect))
                 }
             }
         case .priority:
             FormStackPicker(fieldValue: $priorityString, fieldName: PropertyType.priority.toString(), options: .constant(PriorityType.allCases.map({$0.toString()})),iconType: .priority)
-                .modifier(ModifierFormValidator(fieldPropertyValidator: $validator.priority, isValidForm: $isValidForm, propertyType: .priority))
+                .modifier(ModifierFormValidator(fieldPropertyValidator: $validator.priority, isDirtyForm: $validator.isDirty, propertyType: .priority))
         case .coreValue:
             if modalType == .add {
                 FormStackPicker(fieldValue: $coreValue, fieldName: PropertyType.coreValue.toString(), options: .constant(ValueType.allCases.filter({vm.GetCoreValue(coreValue: $0) == nil && $0 != .Introduction && $0 != .Conclusion}).map{$0.toString()}), iconType: .value, isSearchable: true)
-                    .modifier(ModifierFormValidator(fieldPropertyValidator: $validator.coreValue, isValidForm: $isValidForm, propertyType: .coreValue))
+                    .modifier(ModifierFormValidator(fieldPropertyValidator: $validator.coreValue, isDirtyForm: $validator.isDirty, propertyType: .coreValue))
             }
             else{
                 FormLabel(fieldValue: coreValue, fieldName: PropertyType.coreValue.toString(), iconType: .value, shouldShowLock: true)
@@ -254,22 +260,22 @@ struct FormPropertiesStack: View {
         case .chapter:
             let chapters = vm.ListChapters()
             FormStackPicker(fieldValue: $chapterString, fieldName: PropertyType.chapter.toString(), options: .constant(chapters.map({$0.title})), iconType: .chapter)
-                .modifier(ModifierFormValidator(fieldPropertyValidator: $validator.chapter, isValidForm: $isValidForm, propertyType: .chapter))
+                .modifier(ModifierFormValidator(fieldPropertyValidator: $validator.chapter, isDirtyForm: $validator.isDirty, propertyType: .chapter))
         case .images:
             FormImages(fieldValue: $images, shouldPopImagesModal: $isPresentingPhotoSource, fieldName: PropertyType.images.toString(), iconType: .photo)
         case .scheduleType:
             FormStackPicker(fieldValue: $scheduleTimeframeString, fieldName: "Schedule " + PropertyType.timeframe.toString(), options: .constant([TimeframeType.day.toString(), TimeframeType.week.toString()]),iconType: .timeframe)
             FormStackPicker(fieldValue: $scheduleString, fieldName: PropertyType.scheduleType.toString(), options: $scheduleOptions, iconType: .dates, isSearchable: false)
-                .modifier(ModifierFormValidator(fieldPropertyValidator: $validator.scheduleType, isValidForm: $isValidForm, propertyType: .scheduleType))
+                .modifier(ModifierFormValidator(fieldPropertyValidator: $validator.scheduleType, isDirtyForm: $validator.isDirty, propertyType: .scheduleType))
         case .amount:
             if schedule.shouldShowAmount(){
                 FormCounter(fieldValue: $amount, fieldName: GetAmountFieldName(), iconType: .dates, maxValue: ComputeMaxValue())
-                    .modifier(ModifierFormValidator(fieldPropertyValidator: $validator.amount, isValidForm: $isValidForm, propertyType: .amount))
+                    .modifier(ModifierFormValidator(fieldPropertyValidator: $validator.amount, isDirtyForm: $validator.isDirty, propertyType: .amount))
             }
         case .unit:
             if schedule.shouldShowAmount() {
                 FormStackPicker(fieldValue: $unitString, fieldName: PropertyType.unit.toString(), options: .constant(UnitType.allCases.map({$0.toString()})), iconType: .chapter)
-                    .modifier(ModifierFormValidator(fieldPropertyValidator: $validator.unit, isValidForm: $isValidForm, propertyType: .unit))
+                    .modifier(ModifierFormValidator(fieldPropertyValidator: $validator.unit, isDirtyForm: $validator.isDirty, propertyType: .unit))
             }
         default:
             let _ = "why"
@@ -307,6 +313,6 @@ struct FormPropertiesStack: View {
 
 struct FormPropertiesStack_Previews: PreviewProvider {
     static var previews: some View {
-        FormPropertiesStack(properties: .constant(Properties()), images: .constant([UIImage]()), isPresentingPhotoSource: .constant(false), isValidForm: .constant(true), objectType: .goal, modalType: .search)
+        FormPropertiesStack(properties: .constant(Properties()), images: .constant([UIImage]()), isPresentingPhotoSource: .constant(false), isValidForm: .constant(true), didAttemptToSave: .constant(false), objectType: .goal, modalType: .search)
     }
 }

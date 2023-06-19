@@ -125,7 +125,7 @@ struct Setup: View {
         
                 }
             }
-            .offset(x:-20, y:setupStep.toObject() != nil ? -70 : 0)
+            .offset(x:-20, y:setupStep.toObject() != nil || setupStep == .garduated ? -70 : 0)
             
         }
         .background(Color.specify(color: .grey0))

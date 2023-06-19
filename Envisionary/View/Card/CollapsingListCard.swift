@@ -33,12 +33,12 @@ struct CollapsingListCard: View {
                     ForEach(propertiesList) { properties in
                         
                         if isExpanded || propertiesList.firstIndex(of: properties) ?? 0 < 5 {
-                            if objectType == .task {
-                                TaskCard(taskId: properties.id)
-                            }
-                            else{
+//                            if objectType == .task {
+//                                TaskCard(taskId: properties.id)
+//                            }
+//                            else{
                                 PhotoCard(objectType: objectType, objectId: properties.id, properties: properties)
-                            }
+//                            }
                         }
                     }
                 }
@@ -56,6 +56,6 @@ struct CollapsingListCard: View {
 
 struct CollapsingListCard_Previews: PreviewProvider {
     static var previews: some View {
-        CollapsingListCard(propertiesList: .constant([Properties]()), objectType: .task)
+        CollapsingListCard(propertiesList: .constant([Properties]()), objectType: .habit)
     }
 }

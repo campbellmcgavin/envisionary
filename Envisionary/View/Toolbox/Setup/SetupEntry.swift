@@ -40,6 +40,7 @@ struct SetupEntry: View {
                 .disabled(!shouldShowButton)
             
         }
+        .padding(.bottom,8)
         .onAppear(){
             properties.title = "A day to remember!"
             properties.description = "Today is the day I downloaded Envisionary! I was able to learn some impressive tools that I am going to put into practice. I'm really excited because this is all going to contribute to me becoming the beautiful person that I know I can become."

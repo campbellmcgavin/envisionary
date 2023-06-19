@@ -187,8 +187,8 @@ struct ModalManager: View {
                         _ = vm.DeleteAspect(id: objectId)
                     case .dream:
                         _ = vm.DeleteDream(id: objectId)
-                    case .task:
-                        _ = vm.DeleteTask(id: objectId)
+//                    case .task:
+//                        _ = vm.DeleteTask(id: objectId)
                     case .session:
                         _ = vm.DeleteSession(id: objectId)
                     case .habit:
