@@ -29,6 +29,7 @@ struct ModalManager: View {
     @State var isPresentingDelete = false
     @State var isPresentingPhotoSource = false
     @State var sourceType: UIImagePickerController.SourceType? = nil
+    @State var isPresentingSetup = false
     
     
     @EnvironmentObject var vm: ViewModel
@@ -48,6 +49,8 @@ struct ModalManager: View {
             Modal(modalType: .delete, objectType: objectType ?? .goal, isPresenting: $isPresentingDelete, shouldConfirm: $shouldDelete, isPresentingImageSheet: .constant(false), allowConfirm: .constant(true), modalContent: {EmptyView()}, headerContent: {EmptyView()}, bottomContent: {EmptyView()}, betweenContent: {EmptyView()})
             
             ModalPhotoSource(objectType: GetObjectType(), isPresenting: $isPresentingPhotoSource, sourceType: $sourceType)
+            
+            ModalSetup(objectType: $vm.filtering.filterObject, isPresenting: $isPresentingSetup)
         }
         .frame(maxHeight:.infinity)
         .ignoresSafeArea()
@@ -74,11 +77,18 @@ struct ModalManager: View {
                     let _ = "why"
                 case .photo:
                     let _ = "why"
+                case .setup:
+                    isPresentingSetup = true
                 }
             }
         }
         .onChange(of: isPresentingAdd){ _ in
             if isPresentingAdd == false {
+                isPresenting = false
+            }
+        }
+        .onChange(of: isPresentingSetup){ _ in
+            if isPresentingSetup == false{
                 isPresenting = false
             }
         }

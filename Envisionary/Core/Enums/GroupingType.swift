@@ -15,6 +15,7 @@ enum GroupingType: CaseIterable {
     case schedule
     case chapter
     case hasImages
+    case emotionalState
     
     func toString() -> String{
         switch self {
@@ -32,6 +33,8 @@ enum GroupingType: CaseIterable {
             return "Chapter"
         case .hasImages:
             return "Has Images"
+        case .emotionalState:
+            return "Emotional State"
         }
     }
     
@@ -51,6 +54,8 @@ enum GroupingType: CaseIterable {
             return "Schedules"
         case .chapter:
             return "Chapters"
+        case .emotionalState:
+            return "Emotional States"
         }
     }
     
@@ -77,6 +82,8 @@ enum GroupingType: CaseIterable {
                 return false
             case .hasImages:
                 return false
+            case .emotionalState:
+                return false
             }
         case .aspect:
             return false
@@ -95,6 +102,8 @@ enum GroupingType: CaseIterable {
             case .chapter:
                 return false
             case .hasImages:
+                return false
+            case .emotionalState:
                 return false
             }
         case .session:
@@ -132,6 +141,8 @@ enum GroupingType: CaseIterable {
                 return false
             case .hasImages:
                 return false
+            case .emotionalState:
+                return false
             }
         case .home:
             return false
@@ -151,6 +162,8 @@ enum GroupingType: CaseIterable {
                 return false
             case .hasImages:
                 return false
+            case .emotionalState:
+                return false
             }
         case .entry:
             switch self {
@@ -168,8 +181,13 @@ enum GroupingType: CaseIterable {
                 return true
             case .hasImages:
                 return true
+            case .emotionalState:
+                return false
             }
         case .emotion:
+            if self == .emotionalState{
+                return true
+            }
             return false
         case .stats:
             return false
@@ -178,5 +196,9 @@ enum GroupingType: CaseIterable {
         case .recurrence:
             return false
         }
+    }
+    
+    static func fromString(from string: String) -> Self{
+        return Self.allCases.first(where: {$0.toPluralString() == string}) ?? .title
     }
 }

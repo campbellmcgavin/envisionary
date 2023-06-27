@@ -30,13 +30,13 @@ struct SetupValue: View {
                 
                 for valueString in values.filter({$0.value}).keys{
                     let value = ValueType.fromString(input: valueString)
-                    let request = CreateCoreValueRequest(coreValue: value, description: value.toDescription())
+                    let request = CreateCoreValueRequest(title: valueString, description: value.toDescription())
                     _ = vm.CreateCoreValue(request: request)
                 }
                 
-                _ = vm.CreateCoreValue(request: CreateCoreValueRequest(coreValue: .Introduction, description: ValueType.Introduction.toDescription()))
+                _ = vm.CreateCoreValue(request: CreateCoreValueRequest(title: ValueType.Introduction.toString(), description: ValueType.Introduction.toDescription()))
                 
-                _ = vm.CreateCoreValue(request: CreateCoreValueRequest(coreValue: .Conclusion, description: ValueType.Conclusion.toDescription()))
+                _ = vm.CreateCoreValue(request: CreateCoreValueRequest(title: ValueType.Conclusion.toString(), description: ValueType.Conclusion.toDescription()))
             }
             .onAppear{
                 options.forEach { values[$0] = false }

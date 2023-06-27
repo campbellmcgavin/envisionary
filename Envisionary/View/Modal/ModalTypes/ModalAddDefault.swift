@@ -30,7 +30,7 @@ struct ModalAddDefault: View {
     @EnvironmentObject var vm: ViewModel
     
     var body: some View {
-        Modal(modalType: modalType, objectType: objectType, isPresenting: $isPresenting, shouldConfirm: $shouldAct, isPresentingImageSheet: $isPresentingPhotoSource, allowConfirm: $isValidForm,  title: properties.title?.count ?? 0 > 0 ? properties.title : modalType == .add ? "New "  + objectType.toString() : "Empty " + objectType.toString(), image: image, modalContent: {
+        Modal(modalType: modalType, objectType: objectType, isPresenting: $isPresenting, shouldConfirm: $shouldAct, isPresentingImageSheet: $isPresentingPhotoSource, allowConfirm: $isValidForm,  title: GetTitle(), image: image, modalContent: {
             
             VStack(spacing:0){
                 
@@ -99,7 +99,7 @@ struct ModalAddDefault: View {
         }, headerContent: {EmptyView()}, bottomContent: {EmptyView()}, betweenContent: {EmptyView()})
     }
     
-    func TakeAction(){
+    func SaveImages(){
         if objectType.hasProperty(property: .image) && ( (properties.image == nil) || (properties.image != nil && image != vm.GetImage(id: properties.image!))) && image != nil {
             let imageId = vm.CreateImage(image: image!)
 //            let image = vm.GetImage(id: imageId)
@@ -142,8 +142,28 @@ struct ModalAddDefault: View {
                 }
             }
         }
-        
-        
+    }
+    
+    func GetTitle() -> String{
+        if objectType == .emotion{
+            return "Check-in"
+        }
+        if properties.title?.count ?? 0 > 0 {
+            return properties.title ?? ""
+        }
+        else{
+            if modalType == .add {
+                return "New " + objectType.toString()
+            }
+            else{
+                return "Empty " + objectType.toString()
+            }
+        }
+    }
+    
+    func TakeAction(){
+
+        SaveImages()
         
         switch objectType {
         case .value:
@@ -206,8 +226,8 @@ struct ModalAddDefault: View {
 //            <#code#>
 //        case .entry:
 //            <#code#>
-//        case .emotion:
-//            <#code#>
+        case .emotion:
+            _ = vm.CreateEmotion(request: CreateEmotionRequest(properties: properties))
 //        case .stats:
 //            <#code#>
         default:

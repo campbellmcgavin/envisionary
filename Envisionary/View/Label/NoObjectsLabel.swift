@@ -49,3 +49,21 @@ enum NoObjectLabelType{
     case session
     case page
 }
+
+
+struct UnderConstructionLabel: View {
+    
+    var body: some View {
+        
+        VStack{
+            Text("Oops. You're in a construction zone. Check back soon for exciting upgrades!")
+                .font(.specify(style:.h6))
+                .multilineTextAlignment(.center)
+                .foregroundColor(.specify(color: .grey3))
+                .padding(30)
+            IconLabel(size: .large, iconType: .constructionCone, iconColor: .grey5, circleColor: .grey1)
+        }
+
+    }
+}
+

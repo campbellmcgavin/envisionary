@@ -16,7 +16,6 @@ class FormPropertiesValidator: ObservableObject {
     @Published var endDate = FormPropertyValidator(propertyType: .endDate)
     @Published var aspect = FormPropertyValidator(propertyType: .aspect)
     @Published var priority = FormPropertyValidator(propertyType: .priority)
-    @Published var coreValue = FormPropertyValidator(propertyType: .coreValue)
     @Published var chapter = FormPropertyValidator(propertyType: .chapter)
     @Published var scheduleType = FormPropertyValidator(propertyType: .scheduleType)
     @Published var unit = FormPropertyValidator(propertyType: .unit)
@@ -29,7 +28,6 @@ class FormPropertiesValidator: ObservableObject {
         endDate.isValid &&
         aspect.isValid &&
         priority.isValid &&
-        coreValue.isValid &&
         chapter.isValid &&
         scheduleType.isValid &&
         unit.isValid &&
@@ -43,7 +41,6 @@ class FormPropertiesValidator: ObservableObject {
         endDate = FormPropertyValidator(propertyType: .endDate)
         aspect = FormPropertyValidator(propertyType: .aspect)
         priority = FormPropertyValidator(propertyType: .priority)
-        coreValue = FormPropertyValidator(propertyType: .coreValue)
         chapter = FormPropertyValidator(propertyType: .chapter)
         scheduleType = FormPropertyValidator(propertyType: .scheduleType)
         unit = FormPropertyValidator(propertyType: .unit)
@@ -80,11 +77,6 @@ class FormPropertiesValidator: ObservableObject {
         if objectType.hasProperty(property: .endDate){
             endDate.isValid = properties.isValid(propertyType: .endDate, objectType: objectType)
             endDate.error = endDate.isValid ? nil : properties.getFormError(propertyType: .endDate)
-        }
-        
-        if objectType.hasProperty(property: .coreValue){
-            coreValue.isValid = properties.isValid(propertyType: .coreValue, objectType: objectType)
-            coreValue.error = coreValue.isValid ? nil : properties.getFormError(propertyType: .coreValue)
         }
         
         if objectType.hasProperty(property: .chapter){

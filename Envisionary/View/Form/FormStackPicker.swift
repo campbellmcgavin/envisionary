@@ -14,7 +14,6 @@ struct FormStackPicker: View {
     var iconType: IconType?
     var isSearchable: Bool = false
     @State var isExpanded: Bool = false
-    @State var searchString = ""
     @State var optionsList = [String]()
     @State var isRestrictingOptions = false
     
@@ -23,7 +22,7 @@ struct FormStackPicker: View {
             
         VStack{
             if isSearchable {
-                FormSearchableDropdown(fieldValue: $fieldValue, isExpanded: $isExpanded, searchString: $searchString, fieldName: fieldName, isSearchable: true, iconType: iconType)
+                FormSearchableDropdown(fieldValue: $fieldValue, isExpanded: $isExpanded, fieldName: fieldName, isSearchable: true, iconType: iconType)
             }
             else{
                 FormDropdown(fieldValue: $fieldValue, isExpanded: $isExpanded, fieldName: fieldName, iconType: iconType)
@@ -35,20 +34,16 @@ struct FormStackPicker: View {
             }
         }
         .onAppear{
-            searchString = fieldValue
             UpdateOptions()
         }
         .onChange(of: options){
             _ in
             UpdateOptions()
         }
-        .onChange(of: searchString){
-            _ in
-            UpdateOptions()
-        }
         .transition(.move(edge:.bottom))
         .onChange(of: fieldValue){
             _ in
+            UpdateOptions()
             
             if options.contains(where:{$0 == fieldValue}){
                 isExpanded = false
@@ -61,7 +56,7 @@ struct FormStackPicker: View {
     func UpdateOptions(){
         
         if isSearchable {
-            if searchString == " " || searchString.count == 0 {
+            if fieldValue == " " || fieldValue.count == 0 {
                 if options.count > maxOptionsListCount {
                     optionsList = Array(options[0..<maxOptionsListCount])
                     isRestrictingOptions = true
@@ -72,7 +67,7 @@ struct FormStackPicker: View {
                 }
             }
             else{
-                let filteredList = options.filter({$0.description.localizedCaseInsensitiveContains(searchString)})
+                let filteredList = options.filter({$0.description.localizedCaseInsensitiveContains(fieldValue)})
                 if filteredList.count > maxOptionsListCount {
                     optionsList = Array(filteredList[0..<maxOptionsListCount])
                     isRestrictingOptions = true

@@ -105,6 +105,10 @@ extension String {
         
         return stringArray.map({UUID(uuidString: $0) ?? UUID()})
     }
+    
+    func toStringArray() -> [String]{
+        return self.components(separatedBy: ",").map({$0.trimmingCharacters(in: .whitespacesAndNewlines)})
+    }
 }
 
 extension Character {

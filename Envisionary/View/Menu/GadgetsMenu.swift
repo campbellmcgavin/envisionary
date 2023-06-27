@@ -16,7 +16,7 @@ struct GadgetsMenu: View {
     
     @State var shouldPresentFilterView: Bool = false
     @State var shouldPresentGroupView: Bool = false
-    @State var shouldPresentHelpView: Bool = false
+//    @State var shouldPresentHelpView: Bool = false
     @State var shouldPresentSearchView: Bool = false
     
     
@@ -42,7 +42,7 @@ struct GadgetsMenu: View {
             }
 
             IconButton(isPressed: $shouldPresentGroupView, size: .small, iconType: .group, iconColor: .grey7)
-            IconButton(isPressed: $shouldPresentHelpView, size: .small, iconType: .help, iconColor: .grey7)
+//            IconButton(isPressed: $shouldPresentHelpView, size: .small, iconType: .help, iconColor: .grey7)
             IconButton(isPressed: $shouldPresentSearchView, size: .small, iconType: .search, iconColor: .grey7)
             Spacer()
 //            if(offset.y < 200.0){
@@ -75,11 +75,6 @@ struct GadgetsMenu: View {
             _ in
             isPresentingModal.toggle()
             modalType = .group
-        }
-        .onChange(of:shouldPresentHelpView){
-            _ in
-            isPresentingModal.toggle()
-            modalType = .help
         }
         .onChange(of:shouldPresentSearchView){
             _ in

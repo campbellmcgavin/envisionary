@@ -110,7 +110,11 @@ struct PromptCard: View {
         .padding(.bottom,1)
 
             BuildTitle()
-        TextButton(isPressed: $shouldJump, text: "Create " + (prompt.objectType.StartsWithVowel() ? "an " : "a ") + prompt.objectType.toString(), color: .grey9, backgroundColor: .grey3, style: .h5, shouldHaveBackground: true, shouldFill: false)
+        HStack{
+            TextButton(isPressed: $shouldJump, text: "Create " + (prompt.objectType.StartsWithVowel() ? "an " : "a ") + prompt.objectType.toString(), color: .grey9, backgroundColor: .grey3, style: .h5, shouldHaveBackground: true, shouldFill: false)
+            Spacer()
+        }
+
     }
     
     @ViewBuilder

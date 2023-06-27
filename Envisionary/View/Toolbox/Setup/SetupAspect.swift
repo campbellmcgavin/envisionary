@@ -20,7 +20,7 @@ struct SetupAspect: View {
             .padding(8)
             .onChange(of: Aspects, perform: { _ in
                 let count = Aspects.values.filter({$0}).count
-                canProceed = count > 3 && count < 11
+                canProceed = count > 4 && count < 16
             })
             .onChange(of: shouldAct){
                 _ in

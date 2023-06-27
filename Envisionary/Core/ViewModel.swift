@@ -13,6 +13,9 @@ class ViewModel: ObservableObject, DataServiceProtocol
     @Published var filtering = ObjectFiltering()
     @Published var updates = ObjectUpdates()
     @Published var triggers = InterfaceTriggers()
+    @Published var setupStep = SetupStepType.value
+    
+    private var stepIsComplete = false
     
     // MARK: - GLOBAL STATE
     
@@ -20,65 +23,15 @@ class ViewModel: ObservableObject, DataServiceProtocol
     @Published var pushToToday = false
     
     // MARK: - Initializers
-    init(fillData: Bool = false){
-        
-        if fillData {
-
-            if ListGoals(criteria: Criteria()).count < 50{
-                for _ in 1...10{
-                    for goal in Goal.sampleGoals{
-                        _ = self.CreateGoal(request: CreateGoalRequest(properties: Properties(goal: goal)))
-                    }
-                }
-            }
-
-            
-            if ListCoreValues(criteria: Criteria()).count < 4{
-                
-                for value in CoreValue.samples{
-                    _ = CreateCoreValue(request: CreateCoreValueRequest(coreValue: value.coreValue, description: value.description))
-                }
-            }
-            
-            if ListDreams().count < 3 {
-                for dream in Dream.samples{
-                    _ = CreateDream(request: CreateDreamRequest(title: dream.title, description: dream.description, aspect: dream.aspect))
-                }
-            }
-            
-            if ListAspects().count < 5 {
-                for aspect in Aspect.samples{
-                    _ = CreateAspect(request: CreateAspectRequest(aspect: aspect.aspect, description: aspect.description))
-                }
-            }
-            let promptList = ListPrompts()
-            
-            for prompt in promptList{
-                DeletePrompt(id: prompt.id)
-            }
-            
-            if ListPrompts(criteria: Criteria(type: .favorite)).count < 3{
-                let goalList = ListGoals()
-                
-                for _ in 1...5 {
-                    if let goal = goalList.randomElement(){
-                        let request = CreatePromptRequest(type: .favorite, title: goal.title, date: Date(), objectType: .goal, objectId: goal.id)
-                        _ = CreatePrompt(request: request)
-                    }
-                }
-            }
-            
-            if ListPrompts(criteria: Criteria(type: .suggestion)).count < 3{
-                let request1 = CreatePromptRequest(type: .suggestion, title: ObjectType.session.GetPromptTitle(), date: Date(), objectType: .session, timeframe: TimeframeType.allCases.filter({$0 != .day}).randomElement())
-                _ = CreatePrompt(request: request1)
-                
-                let request2 = CreatePromptRequest(type: .suggestion, title: ObjectType.entry.GetPromptTitle(), date: Date(), objectType: .entry)
-                _ = CreatePrompt(request: request2)
-                
-                let request3 = CreatePromptRequest(type: .suggestion, title: ObjectType.value.GetPromptTitle(), date: Date(), objectType: .value)
-                _ = CreatePrompt(request: request3)
-            }
-        }
+    init(){
+        let storedValue_ = UserDefaults.standard.string(forKey: SettingsKeyType.setup_step.toString())
+        setupStep = SetupStepType.fromString(from: storedValue_ ?? "")
+    }
+    
+    // MARK: - SETUP STEP
+    
+    func UpdateSetupStep(){
+        UserDefaults.standard.set(self.setupStep.toString(), forKey: SettingsKeyType.setup_step.toString())
     }
     
     // MARK: - IMAGE
@@ -446,4 +399,51 @@ class ViewModel: ObservableObject, DataServiceProtocol
     
     private func RecurrencesDidChange(){
         updates.recurrence.toggle() }
+    
+    // MARK: - EMOTION
+
+        func CreateEmotion(request: CreateEmotionRequest) -> UUID{
+            EmotionsDidChange()
+            return dataService.CreateEmotion(request: request)
+        }
+
+        func GetEmotion(id: UUID) -> Emotion?{
+            return dataService.GetEmotion(id: id)
+        }
+
+        func ListEmotions(criteria: Criteria = Criteria(), limit: Int = 50) -> [Emotion] {
+            return dataService.ListEmotions(criteria: criteria)
+        }
+
+        func DeleteEmotion(id: UUID) -> Bool {
+            EmotionsDidChange()
+            return dataService.DeleteEmotion(id: id)
+        }
+    func GroupEmotions(criteria: Criteria = Criteria()) -> [String:[Emotion]]{
+        return dataService.GroupEmotions(criteria: criteria)
+    }
+        
+        private func EmotionsDidChange(){ updates.emotion.toggle() }
+    
+    // MARK: - ACTIVITY
+
+    func CreateActivity(request: CreateActivityRequest) -> UUID{
+        ActivitiesDidChange()
+        return dataService.CreateActivity(request: request)
+    }
+
+    func GetActivity(id: UUID) -> Activity?{
+        return dataService.GetActivity(id: id)
+    }
+
+    func ListActivities(limit: Int = 50) -> [Activity] {
+        return dataService.ListActivities(limit: limit)
+    }
+
+    func DeleteActivity(id: UUID) -> Bool {
+        ActivitiesDidChange()
+        return dataService.DeleteActivity(id: id)
+    }
+    
+    private func ActivitiesDidChange(){ updates.activity.toggle() }
 }

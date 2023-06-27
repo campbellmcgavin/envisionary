@@ -9,6 +9,7 @@ import SwiftUI
 
 struct BottomNavigationBar: View {
     @Binding var selectedContentView: ContentViewType
+    var setupStep: SetupStepType
     
     var body: some View {
         VStack(spacing:0){
@@ -17,7 +18,7 @@ struct BottomNavigationBar: View {
             HStack{
                 ForEach(ContentViewType.allCases,id:\.self){
                     contentView in
-                    ContentButton(selectedContentView: $selectedContentView, contentView: contentView)
+                    ContentButton(selectedContentView: $selectedContentView, contentView: contentView, setupStep: setupStep)
                         .frame(maxWidth:.infinity)
                 }
             }
@@ -29,6 +30,6 @@ struct BottomNavigationBar: View {
 
 struct BottomNavigationBar_Previews: PreviewProvider {
     static var previews: some View {
-        BottomNavigationBar(selectedContentView: .constant(.plan))
+        BottomNavigationBar(selectedContentView: .constant(.plan), setupStep: .value)
     }
 }

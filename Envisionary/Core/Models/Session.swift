@@ -15,11 +15,11 @@ struct Session: Identifiable, Equatable, Hashable, Codable  {
     let timeframe: TimeframeType
     var goalProperties: [Properties]
     var evaluationDictionary: [UUID: EvaluationType]
-    var alignmentDictionary: [UUID: [ValueType:Bool]]
+    var alignmentDictionary: [UUID: [String:Bool]]
     var childrenAddedDictionary: [UUID: [UUID]]
     
     
-    init(id: UUID = UUID(), date: Date, timeframe: TimeframeType, goalProperties: [Properties], evaluationDictionary: [UUID: EvaluationType], alignmentDictionary: [UUID: [ValueType:Bool]], pushOffDictionary: [UUID: Int], deletionList: [UUID],  childrenAddedDictionary: [UUID: [UUID]]){
+    init(id: UUID = UUID(), date: Date, timeframe: TimeframeType, goalProperties: [Properties], evaluationDictionary: [UUID: EvaluationType], alignmentDictionary: [UUID: [String:Bool]], pushOffDictionary: [UUID: Int], deletionList: [UUID],  childrenAddedDictionary: [UUID: [UUID]]){
         self.id = id
         self.date = date
         self.dateCompleted = Date()
@@ -37,7 +37,7 @@ struct Session: Identifiable, Equatable, Hashable, Codable  {
         self.timeframe = TimeframeType.fromString(input: entity.timeframe ?? "")
         self.goalProperties = [Properties]()
         self.evaluationDictionary = [UUID: EvaluationType]()
-        self.alignmentDictionary = [UUID: [ValueType:Bool]]()
+        self.alignmentDictionary = [UUID: [String:Bool]]()
         self.childrenAddedDictionary = [UUID: [UUID]]()
         
         do {
@@ -50,7 +50,7 @@ struct Session: Identifiable, Equatable, Hashable, Codable  {
 //                self.evaluationDictionary = ConvertFromStringToUUIDDictionary(stringDictionary: stringEvaluationDictionary)
             }
             if let alignmentDictionary = entity.alignmentDictionary{
-                self.alignmentDictionary = try decoder.decode([UUID:[ValueType:Bool]].self, from: alignmentDictionary)
+                self.alignmentDictionary = try decoder.decode([UUID:[String:Bool]].self, from: alignmentDictionary)
 //                self.alignmentDictionary = ConvertFromStringToUUIDDictionary(stringDictionary: stringAlignmentDictionary)
             }
             
@@ -67,7 +67,7 @@ struct Session: Identifiable, Equatable, Hashable, Codable  {
         self.timeframe = .week
         self.goalProperties = [Properties]()
         self.evaluationDictionary = [UUID: EvaluationType]()
-        self.alignmentDictionary  = [UUID: [ValueType:Bool]]()
+        self.alignmentDictionary  = [UUID: [String:Bool]]()
         self.childrenAddedDictionary = [UUID: [UUID]]()
     }
     

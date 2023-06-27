@@ -17,6 +17,7 @@ enum ModalType{
     case delete
     case photoSource
     case photo
+    case setup
     
     
     func ShouldShowImage(objectType: ObjectType) -> Bool {
@@ -41,6 +42,8 @@ enum ModalType{
             return false
         case .photo:
             return objectType.ShouldShowImage()
+        case .setup:
+            return false
         }
     }
 }

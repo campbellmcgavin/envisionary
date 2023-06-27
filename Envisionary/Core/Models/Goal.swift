@@ -20,7 +20,7 @@ struct Goal: Identifiable, Codable, Equatable, Hashable {
     var timeframe: TimeframeType
     var image: UUID?
     var parentId: UUID?
-    var valuesDictionary: [ValueType: Bool]?
+    var valuesDictionary: [String: Bool]?
     
     init(id: UUID = UUID(), title: String, description: String, priority: PriorityType, startDate: Date, endDate: Date, percentComplete: Int, aspect: AspectType, timeframe: TimeframeType, image: UUID?, parent: UUID?, tasks: [UUID], journals: [UUID]){
         self.id = id
@@ -79,7 +79,7 @@ struct Goal: Identifiable, Codable, Equatable, Hashable {
         
         do {
             let valuesDictionaryDecoded = try JSONSerialization.jsonObject(with: entity.valuesDictionary ?? Data(), options: [])
-            if let valuesDictionary = valuesDictionaryDecoded as? [ValueType:Bool] {
+            if let valuesDictionary = valuesDictionaryDecoded as? [String:Bool] {
                 self.valuesDictionary = valuesDictionary
             }
         } catch {

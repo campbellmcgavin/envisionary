@@ -15,6 +15,7 @@ struct ModalGrouping: View {
     @State var groupingDream: String = GroupingType.title.toPluralString()
     @State var groupingChapter: String = GroupingType.title.toPluralString()
     @State var groupingEntry: String = GroupingType.chapter.toPluralString()
+//    @State var groupingEmotion: String = GroupingType.title.toPluralString()
     
     @EnvironmentObject var vm: ViewModel
     var body: some View {
@@ -26,31 +27,43 @@ struct ModalGrouping: View {
                 groupingHabit = vm.grouping.habit.toPluralString()
                 groupingChapter = vm.grouping.chapter.toPluralString()
                 groupingEntry = vm.grouping.entry.toPluralString()
+//                groupingEmotion = vm.grouping.emotion.toPluralString()
             }
             .onChange(of: groupingDream){
                 _ in
                 vm.grouping.dream = GroupingType.allCases.first(where:{$0.toPluralString() == groupingDream}) ?? .title
+                UserDefaults.standard.set(groupingDream, forKey: SettingsKeyType.group_dream.toString())
             }
             .onChange(of: groupingGoal){
                 _ in
                 vm.grouping.goal = GroupingType.allCases.first(where:{$0.toPluralString() == groupingGoal}) ?? .title
+                UserDefaults.standard.set(groupingGoal, forKey: SettingsKeyType.group_goal.toString())
             }
             .onChange(of: groupingTask){
                 _ in
                 vm.grouping.task = GroupingType.allCases.first(where:{$0.toPluralString() == groupingTask}) ?? .title
+                UserDefaults.standard.set(groupingTask, forKey: SettingsKeyType.group_task.toString())
             }
             .onChange(of: groupingHabit){
                 _ in
                 vm.grouping.habit = GroupingType.allCases.first(where:{$0.toPluralString() == groupingHabit}) ?? .title
+                UserDefaults.standard.set(groupingHabit, forKey: SettingsKeyType.group_habit.toString())
             }
             .onChange(of: groupingChapter){
                 _ in
                 vm.grouping.chapter = GroupingType.allCases.first(where:{$0.toPluralString() == groupingChapter}) ?? .title
+                UserDefaults.standard.set(groupingChapter, forKey: SettingsKeyType.group_chapter.toString())
             }
             .onChange(of: groupingEntry){
                 _ in
                 vm.grouping.entry = GroupingType.allCases.first(where:{$0.toPluralString() == groupingEntry}) ?? .title
+                UserDefaults.standard.set(groupingEntry, forKey: SettingsKeyType.group_entry.toString())
             }
+//            .onChange(of: groupingEmotion){
+//                _ in
+//                vm.grouping.emotion = GroupingType.allCases.first(where:{$0.toPluralString() == groupingEmotion}) ?? .title
+//                UserDefaults.standard.set(groupingEmotion, forKey: SettingsKeyType.group_emotion.toString())
+//            }
         
     }
     
@@ -69,6 +82,8 @@ struct ModalGrouping: View {
             FormStackPicker(fieldValue: $groupingChapter, fieldName: "Group " + ObjectType.chapter.toPluralString() + " by", options: .constant(GroupingType.allCases.filter({$0.hasObject(object: .chapter)}).map({$0.toPluralString()})), iconType: .group)
             
             FormStackPicker(fieldValue: $groupingEntry, fieldName: "Group " + ObjectType.entry.toPluralString() + " by", options: .constant(GroupingType.allCases.filter({$0.hasObject(object: .entry)}).map({$0.toPluralString()})), iconType: .group)
+            
+//            FormStackPicker(fieldValue: $groupingEmotion, fieldName: "Group " + ObjectType.emotion.toPluralString() + " by", options: .constant(GroupingType.allCases.filter({$0.hasObject(object: .emotion)}).map({$0.toPluralString()})), iconType: .group)
             
         }
         .padding(8)

@@ -10,7 +10,6 @@ import SwiftUI
 struct FormSearchableDropdown: View {
     @Binding var fieldValue: String
     @Binding var isExpanded: Bool
-    @Binding var searchString: String
     let fieldName: String
     let isSearchable: Bool
     
@@ -29,28 +28,27 @@ struct FormSearchableDropdown: View {
             }
             ZStack(alignment:.topLeading){
                 
-                FormCaption(fieldName: fieldName, fieldValue: searchString)
+                FormCaption(fieldName: fieldName, fieldValue: fieldValue)
                 
                 HStack{
                     
-                    TextField("", text: $searchString, axis: .horizontal)
+                    TextField("", text: $fieldValue, axis: .horizontal)
                         .scrollDismissesKeyboard(.interactively)
                         .submitLabel(.done)
                         .padding()
-                        .padding(.bottom,searchString.isEmpty ? 0 : 5)
+                        .padding(.bottom,fieldValue.isEmpty ? 0 : 5)
                         .frame(minHeight:60)
                         .focused($isFocused)
                         .font(.specify(style: .body1))
                         .foregroundColor(.specify(color: .grey10))
-                        .offset(y: searchString.isEmpty ? 0 : 6)
+                        .offset(y: fieldValue.isEmpty ? 0 : 6)
                         .animation(.default)
                 }
                 .onChange(of: shouldErase){ _ in
                     fieldValue = ""
-                    searchString = ""
                 }
                 .onChange(of: fieldValue){ _ in
-                    searchString = fieldValue
+                    fieldValue = fieldValue
                 }
                 .onChange(of: isExpanded){
                     _ in
@@ -59,7 +57,7 @@ struct FormSearchableDropdown: View {
 
                 HStack{
                     Spacer()
-                    if(searchString.count > 0 && isFocused && isSearchable){
+                    if(fieldValue.count > 0 && isFocused && isSearchable){
                         IconButton(isPressed: $shouldErase, size: .extraSmall, iconType: .cancel, iconColor: .grey6, circleColor:.grey3)
                             .offset(y:10)
                             .shadow(color: Color.specify(color: .grey2), radius: 9)

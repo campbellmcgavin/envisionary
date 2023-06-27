@@ -166,15 +166,15 @@ struct ModalAddSession: View {
         sessionId = vm.CreateSession(request: sessionRequest)
     }
     
-    func ConvertAlignmentDictionary() -> [UUID: [ValueType: Bool]]{
+    func ConvertAlignmentDictionary() -> [UUID: [String: Bool]]{
         
-        var valueAlignmentDictionary = [UUID: [ValueType: Bool]]()
+        var valueAlignmentDictionary = [UUID: [String: Bool]]()
         let values = vm.ListCoreValues()
         
-        var tempValueDictionary = [ValueType:Bool]()
+        var tempValueDictionary = [String:Bool]()
         
         for value in values{
-            tempValueDictionary[value.coreValue] = true
+            tempValueDictionary[value.title] = true
         }
         
         for id in alignmentDictionary.keys{
@@ -184,12 +184,12 @@ struct ModalAddSession: View {
         return valueAlignmentDictionary
     }
     
-    func ConvertInstanceOfAlignmentDictionary(id: UUID) -> [ValueType: Bool]{
-        var tempAlignmentDictionary = [ValueType: Bool]()
+    func ConvertInstanceOfAlignmentDictionary(id: UUID) -> [String: Bool]{
+        var tempAlignmentDictionary = [String: Bool]()
         
         if let _ = alignmentDictionary[id]{
             for valueString in alignmentDictionary[id]!.keys {
-                tempAlignmentDictionary[ValueType.fromString(input: valueString)] = alignmentDictionary[id]![valueString]!
+                tempAlignmentDictionary[valueString] = alignmentDictionary[id]![valueString]!
             }
         }
         return tempAlignmentDictionary
@@ -350,7 +350,7 @@ struct ModalAddSession: View {
         var tempValueDictionary = [String:Bool]()
         
         for value in values{
-            tempValueDictionary[value.coreValue.toString()] = true
+            tempValueDictionary[value.title] = true
         }
         
         valuesTemplateDictionary = tempValueDictionary

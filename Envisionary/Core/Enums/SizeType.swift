@@ -77,7 +77,7 @@ enum SizeType {
         case .ganttColumnWidth:
             return 100
         case .scrollPickerWidth:
-            return 65
+            return 67
             
         }
     }

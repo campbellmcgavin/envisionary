@@ -19,6 +19,7 @@ struct PropertyRow: View {
     var coreValue: ValueType?
     var schedule: ScheduleType?
     var unit: UnitType?
+    
     var body: some View {
         
         Button{
@@ -48,9 +49,9 @@ struct PropertyRow: View {
                 .padding(.trailing)
                 Spacer()
                 
-                if propertyType != .title && propertyType != .description{
-                    IconLabel(size: .extraSmall, iconType: .right, iconColor: .grey3)
-                }
+//                if propertyType != .title && propertyType != .description{
+//                    IconLabel(size: .extraSmall, iconType: .right, iconColor: .grey3)
+//                }
 
             }
             .frame(alignment:.leading)
@@ -60,7 +61,7 @@ struct PropertyRow: View {
                 .padding(.leading,50)
         }
     }
-    .disabled(propertyType == .title || propertyType == .description)
+    .disabled(true)//(propertyType == .title || propertyType == .description)
 
     }
     
@@ -85,9 +86,7 @@ struct PropertyRow: View {
         case .title:
             return text ?? ""
         case .description:
-            return text ?? ""
-        case .coreValue:
-            return coreValue?.toString() ?? ""
+            return text ?? "No description"
         case .start:
             return text ?? ""
         case .end:
@@ -107,6 +106,12 @@ struct PropertyRow: View {
         case .unit:
             return unit?.toString() ?? UnitType.minutes.toString()
         case .chapter:
+            return text ?? ""
+        case .emotions:
+            return text ?? ""
+        case .activities:
+            return text ?? ""
+        case .emotionalState:
             return text ?? ""
         default:
             return ""

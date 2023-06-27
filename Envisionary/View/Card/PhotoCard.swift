@@ -14,6 +14,7 @@ struct PhotoCard: View {
     var shouldHidePadding = false
     var imageSize: SizeType = .mediumLarge
     var shouldHaveLink: Bool = true
+    var iconColor: CustomColor = .grey5
     
     @State var image: UIImage? = nil
     
@@ -34,12 +35,13 @@ struct PhotoCard: View {
     func BuildCard() -> some View{
         HStack(alignment:.center, spacing:0){
             
-            ImageCircle(imageSize: imageSize.ToSize(), image: image, iconSize: .medium, icon: objectType.toIcon())
+            ImageCircle(imageSize: imageSize.ToSize(), image: image, iconSize: .medium, icon: objectType.toIcon(), iconColor: iconColor)
 
             VStack(alignment:.leading, spacing:0){
                 Text(GetHeader())
                     .font(.specify(style: .h4))
                     .foregroundColor(.specify(color: .grey10))
+                    .lineLimit(1)
                 
                 let subheader = GetSubheader()
                     
@@ -57,6 +59,7 @@ struct PhotoCard: View {
                             .textCase(.uppercase)
                             .foregroundColor(.specify(color: .grey3))
                             .padding(.top,3)
+                            .lineLimit(1)
                     }
                 }
             }
@@ -80,14 +83,14 @@ struct PhotoCard: View {
     
     func GetHeader() -> String{
         switch objectType {
-        case .value:
-            return properties.coreValue?.toString() ?? ""
         case .creed:
             return "Creed"
         case .aspect:
             return properties.aspect?.toString() ?? ""
         case .session:
             return properties.date?.toString(timeframeType: properties.timeframe ?? .day) ?? Date().toString(timeframeType: .day)
+        case .emotion:
+            return "Check-in"
         default:
             return properties.title ?? ""
         }
@@ -115,6 +118,8 @@ struct PhotoCard: View {
             return properties.description ?? ""
 //        case .task:
 //            return properties.startDate?.toString(timeframeType: .day) ?? ""
+        case .emotion:
+            return properties.startDate?.toString(timeframeType: .day) ?? ""
         default:
             return properties.description ?? ""
         }
@@ -130,6 +135,8 @@ struct PhotoCard: View {
                 return "\(habit.startDate.toString(timeframeType: .day)) - \(habit.endDate.toString(timeframeType: .day))"
             }
             return nil
+        case .emotion:
+            return properties.emotionList?.map({$0.toString()}).toCsvString() ?? ""
         default:
             return nil
         }

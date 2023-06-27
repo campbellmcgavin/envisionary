@@ -30,10 +30,6 @@ extension NSCompoundPredicate {
             predicates.append(NSPredicate(format: "aspect == %@", criteria.aspect!))
         }
         
-        if criteria.coreValue != nil && criteria.coreValue!.count > 0 && object.hasProperty(property: .coreValue){
-            predicates.append(NSPredicate(format: "coreValue == %@", criteria.coreValue!))
-        }
-        
         if criteria.parentId != nil && object.hasProperty(property: .parentId){
             predicates.append(NSPredicate(format: "parentId == %@", criteria.parentId! as CVarArg))
         }

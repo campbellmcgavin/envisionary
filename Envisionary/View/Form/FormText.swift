@@ -13,7 +13,7 @@ struct FormText: View {
     let axis: Axis
     var iconType: IconType?
     var color: CustomColor?
-    
+    var isMini: Bool = false
     @FocusState private var isFocused: Bool
     @State var shouldErase: Bool = false
     
@@ -24,29 +24,28 @@ struct FormText: View {
         HStack{
             if iconType != nil {                
                 IconLabel(size: SizeType.small, iconType: iconType!, iconColor: .grey4)
-                    .padding(.leading,10)
+                    .padding(.leading, isMini ? 3 : 10)
                     .padding(.trailing,-10)
             }
             ZStack(alignment:.topLeading){
                 
-                FormCaption(fieldName: fieldName, fieldValue: fieldValue)
-                
+                if !isMini{
+                    FormCaption(fieldName: fieldName, fieldValue: fieldValue)
+                }
                 
                 HStack{
-                    
                     TextField("", text: $fieldValue, axis: axis)
                         .scrollDismissesKeyboard(.interactively)
                         .submitLabel(axis == .horizontal ? .done : .return)
                         .padding()
                         .padding(.bottom,fieldValue.isEmpty ? 0 : 5)
-                        .frame(minHeight:60)
+                        .frame(minHeight: isMini ? 40 : 60)
+                        .frame(maxHeight: isMini ? 44 : 1000)
                         .focused($isFocused)
                         .font(.specify(style: .body1))
                         .foregroundColor(.specify(color: .grey10))
-                        .offset(y: fieldValue.isEmpty ? 0 : 6)
+                        .offset(y: isMini ? 3 : fieldValue.isEmpty ? 0 : 6)
                         .animation(.default)
-                        
-
                 }
                 .onChange(of: shouldErase){ _ in
                     fieldValue = ""
@@ -56,7 +55,7 @@ struct FormText: View {
                     Spacer()
                     if(fieldValue.count > 0 && isFocused){
                         IconButton(isPressed: $shouldErase, size: .extraSmall, iconType: .cancel, iconColor: .grey6, circleColor:.grey3)
-                            .offset(y:10)
+                            .offset(y: isMini ? 0 : 10)
                             .shadow(color: Color.specify(color: .grey2), radius: 9)
                             .padding(.trailing,10)
                             .padding(.leading,-15)
@@ -67,8 +66,7 @@ struct FormText: View {
                 
             }
         }
-
-            .modifier(ModifierForm(color: color))
+        .modifier(ModifierForm(color: color, radius: isMini ? .cornerRadiusSmall : .cornerRadiusForm))
             .onTapGesture {
                 isFocused = true
             }

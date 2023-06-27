@@ -12,13 +12,13 @@ struct SetupGoalIntro: View {
     @State var shouldWiggle: Bool = false
     
     var body: some View {
-        let timer = Timer.publish(every: 0.25, on: .main, in: .common).autoconnect()
+        let timer = Timer.publish(every: 0.5, on: .main, in: .common).autoconnect()
         
         VStack{
             ZStack{
                 ForEach(0...6, id:\.self){
                     number in
-                    BuildCircle(item: number)
+                    BuildCircle(item: number, shouldWiggle: shouldWiggle)
                 }
             }
             .frame(maxWidth:.infinity)
@@ -28,7 +28,9 @@ struct SetupGoalIntro: View {
         .frame(height:400)
         .padding([.top,.bottom],8)
         .onReceive(timer, perform: { _ in
-            shouldWiggle = true
+            if !shouldWiggle {
+                shouldWiggle = true
+            }
         })
         .onAppear(){
             canProceed = true
@@ -36,7 +38,7 @@ struct SetupGoalIntro: View {
     }
     
     @ViewBuilder
-    func BuildCircle(item: Int) -> some View{
+    func BuildCircle(item: Int, shouldWiggle: Bool) -> some View{
         let offset = GetOffset(item: item)
         let size = GetSize(item: item)
         

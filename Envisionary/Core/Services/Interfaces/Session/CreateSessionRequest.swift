@@ -13,7 +13,7 @@ struct CreateSessionRequest {
     let timeframe: TimeframeType
     let goalProperties: [Properties]
     let evaluationDictionary: [UUID: EvaluationType]
-    let alignmentDictionary: [UUID: [ValueType:Bool]]
+    let alignmentDictionary: [UUID: [String:Bool]]
     let childrenAddedDictionary: [UUID: [UUID]]
     
     init(properties: Properties){
@@ -22,7 +22,7 @@ struct CreateSessionRequest {
         self.timeframe = properties.timeframe ?? .year
         self.goalProperties = properties.goalProperties ?? [Properties]()
         self.evaluationDictionary = properties.evaluationDictionary ?? [UUID: EvaluationType]()
-        self.alignmentDictionary = properties.alignmentDictionary ?? [UUID: [ValueType:Bool]]()
+        self.alignmentDictionary = properties.alignmentDictionary ?? [UUID: [String:Bool]]()
         self.childrenAddedDictionary = properties.childrenAddedDictionary ?? [UUID: [UUID]]()
     }
 }

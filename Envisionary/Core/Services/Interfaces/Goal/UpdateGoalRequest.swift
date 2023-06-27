@@ -18,9 +18,9 @@ struct UpdateGoalRequest{
     var image: UUID? = nil
     var aspect: AspectType = .academic
     var parent: UUID? = nil
-    var valuesDictionary: [ValueType:Bool]? = nil
+    var valuesDictionary: [String:Bool]? = nil
 
-    init(title: String, description: String, priority: PriorityType, startDate: Date, endDate: Date, percentComplete: Int, image: UUID, aspect: AspectType, parent: UUID, valuesDictionary: [ValueType:Bool])
+    init(title: String, description: String, priority: PriorityType, startDate: Date, endDate: Date, percentComplete: Int, image: UUID, aspect: AspectType, parent: UUID, valuesDictionary: [String:Bool])
     {
         self.title = title
         self.description = description

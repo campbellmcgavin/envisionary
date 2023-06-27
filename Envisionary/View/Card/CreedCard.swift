@@ -48,8 +48,8 @@ struct CreedCardList: View{
             
             let coreValues = vm.ListCoreValues()
             ForEach(coreValues){ coreValue in
-                if coreValue.coreValue != .Introduction && coreValue.coreValue != .Conclusion {
-                    Item(caption: coreValue.coreValue.toString(), body: coreValue.description)
+                if coreValue.title != ValueType.Introduction.toString() && coreValue.title != ValueType.Conclusion.toString() {
+                    Item(caption: coreValue.title, body: coreValue.description)
                 }
             }
             

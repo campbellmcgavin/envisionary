@@ -20,7 +20,7 @@ struct SetupDream: View {
             .padding(8)
             .onChange(of: Dreams, perform: { _ in
                 let count = Dreams.values.filter({$0}).count
-                canProceed = count > 3 && count < 11
+                canProceed = count > 3 && count < 25
             })
             .onChange(of: shouldAct){
                 _ in

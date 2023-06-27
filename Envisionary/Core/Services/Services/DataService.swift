@@ -567,7 +567,7 @@ class DataService: DataServiceProtocol {
     func CreateCoreValue(request: CreateCoreValueRequest) -> UUID{
         
         let newCoreValue = CoreValueEntity(context: container.viewContext)
-        newCoreValue.coreValue = request.coreValue.toString()
+        newCoreValue.title = request.title
         newCoreValue.desc = request.description
         newCoreValue.id = UUID()
         saveData()
@@ -613,7 +613,7 @@ class DataService: DataServiceProtocol {
     
     private func GetCoreValueEntity(coreValue: ValueType) -> CoreValueEntity?{
         let request = NSFetchRequest<CoreValueEntity>(entityName: "CoreValueEntity")
-        let predicate = NSPredicate(format: "coreValue == %@", coreValue.toString() as CVarArg)
+        let predicate = NSPredicate(format: "title == %@", coreValue.toString() as CVarArg)
         request.predicate = predicate
         
         do {
@@ -638,7 +638,7 @@ class DataService: DataServiceProtocol {
             let CoreValuesEntityList = try container.viewContext.fetch(request)
             
             if filterIntroConc {
-                return CoreValuesEntityList.map({CoreValue(from: $0)}).filter({$0.coreValue != .Introduction && $0.coreValue != .Conclusion})
+                return CoreValuesEntityList.map({CoreValue(from: $0)}).filter({$0.title != ValueType.Introduction.toString() && $0.title != ValueType.Conclusion.toString()})
             }
             else{
                 return CoreValuesEntityList.map({CoreValue(from: $0)})       
@@ -1304,5 +1304,149 @@ class DataService: DataServiceProtocol {
 //            }
 //        }
         return recurrencesDictionary
+    }
+    
+    // MARK: - EMOTION
+    
+    func CreateEmotion(request: CreateEmotionRequest) -> UUID{
+        
+        let newEmotion = EmotionEntity(context: container.viewContext)
+        let id = UUID()
+        newEmotion.id = id
+        newEmotion.startDate = request.date
+        newEmotion.emotionList = request.emotionList.map({$0.toString()}).toCsvString()
+        newEmotion.activityList = request.activityList.toCsvString()
+        newEmotion.amount = Int16(request.amount)
+        saveData()
+        
+        return id
+    }
+    
+    func GetEmotion(id: UUID) -> Emotion?{
+        
+        let EmotionEntity = GetEmotionEntity(id: id)
+        
+        if let EmotionEntity{
+            return Emotion(from: EmotionEntity)
+        }
+        return nil
+    }
+    
+    private func GetEmotionEntity(id: UUID) -> EmotionEntity?{
+        let request = NSFetchRequest<EmotionEntity>(entityName: "EmotionEntity")
+        let predicate = NSPredicate(format: "id == %@", id as CVarArg)
+        request.predicate = predicate
+        
+        do {
+            let EmotionsEntityList = try container.viewContext.fetch(request)
+            
+            return EmotionsEntityList.first
+            
+        } catch let error {
+            print ("ERROR FETCHING Emotion. \(error)")
+        }
+        return nil
+    }
+    
+    func ListEmotions(criteria: Criteria, limit: Int = 50) -> [Emotion]{
+        
+        do {
+            let request = NSFetchRequest<EmotionEntity>(entityName: "EmotionEntity")
+            
+            request.predicate = NSCompoundPredicate.PredicateBuilder(criteria: criteria, object:.emotion)
+            request.fetchLimit = limit
+            
+            let EmotionsEntityList = try container.viewContext.fetch(request)
+            return EmotionsEntityList.map({Emotion(from: $0)})
+        } catch let error {
+            print ("ERROR FETCHING Emotion. \(error)")
+        }
+        return [Emotion]()
+    }
+    
+    func DeleteEmotion(id: UUID) -> Bool{
+        if let EmotionToDelete = GetEmotionEntity(id: id){
+            container.viewContext.delete(EmotionToDelete)
+            saveData()
+            return true
+        }
+        return false
+    }
+    
+    func GroupEmotions(criteria: Criteria) -> [String : [Emotion]] {
+        
+        let emotions = ListEmotions(criteria: criteria)
+        var emotionsDictionary: Dictionary<String,[Emotion]> = [String:[Emotion]]()
+                
+        for emotion in emotions {
+            if  emotionsDictionary[emotion.emotionalState.toEmotionalState()] == nil {
+                emotionsDictionary[emotion.emotionalState.toEmotionalState()] = [Emotion]()
+            }
+            emotionsDictionary[emotion.emotionalState.toEmotionalState()]!.append(emotion)
+        }
+        return emotionsDictionary
+    }
+    
+    
+    // MARK: - ACTIVITY
+    
+    func CreateActivity(request: CreateActivityRequest) -> UUID{
+        
+        let newActivity = ActivityEntity(context: container.viewContext)
+        let id = UUID()
+        newActivity.id = id
+        newActivity.keyword = request.keyword
+        saveData()
+        
+        return id
+    }
+    
+    func GetActivity(id: UUID) -> Activity?{
+        
+        let ActivityEntity = GetActivityEntity(id: id)
+        
+        if let ActivityEntity{
+            return Activity(from: ActivityEntity)
+        }
+        return nil
+    }
+    
+    private func GetActivityEntity(id: UUID) -> ActivityEntity?{
+        let request = NSFetchRequest<ActivityEntity>(entityName: "ActivityEntity")
+        let predicate = NSPredicate(format: "id == %@", id as CVarArg)
+        request.predicate = predicate
+        
+        do {
+            let ActivitysEntityList = try container.viewContext.fetch(request)
+            
+            return ActivitysEntityList.first
+            
+        } catch let error {
+            print ("ERROR FETCHING Activity. \(error)")
+        }
+        return nil
+    }
+    
+    func ListActivities(limit: Int = 50) -> [Activity]{
+        
+        do {
+            let request = NSFetchRequest<ActivityEntity>(entityName: "ActivityEntity")
+            request.fetchLimit = limit
+            
+            let ActivitiesEntityList = try container.viewContext.fetch(request)
+            return ActivitiesEntityList.map({Activity(from: $0)})
+        } catch let error {
+            print ("ERROR FETCHING Activity. \(error)")
+        }
+        return [Activity]()
+    }
+    
+    func DeleteActivity(id: UUID) -> Bool{
+        if let ActivityToDelete = GetActivityEntity(id: id){
+            container.viewContext.delete(ActivityToDelete)
+            saveData()
+            return true
+        }
+        return false
     }
 }

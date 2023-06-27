@@ -24,8 +24,6 @@ enum PropertyType: String, CaseIterable, Identifiable{
     case progress = "progress"
     case parentId = "parentId"
     
-    case coreValue = "coreValue"
-    
     // SESSIONS
     case leftAsIs = "leftAsIs"
     case edited = "edited"
@@ -50,6 +48,11 @@ enum PropertyType: String, CaseIterable, Identifiable{
     case amount = "amount"
     case isComplete = "isComplete"
     case habitId = "habitId"
+    
+    // EMOTIONS
+    case emotionalState = "emotionalState"
+    case emotions = "emotions"
+    case activities = "activities"
     
     func toIcon() -> IconType{
         switch self {
@@ -81,8 +84,6 @@ enum PropertyType: String, CaseIterable, Identifiable{
             return .title
         case .description:
             return .description
-        case .coreValue:
-            return .value
         case .start:
             return .dates
         case .end:
@@ -107,6 +108,12 @@ enum PropertyType: String, CaseIterable, Identifiable{
             return .confirm
         case .habitId:
             return .habit
+        case .emotions:
+            return .emotion
+        case .activities:
+            return .run
+        case .emotionalState:
+            return .upDown
         }
     }
     
@@ -136,8 +143,6 @@ enum PropertyType: String, CaseIterable, Identifiable{
             return "Title"
         case .description:
             return "Description"
-        case .coreValue:
-            return "Value"
         case .start:
             return "Start"
         case .end:
@@ -166,6 +171,12 @@ enum PropertyType: String, CaseIterable, Identifiable{
             return "Completion"
         case .habitId:
             return "Habit"
+        case .emotions:
+            return "Emotions"
+        case .activities:
+            return "Activities"
+        case .emotionalState:
+            return "Emotional State"
         }
     }
     
@@ -190,8 +201,6 @@ enum PropertyType: String, CaseIterable, Identifiable{
             return false
         case .parentId:
             return false
-        case .coreValue:
-            return true
         case .leftAsIs:
             return false
         case .edited:

@@ -21,6 +21,8 @@ struct ObjectUpdates: Equatable {
     var entry: Bool
     var prompt: Bool
     var recurrence: Bool
+    var emotion: Bool
+    var activity: Bool
     
     init(){
         image = false
@@ -37,6 +39,8 @@ struct ObjectUpdates: Equatable {
         session = false
         prompt = false
         recurrence = false
+        emotion = false
+        activity = false
     }
     
     static func == (lhs: ObjectUpdates, rhs: ObjectUpdates) -> Bool {
@@ -53,7 +57,9 @@ struct ObjectUpdates: Equatable {
         lhs.image == rhs.image &&
         lhs.entry == rhs.entry &&
         lhs.prompt == rhs.prompt &&
-        lhs.recurrence == rhs.recurrence
+        lhs.recurrence == rhs.recurrence &&
+        lhs.emotion == rhs.emotion &&
+        lhs.activity == rhs.activity
         
         return isEqual
     }

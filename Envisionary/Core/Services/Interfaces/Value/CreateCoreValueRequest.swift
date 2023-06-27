@@ -9,18 +9,18 @@ import Foundation
 
 struct CreateCoreValueRequest{
     
-    var coreValue: ValueType
+    var title: String
     var description: String = ""
     
 
-    init(coreValue: ValueType, description: String)
+    init(title: String, description: String)
     {
-        self.coreValue = coreValue
+        self.title = title
         self.description = description
     }
     
     init(properties: Properties){
-        self.coreValue = properties.coreValue ?? .Kindness
+        self.title = properties.title ?? ValueType.Kindness.toString()
         self.description = properties.description ?? ""
     }
 }

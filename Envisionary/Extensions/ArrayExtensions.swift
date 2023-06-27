@@ -22,3 +22,19 @@ extension [UUID] {
         return str
     }
 }
+
+extension [String] {
+    func toCsvString() -> String{
+        var str = ""
+        if self.count > 0{
+            for index in 0...self.count-1{
+                str += self[index]
+                
+                if index < self.count-1{
+                    str += ", "
+                }
+            }
+        }
+        return str
+    }
+}

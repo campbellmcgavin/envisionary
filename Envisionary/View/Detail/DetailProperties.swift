@@ -101,10 +101,6 @@ struct DetailProperties: View {
             if properties.progress != nil {
                 PropertyRow(propertyType: .progress, int:properties.progress)
             }
-        case .coreValue:
-            if properties.coreValue != nil {
-                PropertyRow(propertyType: .coreValue, coreValue: properties.coreValue)
-            }
         case .edited:
             PropertyRow(propertyType: .edited, int: GetEvaluationDicitonaryItem(evaluation: .editDetails))
         case .leftAsIs:
@@ -149,6 +145,18 @@ struct DetailProperties: View {
         case .unit:
             if properties.unitOfMeasure != nil && properties.scheduleType != nil && properties.scheduleType!.shouldShowAmount() {
                 PropertyRow(propertyType: .unit, unit: properties.unitOfMeasure)
+            }
+        case .emotions:
+            if properties.emotionList != nil {
+                PropertyRow(propertyType: .emotions, text: properties.emotionList!.map({$0.toString()}).toCsvString())
+            }
+        case .activities:
+            if properties.activityList != nil {
+                PropertyRow(propertyType: .activities, text: properties.activityList!.toCsvString())
+            }
+        case .emotionalState:
+            if properties.emotionalState != nil{
+                PropertyRow(propertyType: .emotionalState, text: properties.emotionalState?.toEmotionalState() ?? "")
             }
         default:
             let _ = "why"

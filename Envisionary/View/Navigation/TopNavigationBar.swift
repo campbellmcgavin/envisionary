@@ -10,14 +10,18 @@ import SwiftUI
 struct TopNavigationBar: View {
     @EnvironmentObject var vm: ViewModel
     @Binding var offset: CGFloat
-    @Binding var isPresentingMainMenu: Bool
+    @Binding var isPresentingSetup: Bool
+    @Binding var modalType: ModalType
+    
+//    @State var shouldPresentSetup: Bool = false
     @State var shouldMoveDateForward = false
     @State var shouldMoveDateBackward = false
     var body: some View {
         
             HStack{
-                IconButton(isPressed: $isPresentingMainMenu, size: .medium, iconType: .hambugerMenu, iconColor: .grey10)
-                    .opacity(0.0)
+//                IconButton(isPressed: $shouldPresentSetup, size: .medium, iconType: .hambugerMenu, iconColor: .grey10)
+//                    .opacity(0.0)
+//                    .disabled(true)
                 Spacer()
                 
                 if offset > 0 {
@@ -69,7 +73,7 @@ struct TopNavigationBar: View {
                 }
                 
                 Spacer()
-                IconButton(isPressed: $isPresentingMainMenu, size: .medium, iconType: .help, iconColor: .grey10)
+//                IconButton(isPressed: $shouldPresentSetup, size: .medium, iconType: .help, iconColor: .grey10)
             }
             .padding([.leading,.trailing],8)
             .frame(height:40)
@@ -90,6 +94,7 @@ struct TopNavigationBar: View {
                 }
                 shouldMoveDateBackward = false
             }
+
         
     }
     
@@ -105,7 +110,7 @@ struct TopNavigationBar: View {
 
 struct TopNavigationBar_Previews: PreviewProvider {
     static var previews: some View {
-        TopNavigationBar(offset: .constant(0), isPresentingMainMenu: .constant(false))
+        TopNavigationBar(offset: .constant(0), isPresentingSetup: .constant(false), modalType: .constant(.add))
             .environmentObject(ViewModel())
     }
 }

@@ -97,4 +97,17 @@ protocol DataServiceProtocol {
     func UpdateRecurrence(id: UUID, request: UpdateRecurrenceRequest) -> Bool
     func DeleteRecurrence(id: UUID) -> Bool
     func GroupRecurrences(criteria: Criteria, grouping: GroupingType) -> [String:[Recurrence]]
+    
+    // MARK: - EMOTION
+    func CreateEmotion(request: CreateEmotionRequest) -> UUID
+    func GetEmotion(id: UUID) -> Emotion?
+    func ListEmotions(criteria: Criteria, limit: Int) -> [Emotion]
+    func DeleteEmotion(id: UUID) -> Bool
+    func GroupEmotions(criteria: Criteria) -> [String:[Emotion]]
+    
+    // MARK: - ACTIVITY
+    func CreateActivity(request: CreateActivityRequest) -> UUID
+    func GetActivity(id: UUID) -> Activity?
+    func ListActivities(limit: Int) -> [Activity]
+    func DeleteActivity(id: UUID) -> Bool
 }

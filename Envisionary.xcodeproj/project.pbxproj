@@ -56,6 +56,8 @@
 		61019AB029DA7244001A5CD4 /* BoardListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61019AA529DA7243001A5CD4 /* BoardListView.swift */; };
 		61019AB429DA72C5001A5CD4 /* StatusType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61019AB329DA72C5001A5CD4 /* StatusType.swift */; };
 		61019AB629DA73F9001A5CD4 /* DetailKanban.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61019AB529DA73F9001A5CD4 /* DetailKanban.swift */; };
+		610CCC3F2A478AB000265FE4 /* FormStackGroupedMultiPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610CCC3E2A478AB000265FE4 /* FormStackGroupedMultiPicker.swift */; };
+		610CCC412A47AEC700265FE4 /* FormEmotionalStatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610CCC402A47AEC700265FE4 /* FormEmotionalStatePicker.swift */; };
 		61213B9529C296BD00CBB6FA /* Properties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61213B9429C296BD00CBB6FA /* Properties.swift */; };
 		61213B9729C29FE200CBB6FA /* DetailPropertiesLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61213B9629C29FE200CBB6FA /* DetailPropertiesLabel.swift */; };
 		61213B9929C2F67700CBB6FA /* ContentViewStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61213B9829C2F67700CBB6FA /* ContentViewStack.swift */; };
@@ -86,6 +88,9 @@
 		614D82032A1DD49D00AE7335 /* DetailHabitProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614D82022A1DD49D00AE7335 /* DetailHabitProgress.swift */; };
 		614D82052A20326600AE7335 /* ScrollPicker2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614D82042A20326600AE7335 /* ScrollPicker2.swift */; };
 		614D82072A204A7E00AE7335 /* ScrollPicker3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614D82062A204A7E00AE7335 /* ScrollPicker3.swift */; };
+		6150936C2A475A99006781A6 /* FormStackMultiPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6150936B2A475A99006781A6 /* FormStackMultiPicker.swift */; };
+		6150936E2A477FE8006781A6 /* CreateActivityRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6150936D2A477FE8006781A6 /* CreateActivityRequest.swift */; };
+		615093712A47803A006781A6 /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615093702A47803A006781A6 /* Activity.swift */; };
 		617ACF1C29EA1117006569D0 /* HeaderImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617ACF1B29EA1117006569D0 /* HeaderImage.swift */; };
 		617ACF1E29EA26C6006569D0 /* ModalPhotoSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617ACF1D29EA26C6006569D0 /* ModalPhotoSource.swift */; };
 		617ACF2029EA34F4006569D0 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617ACF1F29EA34F4006569D0 /* ImagePicker.swift */; };
@@ -163,7 +168,7 @@
 		6188486229C7F79900525AFF /* FormCaption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6188486129C7F79900525AFF /* FormCaption.swift */; };
 		6188486429C7F7E700525AFF /* ModifierForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6188486329C7F7E700525AFF /* ModifierForm.swift */; };
 		6188486829C8090800525AFF /* FormSegmentedPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6188486729C8090800525AFF /* FormSegmentedPicker.swift */; };
-		6188486B29C8139C00525AFF /* WrappingVStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6188486A29C8139C00525AFF /* WrappingVStack.swift */; };
+		6188486B29C8139C00525AFF /* WrappingHStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6188486A29C8139C00525AFF /* WrappingHStack.swift */; };
 		6188486D29C8195800525AFF /* FormStackPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6188486C29C8195700525AFF /* FormStackPicker.swift */; };
 		6188486F29C93F5100525AFF /* FormDropdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6188486E29C93F5100525AFF /* FormDropdown.swift */; };
 		6188487129C9466300525AFF /* CalendarPickerBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6188487029C9466200525AFF /* CalendarPickerBody.swift */; };
@@ -176,9 +181,12 @@
 		6188488329C96C1800525AFF /* ModalSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6188488229C96C1800525AFF /* ModalSearch.swift */; };
 		6188488529C96F7F00525AFF /* ModalGrouping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6188488429C96F7F00525AFF /* ModalGrouping.swift */; };
 		6188488729CA80BE00525AFF /* CalendarMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6188488629CA80BE00525AFF /* CalendarMenu.swift */; };
+		618E68D62A4754AA007A033A /* CreateEmotionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618E68D52A4754AA007A033A /* CreateEmotionRequest.swift */; };
+		619299372A4933BF00BE8D4F /* ModalSetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619299362A4933BF00BE8D4F /* ModalSetup.swift */; };
+		619299392A493A6800BE8D4F /* SetupStepContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619299382A493A6800BE8D4F /* SetupStepContent.swift */; };
+		6192993B2A49765900BE8D4F /* SetupMood.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6192993A2A49765900BE8D4F /* SetupMood.swift */; };
 		6192EC312A30028200AEA971 /* Setup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6192EC302A30028200AEA971 /* Setup.swift */; };
 		6192EC332A312DC800AEA971 /* SetupValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6192EC322A312DC800AEA971 /* SetupValue.swift */; };
-		6192EC352A312E8100AEA971 /* WrappingHStackMultipicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6192EC342A312E8100AEA971 /* WrappingHStackMultipicker.swift */; };
 		6192EC372A322D4100AEA971 /* SetupCreed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6192EC362A322D4100AEA971 /* SetupCreed.swift */; };
 		6192EC392A3272E100AEA971 /* SetupDream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6192EC382A3272E100AEA971 /* SetupDream.swift */; };
 		6192EC3B2A32730500AEA971 /* DreamType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6192EC3A2A32730500AEA971 /* DreamType.swift */; };
@@ -256,6 +264,8 @@
 		61DAEB8229E5CEEA001D7600 /* ObjectGrouping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DAEB8129E5CEEA001D7600 /* ObjectGrouping.swift */; };
 		61DAEB9429E641E8001D7600 /* NSCompoundPredicateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DAEB9329E641E8001D7600 /* NSCompoundPredicateExtension.swift */; };
 		61DAEB9629E65017001D7600 /* ObjectFiltering.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DAEB9529E65017001D7600 /* ObjectFiltering.swift */; };
+		61E9823B2A41588500772BA6 /* SettingsKeyType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E9823A2A41588500772BA6 /* SettingsKeyType.swift */; };
+		61E9823D2A46BE0700772BA6 /* EmotionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E9823C2A46BE0700772BA6 /* EmotionType.swift */; };
 		61F31C872A400C07007FF732 /* ProximaNovaCondensed.otf in Resources */ = {isa = PBXBuildFile; fileRef = 61F31C862A400C07007FF732 /* ProximaNovaCondensed.otf */; };
 /* End PBXBuildFile section */
 
@@ -311,6 +321,8 @@
 		61019AA529DA7243001A5CD4 /* BoardListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardListView.swift; sourceTree = "<group>"; };
 		61019AB329DA72C5001A5CD4 /* StatusType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusType.swift; sourceTree = "<group>"; };
 		61019AB529DA73F9001A5CD4 /* DetailKanban.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailKanban.swift; sourceTree = "<group>"; };
+		610CCC3E2A478AB000265FE4 /* FormStackGroupedMultiPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormStackGroupedMultiPicker.swift; sourceTree = "<group>"; };
+		610CCC402A47AEC700265FE4 /* FormEmotionalStatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormEmotionalStatePicker.swift; sourceTree = "<group>"; };
 		61213B9429C296BD00CBB6FA /* Properties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Properties.swift; sourceTree = "<group>"; };
 		61213B9629C29FE200CBB6FA /* DetailPropertiesLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPropertiesLabel.swift; sourceTree = "<group>"; };
 		61213B9829C2F67700CBB6FA /* ContentViewStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewStack.swift; sourceTree = "<group>"; };
@@ -341,6 +353,9 @@
 		614D82022A1DD49D00AE7335 /* DetailHabitProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailHabitProgress.swift; sourceTree = "<group>"; };
 		614D82042A20326600AE7335 /* ScrollPicker2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollPicker2.swift; sourceTree = "<group>"; };
 		614D82062A204A7E00AE7335 /* ScrollPicker3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollPicker3.swift; sourceTree = "<group>"; };
+		6150936B2A475A99006781A6 /* FormStackMultiPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormStackMultiPicker.swift; sourceTree = "<group>"; };
+		6150936D2A477FE8006781A6 /* CreateActivityRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateActivityRequest.swift; sourceTree = "<group>"; };
+		615093702A47803A006781A6 /* Activity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
 		617ACF1B29EA1117006569D0 /* HeaderImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderImage.swift; sourceTree = "<group>"; };
 		617ACF1D29EA26C6006569D0 /* ModalPhotoSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalPhotoSource.swift; sourceTree = "<group>"; };
 		617ACF1F29EA34F4006569D0 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
@@ -418,7 +433,7 @@
 		6188486129C7F79900525AFF /* FormCaption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormCaption.swift; sourceTree = "<group>"; };
 		6188486329C7F7E700525AFF /* ModifierForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifierForm.swift; sourceTree = "<group>"; };
 		6188486729C8090800525AFF /* FormSegmentedPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormSegmentedPicker.swift; sourceTree = "<group>"; };
-		6188486A29C8139C00525AFF /* WrappingVStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrappingVStack.swift; sourceTree = "<group>"; };
+		6188486A29C8139C00525AFF /* WrappingHStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrappingHStack.swift; sourceTree = "<group>"; };
 		6188486C29C8195700525AFF /* FormStackPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormStackPicker.swift; sourceTree = "<group>"; };
 		6188486E29C93F5100525AFF /* FormDropdown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormDropdown.swift; sourceTree = "<group>"; };
 		6188487029C9466200525AFF /* CalendarPickerBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarPickerBody.swift; sourceTree = "<group>"; };
@@ -431,9 +446,12 @@
 		6188488229C96C1800525AFF /* ModalSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalSearch.swift; sourceTree = "<group>"; };
 		6188488429C96F7F00525AFF /* ModalGrouping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalGrouping.swift; sourceTree = "<group>"; };
 		6188488629CA80BE00525AFF /* CalendarMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarMenu.swift; sourceTree = "<group>"; };
+		618E68D52A4754AA007A033A /* CreateEmotionRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEmotionRequest.swift; sourceTree = "<group>"; };
+		619299362A4933BF00BE8D4F /* ModalSetup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalSetup.swift; sourceTree = "<group>"; };
+		619299382A493A6800BE8D4F /* SetupStepContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupStepContent.swift; sourceTree = "<group>"; };
+		6192993A2A49765900BE8D4F /* SetupMood.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupMood.swift; sourceTree = "<group>"; };
 		6192EC302A30028200AEA971 /* Setup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Setup.swift; sourceTree = "<group>"; };
 		6192EC322A312DC800AEA971 /* SetupValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupValue.swift; sourceTree = "<group>"; };
-		6192EC342A312E8100AEA971 /* WrappingHStackMultipicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrappingHStackMultipicker.swift; sourceTree = "<group>"; };
 		6192EC362A322D4100AEA971 /* SetupCreed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupCreed.swift; sourceTree = "<group>"; };
 		6192EC382A3272E100AEA971 /* SetupDream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupDream.swift; sourceTree = "<group>"; };
 		6192EC3A2A32730500AEA971 /* DreamType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DreamType.swift; sourceTree = "<group>"; };
@@ -513,6 +531,8 @@
 		61DAEB9329E641E8001D7600 /* NSCompoundPredicateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSCompoundPredicateExtension.swift; sourceTree = "<group>"; };
 		61DAEB9529E65017001D7600 /* ObjectFiltering.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectFiltering.swift; sourceTree = "<group>"; };
 		61E982392A409E0B00772BA6 /* Proxima Nova Alt Extra Condensed Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Proxima Nova Alt Extra Condensed Bold.otf"; sourceTree = "<group>"; };
+		61E9823A2A41588500772BA6 /* SettingsKeyType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsKeyType.swift; sourceTree = "<group>"; };
+		61E9823C2A46BE0700772BA6 /* EmotionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionType.swift; sourceTree = "<group>"; };
 		61F31C862A400C07007FF732 /* ProximaNovaCondensed.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = ProximaNovaCondensed.otf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -572,6 +592,8 @@
 				6192EC3E2A329D6700AEA971 /* SetupStepType.swift */,
 				61A1B1622A380B3C001E1273 /* HabitType.swift */,
 				61A1B16A2A382FBF001E1273 /* ChapterType.swift */,
+				61E9823A2A41588500772BA6 /* SettingsKeyType.swift */,
+				61E9823C2A46BE0700772BA6 /* EmotionType.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -835,6 +857,14 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
+		6150936F2A477FFA006781A6 /* Activity */ = {
+			isa = PBXGroup;
+			children = (
+				6150936D2A477FE8006781A6 /* CreateActivityRequest.swift */,
+			);
+			path = Activity;
+			sourceTree = "<group>";
+		};
 		617E25C129CFDB930051DC88 /* Controls */ = {
 			isa = PBXGroup;
 			children = (
@@ -859,6 +889,8 @@
 		617E25F429D282260051DC88 /* Interfaces */ = {
 			isa = PBXGroup;
 			children = (
+				6150936F2A477FFA006781A6 /* Activity */,
+				618E68D42A47549D007A033A /* Emotion */,
 				614D81F42A1B1EE500AE7335 /* Recurrence */,
 				614D81EF2A1B135000AE7335 /* Habit */,
 				617ED6D32A13479F0085D6A2 /* Prompt */,
@@ -953,6 +985,7 @@
 				6188486129C7F79900525AFF /* FormCaption.swift */,
 				6188486729C8090800525AFF /* FormSegmentedPicker.swift */,
 				6188486C29C8195700525AFF /* FormStackPicker.swift */,
+				6150936B2A475A99006781A6 /* FormStackMultiPicker.swift */,
 				6188486E29C93F5100525AFF /* FormDropdown.swift */,
 				6188487529C94C7600525AFF /* FormDatePicker.swift */,
 				6188487B29C95EE800525AFF /* FormCounter.swift */,
@@ -964,6 +997,8 @@
 				61D058A22A09E73100F1631E /* FormStackMultiPickerTrueFalse.swift */,
 				61D058A82A0AA6A500F1631E /* FormTextConfirm.swift */,
 				617ED6BF2A0D80E50085D6A2 /* FormPropertiesStack.swift */,
+				610CCC3E2A478AB000265FE4 /* FormStackGroupedMultiPicker.swift */,
+				610CCC402A47AEC700265FE4 /* FormEmotionalStatePicker.swift */,
 			);
 			path = Form;
 			sourceTree = "<group>";
@@ -971,9 +1006,8 @@
 		6188486929C8138500525AFF /* Stack */ = {
 			isa = PBXGroup;
 			children = (
-				6188486A29C8139C00525AFF /* WrappingVStack.swift */,
+				6188486A29C8139C00525AFF /* WrappingHStack.swift */,
 				61DAC57D29E1C860006CACC3 /* StackDivider.swift */,
-				6192EC342A312E8100AEA971 /* WrappingHStackMultipicker.swift */,
 				61A1B1742A3A8ACA001E1273 /* FormPropertiesMiniStackWithButtons.swift */,
 			);
 			path = Stack;
@@ -1001,8 +1035,17 @@
 				617ACF1D29EA26C6006569D0 /* ModalPhotoSource.swift */,
 				617ACF1F29EA34F4006569D0 /* ImagePicker.swift */,
 				61D990D329F3A4C600AEEF52 /* ModalImage.swift */,
+				619299362A4933BF00BE8D4F /* ModalSetup.swift */,
 			);
 			path = ModalTypes;
+			sourceTree = "<group>";
+		};
+		618E68D42A47549D007A033A /* Emotion */ = {
+			isa = PBXGroup;
+			children = (
+				618E68D52A4754AA007A033A /* CreateEmotionRequest.swift */,
+			);
+			path = Emotion;
 			sourceTree = "<group>";
 		};
 		6192EC2F2A30026800AEA971 /* Setup */ = {
@@ -1023,6 +1066,8 @@
 				61A1B1682A382F4D001E1273 /* SetupChapter.swift */,
 				61A1B16C2A3835C0001E1273 /* SetupEntry.swift */,
 				61A1B16E2A383C95001E1273 /* SetupGraduation.swift */,
+				619299382A493A6800BE8D4F /* SetupStepContent.swift */,
+				6192993A2A49765900BE8D4F /* SetupMood.swift */,
 			);
 			path = Setup;
 			sourceTree = "<group>";
@@ -1130,6 +1175,7 @@
 				614D81E92A1ABB2500AE7335 /* Recurrence.swift */,
 				61A0E4A42A2AE68A00E49ED0 /* FormPropertiesValidator.swift */,
 				6192EC442A33982100AEA971 /* StringDouble.swift */,
+				615093702A47803A006781A6 /* Activity.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1242,6 +1288,7 @@
 				378D9F1C29BAE005008A34A2 /* ScrollPickerObjectText.swift in Sources */,
 				378D9EFF29BA8492008A34A2 /* GadgetsMenu.swift in Sources */,
 				378D9EF729B9AAF1008A34A2 /* StringExtensions.swift in Sources */,
+				6150936E2A477FE8006781A6 /* CreateActivityRequest.swift in Sources */,
 				617E25FE29D662020051DC88 /* DetailChildren.swift in Sources */,
 				61D058A12A09D2C800F1631E /* FormTextTrueFalse.swift in Sources */,
 				617E262929D8D7E20051DC88 /* GanttMainDiagram.swift in Sources */,
@@ -1254,7 +1301,6 @@
 				61A1B16F2A383C95001E1273 /* SetupGraduation.swift in Sources */,
 				6188484E29C597C600525AFF /* AlertLabel.swift in Sources */,
 				61D058AB2A0AC2C500F1631E /* GoalEditSimpleCard.swift in Sources */,
-				6192EC352A312E8100AEA971 /* WrappingHStackMultipicker.swift in Sources */,
 				617E25FC29D55D880051DC88 /* DateResetButton.swift in Sources */,
 				6188485429C69B8C00525AFF /* Alert.swift in Sources */,
 				61DAC58029E22B5C006CACC3 /* CreedCard.swift in Sources */,
@@ -1266,8 +1312,10 @@
 				61019AB429DA72C5001A5CD4 /* StatusType.swift in Sources */,
 				6188487829C9541700525AFF /* CalendarPickerHeader.swift in Sources */,
 				6188484929C57FE500525AFF /* ModalType.swift in Sources */,
+				61E9823D2A46BE0700772BA6 /* EmotionType.swift in Sources */,
 				6192EC3D2A32980700AEA971 /* SetupAspect.swift in Sources */,
 				3755B41129B96266003C61DC /* ContentViewType.swift in Sources */,
+				6150936C2A475A99006781A6 /* FormStackMultiPicker.swift in Sources */,
 				6188486F29C93F5100525AFF /* FormDropdown.swift in Sources */,
 				3755B40F29B96144003C61DC /* ObjectType.swift in Sources */,
 				61DAC58529E32808006CACC3 /* DetailMenuButtonType.swift in Sources */,
@@ -1294,6 +1342,7 @@
 				617E25C329CFDC040051DC88 /* Counter.swift in Sources */,
 				378D9F2829BCE9BD008A34A2 /* ViewExtensions.swift in Sources */,
 				61B4754B2A2EAD1900736C30 /* ShapeLabel.swift in Sources */,
+				61E9823B2A41588500772BA6 /* SettingsKeyType.swift in Sources */,
 				6188486829C8090800525AFF /* FormSegmentedPicker.swift in Sources */,
 				37FE65E329B853BE0013109C /* ContentView.swift in Sources */,
 				6188485E29C6FA2A00525AFF /* SplashScreen.swift in Sources */,
@@ -1313,9 +1362,10 @@
 				6136AE1D2A05FB0A0076E1A6 /* EvaluationType.swift in Sources */,
 				61A1B1652A38154C001E1273 /* SetupSession.swift in Sources */,
 				61DAEB5729E36B30001D7600 /* UpdateTaskRequest.swift in Sources */,
+				615093712A47803A006781A6 /* Activity.swift in Sources */,
 				617E25CF29D0CF5B0051DC88 /* AlertsService.swift in Sources */,
 				614D81F82A1B1EFD00AE7335 /* UpdateRecurrenceRequest.swift in Sources */,
-				6188486B29C8139C00525AFF /* WrappingVStack.swift in Sources */,
+				6188486B29C8139C00525AFF /* WrappingHStack.swift in Sources */,
 				61A1B1712A3A1FAB001E1273 /* DemoDataService.swift in Sources */,
 				617E262B29D8D7E20051DC88 /* GanttMainDateColumn.swift in Sources */,
 				617ED6DF2A181B650085D6A2 /* Habit.swift in Sources */,
@@ -1327,6 +1377,7 @@
 				6136AE162A05F4EE0076E1A6 /* SessionSelectTimeframe.swift in Sources */,
 				61DAC57829E1C1F0006CACC3 /* CreateDreamRequest.swift in Sources */,
 				61213B9529C296BD00CBB6FA /* Properties.swift in Sources */,
+				618E68D62A4754AA007A033A /* CreateEmotionRequest.swift in Sources */,
 				617ED6BE2A0D7FC50085D6A2 /* SessionAddContent.swift in Sources */,
 				61BEA08C29EAFAB40097D53D /* ImageCircle.swift in Sources */,
 				61DAEB8229E5CEEA001D7600 /* ObjectGrouping.swift in Sources */,
@@ -1345,6 +1396,7 @@
 				617E25BE29CFD9390051DC88 /* FormSlider.swift in Sources */,
 				378D9F2D29BCFE8C008A34A2 /* PhotoCard.swift in Sources */,
 				6192EC332A312DC800AEA971 /* SetupValue.swift in Sources */,
+				619299372A4933BF00BE8D4F /* ModalSetup.swift in Sources */,
 				61A1B16D2A3835C0001E1273 /* SetupEntry.swift in Sources */,
 				6188484329C573DB00525AFF /* DetailStack.swift in Sources */,
 				61DAC56A29DDB6CE006CACC3 /* UpdateCoreValueRequest.swift in Sources */,
@@ -1369,6 +1421,7 @@
 				6188487C29C95EE800525AFF /* FormCounter.swift in Sources */,
 				6188486229C7F79900525AFF /* FormCaption.swift in Sources */,
 				61A1B17B2A3B7AF5001E1273 /* DetailSuperGoal.swift in Sources */,
+				610CCC3F2A478AB000265FE4 /* FormStackGroupedMultiPicker.swift in Sources */,
 				378D9F2429BAF93D008A34A2 /* ModifierCard.swift in Sources */,
 				378D9F1A29BADCFE008A34A2 /* ScrollPickerObject.swift in Sources */,
 				61A0E4A52A2AE68A00E49ED0 /* FormPropertiesValidator.swift in Sources */,
@@ -1386,6 +1439,7 @@
 				61B475472A2EACA700736C30 /* TutorialWelcome.swift in Sources */,
 				37B6C04429BD4CC000A37D1B /* DetailMenu.swift in Sources */,
 				61B4754D2A2ECB3E00736C30 /* TutorialEnvisionary.swift in Sources */,
+				610CCC412A47AEC700265FE4 /* FormEmotionalStatePicker.swift in Sources */,
 				6188486429C7F7E700525AFF /* ModifierForm.swift in Sources */,
 				617ED6DB2A16EE460085D6A2 /* CollapsingListCard.swift in Sources */,
 				617E262529D8D7E20051DC88 /* GanttMainBar.swift in Sources */,
@@ -1429,6 +1483,7 @@
 				6188487629C94C7600525AFF /* FormDatePicker.swift in Sources */,
 				61DAC57529E10F71006CACC3 /* UpdateAspectRequest.swift in Sources */,
 				614D82052A20326600AE7335 /* ScrollPicker2.swift in Sources */,
+				619299392A493A6800BE8D4F /* SetupStepContent.swift in Sources */,
 				61A1B15D2A37EF92001E1273 /* SetupGoalSetup.swift in Sources */,
 				61B475492A2EACD700736C30 /* ShapeType.swift in Sources */,
 				617ED6BC2A0D70D20085D6A2 /* SessionOverview.swift in Sources */,
@@ -1453,6 +1508,7 @@
 				614D81EA2A1ABB2500AE7335 /* Recurrence.swift in Sources */,
 				617E25CC29D022870051DC88 /* TestHelper.swift in Sources */,
 				617ED6CE2A13076A0085D6A2 /* PromptHelper.swift in Sources */,
+				6192993B2A49765900BE8D4F /* SetupMood.swift in Sources */,
 				61A1B1692A382F4D001E1273 /* SetupChapter.swift in Sources */,
 				378D9EF029B96951008A34A2 /* SizeType.swift in Sources */,
 				61DAC58329E235BC006CACC3 /* DetailCreed.swift in Sources */,
@@ -1608,7 +1664,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Envisionary/Envisionary.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_ASSET_PATHS = "\"Envisionary/Preview Content\"";
 				DEVELOPMENT_TEAM = BH73NP98DL;
 				ENABLE_PREVIEWS = YES;
@@ -1640,7 +1696,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Envisionary/Envisionary.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_ASSET_PATHS = "\"Envisionary/Preview Content\"";
 				DEVELOPMENT_TEAM = BH73NP98DL;
 				ENABLE_PREVIEWS = YES;

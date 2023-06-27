@@ -40,7 +40,6 @@ struct SetupTemplate<Content: View>: View {
                 content
                     .transition(transition)
                     .modifier(ModifierForm())
-                    .padding(.bottom,-7)
             }
             else{
                 HStack{

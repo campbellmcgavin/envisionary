@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21513" systemVersion="21G419" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="ActivityEntity" representedClassName="ActivityEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="keyword" optional="YES" attributeType="String"/>
+    </entity>
     <entity name="AspectEntity" representedClassName="AspectEntity" syncable="YES" codeGenerationType="class">
         <attribute name="aspect" optional="YES" attributeType="String"/>
         <attribute name="desc" optional="YES" attributeType="String"/>
@@ -13,15 +17,22 @@
         <attribute name="title" optional="YES" attributeType="String"/>
     </entity>
     <entity name="CoreValueEntity" representedClassName="CoreValueEntity" syncable="YES" codeGenerationType="class">
-        <attribute name="coreValue" optional="YES" attributeType="String"/>
         <attribute name="desc" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
     </entity>
     <entity name="DreamEntity" representedClassName="DreamEntity" syncable="YES" codeGenerationType="class">
         <attribute name="aspect" optional="YES" attributeType="String"/>
         <attribute name="desc" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="title" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="EmotionEntity" representedClassName="EmotionEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="activityList" optional="YES" attributeType="String"/>
+        <attribute name="amount" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="emotionList" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="startDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
     </entity>
     <entity name="EntryEntity" representedClassName="EntryEntity" syncable="YES" codeGenerationType="class">
         <attribute name="chapterId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>

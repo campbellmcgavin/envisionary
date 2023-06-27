@@ -90,6 +90,9 @@ enum IconType {
     case time
     case ruler
     case amount
+    case constructionCone
+    case run
+    case upDown
     
     func ToIconString() -> String{
         switch self {
@@ -217,6 +220,12 @@ enum IconType {
             return "Icon_Ruler"
         case .amount:
             return "Icon_Number"
+        case .constructionCone:
+            return "Icon_Construction_Cone"
+        case .run:
+            return "Icon_Run"
+        case .upDown:
+            return "Icon_UpDown"
         }
     }
 }

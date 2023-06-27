@@ -19,7 +19,7 @@ struct ScrollPickerObject: View {
     @State private var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     @State private var timerPop = Timer.publish(every: 0.5, on: .main, in: .common).autoconnect()
     @State var objectList = [ObjectType]()
-    
+    @State var previousObjectSetup: ObjectType = .goal
     let weirdOffset = CGFloat(8)
     
     var body: some View {
@@ -41,7 +41,7 @@ struct ScrollPickerObject: View {
                                         }
                                     } label: {
                                         ZStack{
-                                            ScrollPickerObjectText(object: object, width: SizeType.scrollPickerWidth.ToSize(), selectionObject: $objectDisplay)
+                                            ScrollPickerObjectText(object: object, width: SizeType.scrollPickerWidth.ToSize(), selectionObject: $objectDisplay, setupStep: $vm.setupStep)
 //                                                .frame(height:ShouldShowObjects() ? SizeType.minimumTouchTarget.ToSize() : 0)
 //                                            Text(isLoadingObjects ? "T" : "F")
 //                                                .foregroundColor(.specify(color: .grey10))
@@ -82,6 +82,10 @@ struct ScrollPickerObject: View {
             self.startTimer()
             self.timerPop.upstream.connect().cancel()
         }
+        .onChange(of: vm.setupStep){
+            _ in
+            LoadObjects()
+        }
         .onChange(of: objectList){
             _ in
             
@@ -96,7 +100,17 @@ struct ScrollPickerObject: View {
                 self.startTimer()
             }
             isLoadingObjects.toggle()
+            
+            let setupObject = (vm.setupStep.toObject() ?? .value)
+            if vm.filtering.filterContent == setupObject.toContentType() && objectList.count > 1 && setupObject.toContentType() == previousObjectSetup.toContentType() {
+                
+                contentOffset.x =  CGFloat(objectList.firstIndex(of: previousObjectSetup) ?? 0) * (SizeType.scrollPickerWidth.ToSize() + weirdOffset)
+                withAnimation{
+                    objectDisplay = previousObjectSetup
+                }
+            }
         }
+        
         .onChange(of: objectType){ _ in
             isLoadingObjects.toggle()
         }
@@ -127,6 +141,7 @@ struct ScrollPickerObject: View {
     }
     
     func LoadObjects() {
+        previousObjectSetup = vm.filtering.filterObject
         isLoadingObjects.toggle()
         objectList.removeAll()
         
@@ -139,6 +154,10 @@ struct ScrollPickerObject: View {
     }
     
     func ObjectShouldShow(object: ObjectType) -> Bool{
+        
+        if (vm.setupStep.toObject() ?? .value ).rawValue < object.rawValue{
+            return false
+        }
         
         if isSearch == true{
             switch object {
@@ -172,6 +191,7 @@ struct ScrollPickerObject: View {
         }
         
         else{
+            
             switch vm.filtering.filterContent{
             case .envision:
                 return object == .value || object == .creed || object == .dream || object == .aspect
@@ -243,13 +263,17 @@ struct ScrollPickerObject: View {
     
     func GetObjectFromOffset() -> ObjectType {
         
+        if objectList.count == 0 {
+            return vm.filtering.filterObject
+        }
+        
         let offset = contentOffset.x
         let index = (offset) / (SizeType.scrollPickerWidth.ToSize() + self.weirdOffset)
         let indexRounded = Int(index.rounded(.toNearestOrAwayFromZero))
         if indexRounded < 0{
             return objectList.first!
         }
-        else if indexRounded > objectList.count - 1 {
+        else if indexRounded > objectList.count - 1{
             return objectList.last!
         }
         else{

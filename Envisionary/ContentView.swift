@@ -22,7 +22,6 @@ struct ContentView: View {
     @State var shouldPopScrollToHideHeader: Bool = false
     @State var isPresentingModal: Bool = false
     @State var isPresentingMainMenu: Bool = false
-    @State var isPresentingSetup: Bool = false
     @State var modalType: ModalType = .add
     @State private var scrollViewID = 1
     @State var isPresentingSplashScreen = true
@@ -31,7 +30,7 @@ struct ContentView: View {
     @State private var shouldDisableScrollViewTimer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
     @State var filterCount = 0
     @State var shouldDisableScrollView = false
-    
+    @State var isFirstLaunch: Bool = false
     var body: some View {
         NavigationStack{
             ZStack(alignment:.top){
@@ -64,7 +63,7 @@ struct ContentView: View {
                                             .frame(height:100)
                                             .id(1)
                                         
-                                        ContentViewStack()
+                                        ContentViewStack(isPresenting: $isPresentingModal, modalType: $modalType)
                                         
                                     }
                                         .padding(.top,GetStackOffset())
@@ -77,7 +76,6 @@ struct ContentView: View {
                                         proxy.scrollTo(1, anchor:.top)
                                     }
                                 }
-                                
                                 .onChange(of: vm.filtering.filterContent){ _ in
                                     withAnimation{
                                         proxy.scrollTo(0, anchor:.top)
@@ -108,7 +106,7 @@ struct ContentView: View {
 
                 //navigation
                 VStack(spacing:0){
-                    TopNavigationBar(offset: $offset.y, isPresentingMainMenu: $isPresentingMainMenu)
+                    TopNavigationBar(offset: $offset.y, isPresentingSetup: $isPresentingModal, modalType: $modalType)
                     
                     Spacer()
                     
@@ -116,15 +114,11 @@ struct ContentView: View {
                         FloatingActionButton(shouldAct: $isPresentingModal, modalType: $modalType)
                     }
 
-                    BottomNavigationBar(selectedContentView: $vm.filtering.filterContent)
+                    BottomNavigationBar(selectedContentView: $vm.filtering.filterContent, setupStep: vm.setupStep)
                 }
 
                 ModalManager(isPresenting: $isPresentingModal, modalType: $modalType, objectType: vm.filtering.filterObject, shouldDelete: .constant(false))
                     .frame(alignment:.bottom)
-                
-//                if isPresentingMainMenu{
-////                    Tutorial(shouldClose: $isPresentingMainMenu, isPresentingSetup: $isPresentingSetup)
-//                }
                 
                 if isPresentingMainMenu{
                     Setup(shouldClose: $isPresentingMainMenu)
@@ -142,15 +136,10 @@ struct ContentView: View {
             .onReceive(shouldDisableScrollViewTimer){ _ in
                 shouldDisableScrollView = false
             }
-            .onChange(of: isPresentingMainMenu){
-                _ in
-                if !isPresentingMainMenu{
-                    isPresentingSetup = true
-                }
-            }
             .onChange(of: vm.triggers.shouldPresentModal){ _ in
                 isPresentingModal.toggle()
             }
+
             .onChange(of: vm.filtering){
                 _ in
                 vm.filtering.filterCount = vm.filtering.GetFilterCount()
@@ -174,6 +163,17 @@ struct ContentView: View {
             }
             .onAppear{
                 popHeaderTimer.upstream.connect().cancel()
+                
+                let finishedFirstLaunch = UserDefaults.standard.bool(forKey: SettingsKeyType.finishedFirstLaunch.toString())
+                
+                if !finishedFirstLaunch{
+                    isPresentingMainMenu = true
+                    UserDefaults.standard.set(true, forKey: SettingsKeyType.finishedFirstLaunch.toString())
+                }
+                
+                if vm.setupStep != SetupStepType.allCases.last!{
+                    vm.filtering.filterContent = (vm.setupStep.toObject() ?? .value).toContentType()
+                }
             }
         }
 
@@ -181,7 +181,7 @@ struct ContentView: View {
     
     func ShouldShowFloatingActionButton() -> Bool{
         
-        if vm.filtering.filterObject != .home && vm.filtering.filterObject != .creed {
+        if vm.filtering.filterObject != .home && vm.filtering.filterObject != .creed && vm.setupStep.toObject() != vm.filtering.filterObject{
             return true
         }
         return false

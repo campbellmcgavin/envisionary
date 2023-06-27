@@ -110,9 +110,6 @@ struct ModalFilter: View {
             if vm.filtering.filterObject.hasProperty(property: .aspect)   {
                 FormStackPicker(fieldValue: $aspectString, fieldName: PropertyType.aspect.toString(), options: .constant(vm.ListAspects().map({$0.aspect.toString()})),iconType: .aspect)
             }
-            if vm.filtering.filterObject.hasProperty(property: .coreValue)   {
-                FormStackPicker(fieldValue: $coreValue, fieldName: PropertyType.coreValue.toString(), options: .constant(vm.ListCoreValues().filter({$0.coreValue != .Conclusion && $0.coreValue != .Introduction}).map({$0.coreValue.toString()})), iconType: .value, isSearchable: true)
-            }
             if vm.filtering.filterObject.hasProperty(property: .priority) {
                 FormStackPicker(fieldValue: $priorityString, fieldName: PropertyType.priority.toString(), options: .constant(PriorityType.allCases.map({$0.toString()})),iconType: .priority)
             }
@@ -151,9 +148,6 @@ struct ModalFilter: View {
                 }
                 if !vm.filtering.filterObject.hasProperty(property: .progress) {
                     FormSlider(fieldValue: $progress, fieldName: PropertyType.progress.toString() + " more than", iconType: .progress)
-                }
-                if !vm.filtering.filterObject.hasProperty(property: .coreValue)   {
-                    FormStackPicker(fieldValue: $coreValue, fieldName: PropertyType.coreValue.toString(), options: .constant(ValueType.allCases.map({$0.toString()})),iconType: .value)
                 }
             }
 

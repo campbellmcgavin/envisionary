@@ -13,7 +13,7 @@ struct Properties: Identifiable, Equatable, Hashable, Codable{
     var parentGoalId: UUID?
     
     var title: String?
-    var coreValue: ValueType?
+    var coreValue: String??
     var aspect: AspectType?
     var description: String?
     var timeframe: TimeframeType?
@@ -27,7 +27,7 @@ struct Properties: Identifiable, Equatable, Hashable, Codable{
     var start: String?
     var end: String?
     
-    var valuesDictionary: [ValueType: Bool]?
+    var valuesDictionary: [String: Bool]?
     
     var scheduleType: ScheduleType?
     var amount: Int?
@@ -40,8 +40,13 @@ struct Properties: Identifiable, Equatable, Hashable, Codable{
     var dateCompleted: Date?
     var goalProperties: [Properties]?
     var evaluationDictionary: [UUID: EvaluationType]?
-    var alignmentDictionary: [UUID: [ValueType:Bool]]?
+    var alignmentDictionary: [UUID: [String:Bool]]?
     var childrenAddedDictionary: [UUID: [UUID]]?
+    
+    //emotions
+    var emotionList: [EmotionType]?
+    var activityList: [String]?
+    var emotionalState: Int?
     
     init(objectType: ObjectType){
         timeframe = .day
@@ -102,8 +107,8 @@ struct Properties: Identifiable, Equatable, Hashable, Codable{
     
     init(value: CoreValue?){
         self.id = value?.id ?? UUID()
-        self.title = value?.coreValue.toString() ?? "Empty Value"
-        self.coreValue = value?.coreValue
+        self.title = value?.title ?? "Empty Value"
+        self.coreValue = value?.title
         self.description = value?.description ?? "Empty Description"
     }
     
@@ -146,6 +151,7 @@ struct Properties: Identifiable, Equatable, Hashable, Codable{
         self.chapterId = entry?.chapterId
         self.startDate = entry?.startDate
     }
+    
     init(session: Session?){
         self.id = session?.id ?? UUID()
         self.title = session?.date.toString(timeframeType: session?.timeframe ?? .day)
@@ -174,6 +180,15 @@ struct Properties: Identifiable, Equatable, Hashable, Codable{
         self.scheduleType = habit?.schedule
     }
     
+    init(emotion: Emotion?){
+        self.id = emotion?.id ?? UUID()
+        self.emotionList = emotion?.emotionList
+        self.activityList = emotion?.activityList
+        self.title = "Check-in"
+        self.startDate = emotion?.date
+        self.emotionalState = emotion?.emotionalState
+    }
+    
     func getFormError(propertyType: PropertyType) -> FormErrorType?{
         switch propertyType {
         case .title:
@@ -198,8 +213,6 @@ struct Properties: Identifiable, Equatable, Hashable, Codable{
         case .aspect:
             return .fieldCannotBeEmpty
         case .priority:
-            return .fieldCannotBeEmpty
-        case .coreValue:
             return .fieldCannotBeEmpty
         case .chapter:
             return .fieldCannotBeEmpty
@@ -245,8 +258,6 @@ struct Properties: Identifiable, Equatable, Hashable, Codable{
             return aspect != nil
         case .priority:
             return priority != nil
-        case .coreValue:
-            return coreValue != nil
         case .chapter:
             return chapterId != nil
         case .scheduleType:

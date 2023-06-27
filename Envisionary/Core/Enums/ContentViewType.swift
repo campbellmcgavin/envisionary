@@ -13,6 +13,21 @@ enum ContentViewType: String, CaseIterable{
     case evaluate = "Evaluate"
     
     
+    func toInt() -> Int {
+        switch self {
+        case .envision:
+            return 0
+        case .plan:
+            return 1
+        case .execute:
+            return 2
+        case .journal:
+            return 3
+        case .evaluate:
+            return 4
+        }
+    }
+    
     func toIcon() -> IconType {
         switch self {
         case .envision:
@@ -56,6 +71,22 @@ enum ContentViewType: String, CaseIterable{
         case .evaluate:
             return "provides performance insights."
         }
+    }
+    
+    func toLongDescription() -> String{
+        switch self{
+        case .envision:
+            return "Envision is the phase for creating the vision of who you want to become."
+        case .plan:
+            return "Plan is the phase for mapping out concrete plans to achieve your vision."
+        case .execute:
+            return "Execute is the phase for executing day to day work that leads to the vision."
+        case .journal:
+            return "Journal is the phase for recording your thoughts and emotions along the way."
+        case .evaluate:
+            return "Evaluate is the phase for quantifying performance, growth and progress."
+        }
+
     }
     
     func toFilledIcon() -> IconType{

@@ -10,14 +10,25 @@ import SwiftUI
 struct TutorialPhases: View {
     @Binding var canProceed: Bool
     @Binding var selectedContent: ContentViewType
-    var isOverview = false
+    @State var isOverview = true
     let distance: CGFloat = 100
     @State var shouldWiggle = false
-    
+    @State var hitDictionary = [ContentViewType: Bool]()
     var body: some View {
         let timer = Timer.publish(every: 0.25, on: .main, in: .common).autoconnect()
         
-        VStack{
+        VStack(alignment:.center){
+            
+            Text(isOverview ? "Go ahead and tap on each phase to learn more." : selectedContent.toLongDescription())
+                .multilineTextAlignment(.leading)
+                .foregroundColor(.specify(color: .grey9))
+                .font(.specify(style: .h5))
+                .frame(maxWidth:.infinity, alignment:.leading)
+                .padding()
+                .modifier(ModifierForm(color:.grey3))
+                .padding(8)
+            
+            Spacer()
             ZStack{
                 ForEach(ContentViewType.allCases, id:\.self){
                     contentView in
@@ -29,14 +40,25 @@ struct TutorialPhases: View {
                 }
             }
             .frame(maxWidth:.infinity)
+            .frame(height:350)
         }
-        .frame(height:360)
         .onAppear{
-            canProceed = true
+            for contentView in ContentViewType.allCases{
+                hitDictionary[contentView] = false
+            }
         }
         .onReceive(timer){
             _ in
             shouldWiggle = true
+        }
+        .onChange(of: hitDictionary){
+            _ in
+            
+            withAnimation{
+                if hitDictionary.values.filter({!$0}).count == 0 {
+                    canProceed = true
+                }
+            }
         }
     }
     
@@ -44,12 +66,23 @@ struct TutorialPhases: View {
     func SetupButton(contentView: ContentViewType) -> some View{
         let wiggle = GetIsWiggling(contentView: contentView)
         let offset = GetOffset(contentView: contentView)
-        IconLabel(size: .largeish, iconType: contentView.toIcon(), iconColor: .grey10, circleColor: .purple)
-            .opacity(GetOpacity(contentView: contentView))
-            .scaleEffect(!isOverview && contentView == selectedContent ? 1.2 : 1.0)
-            .wiggling(shouldWiggle: wiggle && shouldWiggle, intensity: 5.0)
-            .wiggling(shouldWiggle: contentView == selectedContent && shouldWiggle && !isOverview, intensity: 6)
-            .offset(x:offset.x,y:offset.y)
+        let hd = hitDictionary[contentView] ?? false
+        Button{
+            withAnimation{
+                selectedContent = contentView
+                isOverview = false
+                hitDictionary[contentView] = true
+            }
+        }
+    label:{
+        IconLabel(size: .largeish, iconType: contentView.toIcon(), iconColor: .grey10, circleColor: hd ? .purple : isOverview ? .purple : .grey5)
+                .opacity(GetOpacity(contentView: contentView))
+                .scaleEffect(!isOverview && contentView == selectedContent ? 1.2 : 1.0)
+//                .wiggling(shouldWiggle: wiggle && shouldWiggle, intensity: 5.0)
+                .wiggling(shouldWiggle: contentView == selectedContent && shouldWiggle && !isOverview, intensity: 6)
+
+        }
+    .offset(x:offset.x,y:offset.y)
     }
     
     func GetOpacity(contentView: ContentViewType) -> CGFloat{

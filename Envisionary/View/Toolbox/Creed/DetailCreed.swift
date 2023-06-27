@@ -53,14 +53,14 @@ struct DetailCreed: View {
             let intro = vm.GetCoreValue(coreValue: .Introduction) ?? CoreValue()
             let conclusion = vm.GetCoreValue(coreValue: .Conclusion) ?? CoreValue()
             
-            Item(caption: intro.coreValue.toString(), body: intro.description, id: intro.id)
+            Item(caption: intro.title, body: intro.description, id: intro.id)
             ForEach(values){ coreValue in
                 
-                if coreValue.coreValue != .Introduction && coreValue.coreValue != .Conclusion {
-                    Item(caption: coreValue.coreValue.toString(), body: coreValue.description, id: coreValue.id)
+                if coreValue.title != ValueType.Introduction.toString() && coreValue.title != ValueType.Conclusion.toString() {
+                    Item(caption: coreValue.title, body: coreValue.description, id: coreValue.id)
                 }
             }
-            Item(caption: conclusion.coreValue.toString(), body: conclusion.description, id: conclusion.id)
+            Item(caption: conclusion.title, body: conclusion.description, id: conclusion.id)
         }
 
     }

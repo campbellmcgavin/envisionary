@@ -12,7 +12,7 @@ struct ImageCircle: View {
     var image: UIImage?
     var iconSize: SizeType = .medium
     var icon: IconType? = nil
-    
+    var iconColor: CustomColor = .grey5
     var body: some View {
         
         if image == nil{
@@ -23,7 +23,7 @@ struct ImageCircle: View {
                     .foregroundColor(.specify(color: .grey2))
                 
                 if icon != nil {
-                    IconLabel(size: iconSize, iconType: icon!, iconColor: .grey5)
+                    IconLabel(size: iconSize, iconType: icon!, iconColor: iconColor)
                 }
             }
         }

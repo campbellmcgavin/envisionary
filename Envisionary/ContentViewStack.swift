@@ -9,11 +9,16 @@ import SwiftUI
 
 struct ContentViewStack: View {
     @EnvironmentObject var vm: ViewModel
+    @Binding var isPresenting: Bool
+    @Binding var modalType: ModalType
+    
     @State var shouldExpandAll: Bool = true
     @StateObject var alerts = AlertsService()
+    
+    
     @State var goalDictionary: [String:[Goal]] = [String:[Goal]]()
-//    @State var taskDictionary: [String:[Task]] = [String:[Task]]()
     @State var dreamDictionary: [String:[Dream]] = [String:[Dream]]()
+    @State var emotionDictionary: [String:[Emotion]] = [String:[Emotion]]()
     @State var chapterDictionary: [String:[Chapter]] = [String:[Chapter]]()
     @State var entriesDictionary: [String:[Entry]] = [String:[Entry]]()
     @State var habitDictionary: [String:[Habit]] = [String:[Habit]]()
@@ -21,38 +26,59 @@ struct ContentViewStack: View {
     @State var valueList: [CoreValue] = [CoreValue]()
     @State var aspectList: [Aspect] = [Aspect]()
     @State var sessionList: [Session] = [Session]()
-    @State var favoriteList: [Prompt] = [Prompt]()
-    @State var suggestionList: [Prompt] = [Prompt]()
     
-//    @State var todayTaskList: [Properties] = [Properties]()
     @State var todayGoalList: [Properties] = [Properties]()
     @State var todayRecurrenceList: [Properties] = [Properties]()
-//    @State var
+    @State var todaySuggestionList: [Prompt] = [Prompt]()
+    @State var todayFavoriteList: [Prompt] = [Prompt]()
+    
+    @State var shouldPresentTutorial: Bool = false
+    
     var body: some View {
         
         AlertsBuilder()
-        
         VStack{
-            
-            if !GetHasContent(){
-                NoObjectsLabel(objectType: vm.filtering.filterObject, labelType: .page)
+            if vm.filtering.filterObject == vm.setupStep.toObject(){
+                TextButton(isPressed: $shouldPresentTutorial, text: "Setup " + vm.filtering.filterObject.toPluralString(), color: .grey0, backgroundColor: .grey10, style:.h3, shouldHaveBackground: true, shouldFill: true)
+                    .padding([.top,.bottom],12)
             }
-            else if vm.filtering.filterObject == .home{
-                HomeBuilder()
-            }
-            else if vm.filtering.filterObject == .value || vm.filtering.filterObject == .aspect || vm.filtering.filterObject == .creed || vm.filtering.filterObject == .session{
-                    ListBuilder()
+            else{
+                VStack{
+                    if vm.filtering.filterContent == .evaluate{
+                        UnderConstructionLabel()
+                    }
+                    else if !GetHasContent(){
+                        NoObjectsLabel(objectType: vm.filtering.filterObject, labelType: .page)
+                    }
+                    else if vm.filtering.filterObject == .home{
+                        HomeBuilder()
+                    }
+                    else if vm.filtering.filterObject == .value || vm.filtering.filterObject == .aspect || vm.filtering.filterObject == .creed || vm.filtering.filterObject == .session{
+                            ListBuilder()
+                        }
+                    else if vm.filtering.filterObject == .goal ||  vm.filtering.filterObject == .dream || vm.filtering.filterObject == .chapter || vm.filtering.filterObject == .entry || vm.filtering.filterObject == .habit || vm.filtering.filterObject == .emotion { //vm.filtering.filterObject == .task ||{
+                            GroupBuilder()
+                    }
+                    
                 }
-            else if vm.filtering.filterObject == .goal ||  vm.filtering.filterObject == .dream || vm.filtering.filterObject == .chapter || vm.filtering.filterObject == .entry || vm.filtering.filterObject == .habit { //vm.filtering.filterObject == .task ||{
-                    GroupBuilder()
             }
-            
+        }
+        .onChange(of: vm.setupStep){ _ in
+            vm.UpdateSetupStep()
+            alerts.AddSetupUnlockAlert(object: vm.setupStep.toObject() ?? .value)
+            UpdateData()
+        }
+        .onChange(of: shouldPresentTutorial){
+            _ in
+            isPresenting = true
+            modalType = .setup
         }
         .onAppear(){
             withAnimation{
                 alerts.UpdateContentAlerts(content: vm.filtering.filterContent)
                 alerts.UpdateObjectAlerts(object: vm.filtering.filterObject)
                 alerts.UpdateCalendarAlerts(object: vm.filtering.filterObject, timeframe: vm.filtering.filterTimeframe, date: vm.filtering.filterDate)
+                alerts.AddSetupUnlockAlert(object: vm.setupStep.toObject() ?? .value)
             }
             UpdateData()
         }
@@ -110,21 +136,22 @@ struct ContentViewStack: View {
         withAnimation{
             switch vm.filtering.filterObject {
             case .value:
-                valueList = vm.ListCoreValues(criteria: vm.filtering.GetFilters()).sorted(by: {$0.coreValue.toString() < $1.coreValue.toString()})
+                valueList = vm.ListCoreValues(criteria: vm.filtering.GetFilters()).sorted(by: {$0.title < $1.title})
                 aspectList = [Aspect]()
                 sessionList = [Session]()
+                emotionDictionary = [String:[Emotion]]()
 //                taskDictionary = [String:[Task]]()
                 goalDictionary = [String:[Goal]]()
                 dreamDictionary = [String:[Dream]]()
                 chapterDictionary = [String:[Chapter]]()
                 entriesDictionary = [String:[Entry]]()
-                favoriteList = [Prompt]()
-                suggestionList = [Prompt]()
+                todayFavoriteList = [Prompt]()
+                todaySuggestionList = [Prompt]()
 //                todayTaskList = [Properties]()
                 todayGoalList = [Properties]()
                 habitDictionary = [String:[Habit]]()
             case .creed:
-                valueList = vm.ListCoreValues(criteria: vm.filtering.GetFilters()).sorted(by: {$0.coreValue.toString() < $1.coreValue.toString()}).filter({$0.coreValue != .Introduction && $0.coreValue != .Conclusion})
+                valueList = vm.ListCoreValues(criteria: vm.filtering.GetFilters()).sorted(by: {$0.title < $1.title}).filter({$0.title != ValueType.Introduction.toString() && $0.title != ValueType.Conclusion.toString()})
                 aspectList = [Aspect]()
                 sessionList = [Session]()
 //                taskDictionary = [String:[Task]]()
@@ -132,12 +159,14 @@ struct ContentViewStack: View {
                 dreamDictionary = [String:[Dream]]()
                 chapterDictionary = [String:[Chapter]]()
                 entriesDictionary = [String:[Entry]]()
-                favoriteList = [Prompt]()
-                suggestionList = [Prompt]()
+                todayFavoriteList = [Prompt]()
+                todaySuggestionList = [Prompt]()
 //                todayTaskList = [Properties]()
                 todayGoalList = [Properties]()
+                emotionDictionary = [String:[Emotion]]()
                 habitDictionary = [String:[Habit]]()
             case .dream:
+                emotionDictionary = [String:[Emotion]]()
                 dreamDictionary = vm.GroupDreams(criteria: vm.filtering.GetFilters(), grouping: vm.grouping.dream)
                 valueList = [CoreValue]()
                 aspectList = [Aspect]()
@@ -146,12 +175,13 @@ struct ContentViewStack: View {
                 goalDictionary = [String:[Goal]]()
                 chapterDictionary = [String:[Chapter]]()
                 entriesDictionary = [String:[Entry]]()
-                favoriteList = [Prompt]()
-                suggestionList = [Prompt]()
+                todayFavoriteList = [Prompt]()
+                todaySuggestionList = [Prompt]()
 //                todayTaskList = [Properties]()
                 todayGoalList = [Properties]()
                 habitDictionary = [String:[Habit]]()
             case .aspect:
+                emotionDictionary = [String:[Emotion]]()
                 aspectList = vm.ListAspects(criteria: vm.filtering.GetFilters()).sorted(by: {$0.aspect.toString() < $1.aspect.toString()})
                 valueList = [CoreValue]()
                 sessionList = [Session]()
@@ -160,12 +190,13 @@ struct ContentViewStack: View {
                 dreamDictionary = [String:[Dream]]()
                 chapterDictionary = [String:[Chapter]]()
                 entriesDictionary = [String:[Entry]]()
-                favoriteList = [Prompt]()
-                suggestionList = [Prompt]()
+                todayFavoriteList = [Prompt]()
+                todaySuggestionList = [Prompt]()
 //                todayTaskList = [Properties]()
                 todayGoalList = [Properties]()
                 habitDictionary = [String:[Habit]]()
             case .goal:
+                emotionDictionary = [String:[Emotion]]()
                 goalDictionary = vm.GroupGoals(criteria: vm.filtering.GetFilters(), grouping: vm.grouping.goal)
                 valueList = [CoreValue]()
                 aspectList = [Aspect]()
@@ -174,8 +205,8 @@ struct ContentViewStack: View {
                 dreamDictionary = [String:[Dream]]()
                 chapterDictionary = [String:[Chapter]]()
                 entriesDictionary = [String:[Entry]]()
-                favoriteList = [Prompt]()
-                suggestionList = [Prompt]()
+                todayFavoriteList = [Prompt]()
+                todaySuggestionList = [Prompt]()
 //                todayTaskList = [Properties]()
                 todayGoalList = [Properties]()
                 habitDictionary = [String:[Habit]]()
@@ -188,12 +219,13 @@ struct ContentViewStack: View {
 //                dreamDictionary = [String:[Dream]]()
 //                chapterDictionary = [String:[Chapter]]()
 //                entriesDictionary = [String:[Entry]]()
-//                favoriteList = [Prompt]()
-//                suggestionList = [Prompt]()
+//                todayFavoriteList = [Prompt]()
+//                todaySuggestionList = [Prompt]()
 ////                todayTaskList = [Properties]()
 //                todayGoalList = [Properties]()
 //                habitDictionary = [String:[Habit]]()
             case .chapter:
+                emotionDictionary = [String:[Emotion]]()
                 chapterDictionary = vm.GroupChapters(criteria: vm.filtering.GetFilters(), grouping: vm.grouping.chapter)
 //                taskDictionary = [String:[Task]]()
                 valueList = [CoreValue]()
@@ -202,12 +234,13 @@ struct ContentViewStack: View {
                 goalDictionary = [String:[Goal]]()
                 dreamDictionary = [String:[Dream]]()
                 entriesDictionary = [String:[Entry]]()
-                favoriteList = [Prompt]()
-                suggestionList = [Prompt]()
+                todayFavoriteList = [Prompt]()
+                todaySuggestionList = [Prompt]()
 //                todayTaskList = [Properties]()
                 todayGoalList = [Properties]()
                 habitDictionary = [String:[Habit]]()
             case .entry:
+                emotionDictionary = [String:[Emotion]]()
                 chapterDictionary = [String:[Chapter]]()
 //                taskDictionary = [String:[Task]]()
                 valueList = [CoreValue]()
@@ -215,13 +248,14 @@ struct ContentViewStack: View {
                 sessionList = [Session]()
                 goalDictionary = [String:[Goal]]()
                 dreamDictionary = [String:[Dream]]()
-                favoriteList = [Prompt]()
+                todayFavoriteList = [Prompt]()
                 entriesDictionary = vm.GroupEntries(criteria: vm.filtering.GetFilters(), grouping: vm.grouping.entry)
-                suggestionList = [Prompt]()
+                todaySuggestionList = [Prompt]()
 //                todayTaskList = [Properties]()
                 todayGoalList = [Properties]()
                 habitDictionary = [String:[Habit]]()
             case .session:
+                emotionDictionary = [String:[Emotion]]()
                 chapterDictionary = [String:[Chapter]]()
 //                taskDictionary = [String:[Task]]()
                 valueList = [CoreValue]()
@@ -231,12 +265,13 @@ struct ContentViewStack: View {
                 dreamDictionary = [String:[Dream]]()
                 entriesDictionary = [String:[Entry]]()
                 sessionList = vm.ListSessions(criteria: vm.filtering.GetFilters())
-                favoriteList = [Prompt]()
-                suggestionList = [Prompt]()
+                todayFavoriteList = [Prompt]()
+                todaySuggestionList = [Prompt]()
 //                todayTaskList = [Properties]()
                 todayGoalList = [Properties]()
                 habitDictionary = [String:[Habit]]()
             case .home:
+                emotionDictionary = [String:[Emotion]]()
                 chapterDictionary = [String:[Chapter]]()
 //                taskDictionary = [String:[Task]]()
                 valueList = [CoreValue]()
@@ -246,13 +281,14 @@ struct ContentViewStack: View {
                 dreamDictionary = [String:[Dream]]()
                 entriesDictionary = [String:[Entry]]()
                 sessionList = vm.ListSessions(criteria: vm.filtering.GetFilters())
-                favoriteList = vm.ListPrompts(criteria: Criteria(type: .favorite))
-                suggestionList = vm.ListPrompts(criteria: Criteria(type: .suggestion))
+                todayFavoriteList = vm.ListPrompts(criteria: Criteria(type: .favorite))
+                todaySuggestionList = vm.ListPrompts(criteria: Criteria(type: .suggestion))
 //                todayTaskList = vm.ListTasks(criteria: GetTaskCriteria()).sorted(by: {$0.progress < $1.progress}).map({Properties(task: $0)})
                 todayGoalList = vm.ListGoals(criteria: GetTaskCriteria()).sorted(by: {$0.startDate < $1.startDate}).map({Properties(goal: $0)})
                 habitDictionary = [String:[Habit]]()
                 todayRecurrenceList = vm.ListRecurrences(criteria: GetHabitCriteria()).sorted(by: {!$0.isComplete && $1.isComplete}).map({Properties(recurrence: $0)})
             case .habit:
+                emotionDictionary = [String:[Emotion]]()
                 chapterDictionary = [String:[Chapter]]()
 //                taskDictionary = [String:[Task]]()
                 valueList = [CoreValue]()
@@ -262,16 +298,31 @@ struct ContentViewStack: View {
                 dreamDictionary = [String:[Dream]]()
                 entriesDictionary = [String:[Entry]]()
                 sessionList = [Session]()
-                favoriteList = [Prompt]()
-                suggestionList = [Prompt]()
+                todayFavoriteList = [Prompt]()
+                todaySuggestionList = [Prompt]()
 //                todayTaskList = [Properties]()
                 todayGoalList = [Properties]()
                 habitDictionary = vm.GroupHabits(criteria: vm.filtering.GetFilters(), grouping: vm.grouping.habit)
+            case .emotion:
+                emotionDictionary = vm.GroupEmotions(criteria: vm.filtering.GetFilters())
+                chapterDictionary = [String:[Chapter]]()
+//                taskDictionary = [String:[Task]]()
+                valueList = [CoreValue]()
+                aspectList = [Aspect]()
+                sessionList = [Session]()
+                goalDictionary = [String:[Goal]]()
+                dreamDictionary = [String:[Dream]]()
+                entriesDictionary = [String:[Entry]]()
+                sessionList = [Session]()
+                todayFavoriteList = [Prompt]()
+                todaySuggestionList = [Prompt]()
+//                todayTaskList = [Properties]()
+                todayGoalList = [Properties]()
+                habitDictionary = [String:[Habit]]()
             default:
                 let _ = "why"
             }
         }
-
     }
     
     func GetHabitCriteria() -> Criteria{
@@ -323,10 +374,10 @@ struct ContentViewStack: View {
                 }
             })
             
-            if suggestionList.count > 0 {
+            if todaySuggestionList.count > 0 {
                 HeaderWithContent(shouldExpand: $shouldExpandAll, headerColor: .grey10, header: PromptType.suggestion.toPluralString(), content: {
                     VStack(spacing:0){
-                        ForEach(suggestionList){
+                        ForEach(todaySuggestionList){
                             prompt in
                             PromptCard(prompt: prompt)
                         }
@@ -336,11 +387,11 @@ struct ContentViewStack: View {
             
             HeaderWithContent(shouldExpand: $shouldExpandAll, headerColor: .grey10, header: PromptType.favorite.toPluralString(), content: {
                 VStack(spacing:0){
-                    ForEach(favoriteList){
+                    ForEach(todayFavoriteList){
                         prompt in
                         PromptCard(prompt: prompt)
                     }
-                    if favoriteList.count == 0{
+                    if todayFavoriteList.count == 0{
                         NoObjectsLabel(objectType: .prompt, labelType: .home)
                     }
                 }
@@ -356,7 +407,7 @@ struct ContentViewStack: View {
             switch vm.filtering.filterObject {
             case .value:
                 ForEach(valueList){ coreValue in
-                    if coreValue.coreValue != .Introduction && coreValue.coreValue != .Conclusion{
+                    if coreValue.title != ValueType.Introduction.toString() && coreValue.title != ValueType.Conclusion.toString(){
                         PhotoCard(objectType: .value, objectId: coreValue.id, properties: Properties(value: coreValue))
                     }
                     if valueList.last != coreValue{
@@ -427,6 +478,8 @@ struct ContentViewStack: View {
                 //            <#code#>
             case .recurrence:
                 return todayRecurrenceList.count > 0
+            case .emotion:
+                return emotionDictionary.keys.count > 0
             default:
                 return false
             }
@@ -565,6 +618,26 @@ struct ContentViewStack: View {
                                 })
                             }
                         }
+                    case .emotion:
+                        ForEach(headers, id:\.self){ header in
+                            VStack(spacing:0){
+                                HeaderWithContent(shouldExpand: $shouldExpandAll, headerColor: .grey10, header: header, isExpanded: shouldExpandAll, content: {
+                                    VStack(spacing:0){
+                                            
+                                        if let emotions = emotionDictionary[header]{
+                                            ForEach(emotions){ emotion in
+                                                PhotoCard(objectType: .emotion, objectId: emotion.id, properties: Properties(emotion:emotion), iconColor: emotion.emotionalState.toEmotionalStateColor())
+                                                
+                                                if emotions.last != emotion{
+                                                    StackDivider()
+                                                }
+                                            }
+                                        }
+                                    }
+                                    .modifier(ModifierCard())
+                                })
+                            }
+                        }
                     default:
                         let _ = "why"
                     }
@@ -586,6 +659,8 @@ struct ContentViewStack: View {
             return Array(entriesDictionary.keys.map({String($0)}).sorted(by: {$0 < $1}))
         case .habit:
             return Array(habitDictionary.keys.map({String($0)}).sorted(by: {$0 < $1}))
+        case .emotion:
+            return Array(emotionDictionary.keys.map({String($0)}).sorted(by: {$0 < $1}))
         default:
            return [String]()
         }
@@ -594,7 +669,7 @@ struct ContentViewStack: View {
 
 struct ContentViewStack_Previews: PreviewProvider {
     static var previews: some View {
-        ContentViewStack(shouldExpandAll: true)
+        ContentViewStack(isPresenting: .constant(false), modalType: .constant(.setup))
             .environmentObject(ViewModel())
     }
 }

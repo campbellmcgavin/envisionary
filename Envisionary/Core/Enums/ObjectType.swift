@@ -89,7 +89,7 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
         case .home:
             return "Home"
         case .emotion:
-            return "Emotions"
+            return "Moods"
         case .dream:
             return "Dreams"
         case .prompt:
@@ -124,7 +124,7 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
         case .stats:
             return "Stat"
         case .emotion:
-            return "Emotion"
+            return "Mood"
         case .dream:
             return "Dream"
         case .prompt:
@@ -214,7 +214,7 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
         case .dream:
             return "are ideas without limitations."
         case .aspect:
-            return "are the different parts of your life."
+            return "are different boxes you organize life with."
         case .goal:
             return "are the base unit to accomplish everything."
         case .session:
@@ -224,13 +224,13 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
         case .habit:
             return "are actions that repeat themselves."
         case .home:
-            return " is what you need to get done today."
+            return "is what you need to get done today."
         case .chapter:
             return "are collections of journal entries."
         case .entry:
             return "are pages within a journal chapter."
         case .emotion:
-            return "are a snapshot of an emotional state."
+            return "are records of your emotional state."
         case .stats:
             return "are performance insights."
         case .prompt:
@@ -275,7 +275,6 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
         }
     }
     
-    
     func toLongDescription() -> String{
         switch self {
         case .value:
@@ -315,9 +314,9 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
         switch self {
         case .value:
             switch property {
-            case .coreValue:
-                return true
             case .description:
+                return true
+            case .title:
                 return true
             default:
                 return false
@@ -335,11 +334,26 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             default:
                 return false
             }
+        case .emotion:
+            switch property {
+            case .startDate:
+                return true
+            case .emotions:
+                return true
+            case .activities:
+                return true
+            case .emotionalState:
+                return true
+            default:
+                return false
+            }
         case .aspect:
             switch property {
             case .aspect:
                 return true
             case .description:
+                return true
+            case .title:
                 return true
             default:
                 return false
@@ -480,8 +494,6 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
                 return true
             case .description:
                 return true
-            case .coreValue:
-                return false
             default:
                 return false
             }
@@ -502,8 +514,6 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             }
         case .stats:
             return false
-        case .emotion:
-            return true
         case .dream:
             switch property {
             case .title:

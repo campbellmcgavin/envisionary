@@ -36,9 +36,6 @@ struct ObjectFiltering: Equatable {
         if !filterAspect.isEmpty && filterObject.hasProperty(property: .aspect) {
             _filterCount += 1
         }
-        if !filterCoreValue.isEmpty && filterObject.hasProperty(property: .coreValue) {
-            _filterCount += 1
-        }
         if !filterDescription.isEmpty && filterObject.hasProperty(property: .description) {
             _filterCount += 1
         }

@@ -24,4 +24,9 @@ class AlertsService: ObservableObject {
         alerts.removeAll(where: {$0.alertType == .info_content})
         alerts.append(Alert(alertType: .info_content, keyword: content.toString(), description: content.toDescription(), timeAmount: 12, isPersistent: false))
     }
+    
+    func AddSetupUnlockAlert(object: ObjectType){
+        alerts.removeAll()
+        alerts.append(Alert(alertType: .confirm, keyword: object.toPluralString(), description: (object == .creed || object == .home) ? "has been unlocked!" : "have been unlocked!", timeAmount: 300, isPersistent: false))
+    }
 }

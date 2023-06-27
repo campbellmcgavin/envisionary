@@ -141,7 +141,7 @@ struct DetailView<Content: View>: View {
                 }
                 else if selectedObjectType == .value {
                     if let coreValue = vm.GetCoreValue(id: selectedObjectId){
-                        if coreValue.coreValue != .Conclusion && coreValue.coreValue != .Introduction {
+                        if coreValue.title != ValueType.Conclusion.toString() && coreValue.title != ValueType.Introduction.toString() {
                             IconButton(isPressed: $shouldDelete, size: .medium, iconType: .delete, iconColor: .red, circleColor: .grey2)
                         }
                     }

@@ -25,6 +25,7 @@ struct Modal<ModalContent: View, HeaderContent: View, BottomContent: View, Betwe
     @State var shouldHelp: Bool = false
     @State var headerFrame: CGSize = .zero
     @State var offset: CGPoint = .zero
+    
     var body: some View {
         ZStack(alignment:.bottom){
             if isPresenting{
@@ -58,7 +59,7 @@ struct Modal<ModalContent: View, HeaderContent: View, BottomContent: View, Betwe
                                 .offset(y: GetOffset())
                                 .frame(alignment:.leading)
                                 .offset(y:100)
-                                .padding(.bottom,200)
+                                .padding(.bottom,500)
                             }
                             .frame(alignment:.top)
                     })
@@ -127,6 +128,8 @@ struct Modal<ModalContent: View, HeaderContent: View, BottomContent: View, Betwe
             return true
         case .photo:
             return true
+        case .setup:
+            return false
         }
     }
     
@@ -179,6 +182,8 @@ struct Modal<ModalContent: View, HeaderContent: View, BottomContent: View, Betwe
             return "Photo source"
         case .photo:
             return "Photo"
+        case .setup:
+            return objectType.toPluralString()
         }
     }
     
@@ -209,6 +214,8 @@ struct Modal<ModalContent: View, HeaderContent: View, BottomContent: View, Betwe
                 return "Select"
             case .photo:
                 return "View"
+            case .setup:
+                return "Setup"
             }
         }
 
