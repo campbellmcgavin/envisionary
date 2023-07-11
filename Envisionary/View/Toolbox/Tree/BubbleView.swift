@@ -19,6 +19,7 @@ struct BubbleView: View {
     @State var shouldLoadImage = false
     
     @State var image: UIImage? = nil
+    var shouldShowStatusLabel = false
     
     var body: some View {
 
@@ -36,7 +37,18 @@ struct BubbleView: View {
         label:{
             HStack{
                 
-                ImageCircle(imageSize: SizeType.minimumTouchTarget.ToSize(), image: image, iconSize: .medium, icon: .goal)
+                ZStack{
+                    ImageCircle(imageSize: SizeType.minimumTouchTarget.ToSize(), image: image, iconSize: .medium, icon: .goal)
+                    
+                    if shouldShowStatusLabel{
+                        Circle()
+                            .foregroundColor(.specify(color: GetColor()))
+                            .frame(width:SizeType.tiny.ToSize(), height:SizeType.tiny.ToSize())
+//                            .opacity(goal?.progress ?? 0 >= 99 ? 1.0 : 0.0)
+                            .offset(x:15,y:15)
+                    }
+                }
+
 //                    Circle()
 //                        .frame(width:SizeType.minimumTouchTarget.ToSize(), height: SizeType.minimumTouchTarget.ToSize())
 //                        .foregroundColor(.specify(color: .grey5))
@@ -75,6 +87,10 @@ struct BubbleView: View {
             _ in
             shouldLoadImage.toggle()
         }
+        .onChange(of: vm.updates.goal){
+            _ in
+            LoadImage()
+        }
         .onChange(of: shouldLoadImage){
             _ in
             LoadImage()
@@ -88,6 +104,27 @@ struct BubbleView: View {
                 image = vm.GetImage(id: goal!.image!)
             }
         }
+    }
+    
+    func GetColor() -> CustomColor{
+        if let goal{
+            
+            if goal.startDate > Date(){
+                
+                if goal.progress.toStatusType() == .notStarted{
+                    return .grey5
+                }
+            }
+            switch goal.progress.toStatusType(){
+            case .notStarted:
+                return .red
+            case .inProgress:
+                return .yellow
+            case .completed:
+                return .green
+            }
+        }
+        return .grey5
     }
 }
 

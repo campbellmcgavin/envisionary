@@ -16,12 +16,20 @@ struct AlertLabel: View {
     @State var counter = 2.0
     
     
-    @EnvironmentObject var vm: ViewModel
+    @EnvironmentObject var alerts: AlertsService
     
     var body: some View {
 
         if isVisible {
+            
             HStack{
+                
+                Button{
+                    withAnimation{
+                        isPressed.toggle()
+                    }
+                }
+            label:{
                 Text(alert.keyword)
                     .font(.specify(style: alert.keyword.count > 12 ? .caption : .h6))
                     .padding(3)
@@ -34,15 +42,33 @@ struct AlertLabel: View {
                     .multilineTextAlignment(.leading)
                     .font(.specify(style: .h6))
                     .padding([.top,.bottom],8)
-                
-                
                 Spacer()
+            }
                 
-                ZStack{
-                    Countdown(counter: $counter, shouldReset: .constant(false), timeAmount: alert.timeAmount, color: alert.alertType.GetForegroundColor(), size: .extraSmall, shouldCountDown: !alert.isPersistent, shouldShowClock: false)
-                    IconLabel(size: .small, iconType: alert.alertType.GetIcon(), iconColor: alert.alertType.GetForegroundColor())
+                
+                
+                Button{
+                    withAnimation{
+                        if isPressed{
+                            alerts.alerts.removeAll(where: {$0 == alert})
+                        }
+                        else{
+                            isPressed.toggle()
+                        }
+                    }
                 }
-
+            label:{
+                
+                if isPressed{
+                    IconLabel(size: .small, iconType: .cancel, iconColor: alert.alertType.GetForegroundColor())
+                }
+                else{
+                    ZStack{
+                        Countdown(counter: $counter, shouldReset: .constant(false), timeAmount: alert.timeAmount, color: alert.alertType.GetForegroundColor(), size: .extraSmall, shouldCountDown: !alert.isPersistent, shouldShowClock: false)
+                        IconLabel(size: .small, iconType: alert.alertType.GetIcon(), iconColor: alert.alertType.GetForegroundColor())
+                    }
+                }
+                }
             }
             .padding([.leading])
             .padding(.trailing,8)

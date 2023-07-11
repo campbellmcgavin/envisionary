@@ -13,6 +13,8 @@ struct DotView: View {
     @State var goal: Goal = Goal()
     @EnvironmentObject var vm: ViewModel
     @State var image: UIImage? = nil
+    var shouldShowStatusLabel: Bool = false
+    
     var body: some View {
 
         HStack{
@@ -32,6 +34,14 @@ struct DotView: View {
                         .frame(width:SizeType.minimumTouchTarget.ToSize() + 14, height: SizeType.minimumTouchTarget.ToSize() + 14)
                         .foregroundColor(.specify(color: focusGoal != goalId ? .grey3 : .purple))
                     ImageCircle(imageSize: SizeType.minimumTouchTarget.ToSize(), image: image, iconSize: .medium, icon: .goal)
+                    
+                    if shouldShowStatusLabel{
+                        Circle()
+                            .foregroundColor(.specify(color: GetColor()))
+                            .frame(width:SizeType.tiny.ToSize(), height:SizeType.tiny.ToSize())
+    //                            .opacity(goal?.progress ?? 0 >= 99 ? 1.0 : 0.0)
+                            .offset(x:15,y:15)
+                    }
                 }
                 .padding(7)
                 .frame(width:50, height:50)
@@ -78,6 +88,23 @@ struct DotView: View {
             }
         }
         .frame(width:180)
+    }
+    
+    func GetColor() -> CustomColor{
+        if goal.startDate > Date(){
+            
+            if goal.progress.toStatusType() == .notStarted{
+                return .grey5
+            }
+        }
+        switch goal.progress.toStatusType(){
+        case .notStarted:
+            return .red
+        case .inProgress:
+            return .yellow
+        case .completed:
+            return .green
+        }
     }
 }
 

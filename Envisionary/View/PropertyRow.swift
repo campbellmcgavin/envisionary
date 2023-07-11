@@ -86,7 +86,7 @@ struct PropertyRow: View {
         case .title:
             return text ?? ""
         case .description:
-            return text ?? "No description"
+            return (text ?? "").count >= 0 ? (text ?? "") : "No description"
         case .start:
             return text ?? ""
         case .end:

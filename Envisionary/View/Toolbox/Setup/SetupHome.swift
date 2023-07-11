@@ -9,45 +9,35 @@ import SwiftUI
 
 struct SetupHome: View {
     @Binding var canProceed: Bool
-    @State var shouldWiggle: Bool = false
     
     var body: some View {
         
-        let timer = Timer.publish(every: 0.25, on: .main, in: .common).autoconnect()
-        
         VStack{
-            GetStack(shouldWiggle: shouldWiggle)
+            GetStack()
         }
         .offset(y:8)
         .frame(height:400)
         .padding([.top,.bottom],8)
-        .onReceive(timer, perform: { _ in
-            if !shouldWiggle{
-                shouldWiggle = true
-            }
-        })
         .onAppear(){
             canProceed = true
         }
     }
         
     @ViewBuilder
-    func GetStack(shouldWiggle: Bool) -> some View {
+    func GetStack() -> some View {
         ZStack{
-            
-
             IconLabel(size: .larger, iconType: .confirm, iconColor: .grey10, circleColor: .green)
-                .wiggling(shouldWiggle: shouldWiggle, intensity: 3.0)
+                .expensiveWiggling(shouldWiggle: true, intensity: 3.0, period: 55)
                 .offset(x:-90, y:-110)
             
             "Shape_Home".ToImage(imageSize: 300)
             
             "Shape_Tree".ToImage(imageSize: SizeType.large.ToSize())
-                .wiggling(shouldWiggle: shouldWiggle, intensity: 4.5)
+                .expensiveWiggling(shouldWiggle: true, intensity: 4.5, period:40)
                 .offset(x:90, y:20)
             
             "Shape_Tree".ToImage(imageSize: SizeType.large.ToSize())
-                .wiggling(shouldWiggle: shouldWiggle, intensity: 4.0)
+                .expensiveWiggling(shouldWiggle: true, intensity: 4.0, period: 35)
                 .offset(x:-90, y:20)
             
         }

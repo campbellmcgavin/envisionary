@@ -17,6 +17,7 @@ enum AspectType: CaseIterable, Codable{
     case friends
     case fun
     case health
+    
     case home
     case involvement
     case lifestyle

@@ -11,11 +11,9 @@ struct TutorialPhases: View {
     @Binding var canProceed: Bool
     @Binding var selectedContent: ContentViewType
     @State var isOverview = true
-    let distance: CGFloat = 100
-    @State var shouldWiggle = false
+    let distance: CGFloat = 95.0
     @State var hitDictionary = [ContentViewType: Bool]()
     var body: some View {
-        let timer = Timer.publish(every: 0.25, on: .main, in: .common).autoconnect()
         
         VStack(alignment:.center){
             
@@ -25,7 +23,7 @@ struct TutorialPhases: View {
                 .font(.specify(style: .h5))
                 .frame(maxWidth:.infinity, alignment:.leading)
                 .padding()
-                .modifier(ModifierForm(color:.grey3))
+                .modifier(ModifierForm(color:.grey25, radius: .cornerRadiusSmall))
                 .padding(8)
             
             Spacer()
@@ -38,6 +36,13 @@ struct TutorialPhases: View {
                     contentView in
                     SetupLabel(contentView: contentView)
                 }
+                ZStack{
+                    ForEach(ContentViewType.allCases, id:\.self){
+                        contentView in
+                        SetupArrow(contentView: contentView)
+                    }
+                }
+                .rotationEffect(Angle(degrees: 45.0))
             }
             .frame(maxWidth:.infinity)
             .frame(height:350)
@@ -46,10 +51,6 @@ struct TutorialPhases: View {
             for contentView in ContentViewType.allCases{
                 hitDictionary[contentView] = false
             }
-        }
-        .onReceive(timer){
-            _ in
-            shouldWiggle = true
         }
         .onChange(of: hitDictionary){
             _ in
@@ -79,7 +80,7 @@ struct TutorialPhases: View {
                 .opacity(GetOpacity(contentView: contentView))
                 .scaleEffect(!isOverview && contentView == selectedContent ? 1.2 : 1.0)
 //                .wiggling(shouldWiggle: wiggle && shouldWiggle, intensity: 5.0)
-                .wiggling(shouldWiggle: contentView == selectedContent && shouldWiggle && !isOverview, intensity: 6)
+                .wiggling(shouldWiggle: contentView == selectedContent && !isOverview, intensity: 6)
 
         }
     .offset(x:offset.x,y:offset.y)
@@ -109,23 +110,48 @@ struct TutorialPhases: View {
                 .foregroundColor(.specify(color: .grey9))
                 .padding(4)
                 .background(RoundedRectangle(cornerSize: CGSize(width: 5, height: 5)).foregroundColor(.specify(color: .grey3)))
-                .wiggling(shouldWiggle: wiggle && shouldWiggle, intensity: 2.0)
-                .offset(x: offset.x, y:offset.y + 55)
+                .wiggling(shouldWiggle: wiggle, intensity: 2.0)
+                .offset(x: offset.x, y:offset.y + 40)
         }
     }
+    
+    @ViewBuilder
+    func SetupArrow(contentView: ContentViewType) -> some View{
+        let offset = GetOffset(contentView: contentView)
+        
+        IconLabel(size: .small, iconType: .arrow_right, iconColor: .grey5)
+            .rotationEffect(Angle(degrees: Double(contentView.toInt()) * 90.0 ))
+            .offset(x: offset.x * 1.2, y: offset.y * 1.2)
+
+    }
+    
+//    func GetOffset(contentView: ContentViewType) -> Position {
+//        switch contentView {
+//        case .envision:
+//            return Position(x: 0, y: -distance)
+//        case .plan:
+//            return Position(x: distance, y: -distance * 0.31)
+//        case .execute:
+//            return Position(x: distance * 0.6, y: distance * 0.8)
+//        case .journal:
+//            return Position(x: -distance * 0.6, y: distance * 0.8)
+//        case .evaluate:
+//            return Position(x: -distance, y: -distance * 0.31)
+//        }
+//    }
     
     func GetOffset(contentView: ContentViewType) -> Position {
         switch contentView {
         case .envision:
             return Position(x: 0, y: -distance)
         case .plan:
-            return Position(x: distance * 0.95, y: -distance * 0.31)
+            return Position(x: distance, y: 0)
         case .execute:
-            return Position(x: distance * 0.6, y: distance * 0.8)
+            return Position(x: 0, y: distance)
         case .journal:
-            return Position(x: -distance * 0.6, y: distance * 0.8)
-        case .evaluate:
-            return Position(x: -distance * 0.95, y: -distance * 0.31)
+            return Position(x: -distance, y: 0)
+//        case .evaluate:
+//            return Position(x: -distance, y: -distance * 0.31)
         }
     }
     

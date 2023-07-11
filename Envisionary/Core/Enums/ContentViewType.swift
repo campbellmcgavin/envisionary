@@ -10,7 +10,7 @@ enum ContentViewType: String, CaseIterable{
     case plan = "Plan"
     case execute = "Execute"
     case journal = "Journal"
-    case evaluate = "Evaluate"
+//    case evaluate = "Evaluate"
     
     
     func toInt() -> Int {
@@ -23,8 +23,8 @@ enum ContentViewType: String, CaseIterable{
             return 2
         case .journal:
             return 3
-        case .evaluate:
-            return 4
+//        case .evaluate:
+//            return 4
         }
     }
     
@@ -38,8 +38,8 @@ enum ContentViewType: String, CaseIterable{
             return .execute
         case .journal:
             return .journal
-        case .evaluate:
-            return .evaluate
+//        case .evaluate:
+//            return .evaluate
         }
     }
     
@@ -52,9 +52,9 @@ enum ContentViewType: String, CaseIterable{
         case .execute:
             return .journal
         case .journal:
-            return .evaluate
-        case .evaluate:
             return nil
+//        case .evaluate:
+//            return nil
         }
     }
     
@@ -68,8 +68,8 @@ enum ContentViewType: String, CaseIterable{
             return "carries out your plans"
         case .journal:
             return "records lessons along the path."
-        case .evaluate:
-            return "provides performance insights."
+//        case .evaluate:
+//            return "provides performance insights."
         }
     }
     
@@ -83,8 +83,8 @@ enum ContentViewType: String, CaseIterable{
             return "Execute is the phase for executing day to day work that leads to the vision."
         case .journal:
             return "Journal is the phase for recording your thoughts and emotions along the way."
-        case .evaluate:
-            return "Evaluate is the phase for quantifying performance, growth and progress."
+//        case .evaluate:
+//            return "Evaluate is the phase for quantifying performance, growth and progress."
         }
 
     }
@@ -99,8 +99,8 @@ enum ContentViewType: String, CaseIterable{
             return .executeFilled
         case .journal:
             return .journalFilled
-        case .evaluate:
-            return .evaluateFilled
+//        case .evaluate:
+//            return .evaluateFilled
         }
     }
     
@@ -114,8 +114,8 @@ enum ContentViewType: String, CaseIterable{
             return "Execute"
         case .journal:
             return "Journal"
-        case .evaluate:
-            return "Evaluate"
+//        case .evaluate:
+//            return "Evaluate"
         }
     }
 }

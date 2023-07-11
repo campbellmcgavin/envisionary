@@ -10,51 +10,80 @@ import SwiftUI
 struct ContentButton: View {
     @Binding var selectedContentView: ContentViewType
     let contentView: ContentViewType
-    var setupStep: SetupStepType
+//    var setupStep: SetupStepType
+//    @State var timer = Timer.publish(every: 1.0, on: .main, in: .common).autoconnect()
+    
+    @State var isGlowing: Bool = false
     
     var body: some View {
+        
         Button(action: {
             selectedContentView = contentView
             
         }) {
-            VStack{
-                if contentView == selectedContentView {
-                    IconLabel(size: .medium, iconType: contentView.toFilledIcon(), iconColor: GetColor())
-                }
-                else{
-                    IconLabel(size: .medium, iconType: contentView.toIcon(), iconColor: GetColor())
-                }
+            ZStack{
+                
+                VStack{
+                    if contentView == selectedContentView {
+                        IconLabel(size: .medium, iconType: contentView.toFilledIcon(), iconColor: GetColor())
+                    }
+                    else{
+                        IconLabel(size: .medium, iconType: contentView.toIcon(), iconColor: GetColor())
+                    }
+                        
+                    Text(contentView.toString()).font(.specify(style: .subCaption))
+                        .foregroundColor(.specify(color: GetColor()))
+                        .padding(.top,-12)
                     
-                Text(contentView.toString()).font(.specify(style: .subCaption))
-                    .foregroundColor(.specify(color: GetColor()))
-                    .padding(.top,-12)
+                }
+//                .opacity(GetOpacity())
+                .frame(height:SizeType.medium.ToSize()+10)
+//                .onReceive(timer){ _ in
+////                    if setupStep != .garduated{
+////                        withAnimation(.easeInOut(duration: 0.4)){
+////                            self.isGlowing.toggle()
+////                        }
+////                    }
+//                }
+
             }
-            .opacity(GetOpacity())
-            .frame(height:SizeType.medium.ToSize()+10)
+            .frame(height:SizeType.medium.ToSize() + 10)
         }
-        .disabled(GetIsDisabled())
+//        .disabled(GetIsDisabled())
     }
+    
+//    func GetIsGlowing() -> Bool{
+//        return isGlowing && GetShouldGlow()
+//    }
+//
+//    func GetShouldGlow() -> Bool {
+//        let contentType = setupStep.toObject().toContentType()
+//        return  contentType == contentView && contentView != selectedContentView
+//    }
     
     func GetColor() -> CustomColor{
         if contentView == selectedContentView{
             return .purple
         }
+//        else if GetIsGlowing(){
+//            return .grey6
+//        }
         return .grey4
     }
     
-    func GetOpacity() -> CGFloat{
-        
-        if (!GetIsDisabled()){
-            return 1.0
-        }
-        else{
-            return 0.2
-        }
-    }
+//    func GetOpacity() -> CGFloat{
+//
+//        if (!GetIsDisabled()){
+//            return 1.0
+//        }
+//        else{
+//            return 0.2
+//        }
+//    }
     
-    func GetIsDisabled() -> Bool{
-        return !((setupStep.toObject() ?? .value).toContentType().toInt() >= contentView.toInt())
-    }
+//    func GetIsDisabled() -> Bool{
+//        return !((setupStep.toObject() ?? .value).toContentType().toInt() >= contentView.toInt())
+//    }
     
 }
 

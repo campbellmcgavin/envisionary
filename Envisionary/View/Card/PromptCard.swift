@@ -54,30 +54,81 @@ struct PromptCard: View {
                 vm.filtering.filterDate = Date().GetSessionDate(timeframe: timeframe)
             }
         }
-        vm.DeletePrompt(id: prompt.id)
+        _ = vm.DeletePrompt(id: prompt.id)
     }
     
     func LoadProperties(){
         if let objectId = prompt.objectId{
             switch prompt.objectType {
             case .value:
-                properties = Properties(value: vm.GetCoreValue(id: objectId) ?? CoreValue())
+                let object = vm.GetCoreValue(id: objectId)
+                if object != nil{
+                    properties = Properties(value: object)
+                }
+                else{
+                    _ = vm.DeletePrompt(id: prompt.id)
+                }
+
             case .dream:
-                properties = Properties(dream: vm.GetDream(id: objectId) ?? Dream())
+                let object = vm.GetDream(id: objectId)
+                if object != nil{
+                    properties = Properties(dream: object)
+                }
+                else{
+                    _ = vm.DeletePrompt(id: prompt.id)
+                }
             case .aspect:
-                properties = Properties(aspect: vm.GetAspect(id: objectId) ?? Aspect())
+                let object = vm.GetAspect(id: objectId)
+                if object != nil{
+                    properties = Properties(aspect: object)
+                }
+                else{
+                    _ = vm.DeletePrompt(id: prompt.id)
+                }
             case .goal:
-                properties = Properties(goal: vm.GetGoal(id: objectId) ?? Goal())
+                let object = vm.GetGoal(id: objectId)
+                if object != nil{
+                    properties = Properties(goal: object)
+                }
+                else{
+                    _ = vm.DeletePrompt(id: prompt.id)
+                }
             case .session:
-                properties = Properties(session: vm.GetSession(id: objectId) ?? Session())
+                let object = vm.GetSession(id: objectId)
+                if object != nil{
+                    properties = Properties(session: object)
+                }
+                else{
+                    _ = vm.DeletePrompt(id: prompt.id)
+                }
+            case .creed:
+                properties = Properties(creed: true, valueCount: vm.ListCoreValues().count)
 //            case .task:
 //                properties = Properties(task: vm.GetTask(id: objectId) ?? Task())
-//            case .habit:
-//                properties = Properties(habit: vm.Geth(id: objectId) ?? Goal())
+            case .habit:
+                let object = vm.GetHabit(id: objectId)
+                if object != nil{
+                    properties = Properties(habit: object)
+                }
+                else{
+                    _ = vm.DeletePrompt(id: prompt.id)
+                }
             case .chapter:
-                properties = Properties(chapter: vm.GetChapter(id: objectId) ?? Chapter())
+                let object = vm.GetChapter(id: objectId)
+                if object != nil{
+                    properties = Properties(chapter: object)
+                }
+                else{
+                    _ = vm.DeletePrompt(id: prompt.id)
+                }
             case .entry:
-                properties = Properties(entry: vm.GetEntry(id: objectId) ?? Entry())
+                let object = vm.GetEntry(id: objectId)
+                if object != nil{
+                    properties = Properties(entry: object)
+                }
+                else{
+                    _ = vm.DeletePrompt(id: prompt.id)
+                }
 //            case .emotion:
 //                properties = Properties(emotion: vm.GE(id: objectId) ?? Goal())
 //            case .stats:

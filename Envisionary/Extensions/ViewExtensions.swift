@@ -67,12 +67,19 @@ extension View {
     func wiggling(shouldWiggle: Bool = true, intensity: Double = 2.0) -> some View {
         modifier(WiggleModifier(shouldWiggle: shouldWiggle, intensity: intensity))
     }
+    
+    func expensiveWiggling(shouldWiggle: Bool = true, intensity: Double = 2.0, period: Double = 50) -> some View {
+        modifier(ExpensiveWiggleModifier(shouldWiggle: shouldWiggle, intensity: intensity, period: period))
+    }
 }
 
 struct WiggleModifier: ViewModifier {
-    @State private var isWiggling = false
+    @State private var isRotating = false
+    @State private var isBouncing = false
+    
     var shouldWiggle: Bool
     var intensity: Double
+    let timer = Timer.publish(every: 0.5, on: .main, in: .common).autoconnect()
     
     private static func randomize(interval: TimeInterval, withVariance variance: Double) -> TimeInterval {
         let random = (Double(arc4random_uniform(1000)) - 500.0) / 500.0
@@ -82,8 +89,8 @@ struct WiggleModifier: ViewModifier {
     private let rotateAnimation = Animation
         .easeInOut(
             duration: WiggleModifier.randomize(
-                interval: 1.5,
-                withVariance: 0.8
+                interval: 1.4,
+                withVariance: 0.6
             )
         )
         .repeatForever(autoreverses: true)
@@ -91,8 +98,8 @@ struct WiggleModifier: ViewModifier {
     private let bounceAnimation = Animation
         .easeInOut(
             duration: WiggleModifier.randomize(
-                interval: 0.18,
-                withVariance: 0.05
+                interval: 1.0,
+                withVariance: 0.5
             )
         )
         .repeatForever(autoreverses: true)
@@ -101,11 +108,68 @@ struct WiggleModifier: ViewModifier {
         
         if shouldWiggle {
             content
-                .rotationEffect(.degrees(isWiggling ? intensity : -intensity))
-                .animation(rotateAnimation)
-                .offset(x: 0, y: isWiggling ? intensity : 0)
-                .animation(bounceAnimation)
-                .onAppear() { isWiggling.toggle() }
+                .rotationEffect(.degrees(isRotating ? intensity * 0.7 : -intensity * 0.7))
+                .offset(x: 0, y: isBouncing ? intensity : -intensity)
+                .onAppear() {
+                    withAnimation(bounceAnimation){
+                        isRotating.toggle()
+                    }
+                    withAnimation(rotateAnimation){
+                        isBouncing.toggle()
+                    }
+                }
+        }
+        else{
+            content
+        }
+    }
+}
+
+struct ExpensiveWiggleModifier: ViewModifier {
+    @State private var isRotating = false
+    @State private var isBouncing = false
+    @State var isAscending = true
+    @State var trace: CGFloat = 0.0
+    var shouldWiggle: Bool
+    var intensity: Double
+    var period: Double
+    
+    private static func randomize(interval: TimeInterval, withVariance variance: Double) -> TimeInterval {
+        let random = (Double(arc4random_uniform(1000)) - 500.0) / 500.0
+        return interval + variance * random
+    }
+    
+    func body(content: Content) -> some View {
+        let interval = ExpensiveWiggleModifier.randomize(
+            interval: period / 1000,
+            withVariance: period / 2000
+        )
+        
+        let timer = Timer.publish(every: interval, on: .main, in: .common).autoconnect()
+        
+        if shouldWiggle {
+            content
+                .rotationEffect(.degrees(trace * intensity / (period*2)))
+                .offset(x: 0, y: trace * intensity / (period*2))
+                .onReceive(timer) { _ in
+                    withAnimation{
+                        if isAscending{
+                            trace += period/10
+                        }
+                        else{
+                            trace -= period/10
+                        }
+                    }
+                    if trace <= -period{
+                        isAscending = true
+                    }
+                    if trace >= period {
+                        isAscending = false
+                    }
+                }
+                .onAppear{
+                    trace = CGFloat.random(in: -period...period)
+                }
         }
         else{
             content

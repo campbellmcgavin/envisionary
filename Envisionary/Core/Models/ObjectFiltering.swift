@@ -20,9 +20,10 @@ struct ObjectFiltering: Equatable {
     var filterTimeframe = TimeframeType.day
     var filterObject = ObjectType.home
     var filterContent = ContentViewType.execute
+    var filterIncludeCalendar = false
     
     func GetFilters() -> Criteria {
-        let criteria = Criteria(title: self.filterTitle, description: self.filterDescription, timeframe: self.filterTimeframe, date: self.filterDate, aspect: self.filterAspect, priority: self.filterPriority, progress: self.filterProgress, coreValue: self.filterCoreValue, parentId: nil)
+        let criteria = Criteria(title: self.filterTitle, description: self.filterDescription, timeframe: self.filterTimeframe, date: self.filterDate, aspect: self.filterAspect, priority: self.filterPriority, progress: self.filterProgress, coreValue: self.filterCoreValue, parentId: nil, chapterId: nil, includeCalendar: self.filterIncludeCalendar)
         
         return criteria
     }
@@ -57,7 +58,8 @@ struct ObjectFiltering: Equatable {
                         lhs.filterDate == rhs.filterDate &&
                         lhs.filterTimeframe == rhs.filterTimeframe &&
                         lhs.filterObject == rhs.filterObject &&
-                        lhs.filterContent == rhs.filterContent
+                        lhs.filterContent == rhs.filterContent &&
+                        lhs.filterIncludeCalendar == rhs.filterIncludeCalendar
         return isEqual
     }
 }

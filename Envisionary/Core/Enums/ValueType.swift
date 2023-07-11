@@ -489,7 +489,7 @@ enum ValueType: CaseIterable, Codable, Hashable {
         case .Accountability:
             return "I take responsibility for all of my actions, regardless of the positive or negative impact."
         case .Achievement:
-            return "I push myself to achieve wonderful things every day if my life."
+            return "I push myself to achieve wonderful things every day of my life."
         case .Altruism:
             return "I selflessly seek the greater good for everyone"
         case .Autonomy:
@@ -520,8 +520,14 @@ enum ValueType: CaseIterable, Codable, Hashable {
             return "I desire to continually lead myself towards a state in life that I have as much freedom as possible, both civilly as well as personally."
         case .Generosity:
             return "I give of my resources to others, even to the point of it hurting a little bit."
+        case .Imagination:
+            return "My mind is the universe, represented in colorful and novel new ways."
+        case .SelfControl:
+            return "My flaws and vices do not limit me from having full control over my person."
         case .Goodness:
             return "I am a source of goodness in the lives of those who know me. Everything I touch becomes better, happier, and more full."
+        case .PersonalDevelopment:
+            return "I zealously expand and deepen my being by developing new parts of me."
         case .GrowthMindset:
             return "Everyday is an opportunity to grow. To progress. I will take advantage of everyday to improve."
         case .Happiness:
@@ -532,6 +538,8 @@ enum ValueType: CaseIterable, Codable, Hashable {
             return "It is fundamental to my being to assume things will get better. No matter how dark today is, tomorrow will be better."
         case .Humility:
             return "I strive to both be the best, most successful version of myself I can be, as well as recognizing my own faults and shortcomings. I try to understand my own insignificant place in the infinite universe."
+        case .Effective:
+            return "I am an effective human in focusing on what needs to be done to achieve the intended result."
         case .Influence:
             return "I am influential to many. My presence influences you to become better."
         case .Innovation:
@@ -540,6 +548,10 @@ enum ValueType: CaseIterable, Codable, Hashable {
             return "While I may adapt my communication style in different crowds, I am the same integrous person everywhere. I do not shape shift to please or manipulate others."
         case .Joy:
             return "I want to experience joy always. I recognize this is not possible, but everything I do in life, I do in an attempt to increase my own personal joy."
+        case .Optimism:
+            return "I know that my happiness and fulfillment is in my control, and I know that I have the power to make tomorrow a better day."
+        case .Success:
+            return "I know that success is focused around my learning from mistakes and growing as a person."
         case .Kindness:
             return "I treat others with kindness. My actions and my words reflect this kindness. Others feel safe and respected around me."
         case .Knowledge:
@@ -556,6 +568,8 @@ enum ValueType: CaseIterable, Codable, Hashable {
             return "I reciprocate. I give back. I return favors. I invest in those who invest in me."
         case .Respect:
             return "I respect myself. I respect my body. I respect my mental health. I ensure that my actions are aligned with respecting myself"
+        case .GrowthMindset:
+            return "I have infinite potential. I have an infinite opportunity to grow into that potential."
         case .Selflessness:
             return "I give my life to improve the lives of my loved ones. By uplifting others, I uplift myself."
         case .Spirituality:
@@ -576,6 +590,11 @@ enum ValueType: CaseIterable, Codable, Hashable {
             return "I am a beautifully flawed human being trying my best every day."
         case .Conclusion:
             return "This is my life's creed. A collection of values that I hold most dear."
+        case .Confidence:
+            return "I find the balance between a confidence and trust in my abilities, and a recognition of my weaknesses."
+        case .Decisiveness:
+            return "I focus on using my abilities and resources to gather information and then promptly making a decision to move forward."
+            
         default:
             return "I believe " + self.toString() + " is an important core value and I invest everyday to making it more a core part of my life."
         }

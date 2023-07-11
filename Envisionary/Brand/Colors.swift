@@ -39,7 +39,9 @@ enum CustomColor{
     case grey1
     case grey15
     case grey2
+    case grey25
     case grey3
+    case grey35
     case grey4
     case grey5
     case grey6
@@ -101,8 +103,12 @@ extension Color {
             return Color("Grey15")
         case .grey2:
             return Color("Grey2")
+        case .grey25:
+            return Color("Grey25")
         case .grey3:
             return Color("Grey3")
+        case .grey35:
+            return Color("Grey35")
         case .grey4:
             return Color("Grey4")
         case .grey5:

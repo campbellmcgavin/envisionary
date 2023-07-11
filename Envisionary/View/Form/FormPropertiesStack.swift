@@ -37,6 +37,7 @@ struct FormPropertiesStack: View {
     @State var endDate = Date()
     @State var filteredValues = [ValueType]()
     @State var chapterString = ""
+    @State var hasChapterId: Bool = false
     
     @State var scheduleString = ""
     @State var schedule = ScheduleType.oncePerDay
@@ -56,9 +57,12 @@ struct FormPropertiesStack: View {
     @State var emotionalState: Int = 3
     
     @State private var titleDirtyTimer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
+    @State private var setupTimer = Timer.publish(every: 1.0, on: .main, in: .common).autoconnect()
     
     @StateObject var validator: FormPropertiesValidator = FormPropertiesValidator()
     @EnvironmentObject var vm: ViewModel
+    
+    @State var isSettingUp = true
     
     var body: some View {
         
@@ -71,6 +75,7 @@ struct FormPropertiesStack: View {
             }
         }
         .onAppear{
+            isSettingUp = true
             title = properties.title ?? ""
             description = properties.description ?? ""
             aspectString = properties.aspect?.toString() ?? ""
@@ -100,13 +105,21 @@ struct FormPropertiesStack: View {
             validator.reset()
             validator.validateForm(properties: properties, objectType: objectType)
             isValidForm = validator.isValidForm()
-            
+            didAttemptToSave = false
             titleDirtyTimer.upstream.connect().cancel()
+            
             emotionStringDictionary = FillEmotionDictionary()
             emotionStringOptions = FillEmotionOptions()
             
             activityStringDictionary = FillActivitiesDictionary()
             activityStringOptions = vm.ListActivities().map({$0.keyword})
+            
+            let chapters = vm.ListChapters()
+            chapterString = chapters.first(where: {$0.id == properties.chapterId})?.title ?? ""
+            hasChapterId = properties.chapterId != nil
+        }
+        .onDisappear(){
+            validator.reset()
         }
         .onChange(of: properties){
             _ in
@@ -115,7 +128,10 @@ struct FormPropertiesStack: View {
         }
         .onChange(of: didAttemptToSave){
             _ in
-            validator.isDirty = true
+            
+            if !isSettingUp {
+                validator.isDirty = true
+            }
         }
         .onChange(of: timeframeString){
             _ in
@@ -209,6 +225,10 @@ struct FormPropertiesStack: View {
             titleDirtyTimer.upstream.connect().cancel()
             validator.title.isDirty = true
         }
+        .onReceive(setupTimer){ _ in
+            titleDirtyTimer.upstream.connect().cancel()
+            isSettingUp = false
+        }
     }
     
     func ComputeMaxValue() -> Int{
@@ -232,10 +252,11 @@ struct FormPropertiesStack: View {
         switch property {
         case .title:
             if objectType == .aspect{
-                let savedAspects = vm.ListAspects().map({$0.aspect.toString()})
+                let savedAspects = vm.ListAspects().map({$0.title})
                 let allAspects = AspectType.allCases.map({$0.toString()})
                 
-                FormStackPicker(fieldValue: $aspectString, fieldName: PropertyType.aspect.toString(), options: .constant(allAspects.filter({savedAspects.firstIndex(of: $0) == nil})), iconType: .aspect, isSearchable: true)
+                FormStackPicker(fieldValue: $title, fieldName: PropertyType.title.toString(), options: .constant(allAspects.filter({savedAspects.firstIndex(of: $0) == nil})), iconType: .aspect, isSearchable: true)
+                    .modifier(ModifierFormValidator(fieldPropertyValidator: $validator.title, isDirtyForm: $validator.isDirty, propertyType: .title))
             }
             else if objectType == .value {
                 if modalType == .add {
@@ -246,9 +267,14 @@ struct FormPropertiesStack: View {
                     FormLabel(fieldValue: title, fieldName: PropertyType.title.toString(), iconType: .value, shouldShowLock: true)
                 }
             }
+            else if objectType == .dream{
+                FormStackPicker(fieldValue: $title, fieldName: PropertyType.title.toString(), options: .constant(DreamType.allCases.map({$0.toString()})), iconType: .dream, isSearchable: true)
+                    .modifier(ModifierFormValidator(fieldPropertyValidator: $validator.title, isDirtyForm: $validator.isDirty, propertyType: .title))
+            }
             else{
                 FormText(fieldValue: $title, fieldName: PropertyType.title.toString(), axis: .horizontal, iconType: .title)
                     .modifier(ModifierFormValidator(fieldPropertyValidator: $validator.title, isDirtyForm: $validator.isDirty, propertyType: .title))
+                    .frame(height:60)
             }
         case .description:
             FormText(fieldValue: $description, fieldName: GetDescriptionFieldName(), axis: .vertical, iconType: .description)
@@ -272,7 +298,7 @@ struct FormPropertiesStack: View {
                     FormLabel(fieldValue: aspectString, fieldName: PropertyType.aspect.toString(), iconType: .aspect, shouldShowLock: true)
                 }
                 else{
-                    FormStackPicker(fieldValue: $aspectString, fieldName: PropertyType.aspect.toString(), options: .constant(vm.ListAspects().map({$0.aspect.toString()})),iconType: .aspect)
+                    FormStackPicker(fieldValue: $aspectString, fieldName: PropertyType.aspect.toString(), options: .constant(vm.ListAspects().map({$0.title})),iconType: .aspect)
                         .modifier(ModifierFormValidator(fieldPropertyValidator: $validator.aspect, isDirtyForm: $validator.isDirty, propertyType: .aspect))
                 }
             }
@@ -282,9 +308,16 @@ struct FormPropertiesStack: View {
 //        case .coreValue:
 
         case .chapter:
-            let chapters = vm.ListChapters()
-            FormStackPicker(fieldValue: $chapterString, fieldName: PropertyType.chapter.toString(), options: .constant(chapters.map({$0.title})), iconType: .chapter)
-                .modifier(ModifierFormValidator(fieldPropertyValidator: $validator.chapter, isDirtyForm: $validator.isDirty, propertyType: .chapter))
+            
+            if hasChapterId {
+                let chapter = vm.GetChapter(id: properties.chapterId!)
+                FormLabel(fieldValue: chapter?.title ?? "", fieldName: PropertyType.chapter.toString(), iconType: .chapter, shouldShowLock: true)
+            }
+            else{
+                let chapters = vm.ListChapters()
+                FormStackPicker(fieldValue: $chapterString, fieldName: PropertyType.chapter.toString(), options: .constant(chapters.map({$0.title})), iconType: .chapter)
+                    .modifier(ModifierFormValidator(fieldPropertyValidator: $validator.chapter, isDirtyForm: $validator.isDirty, propertyType: .chapter))
+            }
         case .images:
             FormImages(fieldValue: $images, shouldPopImagesModal: $isPresentingPhotoSource, fieldName: PropertyType.images.toString(), iconType: .photo)
         case .scheduleType:

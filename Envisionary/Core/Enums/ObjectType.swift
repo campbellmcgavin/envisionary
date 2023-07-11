@@ -25,9 +25,9 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
     case chapter = 8
     case entry = 9
     case emotion = 10
-    case stats = 11
-    case prompt = 12
-    case recurrence = 13
+//    case stats = 11
+    case prompt = 11
+    case recurrence = 12
     
     func ShouldShowImage() -> Bool{
         switch self {
@@ -51,8 +51,8 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             return true
         case .entry:
             return false
-        case .stats:
-            return false
+//        case .stats:
+//            return false
         case .emotion:
             return false
         case .dream:
@@ -82,8 +82,8 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             return "Entries"
         case .session:
             return "Sessions"
-        case .stats:
-            return "Stats"
+//        case .stats:
+//            return "Stats"
         case .creed:
             return "Creed"
         case .home:
@@ -121,8 +121,8 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             return "Chapter"
         case .entry:
             return "Entry"
-        case .stats:
-            return "Stat"
+//        case .stats:
+//            return "Stat"
         case .emotion:
             return "Mood"
         case .dream:
@@ -156,8 +156,8 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             return .chapter
         case .entry:
             return .entry
-        case .stats:
-            return .stat
+//        case .stats:
+//            return .stat
         case .emotion:
             return .emotion
         case .dream:
@@ -196,8 +196,8 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             return "all " + self.toPluralString() + " in " + date.toString(timeframeType: timeframe)
         case .emotion:
             return "all " + self.toPluralString() + " in " + date.toString(timeframeType: timeframe)
-        case .stats:
-            return "all " + self.toPluralString() + " in " + date.toString(timeframeType: timeframe)
+//        case .stats:
+//            return "all " + self.toPluralString() + " in " + date.toString(timeframeType: timeframe)
         case .prompt:
             return ""
         case .recurrence:
@@ -231,8 +231,8 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             return "are pages within a journal chapter."
         case .emotion:
             return "are records of your emotional state."
-        case .stats:
-            return "are performance insights."
+//        case .stats:
+//            return "are performance insights."
         case .prompt:
             return ""
         case .recurrence:
@@ -266,8 +266,8 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             return .journal
         case .emotion:
             return .journal
-        case .stats:
-            return .evaluate
+//        case .stats:
+//            return .evaluate
         case .prompt:
             return .execute
         case .recurrence:
@@ -301,13 +301,42 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             return "Entries, or Journal Entries, are a page within a chapter."
         case .emotion:
             return "Emotions are evaluations of your emotional state at a moment in time."
-        case .stats:
-            return "Stats, or statistics, offer performance insight into various areas of your life."
+//        case .stats:
+//            return "Stats, or statistics, offer performance insight into various areas of your life."
         case .prompt:
             return ""
         case .recurrence:
             return ""
         }
+    }
+    
+    func toTextArray() -> [String]{
+        
+        var array = [String]()
+        
+        array.append(self.toPluralString() + " " + self.toDescription())
+        
+        switch self {
+        case .goal:
+            array.append("You can break big goals down into smaller goals 🌷. Each goal is locked to a timeframe (decades, years, months, weeks and days ☀️).")
+            array.append("We set up an example goal structure to go to Envisionary University, the most prestigious planning institution in the entire world. 🌎")
+//            array.append("🚨 Note the composition of goals. 🚨\n\n Decade goals are made of year goals. Year goals are made of month goals, and so on...")
+        case .session:
+            array.append("Pick a date, and then sessions automatically gathers everything you have planned for that period. 🦄")
+            array.append("You'll be able to align everything with your values, and evaluate how to proceed with each goal. ❤️")
+        case .home:
+            array.append("You'll see the goals and habits that are happening now, as well as your favorites and reminders.")
+        case .chapter:
+            array.append("Just like chapters in your book of life!")
+        case .entry:
+            array.append("Think... pages in a chapter... in your book of life. ☀️🐇")
+        case .emotion:
+            array.append("So... basically your replacement for screaming into your pillow #iykyk")
+        default:
+            let _ = "why"
+        }
+                         
+         return array
     }
     
     func hasProperty(property:PropertyType) -> Bool{
@@ -349,8 +378,6 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             }
         case .aspect:
             switch property {
-            case .aspect:
-                return true
             case .description:
                 return true
             case .title:
@@ -512,8 +539,8 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             default:
                 return false
             }
-        case .stats:
-            return false
+//        case .stats:
+//            return false
         case .dream:
             switch property {
             case .title:
@@ -708,19 +735,19 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             case .favorite:
                 return false
             }
-        case .stats:
-            switch button {
-            case .delete:
-                return false
-            case .help:
-                return true
-            case .edit:
-                return false
-            case .add:
-                return false
-            case .favorite:
-                return false
-            }
+//        case .stats:
+//            switch button {
+//            case .delete:
+//                return false
+//            case .help:
+//                return true
+//            case .edit:
+//                return false
+//            case .add:
+//                return false
+//            case .favorite:
+//                return false
+//            }
         case .prompt:
             return false
         case .recurrence:
@@ -759,5 +786,7 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
     static func fromString(from string: String) -> Self{
         return Self.allCases.first(where: {$0.toString() == string}) ?? .goal
     }
+    
+    
     
 }

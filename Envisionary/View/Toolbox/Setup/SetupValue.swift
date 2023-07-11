@@ -11,11 +11,26 @@ struct SetupValue: View {
     @Binding var canProceed: Bool
     @Binding var shouldAct: Bool
     @State var values: [String:Bool] = [String:Bool]()
-    let options = ValueType.allCases.filter({$0.isCommon()}).map({$0.toString()})
+    @State var isExpressSetup: Bool = false
+    
+    @State var options = [String]()
+    let expressOptions = [ValueType.Achievement, ValueType.Balance, ValueType.Entrepreneurship, ValueType.Compassion, ValueType.Dependability, ValueType.GrowthMindset, ValueType.Honesty, ValueType.PositiveAttitude, ValueType.WorkEthic, ValueType.Happiness].map({$0.toString()})
+    
     @EnvironmentObject var vm: ViewModel
     var body: some View {
-        WrappingHStack(fieldValue: .constant(""), fieldValues: $values, options: .constant(options), isMultiSelector: true)
-            .padding(8)
+
+        VStack{
+            ExpressSetupButton(isExpressSetup: $isExpressSetup)
+//                .padding([.leading,.trailing],4)
+//                .padding(.top,8)
+                
+            WrappingHStack(fieldValue: .constant(""), fieldValues: $values, options: $options, isMultiSelector: true)
+                .padding(.top,22)
+                .disabled(isExpressSetup)
+                .opacity(isExpressSetup ? 0.87 : 1.0)
+        }
+        .padding(8)
+
             .onChange(of: values, perform: { _ in
                 let count = values.values.filter({$0}).count
                 canProceed = count > 4 && count < 11
@@ -38,12 +53,32 @@ struct SetupValue: View {
                 
                 _ = vm.CreateCoreValue(request: CreateCoreValueRequest(title: ValueType.Conclusion.toString(), description: ValueType.Conclusion.toDescription()))
             }
+            .onChange(of: isExpressSetup){
+                _ in
+                withAnimation(.easeInOut){
+                    SetupValues()
+                }
+            }
             .onAppear{
-                options.forEach { values[$0] = false }
+                SetupValues()
             }
     }
-    
+    func SetupValues(){
+        if isExpressSetup{
+            values = [String:Bool]()
+            options = expressOptions.sorted()
+            options.forEach { values[$0] = true}
+        }
+        else{
+            values = [String:Bool]()
+            options = ValueType.allCases.filter({$0.isCommon()}).map({$0.toString()})
+            options.forEach { values[$0] = false }
+        }
+    }
 }
+
+
+
 
 struct SetupValue_Previews: PreviewProvider {
     static var previews: some View {

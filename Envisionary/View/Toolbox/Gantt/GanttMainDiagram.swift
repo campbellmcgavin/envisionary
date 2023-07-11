@@ -12,9 +12,9 @@ struct GanttMainDiagram<Value: Identifiable, V: View>: View where Value: Equatab
     var goalId: UUID
     @Binding var focusGoal: UUID
     @Binding var expandedGoals: [UUID]
-    let value: (Value) -> V
+    var value: (Value) -> V
     let childCount: Int
-    let currentTimeframeType: TimeframeType
+    @Binding var currentTimeframeType: TimeframeType
     @State var shouldMoveBackward = false
     @State var shouldMoveForward = false
     @State var childGoals = [Goal]()
@@ -43,7 +43,7 @@ struct GanttMainDiagram<Value: Identifiable, V: View>: View where Value: Equatab
                         
                         ForEach(childGoals, content: { child in
                             
-                            GanttMainDiagram(parentGoalId: parentGoalId, goalId: child.id, focusGoal: $focusGoal, expandedGoals: $expandedGoals, value: self.value,  childCount: childCount + 1, currentTimeframeType: currentTimeframeType)
+                            GanttMainDiagram(parentGoalId: parentGoalId, goalId: child.id, focusGoal: $focusGoal, expandedGoals: $expandedGoals, value: self.value,  childCount: childCount + 1, currentTimeframeType: $currentTimeframeType)
                         })
                     
 

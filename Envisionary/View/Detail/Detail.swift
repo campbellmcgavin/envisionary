@@ -69,7 +69,7 @@ struct Detail: View {
             DetailMenu(objectType: objectType, dismiss: dismiss, isPresentingModal: $isPresentingModal, modalType: $modalType, objectId: objectId, selectedObjectID: $focusObjectid, shouldMarkAsFavorite: $shouldMarkAsFavorite, finishedLoading: $finishedLoading)
                 .frame(alignment:.top)
             
-            ModalManager(isPresenting: $isPresentingModal, modalType: $modalType, objectType: objectType, objectId: focusObjectid, properties: properties, statusToAdd: statusToAdd, shouldDelete: $shouldDelete)
+            ModalManager(isPresenting: $isPresentingModal, modalType: $modalType, objectType: GetObjectType(), objectId: focusObjectid, properties: properties, statusToAdd: statusToAdd, shouldDelete: $shouldDelete)
             
             ModalPhotoSource(objectType: .goal, isPresenting: $isPresentingPhotoSource, sourceType: $sourceType)
             
@@ -90,11 +90,11 @@ struct Detail: View {
             if finishedLoading{
                 if shouldMarkAsFavorite {
                     let request = CreatePromptRequest(type: .favorite, title: "", date: Date(), objectType: objectType, objectId: objectId)
-                    vm.CreatePrompt(request: request)
+                    _ = vm.CreatePrompt(request: request)
                 }
                 else{
                     if let prompt = vm.ListPrompts(criteria: Criteria(type: .favorite)).first(where: {$0.objectId == objectId}){
-                        vm.DeletePrompt(id: prompt.id)
+                        _ = vm.DeletePrompt(id: prompt.id)
                     }
 
                 }
@@ -149,6 +149,15 @@ struct Detail: View {
                 isPresentingPhotoSource = false
             }
         }
+    }
+    
+    func GetObjectType() -> ObjectType {
+        if objectType == .chapter {
+            if modalType == .add{
+                return .entry
+            }
+        }
+        return objectType
     }
     
     func RefreshFavorite(){

@@ -57,6 +57,22 @@ enum TimeframeType: Int, CaseIterable, Codable, Hashable{
         }
     }
     
+    func toParentTimeframe()  -> TimeframeType {
+        switch self {
+        case .decade:
+            return .decade
+        case .year:
+            return .decade
+        case .month:
+            return .year
+        case .week:
+            return .month
+        case .day:
+            return .week
+        }
+    }
+    
+    
     static func fromString(input: String) -> TimeframeType{
         return Self.allCases.first(where: {$0.toString() == input}) ?? .day
     }

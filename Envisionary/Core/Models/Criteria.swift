@@ -18,13 +18,15 @@ struct Criteria {
     var progress: Int?
     var coreValue: String?
     var parentId: UUID?
+    var chapterId: UUID?
     var promptType: PromptType?
     var scheduleType: ScheduleType?
     var isComplete: Bool?
     var amount: Int?
     var habitId: UUID?
+    var includeCalendar: Bool?
     
-    init(title: String? = nil, description: String?, timeframe: TimeframeType?, date: Date?, aspect: String?, priority: PriorityType?, progress: Int?, coreValue: String?, parentId: UUID?) {
+    init(title: String? = nil, description: String?, timeframe: TimeframeType?, date: Date?, aspect: String?, priority: PriorityType?, progress: Int?, coreValue: String?, parentId: UUID?, chapterId: UUID?, includeCalendar: Bool?) {
         self.title = title
         self.description = description
         self.timeframe = timeframe
@@ -34,6 +36,8 @@ struct Criteria {
         self.progress = progress
         self.coreValue = coreValue
         self.parentId = parentId
+        self.chapterId = chapterId
+        self.includeCalendar = includeCalendar
     }
     init(){
         self.title = nil
@@ -45,6 +49,7 @@ struct Criteria {
         self.progress = nil
         self.coreValue = nil
         self.parentId = nil
+        self.chapterId = nil
     }
     init(title: String) {
         self.title = title

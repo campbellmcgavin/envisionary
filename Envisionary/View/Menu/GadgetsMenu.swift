@@ -12,10 +12,11 @@ struct GadgetsMenu: View {
     @Binding var offset: CGPoint
     @Binding var isPresentingModal: Bool
     @Binding var modalType: ModalType
+    @State var shouldShowHelpPrompts: Bool = false
     var filterCount: Int
     
     @State var shouldPresentFilterView: Bool = false
-    @State var shouldPresentGroupView: Bool = false
+    @State var shouldPresentSettingsView: Bool = false
 //    @State var shouldPresentHelpView: Bool = false
     @State var shouldPresentSearchView: Bool = false
     
@@ -25,6 +26,8 @@ struct GadgetsMenu: View {
     var body: some View {
         
         HStack(alignment:.center){
+            IconButton(isPressed: $shouldPresentSettingsView, size: .small, iconType: .settings, iconColor: .grey7)
+            
             ZStack{
                 IconButton(isPressed: $shouldPresentFilterView, size: .small, iconType: .filter, iconColor: .grey7)
                 
@@ -35,15 +38,15 @@ struct GadgetsMenu: View {
                             .foregroundColor(.specify(color: .red))
                         Text(String(filterCount))
                             .font(.specify(style: .caption))
-                            .foregroundColor(.specify(color: .grey15))                    }
+                            .foregroundColor(.specify(color: .grey15))
+                    }
                     .offset(x:8, y:-8)
                 }
 
             }
-
-            IconButton(isPressed: $shouldPresentGroupView, size: .small, iconType: .group, iconColor: .grey7)
-//            IconButton(isPressed: $shouldPresentHelpView, size: .small, iconType: .help, iconColor: .grey7)
             IconButton(isPressed: $shouldPresentSearchView, size: .small, iconType: .search, iconColor: .grey7)
+            
+            
             Spacer()
 //            if(offset.y < 200.0){
             
@@ -71,10 +74,10 @@ struct GadgetsMenu: View {
             isPresentingModal.toggle()
             modalType = .filter
         }
-        .onChange(of:shouldPresentGroupView){
+        .onChange(of:shouldPresentSettingsView){
             _ in
             isPresentingModal.toggle()
-            modalType = .group
+            modalType = .settings
         }
         .onChange(of:shouldPresentSearchView){
             _ in
@@ -88,7 +91,7 @@ struct GadgetsMenu: View {
 
 struct GadgetsMenu_Previews: PreviewProvider {
     static var previews: some View {
-        GadgetsMenu(shouldPop: .constant(true), offset:.constant(.zero), isPresentingModal: .constant(true),modalType: .constant(.add), filterCount: 3)
+        GadgetsMenu(shouldPop: .constant(true), offset:.constant(.zero), isPresentingModal: .constant(true), modalType: .constant(.add), filterCount: 3)
             .environmentObject(ViewModel())
     }
 }

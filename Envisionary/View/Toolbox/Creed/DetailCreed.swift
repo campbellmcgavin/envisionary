@@ -29,7 +29,7 @@ struct DetailCreed: View {
     
     var body: some View {
         
-        DetailView(viewType: .creed, objectId: UUID(), selectedObjectId: $focusValue, selectedObjectType: .constant(.value), shouldExpandAll: $shouldExpand, expandedObjects: .constant([UUID]()), isPresentingModal: $isPresentingModal, modalType: $modalType, isPresentingSourceType: .constant(false), content: {
+        DetailView(viewType: .creed, objectId: UUID(), selectedObjectId: $focusValue, selectedObjectType: .constant(.value), shouldExpandAll: $shouldExpand, expandedObjects: .constant([UUID]()), isPresentingModal: $isPresentingModal, modalType: $modalType, isPresentingSourceType: .constant(false), currentTimeframe: .day, content: {
         
             MainContentBuilder()
 

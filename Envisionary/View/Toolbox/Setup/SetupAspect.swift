@@ -11,12 +11,21 @@ struct SetupAspect: View {
     @Binding var canProceed: Bool
     @Binding var shouldAct: Bool
     @State var Aspects: [String:Bool] = [String:Bool]()
-    let options = AspectType.allCases.map({$0.toString()})
+    @State var isExpressSetup: Bool = false
+    
+    @State var options = AspectType.allCases.map({$0.toString()})
+    let expressOptions: [String] = [AspectType.academic, AspectType.career, AspectType.family, AspectType.emotional, AspectType.financial, AspectType.health, AspectType.lifestyle, AspectType.philanthropy, AspectType.personal, AspectType.romantic, AspectType.travel].map({$0.toString()})
     
     @EnvironmentObject var vm: ViewModel
     
     var body: some View {
-        WrappingHStack(fieldValue: .constant(""), fieldValues: $Aspects, options: .constant(options), isMultiSelector: true)
+        VStack{
+            ExpressSetupButton(isExpressSetup: $isExpressSetup)
+            WrappingHStack(fieldValue: .constant(""), fieldValues: $Aspects, options: .constant(options), isMultiSelector: true)
+                .padding(.top,22)
+                .disabled(isExpressSetup)
+                .opacity(isExpressSetup ? 0.87 : 1.0)
+        }
             .padding(8)
             .onChange(of: Aspects, perform: { _ in
                 let count = Aspects.values.filter({$0}).count
@@ -31,14 +40,30 @@ struct SetupAspect: View {
                 }
                 
                 for aspectString in Aspects.filter({$0.value}).keys{
-                    let aspect = AspectType.fromString(input: aspectString)
-                    let request = CreateAspectRequest(aspect: aspect, description: "")
+                    let request = CreateAspectRequest(title: aspectString, description: "")
                     _ = vm.CreateAspect(request: request)
                 }
             }
             .onAppear{
-                options.forEach { Aspects[$0] = false }
+                SetupAspects()
             }
+            .onChange(of: isExpressSetup){
+                _ in
+                SetupAspects()
+            }
+    }
+    
+    func SetupAspects(){
+        if isExpressSetup{
+            Aspects = [String:Bool]()
+            options = expressOptions.sorted()
+            options.forEach { Aspects[$0] = true}
+        }
+        else{
+            Aspects = [String:Bool]()
+            options = AspectType.allCases.map({$0.toString()})
+            options.forEach { Aspects[$0] = false }
+        }
     }
 }
 

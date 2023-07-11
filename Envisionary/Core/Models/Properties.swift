@@ -114,8 +114,7 @@ struct Properties: Identifiable, Equatable, Hashable, Codable{
     
     init(aspect: Aspect?){
         self.id = aspect?.id ?? UUID()
-        self.title = aspect?.aspect.toString() ?? "Empty Value"
-        self.aspect = aspect?.aspect ?? .personal
+        self.title = aspect?.title ?? "Empty Value"
         self.description = aspect?.description ?? "Empty Description"
     }
     

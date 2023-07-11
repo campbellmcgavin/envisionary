@@ -118,7 +118,15 @@ enum DreamType: CaseIterable {
     case improveDrawingSkills
     case goOnSoloVacation
     case learnToSew
+    case marchForACause
+    case becomeGovernor
+    case becomeMayor
+    case becomeCongressperson
     
+    case valedictorian
+    case _4_0_gpa
+    case graduateTopOfClass
+    case headOfClub
     
     func toString() -> String{
         switch self {
@@ -340,6 +348,22 @@ enum DreamType: CaseIterable {
             return "Go on solo vacation"
         case .learnToSew:
             return "Learn to sew"
+        case .marchForACause:
+            return "March for a cause"
+        case .becomeGovernor:
+            return "Become Governor"
+        case .becomeMayor:
+            return "Become Mayor"
+        case .becomeCongressperson:
+            return "Congress Person"
+        case .valedictorian:
+            return "Valedictorian"
+        case ._4_0_gpa:
+            return "4.0 GPA"
+        case .graduateTopOfClass:
+            return "Graduate top of class"
+        case .headOfClub:
+            return "Head of Club"
         }
     }
     
@@ -563,6 +587,22 @@ enum DreamType: CaseIterable {
             return .travel
         case .learnToSew:
             return .lifestyle
+        case .marchForACause:
+            return .involvement
+        case .becomeGovernor:
+            return .political
+        case .becomeMayor:
+            return .political
+        case .becomeCongressperson:
+            return .political
+        case .valedictorian:
+            return .academic
+        case ._4_0_gpa:
+            return .academic
+        case .graduateTopOfClass:
+            return .academic
+        case .headOfClub:
+            return .academic
         }
     }
     

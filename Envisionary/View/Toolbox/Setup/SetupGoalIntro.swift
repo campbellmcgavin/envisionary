@@ -54,8 +54,29 @@ struct SetupGoalIntro: View {
             GetImageString(item: item).ToImage(imageSize: size.ToSize())
                 .foregroundColor(.specify(color: .purple))
         }
+        .interactiveLabel(labelValue: GetLabel(item: item), yOffset: 30)
         .offset(x: offset.x, y: offset.y)
-        .wiggling(shouldWiggle: shouldWiggle, intensity: 0.9)
+        .expensiveWiggling(intensity:4.0, period:50)
+//        .wiggling(shouldWiggle: shouldWiggle, intensity: 0.9)
+    }
+    
+    func GetLabel(item: Int) -> String{
+        switch item{
+        case 0:
+            return "Decade Goal"
+        case 1:
+            return "Year Goal"
+        case 2:
+            return "Year Goal"
+        case 3:
+            return "Month Goal"
+        case 4:
+            return "Month Goal"
+        case 5:
+            return "Month Goal"
+        default:
+            return "Month Goal"
+        }
     }
     
     func GetImageString(item: Int) -> String{

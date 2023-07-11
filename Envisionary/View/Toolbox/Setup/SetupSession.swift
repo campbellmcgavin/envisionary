@@ -9,13 +9,8 @@ import SwiftUI
 
 struct SetupSession: View {
     @Binding var canProceed: Bool
-//    @State var goals: [Goal] = [Goal]()
-    
-//    @EnvironmentObject var vm: ViewModel
-    @State var shouldWiggle: Bool = false
 
     var body: some View {
-        let timer = Timer.publish(every: 0.25, on: .main, in: .common).autoconnect()
         ZStack(){
             
             ZStack{
@@ -32,10 +27,6 @@ struct SetupSession: View {
                 canProceed = true
             }
             .frame(maxWidth:.infinity)
-            .onReceive(timer){
-                _ in
-                shouldWiggle = true
-            }
     }
     
     @ViewBuilder
@@ -73,9 +64,25 @@ struct SetupSession: View {
 //                .rotationEffect(toAngle(index: index))
         
         }
-        .wiggling(shouldWiggle: shouldWiggle, intensity:6)
+        .interactiveLabel(labelValue: toLabel(index: index), yOffset: 35, xOffset: -25)
+        .expensiveWiggling(shouldWiggle: true, intensity:8, period:40)
         .offset(x: offset.x, y: offset.y)
 
+    }
+    
+    func toLabel(index: Int) -> String{
+        switch index {
+        case 0:
+            return "Add Goals"
+        case 1:
+            return "Push off goals"
+        case 2:
+            return "Delete goals"
+        case 3:
+            return "Edit Goals"
+        default:
+            return "So much more"
+        }
     }
     
     func toIcon(index: Int) -> IconType {

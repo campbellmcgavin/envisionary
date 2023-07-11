@@ -29,28 +29,13 @@ struct ModalManager: View {
     @State var isPresentingDelete = false
     @State var isPresentingPhotoSource = false
     @State var sourceType: UIImagePickerController.SourceType? = nil
-    @State var isPresentingSetup = false
     
     
     @EnvironmentObject var vm: ViewModel
     
     var body: some View {
         ZStack(alignment: .top){
-            ModalAdd(isPresenting: $isPresentingAdd, isPresentingPhotoSource: $isPresentingPhotoSource, sourceType: $sourceType, objectId: nil, parentGoalId: GetParentGoalId(), objectType: GetObjectType(), modalType: .add, status: statusToAdd)
-            
-            ModalAdd(isPresenting: $isPresentingEdit, isPresentingPhotoSource: $isPresentingPhotoSource, sourceType: $sourceType, objectId: GetObjectId(), parentGoalId: GetParentGoalId(), parentChapterId: GetParentChapterId(), objectType: GetObjectType(), modalType: .edit)
-            
-            ModalFilter(isPresenting: $isPresentingFilter)
-            
-            ModalSearch(isPresenting: $isPresentingSearch, objectType: objectType ?? .goal)
-            
-            ModalGrouping(isPresenting: $isPresentingGrouping)
-            
-            Modal(modalType: .delete, objectType: objectType ?? .goal, isPresenting: $isPresentingDelete, shouldConfirm: $shouldDelete, isPresentingImageSheet: .constant(false), allowConfirm: .constant(true), modalContent: {EmptyView()}, headerContent: {EmptyView()}, bottomContent: {EmptyView()}, betweenContent: {EmptyView()})
-            
-            ModalPhotoSource(objectType: GetObjectType(), isPresenting: $isPresentingPhotoSource, sourceType: $sourceType)
-            
-            ModalSetup(objectType: $vm.filtering.filterObject, isPresenting: $isPresentingSetup)
+            BuildModal()
         }
         .frame(maxHeight:.infinity)
         .ignoresSafeArea()
@@ -61,7 +46,7 @@ struct ModalManager: View {
                     isPresentingAdd = true
                 case .search:
                     isPresentingSearch = true
-                case .group:
+                case .settings:
                     isPresentingGrouping = true
                 case .filter:
                     isPresentingFilter = true
@@ -77,18 +62,11 @@ struct ModalManager: View {
                     let _ = "why"
                 case .photo:
                     let _ = "why"
-                case .setup:
-                    isPresentingSetup = true
                 }
             }
         }
         .onChange(of: isPresentingAdd){ _ in
             if isPresentingAdd == false {
-                isPresenting = false
-            }
-        }
-        .onChange(of: isPresentingSetup){ _ in
-            if isPresentingSetup == false{
                 isPresenting = false
             }
         }
@@ -134,6 +112,29 @@ struct ModalManager: View {
         }
     }
     
+    @ViewBuilder
+    func BuildModal() -> some View{
+        switch modalType {
+        case .add:
+            ModalAdd(isPresenting: $isPresentingAdd, isPresentingPhotoSource: $isPresentingPhotoSource, sourceType: $sourceType, objectId: nil, parentGoalId: GetParentGoalId(), parentChapterId: GetParentChapterId(), objectType: GetObjectType(), modalType: .add, status: statusToAdd)
+        case .search:
+            ModalSearch(isPresenting: $isPresentingSearch, objectType: objectType ?? .goal)
+        case .settings:
+            ModalSettings(isPresenting: $isPresentingGrouping)
+        case .filter:
+            ModalFilter(isPresenting: $isPresentingFilter)
+        case .edit:
+            ModalAdd(isPresenting: $isPresentingEdit, isPresentingPhotoSource: $isPresentingPhotoSource, sourceType: $sourceType, objectId: GetObjectId(), parentGoalId: GetParentGoalId(), parentChapterId: GetParentChapterId(), objectType: GetObjectType(), modalType: .edit)
+        case .delete:
+            Modal(modalType: .delete, objectType: objectType ?? .goal, isPresenting: $isPresentingDelete, shouldConfirm: $shouldDelete, isPresentingImageSheet: .constant(false), allowConfirm: true, modalContent: {EmptyView()}, headerContent: {EmptyView()}, bottomContent: {EmptyView()}, betweenContent: {EmptyView()})
+        case .photoSource:
+            ModalPhotoSource(objectType: GetObjectType(), isPresenting: $isPresentingPhotoSource, sourceType: $sourceType)
+        default:
+            EmptyView()
+        }
+    }
+
+    
     func GetObjectType() -> ObjectType {
         if let objectType {
             
@@ -156,17 +157,14 @@ struct ModalManager: View {
             if objectType == .goal {
                 return vm.GetGoal(id: objectId ?? UUID())?.parentId
             }
-            else if objectType == .entry {
-//                return vm.GetEntry(id: objectId ?? UUID())?.
-                //TODO
-            }
         }
         return nil
     }
     
     func GetParentChapterId() -> UUID?{
         if modalType == .add && objectType == .entry{
-            return vm.GetEntry(id: objectId ?? UUID())?.chapterId
+            let chapter = vm.GetChapter(id: objectId ?? UUID())
+            return chapter?.id
         }
         return nil
     }
@@ -197,6 +195,10 @@ struct ModalManager: View {
                         _ = vm.DeleteAspect(id: objectId)
                     case .dream:
                         _ = vm.DeleteDream(id: objectId)
+                    case .chapter:
+                        _ = vm.DeleteChapter(id: objectId)
+                    case .emotion:
+                        _ = vm.DeleteEmotion(id: objectId)
 //                    case .task:
 //                        _ = vm.DeleteTask(id: objectId)
                     case .session:

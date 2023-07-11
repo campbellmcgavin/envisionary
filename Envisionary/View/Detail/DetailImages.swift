@@ -22,11 +22,29 @@ struct DetailImages: View {
             HeaderButton(isExpanded: $isExpanded, color: .grey10, header: "Images")
             
             if isExpanded {
-                ImageStack(images: $images, shouldPopImagesModal: .constant(false), isEditMode: false)
-                    .frame(maxWidth:.infinity)
-                    .padding([.top,.bottom])
-                    .modifier(ModifierCard())
+                VStack(alignment:.leading, spacing:0){
+                    if images.count > 0 {
+                            if objectType == .chapter{
+                                    Text("The following are images associated with this chapter. To add additional images here, add entries with images.")
+                                    .font(.specify(style: .caption))
+                                    .foregroundColor(.specify(color: .grey4))
+                                    .padding()
+                            }
+                            ImageStack(images: $images, shouldPopImagesModal: .constant(false), isEditMode: false)
+                                .frame(maxWidth:.infinity)
+                                .padding([.top,.bottom])
 
+                    }
+                    else{
+                        Text(objectType == .chapter ? "Looks like you don't have any images yet. Add images in entries." : "Looks like you don't have any images yet. Edit this entry to add images.")
+                            .font(.specify(style:.h6))
+                            .multilineTextAlignment(.center)
+                            .foregroundColor(.specify(color: .grey3))
+                            .padding(30)
+                            .frame(maxWidth:.infinity)
+                    }
+                }
+                .modifier(ModifierCard())
             }
         }
         .onChange(of:shouldExpand){
@@ -49,11 +67,25 @@ struct DetailImages: View {
     }
     
     func LoadImages(){
+        images.removeAll()
         withAnimation{
             DispatchQueue.global(qos:.userInteractive).async{
                 images = [UIImage]()
                 if objectType == .entry{
                     if let entry = vm.GetEntry(id: objectId){
+                        for imageId in entry.images{
+                            if let image = vm.GetImage(id: imageId){
+                                images.append(image)
+                            }
+                        }
+                    }
+                }
+                else if objectType == .chapter{
+                    var criteria = Criteria()
+                    criteria.chapterId = objectId
+                    let entries = vm.ListEntries(criteria: criteria)
+                    
+                    for entry in entries{
                         for imageId in entry.images{
                             if let image = vm.GetImage(id: imageId){
                                 images.append(image)

@@ -25,12 +25,14 @@ struct ContentView: View {
     @State var modalType: ModalType = .add
     @State private var scrollViewID = 1
     @State var isPresentingSplashScreen = true
-    @State private var splashScreenTimer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
+    @State var isPresentingCalendarView = false
+    @State private var splashScreenTimer = Timer.publish(every: 1.75, on: .main, in: .common).autoconnect()
     @State private var popHeaderTimer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
     @State private var shouldDisableScrollViewTimer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
     @State var filterCount = 0
     @State var shouldDisableScrollView = false
-    @State var isFirstLaunch: Bool = false
+    @State var isFirstAppear: Bool = true
+    @State var stackSize: CGSize = .zero
     var body: some View {
         NavigationStack{
             ZStack(alignment:.top){
@@ -67,7 +69,10 @@ struct ContentView: View {
                                         
                                     }
                                         .padding(.top,GetStackOffset())
-                                        .padding(.bottom,200)
+                                        .saveSize(in: $stackSize)
+                                        .padding(.bottom,UIScreen.screenHeight - (stackSize.height < UIScreen.screenHeight ? stackSize.height : UIScreen.screenHeight) + 200)
+                                    
+                                    
 
                                 }
                                 .onChange(of: shouldPopScrollToHideHeader){
@@ -114,7 +119,7 @@ struct ContentView: View {
                         FloatingActionButton(shouldAct: $isPresentingModal, modalType: $modalType)
                     }
 
-                    BottomNavigationBar(selectedContentView: $vm.filtering.filterContent, setupStep: vm.setupStep)
+                    BottomNavigationBar(selectedContentView: $vm.filtering.filterContent)
                 }
 
                 ModalManager(isPresenting: $isPresentingModal, modalType: $modalType, objectType: vm.filtering.filterObject, shouldDelete: .constant(false))
@@ -164,16 +169,24 @@ struct ContentView: View {
             .onAppear{
                 popHeaderTimer.upstream.connect().cancel()
                 
-                let finishedFirstLaunch = UserDefaults.standard.bool(forKey: SettingsKeyType.finishedFirstLaunch.toString())
+                let isDoneWithTutorial = SetupStepType.fromString(from: UserDefaults.standard.string(forKey: SettingsKeyType.tutorial_step.toString()) ?? "") == .done
                 
-                if !finishedFirstLaunch{
+                if !isDoneWithTutorial{
+                    UserDefaults.standard.set(false, forKey: SettingsKeyType.help_prompts_showing.toString())
+                    UserDefaults.standard.set(true, forKey: SettingsKeyType.help_prompts_object.toString())
+                    UserDefaults.standard.set(false, forKey: SettingsKeyType.help_prompts_content.toString())
+                    vm.helpPrompts.object = true
+                    vm.helpPrompts.showing = false
+                    vm.helpPrompts.content = false
+                    
                     isPresentingMainMenu = true
                     UserDefaults.standard.set(true, forKey: SettingsKeyType.finishedFirstLaunch.toString())
                 }
                 
-                if vm.setupStep != SetupStepType.allCases.last!{
-                    vm.filtering.filterContent = (vm.setupStep.toObject() ?? .value).toContentType()
-                }
+//                if isFirstAppear && vm.tutorialStep != SetupStepType.allCases.last!{
+//                    isFirstAppear = false
+//                    vm.filtering.filterContent = (vm.tutorialStep.toObject() ?? .value).toContentType()
+//                }
             }
         }
 
@@ -181,7 +194,7 @@ struct ContentView: View {
     
     func ShouldShowFloatingActionButton() -> Bool{
         
-        if vm.filtering.filterObject != .home && vm.filtering.filterObject != .creed && vm.setupStep.toObject() != vm.filtering.filterObject{
+        if vm.filtering.filterObject != .home && vm.filtering.filterObject != .creed {
             return true
         }
         return false

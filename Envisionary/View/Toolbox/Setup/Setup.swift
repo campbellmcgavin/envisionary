@@ -16,10 +16,11 @@ struct Setup: View {
     @State var bumpScrollView: Bool = false
     @State var contentView: ContentViewType = .envision
     @State var count: Double = 0.0
-    
+    @State var shouldGoBack: Bool = false
     @State var timer = Timer.publish(every: 0.2, on: .main, in: .common).autoconnect()
-    
+    @State var archetype: ArchetypeType? = nil
     let counterTime: Double = 20
+    @State var shouldBlock = false
     
     @EnvironmentObject var vm: ViewModel
     
@@ -37,7 +38,7 @@ struct Setup: View {
                                 .foregroundColor(.specify(color: .grey8))
                                 .font(.specify(style: .h5))
                                 .frame(maxWidth:.infinity, alignment:.leading)
-                            Text(setupStep.GetHeader())
+                            Text(setupStep.GetHeader(archetype: archetype))
                                 .foregroundColor(.specify(color: .grey10))
                                 .font(.specify(style: .h1))
                                 .padding(.bottom,20)
@@ -49,7 +50,7 @@ struct Setup: View {
                         .transition(.slide)
                         .padding([.leading,.trailing])
                         .background(
-                            Color.specify(color: setupStep.GetColor())
+                            Color.specify(color: .grey2)
                                 .modifier(ModifierRoundedCorners(radius: 36))
                                 .edgesIgnoringSafeArea(.all)
                                 .padding(.top,-3000)
@@ -61,11 +62,12 @@ struct Setup: View {
                             GetSetupStepView()
                             Spacer()
                         }
-                        .padding(8)
+                        .padding([.leading,.trailing,.top],8)
                         .frame(maxWidth:.infinity)
                         .frame(minHeight:400)
-                        .modifier(ModifierCard(color: .grey1))
+                        .modifier(ModifierCard(color: .grey05))
                         .padding(.bottom,125)
+                        
                         EmptyView()
                             .id(1)
                             .onChange(of: bumpScrollView){
@@ -77,8 +79,14 @@ struct Setup: View {
                     }
                     .onChange(of: shouldAct){
                         _ in
+                        shouldBlock = true
                         startTimer()
                         count+=1
+                    }
+                    .onChange(of: shouldGoBack){
+                        _ in
+                        setupStep = setupStep.GetPrevious()
+//                        vm.tutorialStep = setupStep.GetPrevious()
                     }
                     .onReceive(timer, perform: {
                         _ in
@@ -86,7 +94,15 @@ struct Setup: View {
                         stopTimer()
                         withAnimation(.spring()){
                             value.scrollTo(0,anchor:.top)
+                            vm.tutorialStep = setupStep.GetNext()
+                            UserDefaults.standard.set(vm.tutorialStep.toString(), forKey: SettingsKeyType.tutorial_step.toString())
+                            
                             setupStep = setupStep.GetNext()
+                        }
+                        shouldBlock = false
+                        
+                        if setupStep == .done{
+                            shouldClose.toggle()
                         }
                     })
                 }
@@ -103,46 +119,37 @@ struct Setup: View {
             VStack{
                 Spacer()
                 HStack{
+                    
+                    if setupStep != .welcome && setupStep != .getStarted{
+                        IconButton(isPressed: $shouldGoBack, size: .large, iconType: .left, iconColor: .grey0, circleColor: .grey4)
+                    }
                     Spacer()
-                    ZStack{
-                        let disabled = GetDisabled()
-                        
-                        if setupStep != .getStarted{
+                    let disabled = GetDisabled()
+                    
+                    if setupStep != .getStarted{
                             
-//                            if count > 4 {
-//                                ProgressTrack(size: .largeMedium, color: .grey5)
-//                                    .opacity(0.6)
-//                                ProgressBar(counter: count - 4.0, countTo: SetupStepType.allCases.count - 4, size: .largeMedium, color: .grey5)
-//                                    .opacity(1.0)
+                            IconButton(isPressed: $shouldAct, size: .large, iconType: .right, iconColor: disabled ? .clear : .grey0, circleColor: disabled ? .clear : .grey10)
+                            .disabled(disabled || shouldBlock)
 //                            }
-                            
-//                            if !disabled {
-                                
-                                IconButton(isPressed: $shouldAct, size: .large, iconType: .right, iconColor: disabled ? .clear : .grey0, circleColor: disabled ? .clear : .grey10)
-                                .disabled(disabled)
-//                            }
-                        }
-                        else if !disabled{
-                            HStack{
-                                Spacer()
-                                TextButton(isPressed: $shouldClose, text: "   Get Envisioning", color: .grey0, backgroundColor: .grey10, style: .h5, shouldHaveBackground: true, shouldFill: false, iconType: .right, height: .large)
-                                    .frame(width:230)
-                            }
-                        }
+                    }
+                    else if !disabled{
+                        LargeTextButtonWithicon(isPressed: $shouldAct)
                     }
         
                 }
             }
-            .offset(x:-20, y:0)
+            .padding([.leading,.trailing],20)
             
         }
         .background(Color.specify(color: .grey0))
-        .onChange(of: setupStep, perform: {
-            _ in
-            contentView = setupStep.toContentView()
-        })
         .onAppear(){
             stopTimer()
+            setupStep = vm.tutorialStep
+            
+            if let archetype = UserDefaults.standard.string(forKey: SettingsKeyType.archetype_type.toString())
+            {
+                self.archetype = ArchetypeType.fromString(from: archetype)
+            }
         }
     }
 
@@ -156,10 +163,12 @@ struct Setup: View {
             SetupTemplate(canProceed: BindingCanProceedMessages(for: .envisionary), bumpScrollView: $bumpScrollView, textArray: SetupStepType.envisionary.toTextArray(), content: {TutorialEnvisionary(canProceed: BindingCanProceedStep(for: .envisionary))})
         case .phases:
             SetupTemplate(canProceed: BindingCanProceedMessages(for: .phases), bumpScrollView: $bumpScrollView, textArray: SetupStepType.phases.toTextArray(), content: {TutorialPhases(canProceed: BindingCanProceedStep(for: .phases), selectedContent: $contentView, isOverview: true)})
-        case .objects:
-            SetupTemplate(canProceed: BindingCanProceedMessages(for: .objects), bumpScrollView: $bumpScrollView, textArray: SetupStepType.objects.toTextArray(), content: {TutorialObjects(canProceed: BindingCanProceedStep(for: .objects))})
+        case .archetype:
+            SetupTemplate(canProceed: BindingCanProceedMessages(for: .archetype), bumpScrollView: $bumpScrollView, textArray: SetupStepType.archetype.toTextArray(), content: {TutorialArchetype(canProceed: BindingCanProceedStep(for: .archetype), selectedArchetype: $archetype)})
         case .getStarted:
             SetupTemplate(canProceed: BindingCanProceedMessages(for: .getStarted), bumpScrollView: $bumpScrollView, textArray: SetupStepType.getStarted.toTextArray(), content: {TutorialGetStarted(canProceed: BindingCanProceedStep(for: .getStarted))})
+        case .thePoint:
+            SetupTemplate(canProceed: BindingCanProceedMessages(for: .thePoint), bumpScrollView: $bumpScrollView, textArray: SetupStepType.thePoint.toTextArray(), content: {TutorialThePoint(canProceed: BindingCanProceedStep(for: .thePoint))})
         default:
             EmptyView()
         }
@@ -194,7 +203,7 @@ struct Setup: View {
     }
     
     func startTimer() {
-        self.timer = Timer.publish(every: 0.2, on: .main, in: .common).autoconnect()
+        self.timer = Timer.publish(every: 0.35, on: .main, in: .common).autoconnect()
     }
 }
 

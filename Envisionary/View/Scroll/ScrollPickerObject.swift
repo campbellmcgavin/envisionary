@@ -41,7 +41,7 @@ struct ScrollPickerObject: View {
                                         }
                                     } label: {
                                         ZStack{
-                                            ScrollPickerObjectText(object: object, width: SizeType.scrollPickerWidth.ToSize(), selectionObject: $objectDisplay, setupStep: $vm.setupStep)
+                                            ScrollPickerObjectText(object: object, width: SizeType.scrollPickerWidth.ToSize(), selectionObject: $objectDisplay, unlocked: vm.unlockedObjects.fromObject(object: object))
 //                                                .frame(height:ShouldShowObjects() ? SizeType.minimumTouchTarget.ToSize() : 0)
 //                                            Text(isLoadingObjects ? "T" : "F")
 //                                                .foregroundColor(.specify(color: .grey10))
@@ -72,7 +72,7 @@ struct ScrollPickerObject: View {
         }
         .onChange(of: vm.filtering.filterContent){
             _ in
-            self.timerPop = Timer.publish(every: 0.16, on: .main, in: .common).autoconnect()
+            self.timerPop = Timer.publish(every: 0.25, on: .main, in: .common).autoconnect()
 
         }
         .onAppear{
@@ -82,10 +82,10 @@ struct ScrollPickerObject: View {
             self.startTimer()
             self.timerPop.upstream.connect().cancel()
         }
-        .onChange(of: vm.setupStep){
-            _ in
-            LoadObjects()
-        }
+//        .onChange(of: vm.tutorialStep){
+//            _ in
+//            LoadObjects()
+//        }
         .onChange(of: objectList){
             _ in
             
@@ -101,14 +101,14 @@ struct ScrollPickerObject: View {
             }
             isLoadingObjects.toggle()
             
-            let setupObject = (vm.setupStep.toObject() ?? .value)
-            if vm.filtering.filterContent == setupObject.toContentType() && objectList.count > 1 && setupObject.toContentType() == previousObjectSetup.toContentType() {
-                
-                contentOffset.x =  CGFloat(objectList.firstIndex(of: previousObjectSetup) ?? 0) * (SizeType.scrollPickerWidth.ToSize() + weirdOffset)
-                withAnimation{
-                    objectDisplay = previousObjectSetup
-                }
-            }
+//            let setupObject = (vm.tutorialStep.toObject() ?? .value)
+//            if vm.filtering.filterContent == setupObject.toContentType() && objectList.count > 1 && setupObject.toContentType() == previousObjectSetup.toContentType() {
+//
+//                contentOffset.x =  CGFloat(objectList.firstIndex(of: previousObjectSetup) ?? 0) * (SizeType.scrollPickerWidth.ToSize() + weirdOffset)
+//                withAnimation{
+//                    objectDisplay = previousObjectSetup
+//                }
+//            }
         }
         
         .onChange(of: objectType){ _ in
@@ -155,9 +155,9 @@ struct ScrollPickerObject: View {
     
     func ObjectShouldShow(object: ObjectType) -> Bool{
         
-        if (vm.setupStep.toObject() ?? .value ).rawValue < object.rawValue{
-            return false
-        }
+//        if (vm.tutorialStep.toObject() ?? .value ).rawValue < object.rawValue{
+//            return false
+//        }
         
         if isSearch == true{
             switch object {
@@ -201,8 +201,8 @@ struct ScrollPickerObject: View {
                 return object == .home
             case .journal:
                 return object == .chapter || object == .entry || object == .emotion
-            case .evaluate:
-                return object == .stats
+//            case .evaluate:
+//                return object == .stats
             }
         }
 
@@ -240,8 +240,8 @@ struct ScrollPickerObject: View {
             return .journal
         case .entry:
             return .journal
-        case .stats:
-            return .evaluate
+//        case .stats:
+//            return .evaluate
         case .emotion:
             return .journal
         case .dream:
@@ -292,7 +292,7 @@ struct ScrollPickerObject: View {
     }
     
     func ShouldShowObjects() -> Bool {
-        return isSearch == true || (vm.filtering.filterContent != .execute && vm.filtering.filterContent != .evaluate)
+        return isSearch == true || (vm.filtering.filterContent != .execute )//&&  vm.filtering.filterContent != .evaluate)
     }
 }
 

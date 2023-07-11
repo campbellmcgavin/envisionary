@@ -27,11 +27,18 @@ struct DetailStack: View {
     var body: some View {
         VStack(alignment:.leading, spacing:0){
             
-            if objectType == .goal && properties.parentGoalId != nil {
-                BuildSuperCard()
-                
-//                DetailSuperGoal(shouldExpand: $shouldExpandAll, objectId: superGoal.id, properties: Properties(goal: superGoal))
+            VStack(spacing:8){
+                if objectType == .goal  {
+                    if properties.parentGoalId != nil{
+                        BuildSuperCard()
+                    }
+                    
+                    DetailFinishUp(objectId: objectId)
+    //                DetailSuperGoal(shouldExpand: $shouldExpandAll, objectId: superGoal.id, properties: Properties(goal: superGoal))
+                }
             }
+            .padding([.top,.bottom])
+
             
             ParentHeaderButton(shouldExpandAll: $shouldExpandAll, color: .purple, header: "Expand All", headerCollapsed: "Collapse All")
             
@@ -42,8 +49,12 @@ struct DetailStack: View {
                 DetailCreed(shouldExpand: $shouldExpandAll, isPresentingModal: $isPresentingModal, modalType: $modalType, focusValue: $focusObjectId)
             }
             
-            if objectType == .entry {
+            if objectType == .entry || objectType == .chapter{
                 DetailImages(shouldExpand: $shouldExpandAll, objectId: objectId, objectType: objectType)
+            }
+            
+            if objectType == .chapter{
+                DetailChildren(shouldExpand: $shouldExpandAll, objectId: objectId, objectType: .chapter, shouldAllowNavigation: true)
             }
 
             if objectType == .goal && properties.timeframe != .day{
@@ -59,7 +70,6 @@ struct DetailStack: View {
             if objectType == .habit{
                 DetailHabitProgress(shouldExpand: $shouldExpandAll, habitId: objectId)
             }
-
 
         }
         .offset(y:offset.y < 150 ? -offset.y/1.5 : -100)
@@ -98,7 +108,7 @@ struct DetailStack: View {
                            PhotoCard(objectType: .goal, objectId: objectId, properties: Properties(goal: superGoal), shouldHaveLink: false)
                                .frame(maxWidth:.infinity)
                                .modifier(ModifierCard())
-                               .padding([.top,.bottom])
+//                               .padding([.top,.bottom])
         })
         .id(navLinkId)
     }

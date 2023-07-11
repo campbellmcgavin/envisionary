@@ -5,9 +5,9 @@
         <attribute name="keyword" optional="YES" attributeType="String"/>
     </entity>
     <entity name="AspectEntity" representedClassName="AspectEntity" syncable="YES" codeGenerationType="class">
-        <attribute name="aspect" optional="YES" attributeType="String"/>
         <attribute name="desc" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
     </entity>
     <entity name="ChapterEntity" representedClassName="ChapterEntity" syncable="YES" codeGenerationType="class">
         <attribute name="aspect" optional="YES" attributeType="String"/>

@@ -15,13 +15,14 @@ struct DetailGantt: View {
     @State var expandedGoals = [UUID]()
     var goalId: UUID
     @State var isExpanded: Bool = true
+    @State var currentTimeframe = TimeframeType.day
     @EnvironmentObject var vm: ViewModel
     @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
-        DetailView(viewType: .gantt, objectId: goalId, selectedObjectId: $focusGoal, selectedObjectType: .constant(.goal), shouldExpandAll: $shouldExpand, expandedObjects: $expandedGoals, isPresentingModal: $isPresentingModal, modalType: $modalType, isPresentingSourceType: .constant(false), content: {
+        DetailView(viewType: .gantt, objectId: goalId, selectedObjectId: $focusGoal, selectedObjectType: .constant(.goal), shouldExpandAll: $shouldExpand, expandedObjects: $expandedGoals, isPresentingModal: $isPresentingModal, modalType: $modalType, isPresentingSourceType: .constant(false), currentTimeframe: currentTimeframe, content: {
             
-            GanttMain(goalId: goalId, focusGoal: $focusGoal, expandedGoals: $expandedGoals)
+            GanttMain(goalId: goalId, focusGoal: $focusGoal, expandedGoals: $expandedGoals, timeframe: $currentTimeframe)
                 .frame(alignment:.leading)
                 .onAppear{
                     expandedGoals.append(goalId)

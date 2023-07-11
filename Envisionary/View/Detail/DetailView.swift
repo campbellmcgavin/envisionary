@@ -17,6 +17,7 @@ struct DetailView<Content: View>: View {
     @Binding var isPresentingModal: Bool
     @Binding var modalType: ModalType
     @Binding var isPresentingSourceType: Bool
+    var currentTimeframe: TimeframeType
     
     @ViewBuilder var content: Content
     
@@ -47,15 +48,15 @@ struct DetailView<Content: View>: View {
                         .foregroundColor(.specify(color: .grey8))
                     
                     Text("Select a " + selectedObjectType.toString() + " to get started.")
-                        .font(.specify(style: .caption))
+                        .font(.specify(style: .h6))
                         .foregroundColor(.specify(color: .grey4))
                         .padding(.bottom)
+                        .padding(.top,4)
                     
                     BuildMenu()
                     
                 }
                 .padding([.leading,.trailing,.top])
-                
                 
                 content
                     .padding(.top, 25)
@@ -85,10 +86,11 @@ struct DetailView<Content: View>: View {
                 let affectedGoals = vm.ListAffectedGoals(id: selectedObjectId)
                 let affectedParentGoal = vm.GetGoal(id: selectedObjectId) ?? Goal()
     
+                let timeframe = currentTimeframe == .decade ? .year : currentTimeframe
                 for affectedGoal in affectedGoals {
                     var updateRequest = UpdateGoalRequest(goal: affectedGoal)
-                    updateRequest.startDate = updateRequest.startDate.AdvanceDate(timeframe: affectedParentGoal.timeframe, forward: false)
-                    updateRequest.endDate = updateRequest.endDate.AdvanceDate(timeframe: affectedParentGoal.timeframe, forward: false)
+                    updateRequest.startDate = updateRequest.startDate.AdvanceDate(timeframe: timeframe, forward: false)
+                    updateRequest.endDate = updateRequest.endDate.AdvanceDate(timeframe: timeframe, forward: false)
                     withAnimation{
                         _ = vm.UpdateGoal(id: affectedGoal.id, request: updateRequest)
                     }
@@ -97,11 +99,12 @@ struct DetailView<Content: View>: View {
             .onChange(of:shouldPushForward){ _ in
                 let affectedGoals = vm.ListAffectedGoals(id: selectedObjectId)
                 let affectedParentGoal = vm.GetGoal(id: selectedObjectId) ?? Goal()
-    
+                let timeframe = currentTimeframe == .decade ? .year : currentTimeframe
+                
                 for affectedGoal in affectedGoals {
                     var updateRequest = UpdateGoalRequest(goal: affectedGoal)
-                    updateRequest.startDate = updateRequest.startDate.AdvanceDate(timeframe: affectedParentGoal.timeframe, forward: true)
-                    updateRequest.endDate = updateRequest.endDate.AdvanceDate(timeframe: affectedParentGoal.timeframe, forward: true)
+                    updateRequest.startDate = updateRequest.startDate.AdvanceDate(timeframe: timeframe, forward: true)
+                    updateRequest.endDate = updateRequest.endDate.AdvanceDate(timeframe: timeframe, forward: true)
                     withAnimation{
                         _ = vm.UpdateGoal(id: affectedGoal.id, request: updateRequest)
                     }

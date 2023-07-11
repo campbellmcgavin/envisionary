@@ -20,7 +20,7 @@ struct ModalSearch: View {
     @EnvironmentObject var vm: ViewModel
     var body: some View {
         
-        Modal(modalType: .search, objectType: objectType, isPresenting: $isPresenting, shouldConfirm: .constant(false), isPresentingImageSheet: .constant(false), allowConfirm: .constant(true), modalContent: {
+        Modal(modalType: .search, objectType: objectType, isPresenting: $isPresenting, shouldConfirm: .constant(false), isPresentingImageSheet: .constant(false), allowConfirm: true, modalContent: {
             GetContent()
 
         }, headerContent: {

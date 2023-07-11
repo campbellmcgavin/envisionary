@@ -8,6 +8,15 @@
 import SwiftUI
 
 enum ChapterType: CaseIterable {
+    case myInsecurities
+    case songIdeas
+    case artsyFartsy
+    case inspirationalQuotes
+    case bikingTheAlps
+    case restaurantJournal
+    case personalMotivationJournal
+    case onePercentBetterEveryday
+    case seeingTheImpact
     case backpackingEurope
     case romance
     case imSad
@@ -54,6 +63,24 @@ enum ChapterType: CaseIterable {
             return "Spiritual Experiences"
         case .neitherHereNorThere:
             return "Neither here nor there."
+        case .myInsecurities:
+            return "My insecurities"
+        case .songIdeas:
+            return "Song ideas"
+        case .artsyFartsy:
+            return "Artsy Fartsy"
+        case .inspirationalQuotes:
+            return "Inspirational Quotes"
+        case .bikingTheAlps:
+            return "Biking the alps"
+        case .restaurantJournal:
+            return "Restaurant Journal"
+        case .personalMotivationJournal:
+            return "Personal Motivation Quotes"
+        case .onePercentBetterEveryday:
+            return "1% Better Everyday"
+        case .seeingTheImpact:
+            return "Seeing the Impact"
         }
     }
     
@@ -87,6 +114,24 @@ enum ChapterType: CaseIterable {
             return "It's so crucial that I can see how the higher power is involved in my life directly."
         case .neitherHereNorThere:
             return "for all of the other things."
+        case .myInsecurities:
+            return "I carry myself confidently, but on the inside..."
+        case .songIdeas:
+            return "Good ones, bad ones, and the next top hit."
+        case .artsyFartsy:
+            return "My creative side."
+        case .inspirationalQuotes:
+            return "Famous words that fill."
+        case .bikingTheAlps:
+            return "Summary 2023. All the good mems."
+        case .restaurantJournal:
+            return "Every restaurant I've tried."
+        case .personalMotivationJournal:
+            return "Where I tell myself I'm good enough."
+        case .onePercentBetterEveryday:
+            return "Written record of my improvements over time."
+        case .seeingTheImpact:
+            return "Where I show that I really am making a difference."
         }
     }
     
@@ -120,6 +165,24 @@ enum ChapterType: CaseIterable {
             return CreateChapterRequest(title: self.toString(), description: self.toDescription(), aspect: .spiritual)
         case .neitherHereNorThere:
             return CreateChapterRequest(title: self.toString(), description: self.toDescription(), aspect: .fun)
+        case .myInsecurities:
+            return CreateChapterRequest(title: self.toString(), description: self.toDescription(), aspect: .personal)
+        case .songIdeas:
+            return CreateChapterRequest(title: self.toString(), description: self.toDescription(), aspect: .sideProjects)
+        case .artsyFartsy:
+            return CreateChapterRequest(title: self.toString(), description: self.toDescription(), aspect: .sideProjects)
+        case .inspirationalQuotes:
+            return CreateChapterRequest(title: self.toString(), description: self.toDescription(), aspect: .personal)
+        case .bikingTheAlps:
+            return CreateChapterRequest(title: self.toString(), description: self.toDescription(), aspect: .travel)
+        case .restaurantJournal:
+            return CreateChapterRequest(title: self.toString(), description: self.toDescription(), aspect: .travel)
+        case .personalMotivationJournal:
+            return CreateChapterRequest(title: self.toString(), description: self.toDescription(), aspect: .personal)
+        case .onePercentBetterEveryday:
+            return CreateChapterRequest(title: self.toString(), description: self.toDescription(), aspect: .personal)
+        case .seeingTheImpact:
+            return CreateChapterRequest(title: self.toString(), description: self.toDescription(), aspect: .personal)
         }
     }
     

@@ -9,16 +9,16 @@ import SwiftUI
 
 struct BottomNavigationBar: View {
     @Binding var selectedContentView: ContentViewType
-    var setupStep: SetupStepType
     
     var body: some View {
         VStack(spacing:0){
             Divider()
-                .background(Color.specify(color: .grey3))
+                .overlay(Color.specify(color: .grey4))
+//                .background(Color.specify(color: .red))
             HStack{
                 ForEach(ContentViewType.allCases,id:\.self){
                     contentView in
-                    ContentButton(selectedContentView: $selectedContentView, contentView: contentView, setupStep: setupStep)
+                    ContentButton(selectedContentView: $selectedContentView, contentView: contentView)
                         .frame(maxWidth:.infinity)
                 }
             }
@@ -30,6 +30,6 @@ struct BottomNavigationBar: View {
 
 struct BottomNavigationBar_Previews: PreviewProvider {
     static var previews: some View {
-        BottomNavigationBar(selectedContentView: .constant(.plan), setupStep: .value)
+        BottomNavigationBar(selectedContentView: .constant(.plan))
     }
 }

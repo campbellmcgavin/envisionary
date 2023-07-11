@@ -11,7 +11,7 @@ protocol DataServiceProtocol {
     
     // MARK: - IMAGE
     func CreateImage(image: UIImage) -> UUID
-    func GetImage(id: UUID) -> UIImage?
+    func GetImage(id: UUID, newContext: Bool) -> UIImage?
     func DeleteImage(id: UUID) -> Bool
     
     // MARK: - GOALS

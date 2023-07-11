@@ -10,7 +10,7 @@ import SwiftUI
 struct SelectedButton: View {
     @Binding var isSelected: Bool
     
-    var selectedColor: CustomColor = .purple
+    var selectedColor: CustomColor? = .purple
     var body: some View {
         
         Button{
@@ -26,10 +26,10 @@ struct SelectedButton: View {
                 .foregroundColor(.specify(color: .grey2))
             Circle()
                 .frame(width:SizeType.medium.ToSize(),height:SizeType.extraSmall.ToSize())
-                .foregroundColor(.specify(color: selectedColor))
+                .foregroundColor(.specify(color: selectedColor ?? .purple))
                 .opacity(isSelected ? 1.0 : 0.0)
             Circle()
-                .strokeBorder(Color.specify(color: isSelected ? selectedColor : .grey5), lineWidth:5)
+                .strokeBorder(Color.specify(color: isSelected ? selectedColor ?? .purple : .grey5), lineWidth:5)
                 .frame(width:SizeType.mediumLarge.ToSize(),height:SizeType.medium.ToSize())
         }
 

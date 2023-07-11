@@ -10,23 +10,45 @@ import SwiftUI
 class AlertsService: ObservableObject {
     @Published var alerts: [Alert] = [Alert]()
 
-    func UpdateObjectAlerts(object: ObjectType){
+    func UpdateObjectAlerts(object: ObjectType, shouldShow: Bool){
+        
         alerts.removeAll(where: {$0.alertType == .info_object})
-        alerts.append(Alert(alertType: .info_object, keyword: object.toPluralString(), description: object.toDescription(), timeAmount: 12, isPersistent: false))
+        if shouldShow{
+            alerts.append(Alert(alertType: .info_object, keyword: object.toPluralString(), description: object.toDescription(), timeAmount: 45, isPersistent: false))
+        }
     }
 
-    func UpdateCalendarAlerts(object: ObjectType, timeframe: TimeframeType, date: Date){
+    func UpdateCalendarAlerts(object: ObjectType, timeframe: TimeframeType, date: Date, shouldShow: Bool){
         alerts.removeAll(where: {$0.alertType == .info_timeframe})
-        alerts.append(Alert(alertType: .info_timeframe, keyword: "Showing", description: object.toFilterDescription(date: date, timeframe: timeframe), timeAmount: 12, isPersistent: false))
+        
+        if shouldShow{
+            alerts.append(Alert(alertType: .info_timeframe, keyword: "Showing", description: object.toFilterDescription(date: date, timeframe: timeframe), timeAmount: 45, isPersistent: false))
+        }
     }
     
-    func UpdateContentAlerts(content: ContentViewType){
+    func UpdateContentAlerts(content: ContentViewType, shouldShow: Bool){
         alerts.removeAll(where: {$0.alertType == .info_content})
-        alerts.append(Alert(alertType: .info_content, keyword: content.toString(), description: content.toDescription(), timeAmount: 12, isPersistent: false))
+        
+        if shouldShow{
+            alerts.append(Alert(alertType: .info_content, keyword: content.toString(), description: content.toDescription(), timeAmount: 45, isPersistent: false))
+        }
     }
     
     func AddSetupUnlockAlert(object: ObjectType){
-        alerts.removeAll()
-        alerts.append(Alert(alertType: .confirm, keyword: object.toPluralString(), description: (object == .creed || object == .home) ? "has been unlocked!" : "have been unlocked!", timeAmount: 300, isPersistent: false))
+        alerts.removeAll(where: {$0.alertType == .confirm})
+            var message = "has been unlocked!"
+            
+//            if object == .goal {
+//                message.append(" Go to Plan to continue.")
+//            }
+//            if object == .home{
+//                message.append(" Go to Execute to continue.")
+//            }
+//            if object == .chapter{
+//                message.append(" Go to Journal to continue.")
+//            }
+            
+            alerts.append(Alert(alertType: .confirm, keyword: object.toPluralString(), description: message, timeAmount: 45, isPersistent: false))
+//        }
     }
 }

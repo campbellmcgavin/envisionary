@@ -11,32 +11,40 @@ struct DetailChildren: View {
     @Binding var shouldExpand: Bool
     let objectId: UUID
     let objectType: ObjectType
-    let shouldAllowNavigation: Bool = false
+    var shouldAllowNavigation: Bool = false
     var shouldShowBackground = true
     @State var isExpanded: Bool = true
+    @State var properties: Properties = Properties()
+    @State var childProperties: [Properties] = [Properties]()
+    @State var childPropertiesFiltered: [Properties] = [Properties]()
+    @State var searchString: String = ""
+    
     @EnvironmentObject var vm: ViewModel
     
     var body: some View {
         
         VStack(spacing:0){
-            let goal = vm.GetGoal(id: objectId)
-            HeaderButton(isExpanded: $isExpanded, color: .grey10, header: (goal?.timeframe.toChildTimeframe().toString() ?? "") + " goals")
+            HeaderButton(isExpanded: $isExpanded, color: .grey10, header: GetTitle())
             
             if isExpanded {
-                let childGoals = vm.ListChildGoals(id: objectId)
                 
                 VStack{
                     
-                    ForEach(childGoals){ goal in
+                    if childProperties.count > 0 {
+                        FormText(fieldValue: $searchString, fieldName: "Search", axis: .horizontal, iconType: .search)
+                    }
+                    
+                    ForEach(childPropertiesFiltered){ childProperty in
                         
-                        if shouldAllowNavigation{
-                            PhotoCard(objectType: .goal, objectId: goal.id, properties: Properties(goal:goal))
-                        }
-                        else{
-                            PhotoCardSimple(objectType: .goal, properties: Properties(goal:goal))
-                        }
-                        
-                        if childGoals.last != goal{
+                            if shouldAllowNavigation{
+                                
+                                PhotoCard(objectType: GetChildObjectType(), objectId: childProperty.id, properties: childProperty)
+                            }
+                            else{
+                                PhotoCardSimple(objectType: objectType, properties: childProperty)
+                            }
+
+                        if childPropertiesFiltered.last != childProperty{
                             Divider()
                                 .overlay(Color.specify(color: .grey2))
                                 .frame(height:1)
@@ -44,20 +52,30 @@ struct DetailChildren: View {
                         }
                     }
                     
-                    if childGoals.count == 0 {
-                        NoObjectsLabel(objectType: objectType, labelType: .session)
+                    if childProperties.count == 0 {
+                        NoObjectsLabel(objectType: objectType == .chapter ? .entry : objectType, labelType: objectType == .session ? .session : .page)
                     }
                 }
                 .frame(maxWidth:.infinity)
                 .frame(alignment:.leading)
-                .frame(minHeight: childGoals.count == 0 ? 70 : 0)
+                .frame(minHeight: childProperties.count == 0 ? 70 : 0)
                 .padding(8)
                 .modifier(ModifierCard(color: shouldShowBackground ? .grey1 : .clear ))
 
             }
         }
-        .onChange(of:shouldExpand){
-            _ in
+        .onAppear{
+            LoadProperties()
+            FilterList()
+        }
+        .onChange(of: searchString){ _ in
+            FilterList()
+        }
+        .onChange(of: vm.updates){ _ in
+            LoadProperties()
+            FilterList()
+        }
+        .onChange(of:shouldExpand){ _ in
             withAnimation{
                 if shouldExpand{
                     isExpanded = true
@@ -66,6 +84,63 @@ struct DetailChildren: View {
                     isExpanded = false
                 }
             }
+        }
+    }
+    
+    func FilterList(){
+        withAnimation{
+            childPropertiesFiltered.removeAll()
+            let searchStringTrimmed = searchString.trimmingCharacters(in: .whitespacesAndNewlines)
+            
+            for properties in childProperties{
+                if let title = properties.title{
+                    
+                    if searchStringTrimmed.count == 0 || title.contains(searchStringTrimmed){
+                        childPropertiesFiltered.append(properties)
+                    }
+                }
+            }
+        }
+    }
+    
+    func LoadProperties(){
+        switch objectType {
+        case .goal:
+            properties = Properties(goal: vm.GetGoal(id: objectId) ?? Goal())
+            childProperties = vm.ListChildGoals(id: objectId).map({Properties(goal: $0)})
+        case .chapter:
+            properties = Properties(chapter: vm.GetChapter(id: objectId) ?? Chapter())
+            
+            var criteria = Criteria()
+            criteria.chapterId = objectId
+            let entries = vm.ListEntries(criteria: criteria)
+            childProperties = entries.map({Properties(entry: $0)})
+        default:
+            properties = Properties()
+        }
+    }
+    
+    func GetChildObjectType() -> ObjectType{
+        switch objectType{
+        case .goal:
+            return .goal
+        case .chapter:
+            return .entry
+        default:
+            return.goal
+        }
+    }
+    
+    
+    
+    func GetTitle() -> String{
+        switch objectType{
+        case .goal:
+            return properties.timeframe?.toString() ?? TimeframeType.day.toString() + ObjectType.goal.toPluralString()
+        case .chapter:
+            return ObjectType.entry.toPluralString()
+        default:
+            return ""
         }
     }
 }

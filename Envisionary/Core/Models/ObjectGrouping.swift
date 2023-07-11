@@ -16,7 +16,6 @@ struct ObjectGrouping: Equatable {
     var habit: GroupingType
     var chapter: GroupingType
     var entry: GroupingType
-//    var emotion: GroupingType
     
     init(){
         dream = GroupingType.fromString(from: UserDefaults.standard.string(forKey: SettingsKeyType.group_dream.toString()) ?? "")
@@ -27,6 +26,26 @@ struct ObjectGrouping: Equatable {
         chapter = GroupingType.fromString(from: UserDefaults.standard.string(forKey: SettingsKeyType.group_chapter.toString()) ?? "")
         entry = GroupingType.fromString(from: UserDefaults.standard.string(forKey: SettingsKeyType.group_entry.toString()) ?? "")
 //        emotion = GroupingType.fromString(from: UserDefaults.standard.string(forKey: SettingsKeyType.group_emotion.toString()) ?? "")
+    }
+    
+    func fromObject(object: ObjectType) -> GroupingType{
+        switch object {
+        
+        case .dream:
+            return dream
+        case .goal:
+            return goal
+        case .habit:
+            return habit
+        case .session:
+            return session
+        case .chapter:
+            return chapter
+        case .entry:
+            return entry
+        default:
+            return dream
+        }
     }
     
     static func == (lhs: ObjectGrouping, rhs: ObjectGrouping) -> Bool {

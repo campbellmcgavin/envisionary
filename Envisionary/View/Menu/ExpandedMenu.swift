@@ -27,9 +27,15 @@ struct ExpandedMenu: View {
                     .font(.specify(style: .caption))
                     .opacity(0.5)
                     .padding(.bottom,-10)
-                Text(vm.filtering.filterObject.toPluralString())
-                    .font(.specify(style: .h0))
-                    .padding(.bottom,-5)
+                HStack{
+                    Text(vm.filtering.filterObject.toPluralString())
+                        .font(.specify(style: .h0))
+                        .padding(.bottom,-5)
+                    
+//                    if !vm.unlockedObjects.fromObject(object: vm.filtering.filterObject){
+//                        Text("Ready to unlock")
+//                    }
+                }
             }
             .scaleEffect(offset > 0 ?  1.0 : 1.0 - 0.001 * offset, anchor: .bottomLeading)
 
@@ -46,23 +52,29 @@ struct ExpandedMenu: View {
             if(ShouldShowCalendar()){
                 HStack(spacing:0){
                     VStack(alignment: .leading, spacing: 0){
+                        
                         Text(vm.filtering.filterTimeframe.toString())
                             .textCase(.uppercase)
                             .font(.specify(style: .caption))
                             .opacity(0.5)
                             .padding(.bottom,-8)
+
                         HStack{
                             
-                            Text(vm.filtering.filterDate.toString(timeframeType: vm.filtering.filterTimeframe))
+                            Text(!ShouldShowDates() ? "Timeframe" : vm.filtering.filterDate.toString(timeframeType: vm.filtering.filterTimeframe))
                                 .font(.specify(style: .h3))
                             
-                            DateResetButton()
+//                            if vm.filtering.filterObject != .session{
+                                DateResetButton()
+                                .opacity(!ShouldShowDates() ? 0.0 : 1.0)
+                                .disabled(!ShouldShowDates())
+//                            }
                         }
    
                     }
 
                     Spacer()
-                    if ShouldShowDates(){
+                    if ShouldShowDates() && vm.filtering.filterObject != .session{
                         IconButton(isPressed: $shouldMoveDateBackward, size: .small, iconType: .left, iconColor: .grey10)
                         IconButton(isPressed: $shouldMoveDateForward, size: .small, iconType: .right, iconColor: .grey10)
                     }
@@ -157,6 +169,10 @@ struct ExpandedMenu: View {
     
     func ShouldShowCalendar() -> Bool{
 
+        if !vm.unlockedObjects.fromObject(object: vm.filtering.filterObject) || !vm.filtering.filterIncludeCalendar{
+            return false
+        }
+        
         switch vm.filtering.filterObject {
         case .value:
             return false
@@ -178,8 +194,8 @@ struct ExpandedMenu: View {
             return false
         case .entry:
             return true
-        case .stats:
-            return false
+//        case .stats:
+//            return false
         case .emotion:
             return true
         case .dream:
@@ -214,8 +230,8 @@ struct ExpandedMenu: View {
             return false
         case .entry:
             return true
-        case .stats:
-            return false
+//        case .stats:
+//            return false
         case .emotion:
             return true
         case .dream:

@@ -8,6 +8,7 @@
 import Foundation
 
 enum SizeType {
+    case tiny
     case extraSmall
     case small
     case medium
@@ -35,6 +36,8 @@ enum SizeType {
     
     func ToSize() -> CGFloat{
         switch self {
+        case .tiny:
+            return 14
         case .extraSmall:
             return 20
         case .small:

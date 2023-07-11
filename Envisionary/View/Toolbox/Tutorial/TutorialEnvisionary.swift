@@ -52,8 +52,32 @@ struct TutorialEnvisionary: View {
                 "🏆".ToImage(imageSize: 120)
             }
         }
+        .interactiveLabel(labelValue: GetLabel(item: item), yOffset: 40)
         .offset(x: offset.x, y: offset.y)
         .wiggling(shouldWiggle: shouldWiggle, intensity: 1.2)
+    }
+    
+    func GetLabel(item: Int) -> String{
+        switch item{
+        case 0:
+            return "Your life's work"
+        case 1:
+            return "Your career"
+        case 2:
+            return "Your company"
+        case 3:
+            return "Making it big"
+        case 4:
+            return "The promotion"
+        case 5:
+            return "The grind"
+        case 6:
+            return "Happy family"
+        case 7:
+            return "Dream Vacation"
+        default:
+            return "Extra"
+        }
     }
     
     func GetOffset(item: Int) -> Position{

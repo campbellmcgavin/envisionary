@@ -15,7 +15,7 @@ struct ModalPhotoSource: View {
     @State var shouldSelectCameraRoll = false
     
     var body: some View {
-        Modal(modalType: .photoSource, objectType: .home, isPresenting: $isPresenting, shouldConfirm: .constant(false), isPresentingImageSheet: .constant(false), allowConfirm: .constant(true), modalContent: {
+        Modal(modalType: .photoSource, objectType: .home, isPresenting: $isPresenting, shouldConfirm: .constant(false), isPresentingImageSheet: .constant(false), allowConfirm: true, modalContent: {
             VStack{
                 TextButton(isPressed: $shouldSelectTakePhoto, text: "Take photo", color: .grey2, backgroundColor: .grey10, style: .h3, shouldHaveBackground: true)
                 TextButton(isPressed: $shouldSelectCameraRoll, text: "Photo library", color: .grey10, backgroundColor: .grey3, style: .h3, shouldHaveBackground: true)

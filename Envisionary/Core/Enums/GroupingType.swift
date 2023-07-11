@@ -189,8 +189,8 @@ enum GroupingType: CaseIterable {
                 return true
             }
             return false
-        case .stats:
-            return false
+//        case .stats:
+//            return false
         case .prompt:
             return false
         case .recurrence:

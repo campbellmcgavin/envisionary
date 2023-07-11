@@ -20,13 +20,13 @@ struct DetailTree: View {
     
     var body: some View {
 
-        DetailView(viewType: .tree, objectId: goalId, selectedObjectId: $focusGoal, selectedObjectType: .constant(.goal), shouldExpandAll: $shouldExpand, expandedObjects: $expandedGoals, isPresentingModal: $isPresentingModal, modalType: $modalType, isPresentingSourceType: $isPresentingSourceType, content: {
+        DetailView(viewType: .tree, objectId: goalId, selectedObjectId: $focusGoal, selectedObjectType: .constant(.goal), shouldExpandAll: $shouldExpand, expandedObjects: $expandedGoals, isPresentingModal: $isPresentingModal, modalType: $modalType, isPresentingSourceType: $isPresentingSourceType, currentTimeframe: .day, content: {
 
             
                 ScrollView([.horizontal],showsIndicators: true){
                     VStack(alignment:.leading, spacing:0){
                         TreeDiagramView(goalId: goalId, focusGoal: $focusGoal, expandedGoals: $expandedGoals, value: { goalId in
-                            BubbleView(goalId: goalId, focusGoal: $focusGoal)
+                            BubbleView(goalId: goalId, focusGoal: $focusGoal, shouldShowStatusLabel: true)
                         }, childCount: 0)
                         .padding(.top,5)
                         .padding(.bottom)

@@ -18,7 +18,25 @@ enum SettingsKeyType {
     case group_entry
     case group_emotion
     
-    case setup_step
+    case tutorial_step
+    
+    case help_prompts_object
+    case help_prompts_content
+    case help_prompts_showing
+    
+    case archetype_type
+    
+    case unlock_value
+    case unlock_creed
+    case unlock_dream
+    case unlock_aspect
+    case unlock_goal
+    case unlock_habit
+    case unlock_session
+    case unlock_home
+    case unlock_chapter
+    case unlock_entry
+    case unlock_mood
     
     func toString() -> String{
         switch self {
@@ -40,8 +58,38 @@ enum SettingsKeyType {
             return "group_emotion"
         case .finishedFirstLaunch:
             return "finishedFirstLaunch"
-        case .setup_step:
-            return "setup_step"
+        case .tutorial_step:
+            return "tutorial_step"
+        case .help_prompts_object:
+            return "help_prompts_object"
+        case .help_prompts_content:
+            return "help_prompts_content"
+        case .help_prompts_showing:
+            return "help_prompts_showing"
+        case .archetype_type:
+            return "archetype_type"
+        case .unlock_value:
+            return "unlock_value"
+        case .unlock_creed:
+            return "unlock_creed"
+        case .unlock_dream:
+            return "unlock_dream"
+        case .unlock_aspect:
+            return "unlock_aspect"
+        case .unlock_goal:
+            return "unlock_goal"
+        case .unlock_habit:
+            return "unlock_habit"
+        case .unlock_session:
+            return "unlock_session"
+        case .unlock_home:
+            return "unlock_home"
+        case .unlock_chapter:
+            return "unlock_chapter"
+        case .unlock_entry:
+            return "unlock_entry"
+        case .unlock_mood:
+            return "unlock_mood"
         }
     }
 }

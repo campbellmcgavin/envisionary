@@ -9,7 +9,7 @@ enum ModalType{
     
     case add
     case search
-    case group
+    case settings
     case filter
     case notifications
     case help
@@ -17,7 +17,7 @@ enum ModalType{
     case delete
     case photoSource
     case photo
-    case setup
+//    case setup
     
     
     func ShouldShowImage(objectType: ObjectType) -> Bool {
@@ -26,7 +26,7 @@ enum ModalType{
             return objectType.ShouldShowImage()
         case .search:
             return false
-        case .group:
+        case .settings:
             return false
         case .filter:
             return false
@@ -42,8 +42,8 @@ enum ModalType{
             return false
         case .photo:
             return objectType.ShouldShowImage()
-        case .setup:
-            return false
+//        case .setup:
+//            return false
         }
     }
 }

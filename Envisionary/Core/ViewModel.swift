@@ -13,25 +13,26 @@ class ViewModel: ObservableObject, DataServiceProtocol
     @Published var filtering = ObjectFiltering()
     @Published var updates = ObjectUpdates()
     @Published var triggers = InterfaceTriggers()
-    @Published var setupStep = SetupStepType.value
-    
-    private var stepIsComplete = false
+    @Published var tutorialStep: SetupStepType = SetupStepType.fromString(from: UserDefaults.standard.string(forKey: SettingsKeyType.tutorial_step.toString()) ?? "")
+    @Published var unlockedObjects = UnlockedObjects()
+    @Published var helpPrompts = HelpPrompts()
+    var archetype: ArchetypeType = ArchetypeType.fromString(from: UserDefaults.standard.string(forKey: SettingsKeyType.archetype_type.toString()) ?? "")
     
     // MARK: - GLOBAL STATE
     
     // DATES
     @Published var pushToToday = false
     
-    // MARK: - Initializers
-    init(){
-        let storedValue_ = UserDefaults.standard.string(forKey: SettingsKeyType.setup_step.toString())
-        setupStep = SetupStepType.fromString(from: storedValue_ ?? "")
-    }
     
-    // MARK: - SETUP STEP
+    // MARK: - KEYS
     
     func UpdateSetupStep(){
-        UserDefaults.standard.set(self.setupStep.toString(), forKey: SettingsKeyType.setup_step.toString())
+        UserDefaults.standard.set(self.tutorialStep.toString(), forKey: SettingsKeyType.tutorial_step.toString())
+    }
+    
+    func UpdateArchetype(archetype: ArchetypeType){
+        self.archetype = archetype
+        UserDefaults.standard.set(self.archetype.toString(), forKey: SettingsKeyType.archetype_type.toString())
     }
     
     // MARK: - IMAGE
@@ -41,8 +42,8 @@ class ViewModel: ObservableObject, DataServiceProtocol
         return dataService.CreateImage(image: image)
     }
     
-    func GetImage(id: UUID) -> UIImage? {
-        return dataService.GetImage(id: id)
+    func GetImage(id: UUID, newContext: Bool = true) -> UIImage? {
+        return dataService.GetImage(id: id, newContext: newContext)
     }
     
     func DeleteImage(id: UUID) -> Bool {
@@ -87,6 +88,39 @@ class ViewModel: ObservableObject, DataServiceProtocol
     func UpdateGoal(id: UUID, request: UpdateGoalRequest) -> Bool {
         GoalsDidChange()
         return dataService.UpdateGoal(id: id, request: request)
+    }
+    
+    func UpdateGoalProgress(id: UUID, progress: Int) -> Bool{
+        
+        // update the status of the goal in question and all sub goals.
+        
+        let affectedGoals = ListAffectedGoals(id: id)
+        for goal in affectedGoals{
+            var request = UpdateGoalRequest(goal: goal)
+            request.progress = progress
+            _ = dataService.UpdateGoal(id: goal.id, request: request)
+        }
+        
+        // update the goals above it.
+        
+        var parentId: UUID? = GetGoal(id: id)?.parentId
+        
+        while parentId != nil {
+            if let parentIdLocal = parentId{
+                if var goal = GetGoal(id: parentIdLocal){
+                    let childGoals = ListChildGoals(id: parentIdLocal)
+                    let progressNumerator = Double(childGoals.map({$0.progress}).reduce(0,+))
+                    let progressDenominator = Double(childGoals.count <= 0 ? 1 : childGoals.count)
+                    let progress = Int(progressNumerator/progressDenominator)
+                    goal.progress = progress
+                    _ = dataService.UpdateGoal(id: parentIdLocal, request: UpdateGoalRequest(goal: goal))
+                    parentId = goal.parentId
+                }
+            }
+        }
+        
+        GoalsDidChange()
+        return true
     }
     
     func DeleteGoal(id: UUID) -> Bool{

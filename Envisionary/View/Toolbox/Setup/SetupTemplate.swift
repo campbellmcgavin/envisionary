@@ -31,7 +31,7 @@ struct SetupTemplate<Content: View>: View {
                         .font(.specify(style: .h5))
                         .frame(maxWidth:.infinity, alignment:.leading)
                         .padding()
-                        .modifier(ModifierForm(color:.grey2))
+                        .modifier(ModifierForm(color:.grey15))
                         .transition(transition)
                 }
             }
@@ -39,7 +39,7 @@ struct SetupTemplate<Content: View>: View {
             if shouldShowIndex > textArray.count {
                 content
                     .transition(transition)
-                    .modifier(ModifierForm())
+                    .modifier(ModifierForm(color: .grey15))
             }
             else{
                 HStack{

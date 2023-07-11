@@ -27,7 +27,7 @@ struct DetailKanban: View {
     @State var shouldHideElements = false
     
     var body: some View {
-        DetailView(viewType: .kanban, objectId: goalId, selectedObjectId: $focusGoal, selectedObjectType: .constant(.goal), shouldExpandAll: $shouldExpand, expandedObjects: $expandedGoals, isPresentingModal: $isPresentingModal, modalType: $modalType, isPresentingSourceType: .constant(false), content: {
+        DetailView(viewType: .kanban, objectId: goalId, selectedObjectId: $focusGoal, selectedObjectType: .constant(.goal), shouldExpandAll: $shouldExpand, expandedObjects: $expandedGoals, isPresentingModal: $isPresentingModal, modalType: $modalType, isPresentingSourceType: .constant(false), currentTimeframe: .day, content: {
 
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(alignment: .top, spacing: 0) {
@@ -55,7 +55,7 @@ struct DetailKanban: View {
                                             
                                         }
                                         withAnimation{
-                                            _ = vm.UpdateGoal(id: goal.id, request: request)
+                                            _ = vm.UpdateGoalProgress(id: goal.id, progress: request.progress)
                                         }
                                     }
                                 }

@@ -13,7 +13,8 @@ struct Modal<ModalContent: View, HeaderContent: View, BottomContent: View, Betwe
     @Binding var isPresenting: Bool
     @Binding var shouldConfirm: Bool
     @Binding var isPresentingImageSheet: Bool
-    @Binding var allowConfirm: Bool
+    var allowConfirm: Bool = false
+    var didAttemptToSave: Bool = false
     var title: String?
     var subtitle: String?
     var image: UIImage?
@@ -71,7 +72,7 @@ struct Modal<ModalContent: View, HeaderContent: View, BottomContent: View, Betwe
                     .disabled(modalType == .delete)
                     .ignoresSafeArea()
                     
-                    ModalMenu(modalType: modalType, objectType: objectType, color: GetHeaderColor(), shouldHelp: $shouldHelp, shouldClose: $isPresenting, shouldConfirm: $shouldConfirm, allowConfirm: $allowConfirm)
+                    ModalMenu(modalType: modalType, objectType: objectType, color: GetHeaderColor(), shouldHelp: $shouldHelp, shouldClose: $isPresenting, shouldConfirm: $shouldConfirm, allowConfirm: allowConfirm, didAttemptToSave: didAttemptToSave)
                         .frame(alignment:.top)
                 }
                 .frame(alignment:.bottom)
@@ -112,7 +113,7 @@ struct Modal<ModalContent: View, HeaderContent: View, BottomContent: View, Betwe
             return false
         case .search:
             return false
-        case .group:
+        case .settings:
             return false
         case .filter:
             return false
@@ -128,8 +129,6 @@ struct Modal<ModalContent: View, HeaderContent: View, BottomContent: View, Betwe
             return true
         case .photo:
             return true
-        case .setup:
-            return false
         }
     }
     
@@ -166,8 +165,8 @@ struct Modal<ModalContent: View, HeaderContent: View, BottomContent: View, Betwe
             return title ?? ""
         case .search:
             return objectType.toPluralString()
-        case .group:
-            return "Grouping"
+        case .settings:
+            return "Settings"
         case .filter:
             return "Filters"
         case .notifications:
@@ -182,8 +181,6 @@ struct Modal<ModalContent: View, HeaderContent: View, BottomContent: View, Betwe
             return "Photo source"
         case .photo:
             return "Photo"
-        case .setup:
-            return objectType.toPluralString()
         }
     }
     
@@ -198,7 +195,7 @@ struct Modal<ModalContent: View, HeaderContent: View, BottomContent: View, Betwe
                 return "Add " + objectType.toString()
             case .search:
                 return "Search"
-            case .group:
+            case .settings:
                 return "View"
             case .filter:
                 return "View"
@@ -214,8 +211,6 @@ struct Modal<ModalContent: View, HeaderContent: View, BottomContent: View, Betwe
                 return "Select"
             case .photo:
                 return "View"
-            case .setup:
-                return "Setup"
             }
         }
 
@@ -224,7 +219,7 @@ struct Modal<ModalContent: View, HeaderContent: View, BottomContent: View, Betwe
 
 struct Modal_Previews: PreviewProvider {
     static var previews: some View {
-        Modal(modalType: .add, objectType: .goal, isPresenting: .constant(true), shouldConfirm: .constant(false),isPresentingImageSheet:.constant(false), allowConfirm: .constant(true), title: Properties(objectType: .goal).title!, modalContent: {
+        Modal(modalType: .add, objectType: .goal, isPresenting: .constant(true), shouldConfirm: .constant(false),isPresentingImageSheet:.constant(false), allowConfirm: true, title: Properties(objectType: .goal).title!, modalContent: {
 //            HeaderButton(isExpanded: .constant(true), color: .grey10, header: "Hello")
 //            HeaderButton(isExpanded: .constant(true), color: .grey10, header: "Hello")
 //            HeaderButton(isExpanded: .constant(true), color: .grey10, header: "Hello")

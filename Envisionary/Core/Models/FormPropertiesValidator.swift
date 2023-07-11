@@ -45,6 +45,7 @@ class FormPropertiesValidator: ObservableObject {
         scheduleType = FormPropertyValidator(propertyType: .scheduleType)
         unit = FormPropertyValidator(propertyType: .unit)
         amount = FormPropertyValidator(propertyType: .amount)
+        isDirty = false
     }
     
     func validateForm(properties: Properties, objectType: ObjectType){

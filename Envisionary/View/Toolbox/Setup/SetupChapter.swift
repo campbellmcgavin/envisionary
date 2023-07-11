@@ -11,12 +11,21 @@ struct SetupChapter: View {
     @Binding var canProceed: Bool
     @Binding var shouldAct: Bool
     @State var Chapters: [String:Bool] = [String:Bool]()
-    let options = ChapterType.allCases.map({$0.toString()})
+    @State var options = [String]()
+    @State var isExpressSetup = false
     
+    let expressOptions: [String] = [ChapterType.gratitude, ChapterType.businessIdeas, ChapterType.myInternalMusings, ChapterType.neitherHereNorThere].map({$0.toString()})
     @EnvironmentObject var vm: ViewModel
     
     var body: some View {
-        WrappingHStack(fieldValue: .constant(""), fieldValues: $Chapters, options: .constant(options), isMultiSelector: true)
+        VStack{
+            
+            ExpressSetupButton(isExpressSetup: $isExpressSetup)
+            WrappingHStack(fieldValue: .constant(""), fieldValues: $Chapters, options: $options, isMultiSelector: true)
+                .padding(.top,22)
+                .disabled(isExpressSetup)
+                .opacity(isExpressSetup ? 0.87 : 1.0)
+        }
             .padding(8)
             .onChange(of: Chapters, perform: { _ in
                 let count = Chapters.values.filter({$0}).count
@@ -36,8 +45,25 @@ struct SetupChapter: View {
                 }
             }
             .onAppear{
-                options.forEach { Chapters[$0] = false }
+                SetupChapters()
             }
+            .onChange(of: isExpressSetup){
+                _ in
+                SetupChapters()
+            }
+    }
+    
+    func SetupChapters(){
+        if isExpressSetup{
+            Chapters = [String:Bool]()
+            options = expressOptions.sorted()
+            options.forEach { Chapters[$0] = true}
+        }
+        else{
+            Chapters = [String:Bool]()
+            options = ChapterType.allCases.map({$0.toString()})
+            options.forEach { Chapters[$0] = false }
+        }
     }
 }
 

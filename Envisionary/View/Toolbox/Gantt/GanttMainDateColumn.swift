@@ -9,8 +9,8 @@ import SwiftUI
 
 struct GanttMainDateColumn: View {
     let dateValue: DateValue
-    let frameWidth: CGFloat
-    let timeframe: TimeframeType
+    var frameWidth: CGFloat
+    var timeframe: TimeframeType
     
     var body: some View {
         VStack{

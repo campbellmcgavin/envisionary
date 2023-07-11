@@ -10,6 +10,7 @@ import SwiftUI
 struct SetupGraduation: View {
     @Binding var shouldClose: Bool
     @State var shouldWiggle = false
+    let responses = ["Yay!", "Yippee!", "Wahoo!", "So exciting!"]
     var body: some View {
         
         let timer = Timer.publish(every: 0.25, on: .main, in: .common).autoconnect()
@@ -34,18 +35,26 @@ struct SetupGraduation: View {
     func BuildView() -> some View{
         
         "Shape_Gradhat".ToImage(imageSize: 140)
-            .wiggling(shouldWiggle: shouldWiggle, intensity: 5.0)
+            .interactiveLabel(labelValue: toLabel(), yOffset: 30)
+            .expensiveWiggling(shouldWiggle: shouldWiggle, intensity: 5.0)
             .offset(x: 15, y:-185)
         "Shape_Gradhat".ToImage(imageSize: 200)
-            .wiggling(shouldWiggle: shouldWiggle, intensity: 5.0)
+            .interactiveLabel(labelValue: toLabel(), yOffset: 30)
+            .expensiveWiggling(shouldWiggle: shouldWiggle, intensity: 5.0)
         
         "Shape_Gradhat".ToImage(imageSize: 100)
-            .wiggling(shouldWiggle: shouldWiggle, intensity: 6.5)
+            .interactiveLabel(labelValue: toLabel(), yOffset: 30)
+            .expensiveWiggling(shouldWiggle: shouldWiggle, intensity: 6.5)
             .offset(x:-100, y:-120)
         
         "Shape_Gradhat".ToImage(imageSize: 70)
-            .wiggling(shouldWiggle: shouldWiggle, intensity: 6.5)
+            .interactiveLabel(labelValue: toLabel(), yOffset: 30)
+            .expensiveWiggling(shouldWiggle: shouldWiggle, intensity: 6.5)
             .offset(x:90, y:-90)
+    }
+    
+    func toLabel() -> String{
+        return responses.randomElement()!
     }
 }
 

@@ -15,7 +15,7 @@ struct CreedCard: View {
     var body: some View {
         
         MainContentBuilder()
-            .padding()
+            .padding([.leading,.trailing,.bottom])
             .frame(alignment:.leading)
             .modifier(ModifierCard())
     }
@@ -26,13 +26,10 @@ struct CreedCard: View {
             
             if shouldShowCard{
                 PhotoCard(objectType: .creed, objectId: UUID(), properties: Properties(creed: true, valueCount: vm.ListCoreValues().count), shouldHidePadding: true)
-                    .padding(.top,-15)
-                    .padding(.bottom,8)
             }
 
             CreedCardList()
-            .padding(.top,5)
-            .frame(alignment:.leading)
+            .padding(.top)
             .modifier(ModifierCard(color: .grey15,radius:SizeType.cornerRadiusSmall.ToSize()))
         }
     }
@@ -55,11 +52,13 @@ struct CreedCardList: View{
             
             Item(caption: "Conclusion", body: vm.GetCoreValue(coreValue: .Conclusion)?.description ?? "")
         }
+        
+        .frame(alignment:.leading)
     }
     
     @ViewBuilder
     func Item(caption: String, body: String) -> some View {
-        VStack(alignment:.leading, spacing:3){
+        VStack(alignment:.leading, spacing:0){
             Text(caption)
                 .font(.specify(style: .caption))
                 .foregroundColor(.specify(color: .grey5))

@@ -11,12 +11,20 @@ struct SetupHabit: View {
     @Binding var canProceed: Bool
     @Binding var shouldAct: Bool
     @State var Habits: [String:Bool] = [String:Bool]()
-    let options = HabitType.allCases.map({$0.toString()})
-    
+    @State var isExpressSetup = false
+    @State var options = [String]()
+    let expressOptions: [String] = [HabitType.brushTeeth, HabitType.goToBe10pm, HabitType.dailyExercise].map({$0.toString()})
     @EnvironmentObject var vm: ViewModel
     
     var body: some View {
-        WrappingHStack(fieldValue: .constant(""), fieldValues: $Habits, options: .constant(options), isMultiSelector: true)
+        
+        VStack{
+            ExpressSetupButton(isExpressSetup: $isExpressSetup)
+            WrappingHStack(fieldValue: .constant(""), fieldValues: $Habits, options: $options, isMultiSelector: true)
+                .padding(.top,22)
+                .disabled(isExpressSetup)
+                .opacity(isExpressSetup ? 0.87 : 1.0)
+        }
             .padding(8)
             .onChange(of: Habits, perform: { _ in
                 let count = Habits.values.filter({$0}).count
@@ -37,8 +45,25 @@ struct SetupHabit: View {
                 }
             }
             .onAppear{
-                options.forEach { Habits[$0] = false }
+                SetupHabits()
             }
+            .onChange(of: isExpressSetup){
+                _ in
+                SetupHabits()
+            }
+    }
+    
+    func SetupHabits(){
+        if isExpressSetup{
+            Habits = [String:Bool]()
+            options = expressOptions.sorted()
+            options.forEach { Habits[$0] = true}
+        }
+        else{
+            Habits = [String:Bool]()
+            options = HabitType.allCases.map({$0.toString()})
+            options.forEach { Habits[$0] = false }
+        }
     }
 }
 

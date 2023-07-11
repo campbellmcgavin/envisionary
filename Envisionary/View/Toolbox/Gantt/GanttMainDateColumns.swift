@@ -17,16 +17,8 @@ struct GanttMainDateColumns: View {
     @EnvironmentObject var vm: ViewModel
     
     var body: some View {
-//        let goal = vm.GetGoal(id: goalId) ?? Goal()
-        
 
         HStack(alignment: .top, spacing:0){
-//            Text(goal.startDate.toString(timeframeType: goal.timeframe, isStartDate: goal.timeframe == .week ? true : nil) + " - " + goal.endDate.toString(timeframeType: goal.timeframe, isStartDate: goal.timeframe == .week ? false : nil))
-//                .frame(width:columnWidth * 2)
-//                .foregroundColor(.specify(color: .grey10))
-//                .font(.specify(style: .h6))
-//                .padding(.top,2)
-//                .padding(.leading,25)
             ForEach(dateValues){dateValue in
                 GanttMainDateColumn(dateValue: dateValue, frameWidth: columnWidth, timeframe: timeframeType)
             }

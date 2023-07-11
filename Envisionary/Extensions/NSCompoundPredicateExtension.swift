@@ -13,6 +13,7 @@ extension NSCompoundPredicate {
     static func PredicateBuilder(criteria: Criteria, object: ObjectType) -> NSCompoundPredicate{
         
         var predicates = [NSPredicate]()
+        var includeCalendarValues = true
         
         if criteria.title != nil && criteria.title!.count > 0 && object.hasProperty(property: .title){
             predicates.append(NSPredicate(format: "title CONTAINS %@", criteria.title!))
@@ -22,9 +23,7 @@ extension NSCompoundPredicate {
             predicates.append(NSPredicate(format: "desc CONTAINS %@", criteria.description!))
         }
         
-        if criteria.timeframe != nil && object.hasProperty(property: .timeframe){
-            predicates.append(NSPredicate(format: "timeframe == %@", criteria.timeframe!.toString()))
-        }
+
         
         if criteria.aspect != nil && criteria.aspect!.count > 0 && object.hasProperty(property: .aspect){
             predicates.append(NSPredicate(format: "aspect == %@", criteria.aspect!))
@@ -33,8 +32,26 @@ extension NSCompoundPredicate {
         if criteria.parentId != nil && object.hasProperty(property: .parentId){
             predicates.append(NSPredicate(format: "parentId == %@", criteria.parentId! as CVarArg))
         }
+        else if criteria.includeCalendar != nil && !criteria.includeCalendar!{
+            includeCalendarValues = false
+            if object == .goal{
+                let pred = NSPredicate(format: "parentId = nil")
+                predicates.append(pred)
+            }
+            else if object == .habit{
+                
+            }
+        }
         
-        if criteria.date != nil && object.hasProperty(property: .startDate) && !object.hasProperty(property: .endDate){
+        if includeCalendarValues && criteria.timeframe != nil && object.hasProperty(property: .timeframe){
+            predicates.append(NSPredicate(format: "timeframe == %@", criteria.timeframe!.toString()))
+        }
+        
+        if criteria.chapterId != nil && object.hasProperty(property: .chapter){
+            predicates.append(NSPredicate(format: "chapterId == %@", criteria.chapterId! as CVarArg))
+        }
+        
+        if includeCalendarValues && criteria.date != nil && object.hasProperty(property: .startDate) && !object.hasProperty(property: .endDate){
             
             if let timeframe = criteria.timeframe {
                 
@@ -74,7 +91,7 @@ extension NSCompoundPredicate {
             }
         }
         
-        else if criteria.date != nil && object.hasProperty(property: .startDate) && object.hasProperty(property: .endDate){
+        else if includeCalendarValues && criteria.date != nil && object.hasProperty(property: .startDate) && object.hasProperty(property: .endDate){
             
             if let timeframe = criteria.timeframe {
                 

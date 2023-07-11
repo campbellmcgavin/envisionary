@@ -85,8 +85,6 @@ struct PhotoCard: View {
         switch objectType {
         case .creed:
             return "Creed"
-        case .aspect:
-            return properties.aspect?.toString() ?? ""
         case .session:
             return properties.date?.toString(timeframeType: properties.timeframe ?? .day) ?? Date().toString(timeframeType: .day)
         case .emotion:
@@ -136,7 +134,7 @@ struct PhotoCard: View {
             }
             return nil
         case .emotion:
-            return properties.emotionList?.map({$0.toString()}).toCsvString() ?? ""
+            return properties.emotionalState?.toEmotionalState() ?? ""
         default:
             return nil
         }

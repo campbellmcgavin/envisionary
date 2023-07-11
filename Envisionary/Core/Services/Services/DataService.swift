@@ -45,13 +45,13 @@ class DataService: DataServiceProtocol {
         newImage.id = id
         saveData()
         
-        let image = GetImage(id: id)
+        let image = GetImage(id: id, newContext: false)
         
         return id
     }
     
     func DeleteImage(id: UUID) -> Bool{
-        if let imageToDelete = GetImageEntity(id: id){
+        if let imageToDelete = GetImageEntity(id: id, newContext: false){
             container.viewContext.delete(imageToDelete)
             saveData()
             return true
@@ -59,8 +59,8 @@ class DataService: DataServiceProtocol {
         return false
     }
     
-    func GetImage(id: UUID) -> UIImage? {
-        let imageEntity = GetImageEntity(id: id)
+    func GetImage(id: UUID, newContext: Bool) -> UIImage? {
+        let imageEntity = GetImageEntity(id: id, newContext: newContext)
         
         if let imageEntity{
             if imageEntity.data != nil {
@@ -71,18 +71,25 @@ class DataService: DataServiceProtocol {
         return nil
     }
     
-    private func GetImageEntity(id: UUID) -> ImageEntity? {
+    private func GetImageEntity(id: UUID, newContext: Bool) -> ImageEntity? {
         
         let request = NSFetchRequest<ImageEntity>(entityName: "ImageEntity")
         let predicate = NSPredicate(format: "id == %@", id as CVarArg)
         request.predicate = predicate
         
         do {
-            let context = container.newBackgroundContext()
             
-            let imageEntityList = try context.fetch(request)
-            
-            return imageEntityList.first
+            if newContext{
+                let context = container.newBackgroundContext()
+                
+                let imageEntityList = try context.fetch(request)
+                
+                return imageEntityList.first
+            }
+            else{
+                let imageEntityList = try container.viewContext.fetch(request)
+                return imageEntityList.first
+            }
             
         } catch let error {
             print ("ERROR FETCHING IMAGE. \(error)")
@@ -275,7 +282,7 @@ class DataService: DataServiceProtocol {
     func CreateAspect(request: CreateAspectRequest) -> UUID{
         
         let newAspect = AspectEntity(context: container.viewContext)
-        newAspect.aspect = request.aspect.toString()
+        newAspect.title = request.title
         newAspect.desc = request.description
         
         newAspect.id = UUID()
@@ -756,7 +763,8 @@ class DataService: DataServiceProtocol {
         
         if var entityToUpdate = GetChapterEntity(id: id) {
             entityToUpdate.desc = request.description
-            
+            entityToUpdate.title = request.title
+            entityToUpdate.aspect = request.aspect.toString()
             saveData()
             return true
         }
@@ -866,6 +874,7 @@ class DataService: DataServiceProtocol {
             entityToUpdate.desc = request.description
             entityToUpdate.title = request.title
             entityToUpdate.images = request.images.toCsvString()
+            entityToUpdate.chapterId = request.chapterId
             saveData()
             return true
         }

@@ -23,7 +23,7 @@ struct ModalFilter: View {
         
         
         
-        Modal(modalType: .filter, objectType: .home, isPresenting: $isPresenting, shouldConfirm: $isPresenting, isPresentingImageSheet: .constant(false), allowConfirm: .constant(true), title: "Filters", modalContent: {
+        Modal(modalType: .filter, objectType: .home, isPresenting: $isPresenting, shouldConfirm: $isPresenting, isPresentingImageSheet: .constant(false), allowConfirm: true, title: "Filters", modalContent: {
             VStack(alignment: .leading, spacing:10){
                 
                 
@@ -108,7 +108,7 @@ struct ModalFilter: View {
                 FormText(fieldValue: $vm.filtering.filterDescription, fieldName: PropertyType.description.toString(), axis: .vertical, iconType: .description)
             }
             if vm.filtering.filterObject.hasProperty(property: .aspect)   {
-                FormStackPicker(fieldValue: $aspectString, fieldName: PropertyType.aspect.toString(), options: .constant(vm.ListAspects().map({$0.aspect.toString()})),iconType: .aspect)
+                FormStackPicker(fieldValue: $aspectString, fieldName: PropertyType.aspect.toString(), options: .constant(vm.ListAspects().map({$0.title})),iconType: .aspect)
             }
             if vm.filtering.filterObject.hasProperty(property: .priority) {
                 FormStackPicker(fieldValue: $priorityString, fieldName: PropertyType.priority.toString(), options: .constant(PriorityType.allCases.map({$0.toString()})),iconType: .priority)
@@ -144,7 +144,7 @@ struct ModalFilter: View {
                 }
                 
                 if !vm.filtering.filterObject.hasProperty(property: .aspect)   {
-                    FormStackPicker(fieldValue: $aspectString, fieldName: PropertyType.aspect.toString(), options: .constant(vm.ListAspects().map({$0.aspect.toString()})),iconType: .aspect)
+                    FormStackPicker(fieldValue: $aspectString, fieldName: PropertyType.aspect.toString(), options: .constant(vm.ListAspects().map({$0.title})),iconType: .aspect)
                 }
                 if !vm.filtering.filterObject.hasProperty(property: .progress) {
                     FormSlider(fieldValue: $progress, fieldName: PropertyType.progress.toString() + " more than", iconType: .progress)

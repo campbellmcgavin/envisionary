@@ -17,6 +17,7 @@ struct TextButton: View {
     var shouldFill = true
     var iconType: IconType? = nil
     var height: SizeType = .minimumTouchTarget
+    var hasPadding: Bool = true
     var body: some View {
         Button{
             isPressed.toggle()
@@ -85,7 +86,7 @@ struct TextButton: View {
                 }
                 .modifier(ModifierMaxWidth(infinity: shouldFill && backgroundColor != .clear))
             }
-            .padding([.leading,.trailing])
+            .padding([.leading,.trailing], hasPadding ? 10 : 0)
 //            .padding([.leading,.trailing])
         }
 

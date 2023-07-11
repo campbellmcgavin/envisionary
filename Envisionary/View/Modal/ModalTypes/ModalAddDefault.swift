@@ -30,7 +30,7 @@ struct ModalAddDefault: View {
     @EnvironmentObject var vm: ViewModel
     
     var body: some View {
-        Modal(modalType: modalType, objectType: objectType, isPresenting: $isPresenting, shouldConfirm: $shouldAct, isPresentingImageSheet: $isPresentingPhotoSource, allowConfirm: $isValidForm,  title: GetTitle(), image: image, modalContent: {
+        Modal(modalType: modalType, objectType: objectType, isPresenting: $isPresenting, shouldConfirm: $shouldAct, isPresentingImageSheet: $isPresentingPhotoSource, allowConfirm: isValidForm, didAttemptToSave: didAttemptToSave,  title: GetTitle(), image: image, modalContent: {
             
             VStack(spacing:0){
                 
@@ -48,13 +48,6 @@ struct ModalAddDefault: View {
                                 .foregroundColor(.specify(color: .grey4))
                                 .multilineTextAlignment(.leading)
                         }
-                    }
-                }
-                
-                if parentChapterId != nil {
-                    if let parentChapter = vm.GetChapter(id: parentChapterId!){
-                        FormLabel(fieldValue: parentChapter.title, fieldName: "Parent chapter", iconType: .arrow_up, shouldShowLock: true)
-                            .padding(.bottom)
                     }
                 }
                 
@@ -119,7 +112,7 @@ struct ModalAddDefault: View {
                 
                 //get rid of deleted images from properties
                 for imageId in properties.images!{
-                    if let image = vm.GetImage(id: imageId){
+                    if let image = vm.GetImage(id: imageId, newContext: false){
                         if !images.contains(image){
                             _ = vm.DeleteImage(id: imageId)
                         }
@@ -246,6 +239,9 @@ struct ModalAddDefault: View {
             
             if objectType == .goal{
                 GetValuesFromParentGoalId()
+            }
+            else if objectType == .entry{
+                properties.chapterId = parentChapterId
             }
         }
         else if modalType == .edit{

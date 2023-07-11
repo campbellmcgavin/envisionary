@@ -9,18 +9,18 @@ import Foundation
 
 struct CreateAspectRequest{
     
-    var aspect: AspectType
+    var title: String
     var description: String
     
 
-    init(aspect: AspectType, description: String)
+    init(title: String, description: String)
     {
-        self.aspect = aspect
+        self.title = title
         self.description = description
     }
     
     init(properties: Properties){
-        self.aspect = properties.aspect ?? .academic
+        self.title = properties.title ?? AspectType.academic.toString()
         self.description = properties.description ?? ""
     }
 }

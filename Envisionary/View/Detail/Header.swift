@@ -31,10 +31,10 @@ struct Header<Content: View>: View {
                         .font(.specify(style: .caption))
                         .foregroundColor(.specify(color: .grey10))
                         .opacity(0.5)
-                        .padding(.bottom,-8)
+                        .padding(.bottom,-6)
 
                     Text(title)
-                        .font(.specify(style: .h1))
+                        .font(.specify(style: .h2))
                         .lineLimit(1)
                         .foregroundColor(.specify(color: .grey10))
                         .padding(.bottom,10)
@@ -53,17 +53,17 @@ struct Header<Content: View>: View {
                     .frame(alignment:.center)
                     .opacity(GetOpacity())
             }
-            .padding(.bottom, objectType.ShouldShowImage() && (modalType != .search && modalType != .setup) ? 100 : 15)
+            .padding(.bottom, objectType.ShouldShowImage() && (modalType != .search) ? 100 : 15)
             .saveSize(in: $headerFrame)
             .padding(.top, 85)
-            .padding(.bottom, objectType.ShouldShowImage() && (modalType != .search && modalType != .setup) ? 70 : 0)
+            .padding(.bottom, objectType.ShouldShowImage() && (modalType != .search) ? 70 : 0)
             .background(
                 Color.specify(color: color)
                     .modifier(ModifierRoundedCorners(radius: GetRadius()))
                     .edgesIgnoringSafeArea(.all)
                     .padding(.top,-1000)
                     .frame(maxHeight:.infinity)
-                    .offset(y: objectType.ShouldShowImage() && (modalType != .search && modalType != .setup) ? 0 : 65))
+                    .offset(y: objectType.ShouldShowImage() && (modalType != .search) ? 0 : 65))
             .frame(maxWidth:.infinity,maxHeight:.infinity)
             
             if(ShouldShowImage()){

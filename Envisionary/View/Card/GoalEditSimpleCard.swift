@@ -19,7 +19,7 @@ struct GoalEditSimpleCard: View {
         VStack{
             FormText(fieldValue: $goal.title, fieldName: PropertyType.title.toString(), axis: .horizontal, iconType: .title)
             FormText(fieldValue: $goal.description, fieldName: PropertyType.description.toString(), axis: .vertical, iconType: .description)
-            FormStackPicker(fieldValue: $aspectString, fieldName: PropertyType.aspect.toString(), options: .constant(vm.ListAspects().map({$0.aspect.toString()})), iconType: .aspect)
+            FormStackPicker(fieldValue: $aspectString, fieldName: PropertyType.aspect.toString(), options: .constant(vm.ListAspects().map({$0.title})), iconType: .aspect)
             FormStackPicker(fieldValue: $priorityString, fieldName: PropertyType.priority.toString(), options: .constant(PriorityType.allCases.map({$0.toString()})), iconType: .priority)
         }
         .onAppear{
