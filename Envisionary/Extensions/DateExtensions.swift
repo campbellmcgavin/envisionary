@@ -24,50 +24,48 @@ extension Date{
         }
     }
     func StartOfDay() -> Date{
-        let startDaySeconds = Calendar.current.component(.second, from: self)
-        return self.addingTimeInterval(-Double(startDaySeconds))
+        return Calendar(identifier: .gregorian).startOfDay(for: self)
     }
     
     func EndOfDay() -> Date{
-        let startDaySeconds = Calendar.current.component(.second, from: self)
-        return self.addingTimeInterval(Double(86400-startDaySeconds))
+        return Calendar(identifier: .gregorian).startOfDay(for: self).addingTimeInterval(86399)
     }
 
     func StartOfWeek() -> Date{
         let gregorian = Calendar(identifier: .gregorian)
-        guard let sunday = gregorian.date(from: gregorian.dateComponents([.yearForWeekOfYear, .weekOfYear], from: self)) else { return Date() }
+        guard let sunday = gregorian.date(from: gregorian.dateComponents([.yearForWeekOfYear, .weekOfYear], from: self.StartOfDay())) else { return Date() }
         return gregorian.date(byAdding: .day, value: 1, to: sunday) ?? Date()
     }
     
     func EndOfWeek() -> Date{
         let gregorian = Calendar(identifier: .gregorian)
-        guard let sunday = gregorian.date(from: gregorian.dateComponents([.yearForWeekOfYear, .weekOfYear], from: self)) else { return Date() }
+        guard let sunday = gregorian.date(from: gregorian.dateComponents([.yearForWeekOfYear, .weekOfYear], from: self.EndOfDay())) else { return Date() }
         return gregorian.date(byAdding: .day, value: 7, to: sunday) ?? Date()
     }
     
     func StartOfMonth() -> Date {
-        return Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: self))!
+        return Calendar(identifier: .gregorian).date(from: Calendar(identifier: .gregorian).dateComponents([.year, .month], from: self.StartOfDay()))!
     }
     
     func EndOfMonth() -> Date {
-        return Calendar.current.date(byAdding: DateComponents(month: 1, day: -1), to: self.StartOfMonth())!
+        return Calendar(identifier: .gregorian).date(byAdding: DateComponents(month: 1, day: -1), to: self.StartOfMonth())!
     }
     
     func StartOfYear() -> Date {
-        return Calendar.current.date(from: Calendar.current.dateComponents([.year], from: self))!
+        return Calendar(identifier: .gregorian).date(from: Calendar(identifier: .gregorian).dateComponents([.year], from: self.StartOfDay()))!
     }
 
     func EndOfYear() -> Date {
-        return Calendar.current.date(byAdding: DateComponents(year: 1, day: -1), to: self.StartOfYear())!
+        return Calendar(identifier: .gregorian).date(byAdding: DateComponents(year: 1, day: -1), to: self.StartOfYear())!
     }
     
     func StartOfDecade() -> Date {
-        let calendar = Calendar.current
-        return calendar.date(byAdding: .year, value: -calendar.dateComponents([.year], from: self).year! % 10,  to: self)!
+        let calendar = Calendar(identifier: .gregorian)
+        return calendar.date(byAdding: .year, value: -calendar.dateComponents([.year], from: self).year! % 10,  to: self.StartOfDay())!
     }
 
     func EndOfDecade() -> Date {
-        return Calendar.current.date(byAdding: DateComponents(year: 10, day: -1), to: self.StartOfDecade())!
+        return Calendar(identifier: .gregorian).date(byAdding: DateComponents(year: 10, day: -1), to: self.StartOfDecade())!
     }
     
     func EndOfTimeframe(timeframe: TimeframeType) -> Date{
@@ -118,55 +116,55 @@ extension Date{
     
     func AdvanceDay(forward: Bool, count: Int = 1) -> Date{
         if(forward){
-            return Calendar.current.date(byAdding: DateComponents(day: count), to: self)!
+            return Calendar(identifier: .gregorian).date(byAdding: DateComponents(day: count), to: self)!
         }
         else{
-            return Calendar.current.date(byAdding: DateComponents(day: -count), to: self)!
+            return Calendar(identifier: .gregorian).date(byAdding: DateComponents(day: -count), to: self)!
         }
     }
     
     func AdvanceWeek(forward: Bool, count: Int = 1) -> Date{
         if(forward){
-            return Calendar.current.date(byAdding: DateComponents(day: count*7), to: self)!
+            return Calendar(identifier: .gregorian).date(byAdding: DateComponents(day: count*7), to: self)!
         }
         else{
-            return Calendar.current.date(byAdding: DateComponents(day: -count*7), to: self)!
+            return Calendar(identifier: .gregorian).date(byAdding: DateComponents(day: -count*7), to: self)!
         }
     }
 
     func AdvanceMonth(forward: Bool, count: Int = 1) -> Date{
         if(forward){
-            return Calendar.current.date(byAdding: DateComponents(month: count), to: self)!
+            return Calendar(identifier: .gregorian).date(byAdding: DateComponents(month: count), to: self)!
         }
         else{
-            return Calendar.current.date(byAdding: DateComponents(month: -count), to: self)!
+            return Calendar(identifier: .gregorian).date(byAdding: DateComponents(month: -count), to: self)!
         }
     }
     
     func AdvanceYear(forward: Bool, count: Int = 1) -> Date{
         if(forward){
-            return Calendar.current.date(byAdding: DateComponents(year: count), to: self)!
+            return Calendar(identifier: .gregorian).date(byAdding: DateComponents(year: count), to: self)!
         }
         else{
-            return Calendar.current.date(byAdding: DateComponents(year: -count), to: self)!
+            return Calendar(identifier: .gregorian).date(byAdding: DateComponents(year: -count), to: self)!
         }
     }
     
     func AdvanceDecade(forward: Bool, count: Int = 1) -> Date{
         if(forward){
-            return Calendar.current.date(byAdding: DateComponents(year: count*10), to: self)!
+            return Calendar(identifier: .gregorian).date(byAdding: DateComponents(year: count*10), to: self)!
         }
         else{
-            return Calendar.current.date(byAdding: DateComponents(year: -count*10), to: self)!
+            return Calendar(identifier: .gregorian).date(byAdding: DateComponents(year: -count*10), to: self)!
         }
     }
         
     func AdvanceCentury(forward: Bool) -> Date{
         if(forward){
-            return Calendar.current.date(byAdding: DateComponents(year: 100), to: self)!
+            return Calendar(identifier: .gregorian).date(byAdding: DateComponents(year: 100), to: self)!
         }
         else{
-            return Calendar.current.date(byAdding: DateComponents(year: -100), to: self)!
+            return Calendar(identifier: .gregorian).date(byAdding: DateComponents(year: -100), to: self)!
         }
     }
     
@@ -212,25 +210,25 @@ extension Date{
         switch timeframeType{
         case .day:
             dateComponent.day = numberOfDates
-            return Calendar.current.date(byAdding: dateComponent, to:self)!
+            return Calendar(identifier: .gregorian).date(byAdding: dateComponent, to:self)!.EndOfDay()
         case .week:
-            dateComponent.day = 6 * numberOfDates
-            return Calendar.current.date(byAdding: dateComponent, to:self)!
+            dateComponent.day = 7 * numberOfDates - 1
+            return Calendar(identifier: .gregorian).date(byAdding: dateComponent, to:self)!.EndOfDay()
         case .month:
             dateComponent.month = 1 * numberOfDates
-            return Calendar.current.date(byAdding: dateComponent, to:self)!
+            return Calendar(identifier: .gregorian).date(byAdding: dateComponent, to:self)!
         case .year:
             dateComponent.year = 1 * numberOfDates
-            return Calendar.current.date(byAdding: dateComponent, to:self)!
+            return Calendar(identifier: .gregorian).date(byAdding: dateComponent, to:self)!
         case .decade:
             dateComponent.year = 10 * numberOfDates
-            return Calendar.current.date(byAdding: dateComponent, to:self)!
+            return Calendar(identifier: .gregorian).date(byAdding: dateComponent, to:self)!
             
         }
     }
     
     func GetDateDifferenceAsDecimal(to: Date, timeframeType: TimeframeType) -> Double {
-        let calendar = Calendar.current
+        let calendar = Calendar(identifier: .gregorian)
         
         let dateComponents: DateComponents
         let calculatedNumberOfUnits: Double
@@ -239,19 +237,19 @@ extension Date{
             switch timeframeType{
                 
             case .decade:
-                dateComponents = Calendar.current.dateComponents([.year, .day], from: self, to: to)
+                dateComponents = Calendar(identifier: .gregorian).dateComponents([.year, .day], from: self, to: to)
                 let preCalculated = Double(dateComponents.year ?? 0) * 365 + Double(dateComponents.day ?? 0)
                 calculatedNumberOfUnits = preCalculated / Double(365*10)
 
                 
             case .year:
-                dateComponents = Calendar.current.dateComponents([.year, .day], from: self, to: to)
+                dateComponents = Calendar(identifier: .gregorian).dateComponents([.year, .day], from: self, to: to)
                 indexOfRemainderUnits = dateComponents.year ?? 0 + 1
                 let  preCalculated  = Double(dateComponents.year ?? 0) * 365 + Double(dateComponents.day ?? 0)
                 calculatedNumberOfUnits = preCalculated / Double(365)
                 
             case .month:
-                dateComponents = Calendar.current.dateComponents([.month, .day], from: self, to: to)
+                dateComponents = Calendar(identifier: .gregorian).dateComponents([.month, .day], from: self, to: to)
                 indexOfRemainderUnits = dateComponents.month ?? 0 + 1
 
                 let range = calendar.range(of: .day, in: .month, for: to)!
@@ -277,10 +275,10 @@ extension Date{
     
     func getAllDates()->[Date]{
         
-        let calendar = Calendar.current
+        let calendar = Calendar(identifier: .gregorian)
         
         // getting start Date...
-        let startDate = calendar.date(from: Calendar.current.dateComponents([.year,.month], from: self))!
+        let startDate = calendar.date(from: Calendar(identifier: .gregorian).dateComponents([.year,.month], from: self))!
         
         let range = calendar.range(of: .day, in: .month, for: startDate)!
         
@@ -292,9 +290,9 @@ extension Date{
     }
     
     func getAllMonths() ->[Date]{
-        let calendar = Calendar.current
+        let calendar = Calendar(identifier: .gregorian)
         
-        let startDate = calendar.date(from: Calendar.current.dateComponents([.year], from: self))!
+        let startDate = calendar.date(from: Calendar(identifier: .gregorian).dateComponents([.year], from: self))!
         
         let range = calendar.range(of: .month, in: .year, for: startDate)!
         
@@ -304,9 +302,9 @@ extension Date{
     }
     
     func getAllYears() ->[Date]{
-        let calendar = Calendar.current
+        let calendar = Calendar(identifier: .gregorian)
         
-        let startDate = calendar.date(from: Calendar.current.dateComponents([.year], from: self))!
+        let startDate = calendar.date(from: Calendar(identifier: .gregorian).dateComponents([.year], from: self))!
         
         let startYear = calendar.date(byAdding: .year, value: -calendar.dateComponents([.year], from: startDate).year! % 10,  to: startDate)!
 //        let endYear = calendar.date(byAdding: .year, value: 10, to: startYear)!
@@ -330,7 +328,7 @@ extension Date{
     }
     
     func isInSameDecade(as date: Date) -> Bool {
-        let calendar = Calendar.current
+        let calendar = Calendar(identifier: .gregorian)
         let otherStartDecade = calendar.date(byAdding: .year, value: -calendar.dateComponents([.year], from: date).year! % 10,  to: date)!
         let selfStartDecade = calendar.date(byAdding: .year, value: -calendar.dateComponents([.year], from: self).year! % 10,  to: self)!
         
@@ -340,7 +338,7 @@ extension Date{
     func isInSameYear(as date: Date) -> Bool { isEqual(to: date, toGranularity: .year) }
     func isInSameMonth(as date: Date) -> Bool { isEqual(to: date, toGranularity: .month) }
     func isInSameWeek(as date: Date) -> Bool { isEqual(to: date, toGranularity: .weekOfYear) }
-    func isInSameDay(as date: Date) -> Bool { Calendar.current.isDate(self, inSameDayAs: date) }
+    func isInSameDay(as date: Date) -> Bool { Calendar(identifier: .gregorian).isDate(self, inSameDayAs: date) }
 
     func isInSameTimeframe(as date: Date, timeframeType: TimeframeType) -> Bool {
         switch timeframeType {
@@ -377,9 +375,9 @@ extension Date{
     func ComputeOverlapOfMultiYearSegment(datePair: DatePair, timeframe: TimeframeType) -> Bool{
         var filterDateStart = Date()
         var filterDateEnd = Date()
-        let calendar = Calendar.current
-        let minDate = Calendar.current.date(from: DateComponents(year: 1900, month: 1, day: 1))
-        let maxDate = Calendar.current.date(from: DateComponents(year: 2150, month: 12, day: 30))
+        let calendar = Calendar(identifier: .gregorian)
+        let minDate = Calendar(identifier: .gregorian).date(from: DateComponents(year: 1900, month: 1, day: 1))
+        let maxDate = Calendar(identifier: .gregorian).date(from: DateComponents(year: 2150, month: 12, day: 30))
 
         switch timeframe{
         case .decade:
@@ -412,9 +410,9 @@ extension Date{
     var isInThisMonth: Bool { isInSameMonth(as: Date()) }
     var isInThisWeek:  Bool { isInSameWeek(as: Date()) }
 
-    var isInYesterday: Bool { Calendar.current.isDateInYesterday(self) }
-    var isInToday:     Bool { Calendar.current.isDateInToday(self) }
-    var isInTomorrow:  Bool { Calendar.current.isDateInTomorrow(self) }
+    var isInYesterday: Bool { Calendar(identifier: .gregorian).isDateInYesterday(self) }
+    var isInToday:     Bool { Calendar(identifier: .gregorian).isDateInToday(self) }
+    var isInTomorrow:  Bool { Calendar(identifier: .gregorian).isDateInTomorrow(self) }
 
     var isInTheFuture: Bool { self > Date() }
     var isInThePast:   Bool { self < Date() }
@@ -450,7 +448,7 @@ extension Date{
             date1 = date2
             date2 = temp
         }
-        if Calendar.current.dateComponents([.day], from: start, to: end).day! <= 1{
+        if Calendar(identifier: .gregorian).dateComponents([.day], from: start, to: end).day! <= 1{
             return start
         }
         let span = TimeInterval.random(in: date1.timeIntervalSinceNow...date2.timeIntervalSinceNow)
@@ -474,7 +472,7 @@ extension Date{
     
     func toYearAndMonth()->[String]{
         
-        let calendar = Calendar.current
+        let calendar = Calendar(identifier: .gregorian)
         let month = calendar.component(.month, from: self) - 1
         let year = calendar.component(.year, from: self)
         
@@ -495,19 +493,19 @@ extension Date{
     
     func DayOfWeek() -> String{
         let dateFormatter = DateFormatter()
-        let weekday = dateFormatter.shortWeekdaySymbols[Calendar.current.component(.weekday, from: self) - 1]
+        let weekday = dateFormatter.shortWeekdaySymbols[Calendar(identifier: .gregorian).component(.weekday, from: self) - 1]
         
         return weekday
     }
     
     func DayOfMonth() -> String{
-        let day = Calendar.current.dateComponents([.day], from: self).day
+        let day = Calendar(identifier: .gregorian).dateComponents([.day], from: self).day
         
         return "\(day!)"
     }   
     
     func StartYearToDecade() -> String{
-        let calendar = Calendar.current
+        let calendar = Calendar(identifier: .gregorian)
         let startYear = calendar.date(byAdding: .year, value: -calendar.dateComponents([.year], from: self).year! % 10,  to: self)!
         return String(calendar.component(.year, from: startYear))
 
@@ -556,7 +554,7 @@ extension Date{
         case .year:
             return 365
         case .month:
-            let range = Calendar.current.range(of: .day, in: .month, for: self)!
+            let range = Calendar(identifier: .gregorian).range(of: .day, in: .month, for: self)!
             return range.count
         case .week:
             return 7
@@ -567,8 +565,8 @@ extension Date{
     
     func toDecadesArray() -> [DateValue] {
         
-        let calendar = Calendar.current
-        var decade = Calendar.current.date(from: DateComponents(year: 2000, month: 1, day: 1))!
+        let calendar = Calendar(identifier: .gregorian)
+        var decade = Calendar(identifier: .gregorian).date(from: DateComponents(year: 2000, month: 1, day: 1))!
         var decadeValues = [DateValue]()
         
         for _ in 1...10{
@@ -583,7 +581,7 @@ extension Date{
     
     func toYearsArray() -> [DateValue]{
         
-        let calendar = Calendar.current
+        let calendar = Calendar(identifier: .gregorian)
         
         let years = self.getAllYears().compactMap { date -> DateValue in
             
@@ -598,7 +596,7 @@ extension Date{
     
     func toDaysArray()->[DateValue]{
         
-        let calendar = Calendar.current
+        let calendar = Calendar(identifier: .gregorian)
         
         // Getting Current Month Date....
         
@@ -640,7 +638,7 @@ extension Date{
 
     func toMonthsArray() -> [DateValue]{
         
-        let calendar = Calendar.current
+        let calendar = Calendar(identifier: .gregorian)
         
         let months = self.getAllMonths().compactMap { date -> DateValue in
             
@@ -656,15 +654,15 @@ extension Date{
     func GetStartDate(timeframeType: TimeframeType, bufferForwardBackward: Int) -> Date{
         switch timeframeType {
         case .day:
-            return Calendar.current.date(byAdding: .day, value: -bufferForwardBackward, to: self)!
+            return Calendar(identifier: .gregorian).date(byAdding: .day, value: -bufferForwardBackward, to: self)!
         case .week:
-            return Calendar.current.date(byAdding: .day, value: -bufferForwardBackward*7, to: self)!
+            return Calendar(identifier: .gregorian).date(byAdding: .day, value: -bufferForwardBackward*7, to: self)!
         case .month:
-            return Calendar.current.date(byAdding: .month, value: -bufferForwardBackward, to: self)!
+            return Calendar(identifier: .gregorian).date(byAdding: .month, value: -bufferForwardBackward, to: self)!
         case .year:
-            return Calendar.current.date(byAdding: .year, value: -bufferForwardBackward, to: self)!
+            return Calendar(identifier: .gregorian).date(byAdding: .year, value: -bufferForwardBackward, to: self)!
         case .decade:
-            return Calendar.current.date(byAdding: .year, value: -bufferForwardBackward * 10, to: self)!
+            return Calendar(identifier: .gregorian).date(byAdding: .year, value: -bufferForwardBackward * 10, to: self)!
         }
     }
     
@@ -672,15 +670,15 @@ extension Date{
         
         switch timeframeType {
         case .day:
-            return Calendar.current.date(byAdding: .day, value: 1, to: self)!
+            return Calendar(identifier: .gregorian).date(byAdding: .day, value: 1, to: self)!
         case .week:
-            return Calendar.current.date(byAdding: .day, value: 7, to: self)!
+            return Calendar(identifier: .gregorian).date(byAdding: .day, value: 7, to: self)!
         case .month:
-            return Calendar.current.date(byAdding: .month, value: 1, to: self)!
+            return Calendar(identifier: .gregorian).date(byAdding: .month, value: 1, to: self)!
         case .year:
-            return Calendar.current.date(byAdding: .year, value: 1, to: self)!
+            return Calendar(identifier: .gregorian).date(byAdding: .year, value: 1, to: self)!
         case .decade:
-            return Calendar.current.date(byAdding: .year, value: 10, to: self)!
+            return Calendar(identifier: .gregorian).date(byAdding: .year, value: 10, to: self)!
         }
     }
 }

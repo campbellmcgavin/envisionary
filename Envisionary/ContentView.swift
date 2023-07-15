@@ -122,7 +122,7 @@ struct ContentView: View {
                     BottomNavigationBar(selectedContentView: $vm.filtering.filterContent)
                 }
 
-                ModalManager(isPresenting: $isPresentingModal, modalType: $modalType, objectType: vm.filtering.filterObject, shouldDelete: .constant(false))
+                ModalManager(isPresenting: $isPresentingModal, modalType: $modalType, convertDreamId: .constant(nil), objectType: vm.filtering.filterObject, shouldDelete: .constant(false))
                     .frame(alignment:.bottom)
                 
                 if isPresentingMainMenu{

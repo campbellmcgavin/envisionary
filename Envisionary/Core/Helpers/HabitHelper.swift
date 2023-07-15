@@ -12,7 +12,7 @@ struct HabitHelper {
     func CreateRecurrences(habit: Habit) -> [CreateRecurrenceRequest]{
         
         var recurrences = [CreateRecurrenceRequest]()
-        let calendar = Calendar.current
+        let calendar = Calendar(identifier: .gregorian)
         let formatter = DateFormatter()
         
         switch habit.schedule {
@@ -95,7 +95,7 @@ struct HabitHelper {
             while date < habit.endDate {
             
 
-                let weekday = formatter.weekdaySymbols[Calendar.current.component(.weekday, from: date) - 1]
+                let weekday = formatter.weekdaySymbols[Calendar(identifier: .gregorian).component(.weekday, from: date) - 1]
                 if weekday == "Saturday" || weekday == "Sunday" {
                     var request = CreateRecurrenceRequest(habitId: habit.id, scheduleType: habit.schedule, timeOfDay: .notApplicable, startDate: date.StartOfDay(), endDate: date.EndOfDay())
                     recurrences.append(request)
@@ -106,7 +106,7 @@ struct HabitHelper {
             var date = habit.startDate
             
             while date < habit.endDate {
-                let weekday = formatter.weekdaySymbols[Calendar.current.component(.weekday, from: date) - 1]
+                let weekday = formatter.weekdaySymbols[Calendar(identifier: .gregorian).component(.weekday, from: date) - 1]
                 if weekday != "Saturday" && weekday != "Sunday" {
                     var request = CreateRecurrenceRequest(habitId: habit.id, scheduleType: habit.schedule, timeOfDay: .notApplicable, startDate: date.StartOfDay(), endDate: date.EndOfDay())
                     recurrences.append(request)

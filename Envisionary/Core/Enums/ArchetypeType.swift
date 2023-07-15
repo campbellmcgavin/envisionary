@@ -85,10 +85,8 @@ enum ArchetypeType: CaseIterable {
         case .Achiever:
             switch value{
             case .Achievement: return true
-            case .Autonomy: return true
             case .Confidence: return true
             case .Decisiveness: return true
-            case .Effective: return true
             case .Efficiency: return true
             case .GrowthMindset: return true
             case .Imagination: return true
@@ -103,24 +101,18 @@ enum ArchetypeType: CaseIterable {
             case .Acceptance: return true
             case .Accountability: return true
             case .Altruism: return true
-            case .AntiRacism: return true
-            case .AnimalRights: return true
             case .Boldness: return true
-            case .Bravery: return true
             case .Compassion: return true
             case .Courage: return true
             case .Dedication: return true
             case .Fairness: return true
             case .InspireOthers: return true
-            case .OpenMindedness: return true
             case .SocialJustice: return true
             default: return false
             }
         case .Adventurer:
             switch value{
             case .Adventure: return true
-            case .Change: return true
-            case .Bravery: return true
             case .Creativity: return true
             case .Curiosity: return true
             case .Flexibility: return true
@@ -128,7 +120,6 @@ enum ArchetypeType: CaseIterable {
             case .Independence: return true
             case .Laughter: return true
             case .Passion: return true
-            case .Romance: return true
             case .Spontaneity: return true
             case .WorkLifeBalance: return true
             default: return false
@@ -136,33 +127,23 @@ enum ArchetypeType: CaseIterable {
         case .Artist:
             switch value{
             case .Adaptability: return true
-            case .Boldness: return true
             case .Creativity: return true
             case .Excellence: return true
             case .Imagination: return true
-            case .Flexibility: return true
             case .Influence: return true
             case .Innovation: return true
             case .InspireOthers: return true
             case .Passion: return true
             case .PrideInYourWork: return true
             case .SelfDevelopment: return true
-            case .Sustainability: return true
-            case .WorkLifeBalance: return true
             default: return false
             }
         case .Athlete:
             switch value{
             case .Achievement: return true
-            case .Accountability: return true
-            case .Autonomy: return true
-            case .Boldness: return true
-            case .Bravery: return true
             case .Confidence: return true
             case .Dedication: return true
             case .Excellence: return true
-            case .Faith: return true
-            case .Fame: return true
             case .GrowthMindset: return true
             case .InspireOthers: return true
             case .Passion: return true
@@ -173,20 +154,13 @@ enum ArchetypeType: CaseIterable {
             }
         case .Entrepreneur:
             switch value{
-            case .Accountability: return true
             case .Autonomy: return true
             case .Boldness: return true
-            case .Bravery: return true
             case .Confidence: return true
-            case .Decisiveness: return true
             case .Entrepreneurship: return true
             case .Excellence: return true
             case .GrowthMindset: return true
             case .Innovation: return true
-            case .InspireOthers: return true
-            case .Leadership: return true
-            case .Originality: return true
-            case .PersonalDevelopment: return true
             case .Power: return true
             case .Profit: return true
             case .SelfMotivation: return true
@@ -195,35 +169,24 @@ enum ArchetypeType: CaseIterable {
         case .Essentialist:
             switch value{
             case .Accountability: return true
-            case .Altruism: return true
             case .Appreciation: return true
             case .Balance: return true
             case .Community: return true
             case .Dedication: return true
             case .Dependability: return true
             case .Fairness: return true
-            case .FamilyFirst: return true
             case .Honesty: return true
-            case .Justice: return true
             case .LearningFromMistakes: return true
-            case .Modesty: return true
             case .Prosperity: return true
-            case .Sustainability: return true
             default: return false
             }
         case .Executive:
             switch value{
-            case .Accountability: return true
             case .Boldness: return true
-            case .Bravery: return true
-            case .Confidence: return true
             case .Decisiveness: return true
             case .Excellence: return true
             case .GrowthMindset: return true
-            case .Innovation: return true
-            case .InspireOthers: return true
             case .Leadership: return true
-            case .Originality: return true
             case .PersonalDevelopment: return true
             case .Power: return true
             case .Profit: return true
@@ -234,7 +197,6 @@ enum ArchetypeType: CaseIterable {
         case .Influencer:
             switch value{
             case .Achievement: return true
-            case .Boldness: return true
             case .Creativity: return true
             case .Influence: return true
             case .InspireOthers: return true
@@ -249,60 +211,42 @@ enum ArchetypeType: CaseIterable {
         case .Philanthropist:
             switch value{
             case .Altruism: return true
-            case .Autonomy: return true
             case .Bravery: return true
-            case .Boldness: return true
             case .Charity: return true
             case .Community: return true
             case .Compassion: return true
-            case .Cooperation: return true
             case .Dedication: return true
-            case .EmotionalIntelligence: return true
             case .Fairness: return true
-            case .Freedom: return true
             case .Influence: return true
-            case .Justice: return true
-            case .Modesty: return true
             case .Passion: return true
-            case .PrideInYourWork: return true
             case .ServiceOriented: return true
             default: return false
             }
         case .Politician:
             switch value{
             case .Boldness: return true
-            case .Bravery: return true
-            case .Community: return true
             case .Confidence: return true
-            case .Effective: return true
-            case .Excellence: return true
             case .Fame: return true
             case .GrowthMindset: return true
-            case .Independence: return true
             case .Influence: return true
             case .InspireOthers: return true
             case .Passion: return true
             case .Power: return true
             case .Professionalism: return true
             case .Respect: return true
-            case .SelfDevelopment: return true
             default: return false
             }
         case .Student:
             switch value{
             case .Accountability: return true
-            case .Balance: return true
             case .Consistency: return true
             case .Dedication: return true
             case .Efficiency: return true
             case .Excellence: return true
-            case .FinancialSecurity: return true
             case .Knowledge: return true
             case .Patience: return true
             case .Persistence: return true
-            case .PersonalDevelopment: return true
             case .PositiveAttitude: return true
-            case .Responsibility: return true
             case .SelfDiscipline: return true
             default: return false
             }
@@ -317,7 +261,6 @@ enum ArchetypeType: CaseIterable {
             case .getPrestigiousDegree: return true
             case .leaderInIndustry: return true
             case .millionaire: return true
-            case .reach1m: return true
             case .runMarathon: return true
             case .buyDreamCar: return true
             case .climbEverest: return true
@@ -344,7 +287,6 @@ enum ArchetypeType: CaseIterable {
             case .travelDreamCountry: return true
             case .runMarathon: return true
             case .sevenWonders: return true
-            case .ltr: return true
             case .climbEverest: return true
             case .learnSurfing: return true
             case .learnHowToRockclimb: return true
@@ -355,17 +297,12 @@ enum ArchetypeType: CaseIterable {
             }
         case .Athlete:
             switch dream{
-            case .inspireOthers: return true
             case .masterSkill: return true
-            case .millionaire: return true
             case .reach1m: return true
             case .runMarathon: return true
             case .buyDreamCar: return true
             case .retireComfortably: return true
             case .foundCharity: return true
-            case .ltr: return true
-            case .noJunkFood: return true
-            case .healthyDiet: return true
             case .liftWeightsBuildMuscle: return true
             case .buildDreamHome: return true
             case .olympics: return true
@@ -375,15 +312,12 @@ enum ArchetypeType: CaseIterable {
         case .Entrepreneur:
             switch dream{
             case .inspireOthers: return true
-            case .getPrestigiousDegree: return true
-            case .getMba: return true
             case .leaderInIndustry: return true
             case .millionaire: return true
             case .billionaire: return true
             case .reach1m: return true
             case .buyDreamCar: return true
             case .retireComfortably: return true
-            case .marryLoveOfLife: return true
             case .reachIdealBodyType: return true
             case .getPaidForPassion: return true
             case .buildDreamHome: return true
@@ -396,37 +330,24 @@ enum ArchetypeType: CaseIterable {
             case .publishNovel: return true
             case .becomeDebtFree: return true
             case .learnNewLanguage: return true
-            case .learnHowToRockclimb: return true
             case .reachIdealBodyType: return true
             case .marryLoveOfLife: return true
-            case .firstHome: return true
-            case .snorkelInOcean: return true
-            case .whitewaterRafting: return true
             case .favoriteFootballTeam: return true
             case .run6MinuteMile: return true
-            case .declutterHome: return true
-            case .seeTheBallDrop: return true
             case .getDreamPet: return true
             default: return false
             }
         case .Executive:
             switch dream{
-            case .masterSkill: return true
             case .getMba: return true
-            case .leaderInIndustry: return true
             case .businessExecutive: return true
             case .millionaire: return true
-            case .reach500k: return true
             case .buyDreamCar: return true
             case .retireComfortably: return true
             case .foundCharity: return true
-            case .marryLoveOfLife: return true
-            case .noJunkFood: return true
             case .masterBallroomDancing: return true
             case .reachIdealBodyType: return true
-            case .generatePassiveIncome: return true
             case .buildDreamHome: return true
-            case .favoriteFootballTeam: return true
             case .startOnlineBusiness: return true
             default: return false
             }
@@ -434,18 +355,12 @@ enum ArchetypeType: CaseIterable {
             switch dream{
             case .inspireOthers: return true
             case .millionaire: return true
-            case .reach500k: return true
-            case .publishNovel: return true
             case .buyDreamCar: return true
-            case .graduateCollege: return true
             case .reachIdealBodyType: return true
             case .getPaidForPassion: return true
-            case .liftWeightsBuildMuscle: return true
             case .generatePassiveIncome: return true
             case .buildDreamHome: return true
             case .goSkydiving: return true
-            case .goHangGliding: return true
-            case .snorkelInOcean: return true
             case .whitewaterRafting: return true
             case .meetFavoriteCeleb: return true
             default: return false
@@ -453,19 +368,13 @@ enum ArchetypeType: CaseIterable {
         case .Artist:
             switch dream{
             case .inspireOthers: return true
-            case .masterSkill: return true
-            case .becomeDebtFree: return true
             case .learnNewLanguage: return true
             case .masterMusicalInstrument: return true
             case .learnPottery: return true
             case .becomeArtist: return true
             case .composeSong: return true
-            case .findLifePartner: return true
             case .buildDreamHome: return true
-            case .youtubeChannel: return true
             case .veganDiet: return true
-            case .workLifeBalance: return true
-            case .startSmallBusiness: return true
             case .northernLights: return true
             case .famousActor: return true
             default: return false
@@ -473,9 +382,7 @@ enum ArchetypeType: CaseIterable {
         case .Philanthropist:
             switch dream{
             case .inspireOthers: return true
-            case .travel7Continents: return true
             case .publishNovel: return true
-            case .learnNewLanguage: return true
             case .foundCharity: return true
             case .liveInForeignCountry: return true
             case .getPaidForPassion: return true

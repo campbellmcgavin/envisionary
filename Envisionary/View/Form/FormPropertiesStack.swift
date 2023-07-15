@@ -18,42 +18,32 @@ struct FormPropertiesStack: View {
     let modalType: ModalType
     var isSimple: Bool = false
     var parentGoalId: UUID?
+    var convertDreamId: UUID?
     
     @State var title = ""
     @State var description = ""
-    
     @State var aspectString = ""
-    
     @State var priorityString = ""
-    
     @State var timeframe = TimeframeType.day
     @State var timeframeString = ""
-    
     @State var scheduleTimeframe = TimeframeType.day
     @State var scheduleTimeframeString = ""
-    
     @State var startDate = Date()
     @State var numberOf = 0
     @State var endDate = Date()
     @State var filteredValues = [ValueType]()
     @State var chapterString = ""
     @State var hasChapterId: Bool = false
-    
     @State var scheduleString = ""
     @State var schedule = ScheduleType.oncePerDay
     @State var scheduleOptions = [String]()
-    
     @State var amount = 0
-    
     @State var unit = UnitType.minutes
     @State var unitString = ""
-    
     @State var emotionStringDictionary = [String:Bool]()
     @State var emotionStringOptions = [String:[String]]()
-    
     @State var activityStringDictionary = [String:Bool]()
     @State var activityStringOptions = [String]()
-    
     @State var emotionalState: Int = 3
     
     @State private var titleDirtyTimer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
@@ -94,10 +84,9 @@ struct FormPropertiesStack: View {
             
             priorityString = properties.priority?.toString() ?? ""
             
-            startDate = properties.startDate ?? Date().StartOfTimeframe(timeframe: timeframe)
-            endDate = properties.endDate ?? startDate.EndOfTimeframe(timeframe: timeframe)
-            numberOf = 0
-            endDate = properties.endDate ?? Date()
+            startDate = properties.startDate ?? Date().StartOfTimeframe(timeframe: timeframe).StartOfDay()
+            endDate = properties.endDate ?? startDate.EndOfTimeframe(timeframe: timeframe).EndOfDay()
+            numberOf = 1
             scheduleString = properties.scheduleType?.toString() ?? schedule.toString()
             scheduleOptions = GetSchedules()
             unitString = unit.toString()

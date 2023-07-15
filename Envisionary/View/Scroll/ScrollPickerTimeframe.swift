@@ -59,10 +59,7 @@ struct ScrollPickerTimeframe: View {
                       impact.impactOccurred()
             }
             .onAppear{
-                LoadTimeframes()
-                contentOffset.x = CGFloat(vm.filtering.filterTimeframe.rawValue)*(SizeType.scrollPickerWidth.ToSize() + weirdOffset)
-                timeframeDisplay = vm.filtering.filterTimeframe
-                self.startTimer()
+                RefreshView()
             }
             .onChange(of: timeframeList){
                 _ in
@@ -77,8 +74,20 @@ struct ScrollPickerTimeframe: View {
                         }
                     }
             }
+            .onRotate(perform: {
+                _ in
+                RefreshView()
+            })
         }
         .frame(height:SizeType.minimumTouchTarget.ToSize())
+    }
+    
+    
+    func RefreshView(){
+        LoadTimeframes()
+        timeframeDisplay = vm.filtering.filterTimeframe
+        contentOffset.x = CGFloat(vm.filtering.filterTimeframe.rawValue)*(SizeType.scrollPickerWidth.ToSize() + weirdOffset)
+        self.startTimer()
     }
     
     func LoadTimeframes() {

@@ -14,12 +14,14 @@ struct DetailStack: View {
     @Binding var modalType: ModalType
     @Binding var statusToAdd: StatusType
     @Binding var isPresentingSourceType: Bool
+    @Binding var shouldConvertToGoal: Bool
     var properties: Properties
     let objectId: UUID
     let objectType: ObjectType
     
     @State var superGoal: Goal = Goal()
     @State var shouldExpandAll: Bool = true
+    
     let navLinkId = UUID()
     @EnvironmentObject var vm: ViewModel
     
@@ -39,6 +41,9 @@ struct DetailStack: View {
             }
             .padding([.top,.bottom])
 
+            if objectType == .dream{
+                TextButton(isPressed: $shouldConvertToGoal, text: "Convert to goal", color: .grey0, backgroundColor: .grey10, style:.h3, shouldHaveBackground: true, shouldFill: true)
+            }
             
             ParentHeaderButton(shouldExpandAll: $shouldExpandAll, color: .purple, header: "Expand All", headerCollapsed: "Collapse All")
             
@@ -116,7 +121,7 @@ struct DetailStack: View {
 
 struct DetailStack_Previews: PreviewProvider {
     static var previews: some View {
-        DetailStack(offset: .constant(.zero), focusObjectId: .constant(UUID()), isPresentingModal: .constant(false) , modalType: .constant(.add), statusToAdd: .constant(.notStarted), isPresentingSourceType: .constant(false) , properties: Properties() , objectId: UUID() ,objectType: .goal)
+        DetailStack(offset: .constant(.zero), focusObjectId: .constant(UUID()), isPresentingModal: .constant(false) , modalType: .constant(.add), statusToAdd: .constant(.notStarted), isPresentingSourceType: .constant(false), shouldConvertToGoal: .constant(false) , properties: Properties() , objectId: UUID() ,objectType: .goal)
             .environmentObject(ViewModel())
     }
 }

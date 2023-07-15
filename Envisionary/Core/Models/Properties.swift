@@ -48,6 +48,11 @@ struct Properties: Identifiable, Equatable, Hashable, Codable{
     var activityList: [String]?
     var emotionalState: Int?
     
+    //prompt
+    var promptType: PromptType?
+    var objectType: ObjectType?
+    var objectId: UUID?
+    
     init(objectType: ObjectType){
         timeframe = .day
         startDate = Date()
@@ -149,6 +154,16 @@ struct Properties: Identifiable, Equatable, Hashable, Codable{
         self.images = entry?.images
         self.chapterId = entry?.chapterId
         self.startDate = entry?.startDate
+    }
+    
+    init(prompt: Prompt?){
+        self.id = prompt?.id ?? UUID()
+        self.title = prompt?.title ?? ""
+        self.promptType = prompt?.type ?? .favorite
+        self.date = prompt?.date ?? Date()
+        self.objectType = prompt?.objectType ?? .goal
+        self.objectId = prompt?.objectId ?? UUID()
+        self.timeframe = prompt?.timeframe ?? .day
     }
     
     init(session: Session?){

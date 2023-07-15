@@ -99,6 +99,37 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
         }
     }
     
+    func shouldGroup() -> Bool{
+        switch self {
+        case .value:
+            return false
+        case .creed:
+            return false
+        case .dream:
+            return true
+        case .aspect:
+            return false
+        case .goal:
+            return true
+        case .habit:
+            return true
+        case .session:
+            return false
+        case .home:
+            return true
+        case .chapter:
+            return true
+        case .entry:
+            return true
+        case .emotion:
+            return true
+        case .prompt:
+            return false
+        case .recurrence:
+            return false
+        }
+    }
+    
     func toString() -> String{
         switch self {
         case .aspect:

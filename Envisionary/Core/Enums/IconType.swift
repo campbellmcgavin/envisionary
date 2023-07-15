@@ -23,6 +23,7 @@ enum IconType {
     case right
     case left
     case up
+    case up2
     case down
     
     //navigation
@@ -141,6 +142,8 @@ enum IconType {
             return "Icon_Chevron_Left"
         case .up:
             return "Icon_Chevron_Up"
+        case .up2:
+            return "Icon_Chevron_Up_2"
         case .down:
             return "Icon_Chevron_Down"
         case .filter:

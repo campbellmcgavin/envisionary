@@ -486,6 +486,8 @@ enum ValueType: CaseIterable, Codable, Hashable {
     
     func toDescription() -> String {
         switch self {
+        case .Acceptance:
+            return "I am open and aware of human differences, and I exert significant energy to ensure that I am compassionate of how others see the world."
         case .Accountability:
             return "I take responsibility for all of my actions, regardless of the positive or negative impact."
         case .Achievement:
@@ -496,6 +498,8 @@ enum ValueType: CaseIterable, Codable, Hashable {
             return "I strive to create a lifestyle that allows me to be independent from others."
         case .Balance:
             return "I live a life that is balanced in all things. I invest in all parts of my life simultaneously"
+        case .Boldness:
+            return "I have no fear of causing waves. Rather, I boldly make waves to inspire and lead."
         case .Charity:
             return "I am charitable towards humanity, both with my time and resources."
         case .Compassion:
@@ -514,6 +518,8 @@ enum ValueType: CaseIterable, Codable, Hashable {
             return "I will always strive to give 110%."
         case .Faith:
             return "I believe in a better tomorrow. I believe that things will turn out for our good. I believe we are watched over and protected."
+        case .Fairness:
+            return "I strive to make decisions and create an environment where people and perspectives are treated fairly."
         case .FinancialSecurity:
             return "The tenant of 'saving more than you spend' is core to my health as a person."
         case .Freedom:
@@ -528,8 +534,6 @@ enum ValueType: CaseIterable, Codable, Hashable {
             return "I am a source of goodness in the lives of those who know me. Everything I touch becomes better, happier, and more full."
         case .PersonalDevelopment:
             return "I zealously expand and deepen my being by developing new parts of me."
-        case .GrowthMindset:
-            return "Everyday is an opportunity to grow. To progress. I will take advantage of everyday to improve."
         case .Happiness:
             return "I can choose to be happy. I can choose to have joy"
         case .Honesty:
@@ -550,10 +554,10 @@ enum ValueType: CaseIterable, Codable, Hashable {
             return "I want to experience joy always. I recognize this is not possible, but everything I do in life, I do in an attempt to increase my own personal joy."
         case .Optimism:
             return "I know that my happiness and fulfillment is in my control, and I know that I have the power to make tomorrow a better day."
-        case .Success:
-            return "I know that success is focused around my learning from mistakes and growing as a person."
         case .Kindness:
             return "I treat others with kindness. My actions and my words reflect this kindness. Others feel safe and respected around me."
+        case .Responsibility:
+            return "I take ownership of my actions and exercise integrity regardless of the situation. I take ownership of my commitments and see them through."
         case .Knowledge:
             return "I am knowledgeable about the things I choose to pursue in life. It is my goal to become a knowledge expert in my areas of focus."
         case .Passion:
@@ -594,7 +598,68 @@ enum ValueType: CaseIterable, Codable, Hashable {
             return "I find the balance between a confidence and trust in my abilities, and a recognition of my weaknesses."
         case .Decisiveness:
             return "I focus on using my abilities and resources to gather information and then promptly making a decision to move forward."
-            
+        case .InspireOthers:
+            return "I live to be an inspiration to others, transmitting my ideals and values into the minds and hearts of the world."
+        case .SocialJustice:
+            return "I feel the pain of the marginalized and underprivileged. I take a stand to shape the world to a better tomorrow for these groups."
+        case .Adventure:
+            return "I live for the thrill of trying new things and exploring the world."
+        case .Creativity:
+            return "My mind blooms with the color and vibrance of new and alternative ideas."
+        case .Curiosity:
+            return "I constantly ask myself the question of 'why' things are the way they are and I burn with curiosity."
+        case .Flexibility:
+            return "I expend effort to be flexible and willing to adapt to make things work."
+        case .Independence:
+            return "I thrive off the ability to be autonomous and independent. To guide my life as I will and to pave my own destiny."
+        case .Laughter:
+            return "I know that laughter is key to being able to experience a fullness of happiness in life."
+        case .Spontaneity:
+            return "The best plans come from no plans. I thrive off 'flying by the seat of my pants.'"
+        case .WorkLifeBalance:
+            return "Balance is necessary in life. Especially between life and my career."
+        case .Adaptability:
+            return "While life may throw different challenges my way, I adapt. I grow. I learn."
+        case .PrideInYourWork:
+            return "The time I invest in my works I take seriously, and I ensure that everything I produce, I do so with pride and passion."
+        case .SelfDevelopment:
+            return "Because I know I have infinite potential, I invest substantial energy and focus into developing me."
+        case .SelfDiscipline:
+            return "My will power trumps the distractions and fleeting desires I may have in the moment, and I push through with determination to achieve the end goal."
+        case .Strength:
+            return "I am strong enough to get through the struggles of life. I am strong enough to help those around me push through theirs."
+        case .Power:
+            return "I have the power sufficient to my surroundings and bring my dreams into reality."
+        case .Profit:
+            return "I focus on those things that add profit to my life and career. With both the currencies of money and happiness."
+        case .SelfMotivation:
+            return "I have the energy and drive to achieve the impossible."
+        case .Appreciation:
+            return "I exercise gratitude for the things I have, as well as the things I don't have. I focus on being in a state of appreciation rather than temporary appreciation in moments of ease."
+        case .Community:
+            return "The health of my community is important to me and I take steps to give back to the community."
+        case .LearningFromMistakes:
+            return "Mistakes are opportunities to improve and have no need to cause shame or self-pity. I learn and I move on."
+        case .Leadership:
+            return "I leader others in service. I lead others in kindness. I lead others to victory."
+        case .Originality:
+            return "I strive to make my personal brand as well as the output of my work to be new and novel. Never before seen."
+        case .Wealth:
+            return "I desire material wealth as a mechanism to create great impact on the world."
+        case .Bravery:
+            return "I work to rid myself of fear and confront the things in life that are difficult or scary."
+        case .ServiceOriented:
+            return "I give of my life to others who are in need. I serve in word and deed."
+        case .Fame:
+            return "I am determined to be known. I want to leave a legacy that will live on for decades."
+        case .Professionalism:
+            return "My public image is important and I conduct myself professionally to ensure I am seen respectably."
+        case .Consistency:
+            return "I recognize the greatest deeds ever done were done with patience and consistency. Little by little, I move mountains."
+        case .Efficiency:
+            return "I focus on how to accomplish the task at hand with the smallest amount of effort and shortest amount of time."
+        case .Persistence:
+            return "When I run into a barrier in life, I persist. I try new things. I problem solve and arrive victorious."
         default:
             return "I believe " + self.toString() + " is an important core value and I invest everyday to making it more a core part of my life."
         }

@@ -225,7 +225,7 @@ enum DreamType: CaseIterable {
         case .generatePassiveIncome:
             return "Generate passive income"
         case .deepSeeFishing:
-            return "Deep see fishing"
+            return "Deep sea fishing"
         case .firstHome:
             return "Purchase first home"
         case .buildDreamHome:

@@ -71,6 +71,10 @@
 		6136AE212A05FC590076E1A6 /* SessionStepType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6136AE202A05FC590076E1A6 /* SessionStepType.swift */; };
 		6136AE242A05FEC70076E1A6 /* CreateSessionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6136AE232A05FEC70076E1A6 /* CreateSessionRequest.swift */; };
 		6136AE282A0607320076E1A6 /* PhotoCardSimple.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6136AE272A0607320076E1A6 /* PhotoCardSimple.swift */; };
+		613876402A5E72F800D9186B /* HomeObjectType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6138763F2A5E72F800D9186B /* HomeObjectType.swift */; };
+		613876422A5FC83200D9186B /* FormCheckoff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613876412A5FC83200D9186B /* FormCheckoff.swift */; };
+		613876442A5FC8F600D9186B /* CheckOffType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613876432A5FC8F600D9186B /* CheckOffType.swift */; };
+		613876462A5FD99F00D9186B /* GoalTrackingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613876452A5FD99F00D9186B /* GoalTrackingCard.swift */; };
 		613E113D2A2EE7630044491C /* TutorialPhases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613E113C2A2EE7630044491C /* TutorialPhases.swift */; };
 		613E113F2A2EF4C70044491C /* TutorialArchetype.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613E113E2A2EF4C70044491C /* TutorialArchetype.swift */; };
 		613E11412A2EF9B60044491C /* TutorialGetStarted.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613E11402A2EF9B60044491C /* TutorialGetStarted.swift */; };
@@ -349,6 +353,10 @@
 		6136AE202A05FC590076E1A6 /* SessionStepType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStepType.swift; sourceTree = "<group>"; };
 		6136AE232A05FEC70076E1A6 /* CreateSessionRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateSessionRequest.swift; sourceTree = "<group>"; };
 		6136AE272A0607320076E1A6 /* PhotoCardSimple.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCardSimple.swift; sourceTree = "<group>"; };
+		6138763F2A5E72F800D9186B /* HomeObjectType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeObjectType.swift; sourceTree = "<group>"; };
+		613876412A5FC83200D9186B /* FormCheckoff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormCheckoff.swift; sourceTree = "<group>"; };
+		613876432A5FC8F600D9186B /* CheckOffType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckOffType.swift; sourceTree = "<group>"; };
+		613876452A5FD99F00D9186B /* GoalTrackingCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalTrackingCard.swift; sourceTree = "<group>"; };
 		613E113C2A2EE7630044491C /* TutorialPhases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialPhases.swift; sourceTree = "<group>"; };
 		613E113E2A2EF4C70044491C /* TutorialArchetype.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialArchetype.swift; sourceTree = "<group>"; };
 		613E11402A2EF9B60044491C /* TutorialGetStarted.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialGetStarted.swift; sourceTree = "<group>"; };
@@ -622,6 +630,8 @@
 				61E9823C2A46BE0700772BA6 /* EmotionType.swift */,
 				616FEBB32A4D413500E7766C /* HelpPromptType.swift */,
 				616FEBBD2A5757E300E7766C /* ArchetypeType.swift */,
+				6138763F2A5E72F800D9186B /* HomeObjectType.swift */,
+				613876432A5FC8F600D9186B /* CheckOffType.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -707,6 +717,7 @@
 				617ED6DA2A16EE460085D6A2 /* CollapsingListCard.swift */,
 				614D81FE2A1C6C3A00AE7335 /* RecurrenceCard.swift */,
 				616FEBBF2A578B4300E7766C /* ArchetypeCard.swift */,
+				613876452A5FD99F00D9186B /* GoalTrackingCard.swift */,
 			);
 			path = Card;
 			sourceTree = "<group>";
@@ -1034,6 +1045,7 @@
 				610CCC3E2A478AB000265FE4 /* FormStackGroupedMultiPicker.swift */,
 				610CCC402A47AEC700265FE4 /* FormEmotionalStatePicker.swift */,
 				616FEBAF2A4D3F5800E7766C /* FormRadioButton.swift */,
+				613876412A5FC83200D9186B /* FormCheckoff.swift */,
 			);
 			path = Form;
 			sourceTree = "<group>";
@@ -1333,6 +1345,7 @@
 				617E262929D8D7E20051DC88 /* GanttMainDiagram.swift in Sources */,
 				617E25EF29D27EE60051DC88 /* Task.swift in Sources */,
 				378D9F1429BAB946008A34A2 /* ScrollPicker.swift in Sources */,
+				613876422A5FC83200D9186B /* FormCheckoff.swift in Sources */,
 				378D9F0229BA8679008A34A2 /* ModifierRoundedCorners.swift in Sources */,
 				37B6C04A29BD6CC800A37D1B /* DetailProperties.swift in Sources */,
 				6192EC312A30028200AEA971 /* Setup.swift in Sources */,
@@ -1401,6 +1414,7 @@
 				6136AE1D2A05FB0A0076E1A6 /* EvaluationType.swift in Sources */,
 				61A1B1652A38154C001E1273 /* SetupSession.swift in Sources */,
 				616FEBAE2A4D3D9600E7766C /* ModalHelp.swift in Sources */,
+				613876462A5FD99F00D9186B /* GoalTrackingCard.swift in Sources */,
 				61DAEB5729E36B30001D7600 /* UpdateTaskRequest.swift in Sources */,
 				615093712A47803A006781A6 /* Activity.swift in Sources */,
 				617E25CF29D0CF5B0051DC88 /* AlertsService.swift in Sources */,
@@ -1444,6 +1458,7 @@
 				617E261129D672510051DC88 /* UUIDExtensions.swift in Sources */,
 				378D9F1E29BAE2DA008A34A2 /* ScrollPickerDates.swift in Sources */,
 				616FEBC22A5A183D00E7766C /* UnlockedObjects.swift in Sources */,
+				613876402A5E72F800D9186B /* HomeObjectType.swift in Sources */,
 				6188487A29C9543000525AFF /* CalendarPicker.swift in Sources */,
 				61DAC56E29DE6E85006CACC3 /* FormSearchableDropdown.swift in Sources */,
 				617ED6D22A1347970085D6A2 /* CreatePromptRequest.swift in Sources */,
@@ -1516,6 +1531,7 @@
 				6188485B29C6C0B800525AFF /* ModalHeader.swift in Sources */,
 				617E260529D66EA20051DC88 /* DetailTree.swift in Sources */,
 				61A1B1612A380AF9001E1273 /* SetupHabits.swift in Sources */,
+				613876442A5FC8F600D9186B /* CheckOffType.swift in Sources */,
 				61213B9929C2F67700CBB6FA /* ContentViewStack.swift in Sources */,
 				614D81FA2A1BDBCA00AE7335 /* EntityType.swift in Sources */,
 				617ED6D92A16D1D10085D6A2 /* SelectedButton.swift in Sources */,
@@ -1726,7 +1742,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UIUserInterfaceStyle = Dark;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1758,7 +1774,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UIUserInterfaceStyle = Dark;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

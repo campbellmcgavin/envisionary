@@ -16,6 +16,8 @@ class ViewModel: ObservableObject, DataServiceProtocol
     @Published var tutorialStep: SetupStepType = SetupStepType.fromString(from: UserDefaults.standard.string(forKey: SettingsKeyType.tutorial_step.toString()) ?? "")
     @Published var unlockedObjects = UnlockedObjects()
     @Published var helpPrompts = HelpPrompts()
+    @Published var convertDreamToGoalId: UUID? = nil
+    
     var archetype: ArchetypeType = ArchetypeType.fromString(from: UserDefaults.standard.string(forKey: SettingsKeyType.archetype_type.toString()) ?? "")
     
     // MARK: - GLOBAL STATE
@@ -162,6 +164,51 @@ class ViewModel: ObservableObject, DataServiceProtocol
 //    }
 //
 //    private func TasksDidChange(){ updates.task.toggle() }
+    // MARK: - OBJECT WIDE OPERATIONS
+    func WipeDate() -> Bool{
+        
+        let values = ListCoreValues()
+        values.forEach({
+            _ = DeleteCoreValue(id: $0.id)
+        })
+        
+        let dreams = ListDreams()
+        dreams.forEach({
+            _ = DeleteDream(id: $0.id)
+        })
+        
+        let aspects = ListAspects()
+        aspects.forEach({
+            _ = DeleteAspect(id: $0.id)
+        })
+        
+        let habits = ListHabits()
+        habits.forEach({
+            _ = DeleteHabit(id: $0.id)
+        })
+        
+        let goals = ListGoals()
+        goals.forEach({
+            _ = DeleteGoal(id: $0.id)
+        })
+        
+        let chapters = ListChapters()
+        chapters.forEach({
+            _ = DeleteChapter(id: $0.id)
+        })
+        
+        let entries = ListEntries()
+        entries.forEach({
+            _ = DeleteEntry(id: $0.id)
+        })
+        
+        let prompts = ListPrompts()
+        prompts.forEach({
+            _ = DeletePrompt(id: $0.id)
+        })
+        
+        return true
+    }
     
     // MARK: - ASPECTS
 

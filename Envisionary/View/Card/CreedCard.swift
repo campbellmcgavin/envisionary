@@ -14,10 +14,9 @@ struct CreedCard: View {
     @EnvironmentObject var vm: ViewModel
     var body: some View {
         
+        
         MainContentBuilder()
-            .padding([.leading,.trailing,.bottom])
-            .frame(alignment:.leading)
-            .modifier(ModifierCard())
+
     }
     
     @ViewBuilder
@@ -25,13 +24,13 @@ struct CreedCard: View {
         VStack(alignment:.leading, spacing:0){
             
             if shouldShowCard{
-                PhotoCard(objectType: .creed, objectId: UUID(), properties: Properties(creed: true, valueCount: vm.ListCoreValues().count), shouldHidePadding: true)
+                PhotoCard(objectType: .creed, objectId: UUID(), properties: Properties(creed: true, valueCount: vm.ListCoreValues().count), shouldHidePadding: false)
             }
 
             CreedCardList()
-            .padding(.top)
-            .modifier(ModifierCard(color: .grey15,radius:SizeType.cornerRadiusSmall.ToSize()))
         }
+        .frame(maxWidth:.infinity)
+        .modifier(ModifierCard())
     }
 }
 
@@ -40,9 +39,9 @@ struct CreedCardList: View{
     @EnvironmentObject var vm: ViewModel
     
     var body: some View{
-        VStack(alignment:.leading, spacing:0){
+        VStack(alignment:.leading){
             Item(caption: "Introduction", body: vm.GetCoreValue(coreValue: .Introduction)?.description ?? "")
-            
+//                .padding(.top)
             let coreValues = vm.ListCoreValues()
             ForEach(coreValues){ coreValue in
                 if coreValue.title != ValueType.Introduction.toString() && coreValue.title != ValueType.Conclusion.toString() {
@@ -52,23 +51,33 @@ struct CreedCardList: View{
             
             Item(caption: "Conclusion", body: vm.GetCoreValue(coreValue: .Conclusion)?.description ?? "")
         }
-        
+        .multilineTextAlignment(.leading)
+        .frame(maxWidth:.infinity)
         .frame(alignment:.leading)
+        .padding()
+        .modifier(ModifierForm(color: .grey15))
+        .padding(10)
     }
     
     @ViewBuilder
     func Item(caption: String, body: String) -> some View {
-        VStack(alignment:.leading, spacing:0){
-            Text(caption)
-                .font(.specify(style: .caption))
-                .foregroundColor(.specify(color: .grey5))
-            Text(body)
-                .font(.specify(style: .body1))
-                .foregroundColor(.specify(color: .grey10))
+        HStack{
+            VStack(alignment:.leading, spacing:0){
+                Text(caption)
+                    .font(.specify(style: .caption))
+                    .foregroundColor(.specify(color: .grey5))
+                    .frame(alignment:.leading)
+
+                Text(body)
+                    .font(.specify(style: .body1))
+                    .foregroundColor(.specify(color: .grey10))
+                    .frame(alignment:.leading)
+            }
+            Spacer()
         }
-        .padding([.top,.bottom],10)
         .frame(alignment:.leading)
-        .padding([.leading,.trailing])
+        .frame(maxWidth:.infinity)
+//        .padding()
         
         if caption != "Conclusion" {
             StackDivider(shouldIndent: false)

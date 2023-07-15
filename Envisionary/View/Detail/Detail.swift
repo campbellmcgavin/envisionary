@@ -9,8 +9,8 @@ import SwiftUI
 
 struct Detail: View {
     
-    let objectType: ObjectType
-    let objectId: UUID
+    @State var objectType: ObjectType
+    @State var objectId: UUID
     @State var isPresentingPhotoSource: Bool = false
     @State var sourceType: UIImagePickerController.SourceType? = nil
     @State var properties: Properties = Properties()
@@ -27,6 +27,10 @@ struct Detail: View {
     @State var newImage: UIImage? = nil
     @State var shouldMarkAsFavorite = true
     @State var finishedLoading = false
+    @State var shouldAllowDelete = true
+    @State var shouldConvertToGoal = false
+    @State var convertDreamId: UUID? = nil
+    
     @EnvironmentObject var vm: ViewModel
     
     @Environment(\.presentationMode) private var dismiss
@@ -44,7 +48,7 @@ struct Detail: View {
                         
 //                        if(!isPresentingModal){
                         ZStack(alignment:.top){
-                            DetailStack(offset: $offset, focusObjectId: $focusObjectid, isPresentingModal: $isPresentingModal, modalType: $modalType, statusToAdd: $statusToAdd, isPresentingSourceType: $isPresentingPhotoSource, properties: properties, objectId: objectId, objectType: objectType)
+                            DetailStack(offset: $offset, focusObjectId: $focusObjectid, isPresentingModal: $isPresentingModal, modalType: $modalType, statusToAdd: $statusToAdd, isPresentingSourceType: $isPresentingPhotoSource, shouldConvertToGoal: $shouldConvertToGoal, properties: properties, objectId: objectId, objectType: objectType)
 //                            HStack{
 //                                Spacer()
 //                                IconButton(isPressed: .constant(false), size: .medium, iconType: .favorite, iconColor: .grey10, circleColor: .darkPurple, opacity:0.5, circleOpacity: 0.15)
@@ -66,10 +70,10 @@ struct Detail: View {
             .ignoresSafeArea()
 
                 
-            DetailMenu(objectType: objectType, dismiss: dismiss, isPresentingModal: $isPresentingModal, modalType: $modalType, objectId: objectId, selectedObjectID: $focusObjectid, shouldMarkAsFavorite: $shouldMarkAsFavorite, finishedLoading: $finishedLoading)
+            DetailMenu(objectType: objectType, dismiss: dismiss, isPresentingModal: $isPresentingModal, modalType: $modalType, objectId: objectId, selectedObjectID: $focusObjectid, shouldMarkAsFavorite: $shouldMarkAsFavorite, finishedLoading: $finishedLoading, shouldAllowDelete: shouldAllowDelete)
                 .frame(alignment:.top)
             
-            ModalManager(isPresenting: $isPresentingModal, modalType: $modalType, objectType: GetObjectType(), objectId: focusObjectid, properties: properties, statusToAdd: statusToAdd, shouldDelete: $shouldDelete)
+            ModalManager(isPresenting: $isPresentingModal, modalType: $modalType, convertDreamId: $convertDreamId, objectType: GetObjectType(), objectId: focusObjectid, properties: properties, statusToAdd: statusToAdd, shouldDelete: $shouldDelete)
             
             ModalPhotoSource(objectType: .goal, isPresenting: $isPresentingPhotoSource, sourceType: $sourceType)
             
@@ -82,7 +86,9 @@ struct Detail: View {
             focusObjectType = objectType
             RefreshImage()
             RefreshFavorite()
+            ShouldAllowDelete()
             finishedLoading = true
+            
         }
         .onChange(of: shouldMarkAsFavorite){
             _ in
@@ -101,6 +107,11 @@ struct Detail: View {
             }
         }
         .onChange(of: vm.updates){ _ in
+            if let convertDreamId{
+                self.objectId = convertDreamId
+                self.convertDreamId = nil
+                self.objectType = .goal
+            }
             RefreshProperties()
             RefreshImage()
         }
@@ -129,11 +140,16 @@ struct Detail: View {
                 isPresentingImagePicker = false
             }
         }
+        .onChange(of: shouldConvertToGoal){
+            _ in
+            modalType = .add
+            isPresentingModal = true
+            convertDreamId = objectId
+        }
         .sheet(isPresented: $isPresentingImagePicker){
             ImagePicker(image: $newImage, showImagePicker: self.$isPresentingImagePicker, sourceType: self.sourceType ?? .camera)
         }
         .onChange(of: newImage){ _ in
-            
             if let goal = vm.GetGoal(id: focusObjectid){
                 if let newImage{
                     var request = UpdateGoalRequest(goal: goal)
@@ -157,6 +173,9 @@ struct Detail: View {
                 return .entry
             }
         }
+        else if objectType == .dream{
+            return .goal
+        }
         return objectType
     }
     
@@ -171,6 +190,17 @@ struct Detail: View {
             withAnimation{
                 image = vm.GetImage(id: properties.image!)
             }
+        }
+    }
+    
+    func ShouldAllowDelete(){
+        switch objectType{
+        case .aspect:
+            shouldAllowDelete = vm.ListAspects().count > 3
+        case .value:
+            shouldAllowDelete = vm.ListCoreValues().count > 3
+        default:
+            shouldAllowDelete = true
         }
     }
     

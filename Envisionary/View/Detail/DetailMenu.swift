@@ -16,6 +16,7 @@ struct DetailMenu: View {
     @Binding var selectedObjectID: UUID
     @Binding var shouldMarkAsFavorite: Bool
     @Binding var finishedLoading: Bool
+    var shouldAllowDelete: Bool
     @State var shouldPresentDelete: Bool = false
     @State var shouldPresentHelp: Bool = false
     @State var shouldPresentEdit: Bool = false
@@ -26,7 +27,7 @@ struct DetailMenu: View {
         HStack(spacing:7){
             IconButton(isPressed: $shouldGoBack, size: .medium, iconType: .arrow_left, iconColor: .purple, circleColor: .grey10)
             Spacer()
-            if objectType.hasDetailMenuButton(button: .delete){
+            if objectType.hasDetailMenuButton(button: .delete) && shouldAllowDelete{
                 IconButton(isPressed: $shouldPresentDelete, size: .medium, iconType: .delete, iconColor: .red, circleColor: .grey10)
             }
             if objectType.hasDetailMenuButton(button: .favorite){

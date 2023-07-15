@@ -65,6 +65,10 @@ struct ScrollPickerObject: View {
                 }
             }
         }
+        .onRotate{
+            _ in
+            RefreshView()
+        }
         .frame(height:ShouldShowObjects() ? SizeType.minimumTouchTarget.ToSize() : 0)
         .onChange(of: contentOffset.x){ _ in
             objectDisplay = GetObjectFromOffset()
@@ -76,11 +80,7 @@ struct ScrollPickerObject: View {
 
         }
         .onAppear{
-            LoadObjects()
-            contentOffset.x = GetOffsetFromObject()
-            objectDisplay = objectType
-            self.startTimer()
-            self.timerPop.upstream.connect().cancel()
+            RefreshView()
         }
 //        .onChange(of: vm.tutorialStep){
 //            _ in
@@ -151,6 +151,14 @@ struct ScrollPickerObject: View {
                 objectList.append(object)
             }
         }
+    }
+    
+    func RefreshView(){
+        LoadObjects()
+        contentOffset.x = GetOffsetFromObject()
+        objectDisplay = objectType
+        self.startTimer()
+        self.timerPop.upstream.connect().cancel()
     }
     
     func ObjectShouldShow(object: ObjectType) -> Bool{

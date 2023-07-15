@@ -11,6 +11,7 @@ struct ModalManager: View {
     
     @Binding var isPresenting: Bool
     @Binding var modalType: ModalType
+    @Binding var convertDreamId: UUID?
     
     var objectType: ObjectType?
     var objectId: UUID?
@@ -116,7 +117,7 @@ struct ModalManager: View {
     func BuildModal() -> some View{
         switch modalType {
         case .add:
-            ModalAdd(isPresenting: $isPresentingAdd, isPresentingPhotoSource: $isPresentingPhotoSource, sourceType: $sourceType, objectId: nil, parentGoalId: GetParentGoalId(), parentChapterId: GetParentChapterId(), objectType: GetObjectType(), modalType: .add, status: statusToAdd)
+            ModalAdd(isPresenting: $isPresentingAdd, isPresentingPhotoSource: $isPresentingPhotoSource, sourceType: $sourceType, convertDreamId: $convertDreamId, objectId: nil, parentGoalId: GetParentGoalId(), parentChapterId: GetParentChapterId(), objectType: GetObjectType(), modalType: .add, status: statusToAdd)
         case .search:
             ModalSearch(isPresenting: $isPresentingSearch, objectType: objectType ?? .goal)
         case .settings:
@@ -124,7 +125,7 @@ struct ModalManager: View {
         case .filter:
             ModalFilter(isPresenting: $isPresentingFilter)
         case .edit:
-            ModalAdd(isPresenting: $isPresentingEdit, isPresentingPhotoSource: $isPresentingPhotoSource, sourceType: $sourceType, objectId: GetObjectId(), parentGoalId: GetParentGoalId(), parentChapterId: GetParentChapterId(), objectType: GetObjectType(), modalType: .edit)
+            ModalAdd(isPresenting: $isPresentingEdit, isPresentingPhotoSource: $isPresentingPhotoSource, sourceType: $sourceType, convertDreamId: .constant(nil), objectId: GetObjectId(), parentGoalId: GetParentGoalId(), parentChapterId: GetParentChapterId(), objectType: GetObjectType(), modalType: .edit)
         case .delete:
             Modal(modalType: .delete, objectType: objectType ?? .goal, isPresenting: $isPresentingDelete, shouldConfirm: $shouldDelete, isPresentingImageSheet: .constant(false), allowConfirm: true, modalContent: {EmptyView()}, headerContent: {EmptyView()}, bottomContent: {EmptyView()}, betweenContent: {EmptyView()})
         case .photoSource:
@@ -133,7 +134,6 @@ struct ModalManager: View {
             EmptyView()
         }
     }
-
     
     func GetObjectType() -> ObjectType {
         if let objectType {
@@ -149,7 +149,7 @@ struct ModalManager: View {
     }
     func GetParentGoalId() -> UUID?{
         
-        if modalType == .add {
+        if modalType == .add && convertDreamId == nil{
             return objectId
         }
         else if modalType == .edit{
@@ -216,6 +216,6 @@ struct ModalManager: View {
 
 struct ModalManager_Previews: PreviewProvider {
     static var previews: some View {
-        ModalManager(isPresenting: .constant(true), modalType: .constant(.add), objectType: .goal, shouldDelete: .constant(false))
+        ModalManager(isPresenting: .constant(true), modalType: .constant(.add), convertDreamId: .constant(nil), objectType: .goal, shouldDelete: .constant(false))
     }
 }

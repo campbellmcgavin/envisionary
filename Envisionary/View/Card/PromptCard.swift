@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PromptCard: View {
-    let prompt: Prompt
+    let promptProperties: Properties
     @State var properties: Properties = Properties()
     @State var shouldRemove: Bool = false
     @State var shouldJump: Bool = false
@@ -19,19 +19,18 @@ struct PromptCard: View {
             BuildCard()
         }
         .frame(alignment:.leading)
-        .padding([.top,.bottom],5)
         .frame(maxWidth:.infinity)
         .onAppear(){
-            if prompt.type == .favorite{
+            if promptProperties.promptType == .favorite{
                 LoadProperties()
             }
         }
-        .padding()
+        .padding([.leading,.trailing])
         .modifier(ModifierCard())
         .onChange(of: shouldRemove){
             _ in
             withAnimation{
-                _ = vm.DeletePrompt(id: prompt.id)
+                _ = vm.DeletePrompt(id: promptProperties.id)
             }
         }
         .onChange(of: shouldJump){
@@ -43,30 +42,33 @@ struct PromptCard: View {
     }
     
     func JumpToTarget(){
-        vm.filtering.filterContent = prompt.objectType.toContentType()
-        vm.filtering.filterObject = prompt.objectType
-        if prompt.objectType == .session || prompt.objectType == .entry || prompt.objectType == .emotion{
-            vm.triggers.shouldPresentModal.toggle()
-        }
-        if prompt.objectType == .session{
-            if let timeframe = prompt.timeframe {
-                vm.filtering.filterTimeframe = prompt.timeframe ?? .week
-                vm.filtering.filterDate = Date().GetSessionDate(timeframe: timeframe)
+        
+        if let promptObjectType = promptProperties.objectType{
+            vm.filtering.filterContent = promptObjectType.toContentType()
+            vm.filtering.filterObject = promptObjectType
+            if promptObjectType == .session || promptObjectType == .entry || promptObjectType == .emotion{
+                vm.triggers.shouldPresentModal.toggle()
+            }
+            if promptObjectType == .session{
+                if let timeframe = promptProperties.timeframe {
+                    vm.filtering.filterTimeframe = timeframe
+                    vm.filtering.filterDate = Date().GetSessionDate(timeframe: timeframe)
+                }
             }
         }
-        _ = vm.DeletePrompt(id: prompt.id)
+        _ = vm.DeletePrompt(id: promptProperties.id)
     }
     
     func LoadProperties(){
-        if let objectId = prompt.objectId{
-            switch prompt.objectType {
+        if let objectId = promptProperties.objectId{
+            switch promptProperties.objectType {
             case .value:
                 let object = vm.GetCoreValue(id: objectId)
                 if object != nil{
                     properties = Properties(value: object)
                 }
                 else{
-                    _ = vm.DeletePrompt(id: prompt.id)
+                    _ = vm.DeletePrompt(id: promptProperties.id)
                 }
 
             case .dream:
@@ -75,7 +77,7 @@ struct PromptCard: View {
                     properties = Properties(dream: object)
                 }
                 else{
-                    _ = vm.DeletePrompt(id: prompt.id)
+                    _ = vm.DeletePrompt(id: promptProperties.id)
                 }
             case .aspect:
                 let object = vm.GetAspect(id: objectId)
@@ -83,7 +85,7 @@ struct PromptCard: View {
                     properties = Properties(aspect: object)
                 }
                 else{
-                    _ = vm.DeletePrompt(id: prompt.id)
+                    _ = vm.DeletePrompt(id: promptProperties.id)
                 }
             case .goal:
                 let object = vm.GetGoal(id: objectId)
@@ -91,7 +93,7 @@ struct PromptCard: View {
                     properties = Properties(goal: object)
                 }
                 else{
-                    _ = vm.DeletePrompt(id: prompt.id)
+                    _ = vm.DeletePrompt(id: promptProperties.id)
                 }
             case .session:
                 let object = vm.GetSession(id: objectId)
@@ -99,7 +101,7 @@ struct PromptCard: View {
                     properties = Properties(session: object)
                 }
                 else{
-                    _ = vm.DeletePrompt(id: prompt.id)
+                    _ = vm.DeletePrompt(id: promptProperties.id)
                 }
             case .creed:
                 properties = Properties(creed: true, valueCount: vm.ListCoreValues().count)
@@ -111,7 +113,7 @@ struct PromptCard: View {
                     properties = Properties(habit: object)
                 }
                 else{
-                    _ = vm.DeletePrompt(id: prompt.id)
+                    _ = vm.DeletePrompt(id: promptProperties.id)
                 }
             case .chapter:
                 let object = vm.GetChapter(id: objectId)
@@ -119,7 +121,7 @@ struct PromptCard: View {
                     properties = Properties(chapter: object)
                 }
                 else{
-                    _ = vm.DeletePrompt(id: prompt.id)
+                    _ = vm.DeletePrompt(id: promptProperties.id)
                 }
             case .entry:
                 let object = vm.GetEntry(id: objectId)
@@ -127,7 +129,7 @@ struct PromptCard: View {
                     properties = Properties(entry: object)
                 }
                 else{
-                    _ = vm.DeletePrompt(id: prompt.id)
+                    _ = vm.DeletePrompt(id: promptProperties.id)
                 }
 //            case .emotion:
 //                properties = Properties(emotion: vm.GE(id: objectId) ?? Goal())
@@ -142,11 +144,13 @@ struct PromptCard: View {
     
     @ViewBuilder
     func BuildCard() -> some View{
-        switch prompt.type{
+        switch promptProperties.promptType{
         case .suggestion:
             BuildSuggestion()
         case .favorite:
             BuildFavorite()
+        case nil:
+            EmptyView()
         }
     }
     
@@ -159,38 +163,49 @@ struct PromptCard: View {
                 .offset(y:-3)
         }
         .padding(.bottom,1)
-
             BuildTitle()
         HStack{
-            TextButton(isPressed: $shouldJump, text: "Create " + (prompt.objectType.StartsWithVowel() ? "an " : "a ") + prompt.objectType.toString(), color: .grey9, backgroundColor: .grey3, style: .h5, shouldHaveBackground: true, shouldFill: false)
+            TextButton(isPressed: $shouldJump, text: "Create " + ((promptProperties.objectType?.StartsWithVowel() ?? false) ? "an " : "a ") + (promptProperties.objectType?.toString() ?? ""), color: .grey9, backgroundColor: .grey3, style: .h5, shouldHaveBackground: true, shouldFill: false)
             Spacer()
         }
-
     }
     
     @ViewBuilder
     func BuildFavorite() -> some View{
-        HStack{
-            BuildCaption()
-            Spacer()
-            IconButton(isPressed: $shouldRemove, size: .medium, iconType: .favorite, iconColor: .purple, circleColor: .darkPurple)
-                .offset(y:-3)
+        PhotoCard(objectType: promptProperties.objectType ?? .goal, objectId: promptProperties.objectId ?? UUID(), properties: properties, shouldHidePadding: true, imageSize: .mediumLarge)
+        BuildFavoriteBadge()
+            .padding(.leading,48)
+            .padding(.bottom)
+    }
+    
+    @ViewBuilder
+    func BuildFavoriteBadge() -> some View{
+        ZStack(alignment:.topLeading){
+            FormCaption(fieldName: "Favorite", fieldValue: " ")
+            
+            HStack{
+                Text(String(promptProperties.objectType?.toString() ?? ""))
+                    .padding([.leading,.bottom])
+                    .padding(.top, 15)
+                    .frame(height: SizeType.mediumLarge.ToSize())
+                    .font(.specify(style: .body1))
+                    .foregroundColor(.specify(color: .grey10))
+                    .offset(y: 6)
+                
+                
+                Spacer()
+                
+                IconButton(isPressed: $shouldRemove, size: .medium, iconType: .favorite, iconColor: .grey10, circleColor: .grey3)
+                    .padding(.trailing,6)
+            }
         }
-
-        BuildTitle()
-        
-        NavigationLink(destination: Detail(objectType: prompt.objectType, objectId: prompt.objectId ?? UUID(), properties: properties))
-        {
-            TextButton(isPressed: $shouldJump, text: "Go to your " + prompt.objectType.toString(), color: .grey9, backgroundColor: .grey3, style: .h5, shouldHaveBackground: true, shouldFill: false)
-                .disabled((true))
-        }
-        
+        .modifier(ModifierForm(color:.grey2))
     }
     
     @ViewBuilder
     func BuildCaption() -> some View{
         VStack(alignment:.leading){
-            Text(prompt.type.toString())
+            Text(promptProperties.promptType?.toString() ?? "")
                 .font(.specify(style: .subCaption))
                 .foregroundColor(.specify(color: .grey4))
                 .textCase(.uppercase)
@@ -210,24 +225,27 @@ struct PromptCard: View {
     
     func GetTitle() -> String{
         
-        switch prompt.type {
+        switch promptProperties.promptType {
         case .favorite:
             return properties.title ?? ""
         case .suggestion:
-            return prompt.title
+            return promptProperties.title ?? ""
+        case nil:
+            return ""
+        
         }
     }
         
     func GetCaption() -> String{
         var str = ""
         
-        if prompt.objectType == .session{
-            if let timeframe = prompt.timeframe{
+        if promptProperties.objectType == .session{
+            if let timeframe = promptProperties.timeframe{
                 str = timeframe.toString()
             }
         }
         
-        str += " " + prompt.objectType.toPluralString()
+        str += " " + (promptProperties.objectType?.toPluralString() ?? "")
         return str
     }
 }
@@ -235,9 +253,9 @@ struct PromptCard: View {
 struct PromptCard_Previews: PreviewProvider {
     static var previews: some View {
         ScrollView{
-            PromptCard(prompt: Prompt.samplePrompts[0])
-            PromptCard(prompt: Prompt.samplePrompts[1])
-            PromptCard(prompt: Prompt.samplePrompts[2])
+            PromptCard(promptProperties: Properties(prompt:Prompt.samplePrompts[0]))
+            PromptCard(promptProperties: Properties(prompt:Prompt.samplePrompts[1]))
+            PromptCard(promptProperties: Properties(prompt:Prompt.samplePrompts[2]))
         }
         .environmentObject(ViewModel())
 

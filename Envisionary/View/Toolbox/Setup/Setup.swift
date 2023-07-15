@@ -15,12 +15,10 @@ struct Setup: View {
     @State var canProceedMessages: [SetupStepType: Bool] = [SetupStepType: Bool]()
     @State var bumpScrollView: Bool = false
     @State var contentView: ContentViewType = .envision
-    @State var count: Double = 0.0
     @State var shouldGoBack: Bool = false
-    @State var timer = Timer.publish(every: 0.2, on: .main, in: .common).autoconnect()
     @State var archetype: ArchetypeType? = nil
     let counterTime: Double = 20
-    @State var shouldBlock = false
+//    @State var shouldBlock = false
     
     @EnvironmentObject var vm: ViewModel
     
@@ -79,32 +77,27 @@ struct Setup: View {
                     }
                     .onChange(of: shouldAct){
                         _ in
-                        shouldBlock = true
-                        startTimer()
-                        count+=1
-                    }
-                    .onChange(of: shouldGoBack){
-                        _ in
-                        setupStep = setupStep.GetPrevious()
-//                        vm.tutorialStep = setupStep.GetPrevious()
-                    }
-                    .onReceive(timer, perform: {
-                        _ in
+//                        shouldBlock = true
                         
-                        stopTimer()
                         withAnimation(.spring()){
                             value.scrollTo(0,anchor:.top)
                             vm.tutorialStep = setupStep.GetNext()
                             UserDefaults.standard.set(vm.tutorialStep.toString(), forKey: SettingsKeyType.tutorial_step.toString())
                             
                             setupStep = setupStep.GetNext()
+                            
+                            if setupStep == .done{
+                                shouldClose.toggle()
+                            }
                         }
-                        shouldBlock = false
+//                        shouldBlock = false
                         
-                        if setupStep == .done{
-                            shouldClose.toggle()
-                        }
-                    })
+                    }
+                    .onChange(of: shouldGoBack){
+                        _ in
+                        setupStep = setupStep.GetPrevious()
+//                        vm.tutorialStep = setupStep.GetPrevious()
+                    }
                 }
             }
             
@@ -120,7 +113,7 @@ struct Setup: View {
                 Spacer()
                 HStack{
                     
-                    if setupStep != .welcome && setupStep != .getStarted{
+                    if setupStep != .welcome && setupStep != .getStarted && setupStep != .thePoint{
                         IconButton(isPressed: $shouldGoBack, size: .large, iconType: .left, iconColor: .grey0, circleColor: .grey4)
                     }
                     Spacer()
@@ -129,7 +122,7 @@ struct Setup: View {
                     if setupStep != .getStarted{
                             
                             IconButton(isPressed: $shouldAct, size: .large, iconType: .right, iconColor: disabled ? .clear : .grey0, circleColor: disabled ? .clear : .grey10)
-                            .disabled(disabled || shouldBlock)
+                            .disabled(disabled)
 //                            }
                     }
                     else if !disabled{
@@ -143,7 +136,6 @@ struct Setup: View {
         }
         .background(Color.specify(color: .grey0))
         .onAppear(){
-            stopTimer()
             setupStep = vm.tutorialStep
             
             if let archetype = UserDefaults.standard.string(forKey: SettingsKeyType.archetype_type.toString())
@@ -196,14 +188,6 @@ struct Setup: View {
                        set: {
                 self.canProceedMessages[key] = $0
         })
-    }
-    
-    func stopTimer() {
-        self.timer.upstream.connect().cancel()
-    }
-    
-    func startTimer() {
-        self.timer = Timer.publish(every: 0.35, on: .main, in: .common).autoconnect()
     }
 }
 

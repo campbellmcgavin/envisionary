@@ -16,21 +16,9 @@ struct ContentViewStack: View {
     @StateObject var alerts = AlertsService()
     @State var isPresentingCalendar = false
     
-    @State var goalDictionary: [String:[Goal]] = [String:[Goal]]()
-    @State var dreamDictionary: [String:[Dream]] = [String:[Dream]]()
-    @State var emotionDictionary: [String:[Emotion]] = [String:[Emotion]]()
-    @State var chapterDictionary: [String:[Chapter]] = [String:[Chapter]]()
-    @State var entriesDictionary: [String:[Entry]] = [String:[Entry]]()
-    @State var habitDictionary: [String:[Habit]] = [String:[Habit]]()
-    
-    @State var valueList: [CoreValue] = [CoreValue]()
-    @State var aspectList: [Aspect] = [Aspect]()
-    @State var sessionList: [Session] = [Session]()
-    
-    @State var todayGoalList: [Properties] = [Properties]()
-    @State var todayRecurrenceList: [Properties] = [Properties]()
-    @State var todaySuggestionList: [Prompt] = [Prompt]()
-    @State var todayFavoriteList: [Prompt] = [Prompt]()
+    @State var headers = [String]()
+    @State var propertiesDictionary: [String: [Properties]] = [String: [Properties]]()
+    @State var propertiesList: [Properties] = [Properties]()
     
     @State var shouldUnlockObject: Bool = false
     
@@ -42,28 +30,27 @@ struct ContentViewStack: View {
                 BuildUnlockCard()
             }
             else{
+                VStack{
+                    AlertsBuilder()
                     
-                    VStack{
-                        AlertsBuilder()
-                        
-                        ZStack{
-                            if !GetHasContent(){
-                                NoObjectsLabel(objectType: vm.filtering.filterObject, labelType: .page)
-                            }
-                            else if vm.filtering.filterObject == .home{
-                                HomeBuilder()
-                            }
-                            else if vm.filtering.filterObject == .value || vm.filtering.filterObject == .aspect || vm.filtering.filterObject == .creed || vm.filtering.filterObject == .session{
-                                    ListBuilder()
-                                }
-                            else if vm.filtering.filterObject == .goal ||  vm.filtering.filterObject == .dream || vm.filtering.filterObject == .chapter || vm.filtering.filterObject == .entry || vm.filtering.filterObject == .habit || vm.filtering.filterObject == .emotion { //vm.filtering.filterObject == .task ||{
-                                
-                                GroupBuilder()
-                            }
+                    let objectType = vm.filtering.filterObject
+                    ZStack{
+                        if !GetHasContent(){
+                            NoObjectsLabel(objectType: objectType, labelType: .page)
+                        }
+                        else if objectType == .creed{
+                                CreedCard()
+                                .frame(maxWidth:.infinity)
+                                .padding(.top)
+                        }
+                        else if objectType.shouldGroup(){
+                            GroupBuilder()
+                        }
+                        else{
+                            ListBuilder()
                         }
                     }
-                    
-                
+                }
             }
         }
         .onChange(of: vm.unlockedObjects){ _ in
@@ -158,23 +145,9 @@ struct ContentViewStack: View {
                     .padding([.leading,.trailing], 8)
             }
             
-//            if vm.filtering.filterObject == .goal{
-////                let criteria = Criteria(title: "Envisionary University")
-//                let goals = vm.ListGoals(criteria: Criteria())
-//                let goal = goals.first(where: {$0.title == ExampleGoalEnum.decide.toTitle()}) ?? Goal()
-//                let fakeId = UUID()
-//                TreeDiagramView(goalId: goal.id, focusGoal: .constant(fakeId), expandedGoals: .constant(goals.map({$0.id})), value: { goalId in
-//                    BubbleView(goalId: goalId, focusGoal: .constant(fakeId))
-//                }, childCount: 0)
-//                .padding(.top,5)
-//                .padding(.bottom)
-//                .frame(maxWidth:.infinity)
-//                .frame(alignment:.leading)
-//            }
-            
             if vm.filtering.filterObject != .session && vm.filtering.filterObject != .home && vm.filtering.filterObject != .entry && vm.filtering.filterObject != .goal{
                 
-                let text = vm.filtering.filterObject == .creed ? "We built out your " + vm.filtering.filterObject.toPluralString().lowercased() + " based on the values for your archetype, The " + vm.archetype.toString() : "We built out your " + vm.filtering.filterObject.toPluralString() + " based on your archetype, The " + vm.archetype.toString()
+                let text = vm.filtering.filterObject == .creed ? "We built out your " + vm.filtering.filterObject.toPluralString().lowercased() + " based on the values for your archetype, the " + vm.archetype.toString() : "We built out your " + vm.filtering.filterObject.toPluralString() + " based on your archetype, the " + vm.archetype.toString()
                 Text(text)
                     .multilineTextAlignment(.leading)
                     .frame(alignment:.leading)
@@ -197,192 +170,36 @@ struct ContentViewStack: View {
         withAnimation{
             switch vm.filtering.filterObject {
             case .value:
-                valueList = vm.ListCoreValues(criteria: vm.filtering.GetFilters()).sorted(by: {$0.title < $1.title})
-                aspectList = [Aspect]()
-                sessionList = [Session]()
-                emotionDictionary = [String:[Emotion]]()
-//                taskDictionary = [String:[Task]]()
-                goalDictionary = [String:[Goal]]()
-                dreamDictionary = [String:[Dream]]()
-                chapterDictionary = [String:[Chapter]]()
-                entriesDictionary = [String:[Entry]]()
-                todayFavoriteList = [Prompt]()
-                todaySuggestionList = [Prompt]()
-//                todayTaskList = [Properties]()
-                todayGoalList = [Properties]()
-                habitDictionary = [String:[Habit]]()
+                propertiesList = vm.ListCoreValues(criteria: vm.filtering.GetFilters()).sorted(by: {$0.title < $1.title}).map({Properties(value: $0)})
             case .creed:
-                valueList = vm.ListCoreValues(criteria: vm.filtering.GetFilters()).sorted(by: {$0.title < $1.title}).filter({$0.title != ValueType.Introduction.toString() && $0.title != ValueType.Conclusion.toString()})
-                aspectList = [Aspect]()
-                sessionList = [Session]()
-//                taskDictionary = [String:[Task]]()
-                goalDictionary = [String:[Goal]]()
-                dreamDictionary = [String:[Dream]]()
-                chapterDictionary = [String:[Chapter]]()
-                entriesDictionary = [String:[Entry]]()
-                todayFavoriteList = [Prompt]()
-                todaySuggestionList = [Prompt]()
-//                todayTaskList = [Properties]()
-                todayGoalList = [Properties]()
-                emotionDictionary = [String:[Emotion]]()
-                habitDictionary = [String:[Habit]]()
+                propertiesList = vm.ListCoreValues(criteria: vm.filtering.GetFilters()).sorted(by: {$0.title < $1.title}).filter({$0.title != ValueType.Introduction.toString() && $0.title != ValueType.Conclusion.toString()}).map({Properties(value: $0)})
             case .dream:
-                emotionDictionary = [String:[Emotion]]()
-                dreamDictionary = vm.GroupDreams(criteria: vm.filtering.GetFilters(), grouping: vm.grouping.dream)
-                valueList = [CoreValue]()
-                aspectList = [Aspect]()
-                sessionList = [Session]()
-//                taskDictionary = [String:[Task]]()
-                goalDictionary = [String:[Goal]]()
-                chapterDictionary = [String:[Chapter]]()
-                entriesDictionary = [String:[Entry]]()
-                todayFavoriteList = [Prompt]()
-                todaySuggestionList = [Prompt]()
-//                todayTaskList = [Properties]()
-                todayGoalList = [Properties]()
-                habitDictionary = [String:[Habit]]()
+                propertiesDictionary = vm.GroupDreams(criteria: vm.filtering.GetFilters(), grouping: vm.grouping.dream).mapValues({$0.map({Properties(dream: $0)})})
             case .aspect:
-                emotionDictionary = [String:[Emotion]]()
-                aspectList = vm.ListAspects(criteria: vm.filtering.GetFilters()).sorted(by: {$0.title < $1.title})
-                valueList = [CoreValue]()
-                sessionList = [Session]()
-//                taskDictionary = [String:[Task]]()
-                goalDictionary = [String:[Goal]]()
-                dreamDictionary = [String:[Dream]]()
-                chapterDictionary = [String:[Chapter]]()
-                entriesDictionary = [String:[Entry]]()
-                todayFavoriteList = [Prompt]()
-                todaySuggestionList = [Prompt]()
-//                todayTaskList = [Properties]()
-                todayGoalList = [Properties]()
-                habitDictionary = [String:[Habit]]()
+                propertiesList = vm.ListAspects(criteria: vm.filtering.GetFilters()).sorted(by: {$0.title < $1.title}).map({Properties(aspect: $0)})
             case .goal:
-                emotionDictionary = [String:[Emotion]]()
-                goalDictionary = vm.GroupGoals(criteria: vm.filtering.GetFilters(), grouping: vm.grouping.goal)
-                valueList = [CoreValue]()
-                aspectList = [Aspect]()
-                sessionList = [Session]()
-//                taskDictionary = [String:[Task]]()
-                dreamDictionary = [String:[Dream]]()
-                chapterDictionary = [String:[Chapter]]()
-                entriesDictionary = [String:[Entry]]()
-                todayFavoriteList = [Prompt]()
-                todaySuggestionList = [Prompt]()
-//                todayTaskList = [Properties]()
-                todayGoalList = [Properties]()
-                habitDictionary = [String:[Habit]]()
-//            case .task:
-////                taskDictionary = vm.GroupTasks(criteria: vm.filtering.GetFilters(), grouping: vm.grouping.task)
-//                valueList = [CoreValue]()
-//                aspectList = [Aspect]()
-//                sessionList = [Session]()
-//                goalDictionary = [String:[Goal]]()
-//                dreamDictionary = [String:[Dream]]()
-//                chapterDictionary = [String:[Chapter]]()
-//                entriesDictionary = [String:[Entry]]()
-//                todayFavoriteList = [Prompt]()
-//                todaySuggestionList = [Prompt]()
-////                todayTaskList = [Properties]()
-//                todayGoalList = [Properties]()
-//                habitDictionary = [String:[Habit]]()
+                propertiesDictionary = vm.GroupGoals(criteria: vm.filtering.GetFilters(), grouping: vm.grouping.goal).mapValues({$0.map({Properties(goal: $0)})})
             case .chapter:
-                emotionDictionary = [String:[Emotion]]()
-                chapterDictionary = vm.GroupChapters(criteria: vm.filtering.GetFilters(), grouping: vm.grouping.chapter)
-//                taskDictionary = [String:[Task]]()
-                valueList = [CoreValue]()
-                sessionList = [Session]()
-                aspectList = [Aspect]()
-                goalDictionary = [String:[Goal]]()
-                dreamDictionary = [String:[Dream]]()
-                entriesDictionary = [String:[Entry]]()
-                todayFavoriteList = [Prompt]()
-                todaySuggestionList = [Prompt]()
-//                todayTaskList = [Properties]()
-                todayGoalList = [Properties]()
-                habitDictionary = [String:[Habit]]()
+                propertiesDictionary = vm.GroupChapters(criteria: vm.filtering.GetFilters(), grouping: vm.grouping.chapter).mapValues({$0.map({Properties(chapter: $0)})})
             case .entry:
-                emotionDictionary = [String:[Emotion]]()
-                chapterDictionary = [String:[Chapter]]()
-//                taskDictionary = [String:[Task]]()
-                valueList = [CoreValue]()
-                aspectList = [Aspect]()
-                sessionList = [Session]()
-                goalDictionary = [String:[Goal]]()
-                dreamDictionary = [String:[Dream]]()
-                todayFavoriteList = [Prompt]()
-                entriesDictionary = vm.GroupEntries(criteria: vm.filtering.GetFilters(), grouping: vm.grouping.entry)
-                todaySuggestionList = [Prompt]()
-//                todayTaskList = [Properties]()
-                todayGoalList = [Properties]()
-                habitDictionary = [String:[Habit]]()
+                propertiesDictionary = vm.GroupEntries(criteria: vm.filtering.GetFilters(), grouping: vm.grouping.entry).mapValues({$0.map({Properties(entry: $0)})})
             case .session:
-                emotionDictionary = [String:[Emotion]]()
-                chapterDictionary = [String:[Chapter]]()
-//                taskDictionary = [String:[Task]]()
-                valueList = [CoreValue]()
-                aspectList = [Aspect]()
-                sessionList = [Session]()
-                goalDictionary = [String:[Goal]]()
-                dreamDictionary = [String:[Dream]]()
-                entriesDictionary = [String:[Entry]]()
-                sessionList = vm.ListSessions(criteria: vm.filtering.GetFilters())
-                todayFavoriteList = [Prompt]()
-                todaySuggestionList = [Prompt]()
-//                todayTaskList = [Properties]()
-                todayGoalList = [Properties]()
-                habitDictionary = [String:[Habit]]()
+                propertiesList = vm.ListSessions(criteria: vm.filtering.GetFilters()).map({Properties(session: $0)})
             case .home:
-                emotionDictionary = [String:[Emotion]]()
-                chapterDictionary = [String:[Chapter]]()
-//                taskDictionary = [String:[Task]]()
-                valueList = [CoreValue]()
-                aspectList = [Aspect]()
-                sessionList = [Session]()
-                goalDictionary = [String:[Goal]]()
-                dreamDictionary = [String:[Dream]]()
-                entriesDictionary = [String:[Entry]]()
-                sessionList = vm.ListSessions(criteria: vm.filtering.GetFilters())
-                todayFavoriteList = vm.ListPrompts(criteria: Criteria(type: .favorite))
-                todaySuggestionList = vm.ListPrompts(criteria: Criteria(type: .suggestion))
-//                todayTaskList = vm.ListTasks(criteria: GetTaskCriteria()).sorted(by: {$0.progress < $1.progress}).map({Properties(task: $0)})
-                todayGoalList = vm.ListGoals(criteria: GetTaskCriteria()).sorted(by: {$0.startDate < $1.startDate}).map({Properties(goal: $0)})
-                habitDictionary = [String:[Habit]]()
-                todayRecurrenceList = vm.ListRecurrences(criteria: GetHabitCriteria()).sorted(by: {!$0.isComplete && $1.isComplete}).map({Properties(recurrence: $0)})
+                propertiesDictionary.removeAll()
+                propertiesDictionary[HomeObjectType.habit.toPluralString()] = vm.ListRecurrences(criteria: GetHabitCriteria()).sorted(by: {!$0.isComplete && $1.isComplete}).map({Properties(recurrence: $0)})
+                propertiesDictionary[HomeObjectType.favorite.toPluralString()] = vm.ListPrompts(criteria: Criteria(type: .favorite)).map({Properties(prompt: $0)})
+                propertiesDictionary[HomeObjectType.hint.toPluralString()] = vm.ListPrompts(criteria: Criteria(type: .suggestion)).map({Properties(prompt: $0)})
+                propertiesDictionary[HomeObjectType.goal.toPluralString()] = vm.ListGoals(criteria: GetTaskCriteria()).sorted(by: {$0.startDate < $1.startDate}).map({Properties(goal: $0)})
             case .habit:
-                emotionDictionary = [String:[Emotion]]()
-                chapterDictionary = [String:[Chapter]]()
-//                taskDictionary = [String:[Task]]()
-                valueList = [CoreValue]()
-                aspectList = [Aspect]()
-                sessionList = [Session]()
-                goalDictionary = [String:[Goal]]()
-                dreamDictionary = [String:[Dream]]()
-                entriesDictionary = [String:[Entry]]()
-                sessionList = [Session]()
-                todayFavoriteList = [Prompt]()
-                todaySuggestionList = [Prompt]()
-//                todayTaskList = [Properties]()
-                todayGoalList = [Properties]()
-                habitDictionary = vm.GroupHabits(criteria: vm.filtering.GetFilters(), grouping: vm.grouping.habit)
+                propertiesDictionary = vm.GroupHabits(criteria: vm.filtering.GetFilters(), grouping: vm.grouping.habit).mapValues({$0.map({Properties(habit: $0)})})
             case .emotion:
-                emotionDictionary = vm.GroupEmotions(criteria: vm.filtering.GetFilters())
-                chapterDictionary = [String:[Chapter]]()
-//                taskDictionary = [String:[Task]]()
-                valueList = [CoreValue]()
-                aspectList = [Aspect]()
-                sessionList = [Session]()
-                goalDictionary = [String:[Goal]]()
-                dreamDictionary = [String:[Dream]]()
-                entriesDictionary = [String:[Entry]]()
-                sessionList = [Session]()
-                todayFavoriteList = [Prompt]()
-                todaySuggestionList = [Prompt]()
-//                todayTaskList = [Properties]()
-                todayGoalList = [Properties]()
-                habitDictionary = [String:[Habit]]()
+                propertiesDictionary = vm.GroupEmotions(criteria: vm.filtering.GetFilters()).mapValues({$0.map({Properties(emotion: $0)})})
             default:
                 let _ = "why"
             }
+            
+            GetHeaders()
         }
     }
     
@@ -401,377 +218,157 @@ struct ContentViewStack: View {
     }
     
     @ViewBuilder
-    func HomeBuilder() -> some View {
-        VStack(alignment:.leading, spacing:0){
-            
-            
-            ParentHeaderButton(shouldExpandAll: $shouldExpandAll, color: .purple, header: "Expand All", headerCollapsed:  "Collapse All")
-            
-//            HeaderWithContent(shouldExpand: $shouldExpandAll, headerColor: .grey10, header: "Tasks", content: {
-//
-//                if todayTaskList.count > 0{
-//                    CollapsingListCard(propertiesList: $todayTaskList, objectType: .task)
-//                }
-//                else {
-//                    NoObjectsLabel(objectType: .task, labelType: .home)
-//                }
-//            })
-            
-            HeaderWithContent(shouldExpand: $shouldExpandAll, headerColor: .grey10, header: "Habits", content: {
-                if todayRecurrenceList.count > 0 {
-                    CollapsingListCard(propertiesList: $todayRecurrenceList, objectType: .recurrence)
-                }
-                else{
-                    NoObjectsLabel(objectType: .habit, labelType: .home)
-                }
-            })
-
-            HeaderWithContent(shouldExpand: $shouldExpandAll, headerColor: .grey10, header: "Goals", content: {
-                if todayGoalList.count > 0 {
-                    CollapsingListCard(propertiesList: $todayGoalList, objectType: .goal)
-                }
-                else{
-                    NoObjectsLabel(objectType: .goal, labelType: .home)
-                }
-            })
-            
-            if todaySuggestionList.count > 0 {
-                HeaderWithContent(shouldExpand: $shouldExpandAll, headerColor: .grey10, header: PromptType.suggestion.toPluralString(), content: {
-                    VStack(spacing:0){
-                        ForEach(todaySuggestionList){
-                            prompt in
-                            PromptCard(prompt: prompt)
-                        }
-                    }
-                })
-            }
-            
-            HeaderWithContent(shouldExpand: $shouldExpandAll, headerColor: .grey10, header: PromptType.favorite.toPluralString(), content: {
-                VStack(spacing:0){
-                    ForEach(todayFavoriteList){
-                        prompt in
-                        PromptCard(prompt: prompt)
-                    }
-                    if todayFavoriteList.count == 0{
-                        NoObjectsLabel(objectType: .prompt, labelType: .home)
-                    }
-                }
-            })
-        }
-
-    }
-    
-    @ViewBuilder
     func ListBuilder() -> some View{
-        
         VStack(spacing:0){
-            switch vm.filtering.filterObject {
-            case .value:
-                ForEach(valueList){ coreValue in
-                    if coreValue.title != ValueType.Introduction.toString() && coreValue.title != ValueType.Conclusion.toString(){
-                        PhotoCard(objectType: .value, objectId: coreValue.id, properties: Properties(value: coreValue))
-                    }
-                    if valueList.last != coreValue{
-                        StackDivider()
-                    }
-                }
-            case .aspect:
-                ForEach(aspectList){ aspect in
-                    
-                    PhotoCard(objectType: .aspect, objectId: aspect.id, properties: Properties(aspect: aspect))
-                    
-                    if aspectList.last != aspect{
-                        StackDivider()
-                    }
-                }
-            case .session:
-                ForEach(sessionList){ session in
-                    PhotoCard(objectType: .session, objectId: session.id, properties: Properties(session: session))
-                }
-            case .creed:
-                CreedCard()
-            default:
-                let _ = "why"
+            ForEach(propertiesList){ properties in
                 
+                let objectType = vm.filtering.filterObject
+                
+                if objectType == .value{
+                    if properties.title != ValueType.Introduction.toString() && properties.title != ValueType.Conclusion.toString(){
+                        PhotoCard(objectType: .value, objectId: properties.id, properties: properties)
+                    }
+                }
+                else{
+                    if properties.title != ValueType.Introduction.toString() && properties.title != ValueType.Conclusion.toString(){
+                        PhotoCard(objectType: objectType, objectId: properties.id, properties: properties)
+                    }
+                }
+
+                if propertiesList.last != properties{
+                    StackDivider()
+                }
             }
         }
         .modifier(ModifierCard())
         .padding(.top)
     }
         
-        func GetHasContent() -> Bool{
-            switch vm.filtering.filterObject {
-            case .value:
-                return valueList.count > 0
-            case .creed:
-                return valueList.count > 0
-            case .dream:
-                return dreamDictionary.keys.count > 0
-            case .aspect:
-                return aspectList.count > 0
-            case .goal:
-                return goalDictionary.keys.count > 0
-                //        case .session:
-                //            return
-//            case .task:
-//                return taskDictionary.keys.count > 0
-            case .chapter:
-                return chapterDictionary.keys.count > 0
-            case .entry:
-                return entriesDictionary.keys.count > 0
-            case .session:
-                return sessionList.count > 0
-            case .habit:
-                return habitDictionary.keys.count > 0
-            case .home:
-                return true
-                //        case .habit:
-                //            <#code#>
-                //        case .home:
-                //            <#code#>
-                //        case .chapter:
-                //            <#code#>
-                //        case .entry:
-                //            <#code#>
-                //        case .emotion:
-                //            <#code#>
-                //        case .stats:
-                //            <#code#>
-            case .recurrence:
-                return todayRecurrenceList.count > 0
-            case .emotion:
-                return emotionDictionary.keys.count > 0
-            default:
-                return false
+    func GetHasContent() -> Bool{
+        if vm.filtering.filterObject.shouldGroup(){
+            return propertiesDictionary.keys.count > 0
+        }
+        else{
+            return propertiesList.count > 0
+        }
+    }
+    
+    @ViewBuilder
+    func HomeBuilder(header: String) -> some View{
+        
+        if let propertyList = propertiesDictionary[header]{
+            if  (header == HomeObjectType.favorite.toPluralString() || header == HomeObjectType.hint.toPluralString()){
+                
+                ForEach(propertyList){ properties in
+                    PromptCard(promptProperties: properties)
+                    
+                    if propertyList.last != properties{
+                        StackDivider()
+                    }
+                }
+            }
+            else if header == HomeObjectType.goal.toPluralString(){
+                ForEach(propertyList){ properties in
+                    GoalTrackingCard(goalId: properties.id)
+
+                    if propertyList.last != properties{
+                        StackDivider()
+                    }
+                }
+            }
+            else if header == HomeObjectType.habit.toPluralString(){
+                ForEach(propertyList){ properties in
+                    
+                    RecurrenceCard(habitId:  properties.habitId ?? UUID(), recurrenceId: .constant(properties.id), date: .constant(Date()))
+
+                    if propertyList.last != properties{
+                        StackDivider()
+                    }
+                }
             }
         }
+    }
     
     @ViewBuilder
     func GroupBuilder() -> some View{
-        ZStack{
             
-            VStack(spacing:0){
-                HStack{
-                    
-                    let count = GetResultCount()
-                    Text("Showing " + String(count) + (count == 1 ? " result, grouped by " : " results, grouped by ") + vm.grouping.fromObject(object: vm.filtering.filterObject).toPluralString().lowercased())
-                        .font(.specify(style: .caption))
-                        .foregroundColor(.specify(color: .grey3))
-                        .multilineTextAlignment(.leading)
-                        .frame(alignment:.leading)
-                        .padding(.leading)
-                    
-                    Spacer()
-                    
-                    
-
-                }
-
-                HStack(alignment:.center){
-                    ParentHeaderButton(shouldExpandAll: $shouldExpandAll, color: .purple, header: "Expand All", headerCollapsed: "Collapse All")
-                    
-                    if vm.filtering.filterObject == .goal || vm.filtering.filterObject == .habit || vm.filtering.filterObject == .entry{
-                        RadioButton(isSelected: $vm.filtering.filterIncludeCalendar, selectedColor: .grey8, deselectedColor: .grey4, switchColor: .grey2, iconColor: .grey2, iconType: .timeframe)
-                            .padding([.leading,.trailing])
-                            .offset(y:9)
-                    }
-                }
+        VStack(spacing:0){
+            let objectType = vm.filtering.filterObject
+            
+            HStack{
+                let count = GetResultCount()
                 
-                let headers = GetHeaders()
-                    LazyVStack(spacing:0){
-                        
-                        switch vm.filtering.filterObject {
-                        case .dream:
-                            ForEach(headers, id:\.self){ header in
-                                VStack(spacing:0){
-                                    HeaderWithContent(shouldExpand: $shouldExpandAll, headerColor: .grey10, header: header, isExpanded: shouldExpandAll, content: {
-                                        VStack(spacing:0){
+                Text("Showing " + String(count) +  (count == 1 ? " result, grouped by " : " results, grouped by ") + vm.grouping.fromObject(object: vm.filtering.filterObject).toPluralString().lowercased())
+                    .font(.specify(style: .caption))
+                    .foregroundColor(.specify(color: .grey3))
+                    .multilineTextAlignment(.leading)
+                    .frame(alignment:.leading)
+                    .padding(.leading)
+                
+                Spacer()
+            }
+
+            HStack(alignment:.center){
+                ParentHeaderButton(shouldExpandAll: $shouldExpandAll, color: .purple, header: "Expand All", headerCollapsed: "Collapse All")
+                
+                if vm.filtering.filterObject == .goal || vm.filtering.filterObject == .habit || vm.filtering.filterObject == .entry{
+                    RadioButton(isSelected: $vm.filtering.filterIncludeCalendar, selectedColor: .grey8, deselectedColor: .grey4, switchColor: .grey2, iconColor: .grey2, iconType: .timeframe)
+                        .padding([.leading,.trailing])
+                        .offset(y:9)
+                }
+            }
+            
+            LazyVStack(spacing:0){
+                ForEach(headers, id:\.self){ header in
+                    VStack(spacing:0){
+                        HeaderWithContent(shouldExpand: $shouldExpandAll, headerColor: .grey10, header: header, isExpanded: shouldExpandAll, content: {
+                            VStack(spacing:0){
+                                    
+
+                                    
+                                    if objectType == .home{
+                                        HomeBuilder(header: header)
+                                    }
+                                    else{
+                                        
+                                        if let propertyList = propertiesDictionary[header]{
+                                            ForEach(propertyList){ properties in
                                                 
-                                            if let dreams = dreamDictionary[header]{
-                                                ForEach(dreams){ dream in
-                                                    PhotoCard(objectType: .dream, objectId: dream.id, properties: Properties(dream:dream))
-                                                    
-                                                    if dreams.last != dream{
-                                                        StackDivider()
-                                                    }
+                                                PhotoCard(objectType: objectType, objectId: properties.id, properties: properties)
+                                                
+                                                if propertyList.last != properties{
+                                                    StackDivider()
                                                 }
                                             }
                                         }
-                                        .modifier(ModifierCard())
-                                    })
-                                }
+                                    }
                             }
-                        case .goal:
-                            ForEach(headers, id:\.self){ header in
-                                VStack(spacing:0){
-                                    HeaderWithContent(shouldExpand: $shouldExpandAll, headerColor: .grey10, header: header, isExpanded: shouldExpandAll, content: {
-                                        VStack(spacing:0){
-                                                
-                                            if let goals = goalDictionary[header]{
-                                                ForEach(goals){ goal in
-                                                    PhotoCard(objectType: .goal, objectId: goal.id, properties: Properties(goal:goal))
-                                                    
-                                                    if goals.last != goal{
-                                                        StackDivider()
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        .modifier(ModifierCard())
-                                    })
-                                }
-                            }
-    //                    case .task:
-    //                        ForEach(headers, id:\.self){ header in
-    //                            VStack(spacing:0){
-    //                                HeaderWithContent(shouldExpand: $shouldExpandAll, headerColor: .grey10, header: header, isExpanded: shouldExpandAll, content: {
-    //                                    VStack(spacing:0){
-    //
-    //                                        if let tasks = taskDictionary[header]{
-    //                                            ForEach(tasks){ task in
-    //                                                TaskCard(taskId: task.id, properties: Properties(task: task))
-    ////                                                PhotoCard(objectType: .task, objectId: task.id, properties: Properties(task:task), header: task.title, subheader: task.description)
-    //
-    //                                                if tasks.last != task{
-    //                                                    StackDivider()
-    //                                                }
-    //                                            }
-    //                                        }
-    //                                    }
-    //                                    .padding([.top,.bottom],3)
-    //                                    .modifier(ModifierCard())
-    //                                })
-    //                            }
-    //                        }
-                        case .chapter:
-                            ForEach(headers, id:\.self){ header in
-                                VStack(spacing:0){
-                                    HeaderWithContent(shouldExpand: $shouldExpandAll, headerColor: .grey10, header: header, isExpanded: shouldExpandAll, content: {
-                                        VStack(spacing:0){
-                                                
-                                            if let chapters = chapterDictionary[header]{
-                                                ForEach(chapters){ chapter in
-                                                    PhotoCard(objectType: .chapter, objectId: chapter.id, properties: Properties(chapter:chapter))
-                                                    
-                                                    if chapters.last != chapter{
-                                                        StackDivider()
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        .modifier(ModifierCard())
-                                    })
-                                }
-                            }
-                        case .entry:
-                            ForEach(headers, id:\.self){ header in
-                                VStack(spacing:0){
-                                    HeaderWithContent(shouldExpand: $shouldExpandAll, headerColor: .grey10, header: header, isExpanded: shouldExpandAll, content: {
-                                        VStack(spacing:0){
-                                                
-                                            if let entries = entriesDictionary[header]{
-                                                ForEach(entries){ entry in
-                                                    PhotoCard(objectType: .entry, objectId: entry.id, properties: Properties(entry:entry))
-                                                    
-                                                    if entries.last != entry{
-                                                        StackDivider()
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        .modifier(ModifierCard())
-                                    })
-                                }
-                            }
-                        case .habit:
-                            ForEach(headers, id:\.self){ header in
-                                VStack(spacing:0){
-                                    HeaderWithContent(shouldExpand: $shouldExpandAll, headerColor: .grey10, header: header, isExpanded: shouldExpandAll, content: {
-                                        VStack(spacing:0){
-                                                
-                                            if let habits = habitDictionary[header]{
-                                                ForEach(habits){ habit in
-                                                    
-                                                    PhotoCard(objectType: .habit, objectId: habit.id, properties: Properties(habit:habit))
-                                                    
-                                                    if habits.last != habit{
-                                                        StackDivider()
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        .modifier(ModifierCard())
-                                    })
-                                }
-                            }
-                        case .emotion:
-                            ForEach(headers, id:\.self){ header in
-                                VStack(spacing:0){
-                                    HeaderWithContent(shouldExpand: $shouldExpandAll, headerColor: .grey10, header: header, isExpanded: shouldExpandAll, content: {
-                                        VStack(spacing:0){
-                                                
-                                            if let emotions = emotionDictionary[header]{
-                                                ForEach(emotions){ emotion in
-                                                    PhotoCard(objectType: .emotion, objectId: emotion.id, properties: Properties(emotion:emotion))
-                                                    
-                                                    if emotions.last != emotion{
-                                                        StackDivider()
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        .modifier(ModifierCard())
-                                    })
-                                }
-                            }
-                        default:
-                            let _ = "why"
-                        }
+                            .modifier(ModifierCard())
+                        })
                     }
+                }
             }
         }
 
     }
     
-    func GetHeaders() -> [String]{
+    func GetHeaders(){
+        
+        headers = [String]()
         switch vm.filtering.filterObject{
-//        case .task:
-//            return Array(taskDictionary.keys.map({String($0)}).sorted(by: {$0 < $1}))
-        case .goal:
-            return Array(goalDictionary.keys.map({String($0)}).sorted(by: {$0 < $1}))
-        case .dream:
-            return Array(dreamDictionary.keys.map({String($0)}).sorted(by: {$0 < $1}))
-        case .chapter:
-            return Array(chapterDictionary.keys.map({String($0)}).sorted(by: {$0 < $1}))
-        case .entry:
-            return Array(entriesDictionary.keys.map({String($0)}).sorted(by: {$0 < $1}))
-        case .habit:
-            return Array(habitDictionary.keys.map({String($0)}).sorted(by: {$0 < $1}))
-        case .emotion:
-            return Array(emotionDictionary.keys.map({String($0)}).sorted(by: {$0 < $1}))
+        case .home:
+            headers = Array(HomeObjectType.allCases.sorted(by: {$0.toInt() < $1.toInt()})).map({$0.toPluralString()})
         default:
-           return [String]()
+            headers = Array(propertiesDictionary.keys.map({String($0)}).sorted(by: {$0 < $1}))
         }
     }
     
     func GetResultCount() -> Int{
-        switch vm.filtering.filterObject{
-//        case .task:
-//            return Array(taskDictionary.keys.map({String($0)}).sorted(by: {$0 < $1}))
-        case .goal:
-            return goalDictionary.values.compactMap({$0.count}).reduce(0, +)
-        case .dream:
-            return dreamDictionary.values.compactMap({$0.count}).reduce(0, +)
-        case .chapter:
-            return chapterDictionary.values.compactMap({$0.count}).reduce(0, +)
-        case .entry:
-            return entriesDictionary.values.compactMap({$0.count}).reduce(0, +)
-        case .habit:
-            return habitDictionary.values.compactMap({$0.count}).reduce(0, +)
-        case .emotion:
-            return emotionDictionary.values.compactMap({$0.count}).reduce(0, +)
-        default:
-           return 0
+        if vm.filtering.filterObject.shouldGroup(){
+            return propertiesDictionary.values.compactMap({$0.count}).reduce(0, +)
+        }
+        else{
+            return propertiesList.count
         }
     }
 }

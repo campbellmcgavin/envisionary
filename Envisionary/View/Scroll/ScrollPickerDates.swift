@@ -101,13 +101,7 @@ struct ScrollPickerDates: View {
                           impact.impactOccurred()
                 }
                 .onAppear{
-                    PrepareForPickerWheelTime(timeframe: vm.filtering.filterTimeframe)
-                    contentOffset.x = CGFloat(startingIndexDate)*(SizeType.scrollPickerWidth.ToSize() + weirdOffset)
-                    dateDisplay = vm.filtering.filterDate
-                    self.stopTimer()
-    //                DispatchQueue.global(qos: .userInteractive).async{
-    //                    GetDateValuesHaveContent()
-    //                }
+                    RefreshView()
                 }
                 .onReceive(timer){ _ in
                     self.stopTimer()
@@ -132,6 +126,10 @@ struct ScrollPickerDates: View {
                     vm.pushToToday = false
                 }
             }
+        }
+        .onRotate{
+            _ in
+            RefreshView()
         }
         .frame(height:SizeType.minimumTouchTarget.ToSize())
         
@@ -161,6 +159,13 @@ struct ScrollPickerDates: View {
         default:
             startingIndexDate =  dates.firstIndex(where: {vm.filtering.filterDate == $0.date}) ?? bufferOffCenter
         }
+    }
+    
+    func RefreshView(){
+        PrepareForPickerWheelTime(timeframe: vm.filtering.filterTimeframe)
+        contentOffset.x = CGFloat(startingIndexDate)*(SizeType.scrollPickerWidth.ToSize() + weirdOffset)
+        dateDisplay = vm.filtering.filterDate
+        self.stopTimer()
     }
     
     func stopTimer() {

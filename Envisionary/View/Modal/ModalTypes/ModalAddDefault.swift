@@ -11,6 +11,7 @@ struct ModalAddDefault: View {
     @Binding var isPresenting: Bool
     @Binding var isPresentingPhotoSource: Bool
     @Binding var sourceType: UIImagePickerController.SourceType?
+    @Binding var convertDreamId: UUID?
     let objectId: UUID?
     var parentGoalId: UUID?
     var parentChapterId: UUID?
@@ -18,7 +19,6 @@ struct ModalAddDefault: View {
     let objectType: ObjectType
     let modalType: ModalType
     var status: StatusType?
-    
     @State var shouldAct = false
     @State var filteredValues = [ValueType]()
     @State var isPresentingImagePicker: Bool = false
@@ -51,7 +51,7 @@ struct ModalAddDefault: View {
                     }
                 }
                 
-                FormPropertiesStack(properties: $properties, images: $images, isPresentingPhotoSource: $isPresentingPhotoSource, isValidForm: $isValidForm, didAttemptToSave: $didAttemptToSave, objectType: objectType, modalType: modalType, parentGoalId: parentGoalId)
+                FormPropertiesStack(properties: $properties, images: $images, isPresentingPhotoSource: $isPresentingPhotoSource, isValidForm: $isValidForm, didAttemptToSave: $didAttemptToSave, objectType: objectType, modalType: modalType, parentGoalId: parentGoalId, convertDreamId: convertDreamId)
                     
             }
             .sheet(isPresented: $isPresentingImagePicker){
@@ -182,7 +182,13 @@ struct ModalAddDefault: View {
             }
         case .goal:
             if modalType == .add {
-                _ = vm.CreateGoal(request: CreateGoalRequest(properties: properties))
+                if convertDreamId != nil {
+                    _ = vm.DeleteDream(id: convertDreamId!)
+                    convertDreamId = vm.CreateGoal(request: CreateGoalRequest(properties: properties))
+                }
+                else{
+                    _ = vm.CreateGoal(request: CreateGoalRequest(properties: properties))
+                }
             }
             if modalType == .edit && objectId != nil {
                 _ = vm.UpdateGoal(id: objectId!, request: UpdateGoalRequest(properties: properties))
@@ -238,11 +244,17 @@ struct ModalAddDefault: View {
             properties = Properties()
             
             if objectType == .goal{
-                GetValuesFromParentGoalId()
+                if convertDreamId != nil{
+                    GetValuesFromDream()
+                }
+                else{
+                    GetValuesFromParentGoalId()
+                }
             }
             else if objectType == .entry{
                 properties.chapterId = parentChapterId
             }
+            
         }
         else if modalType == .edit{
             if objectId != nil {
@@ -295,7 +307,7 @@ struct ModalAddDefault: View {
             properties.progress = status?.toInt() ?? 0
         }
     }
-    
+
     func GetValuesFromParentGoalId() {
         if parentGoalId != nil {
             if let goal = vm.GetGoal(id: parentGoalId!){
@@ -310,11 +322,23 @@ struct ModalAddDefault: View {
         }
     }
     
+    func GetValuesFromDream(){
+        if let dream =  vm.GetDream(id: convertDreamId ?? UUID()){
+            properties.title = dream.title
+            properties.description = dream.description
+            properties.startDate = Date()
+            properties.endDate =  properties.startDate?.AdvanceDate(timeframe: .decade, forward: true)
+            properties.timeframe = .decade
+            properties.aspect = dream.aspect
+            properties.image = dream.image
+            properties.priority = .high
+        }
+    }
     
 }
 
 struct ModalAddDefault_Previews: PreviewProvider {
     static var previews: some View {
-        ModalAddDefault(isPresenting: .constant(true), isPresentingPhotoSource: .constant(false), sourceType: .constant(.photoLibrary), objectId: UUID(), objectType: .goal, modalType: .add)
+        ModalAddDefault(isPresenting: .constant(true), isPresentingPhotoSource: .constant(false), sourceType: .constant(.photoLibrary), convertDreamId: .constant(nil), objectId: UUID(), objectType: .goal, modalType: .add)
     }
 }

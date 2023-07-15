@@ -14,11 +14,10 @@ struct RecurrenceCard: View {
     @Binding var date: Date
     @State var recurrence: Recurrence = Recurrence()
     @State var habit: Habit = Habit()
-    @State var shouldRecord = false
     @State var amount = 0
     @State var shouldDisable = false
-    @State private var timer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
-    
+    @State private var loadTimer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
+    @State var finishedLoad = false
     @EnvironmentObject var vm: ViewModel
     
     var body: some View {
@@ -26,7 +25,6 @@ struct RecurrenceCard: View {
         VStack{
             if showPhotoCard {
                 PhotoCard(objectType: .habit, objectId: habit.id, properties: Properties(habit:habit), shouldHidePadding: true, imageSize: .mediumLarge)
-                    .padding([.leading,.trailing],15)
             }
             else{
                 HStack{
@@ -41,110 +39,83 @@ struct RecurrenceCard: View {
                     }
                     Spacer()
                 }
-                .padding()
             }
 
             HStack{
-                if !recurrence.isComplete{
-                    if habit.schedule.shouldShowAmount(){
-                        FormCounter(fieldValue: $amount, fieldName: "Amount", iconType: .amount, buttonSize: .small, unit: habit.unitOfMeasure, caption: GetCaption(), isSmall: true)
-                    }
-                    else{
-                        FormLabel(fieldValue: "Progress", fieldName: "Check off", iconType: .amount, isSmall: true)
-                    }
-                    
-                    if shouldRecord{
-                        Spacer()
-                    }
-                        IconButton(isPressed: $shouldRecord, size: .medium, iconType: .confirm, iconColor: GetIconColor(), circleColor: GetButtonCircleColor())
-                        .padding(.bottom,4)
-                        .disabled(shouldDisable)
-                }
-                else{
-                    FormLabel(fieldValue: "Completed", fieldName: "Status", iconType: .confirm, isSmall: true)
-                }
-
-                
-
-//                    .padding(.trailing,8)
-                    
-//                TextButton(isPressed: $shouldRecord, text: "Record", color: .grey10, backgroundColor: .purple, style: .h4, shouldHaveBackground: true, iconType: .confirm, height:.largeMedium)
-//                    .frame(width:140)
-                
-//                else{
-//                    Spacer()
-//                    TextButton(isPressed: .constant(true), text: "Recorded", color: .grey10, backgroundColor: .darkGreen, style: .h4, shouldHaveBackground: true, iconType: .confirm, height:.largeMedium)
-//                        .frame(width:170)
-//                }
-
+                FormCheckoff(fieldValue: $amount, finishedLoad: $finishedLoad, checkoffType: habit.schedule.shouldShowAmount() ? .amount : .checkoff, totalAmount: recurrence.scheduleType.shouldShowAmount() ? (habit.amount ?? 100) : 100, unitType: habit.unitOfMeasure)
             }
             .frame(alignment:.trailing)
-            .padding(15)
-  
+            .padding(.leading,48)
+            .padding(.top,-5)
         }
+        .padding([.leading,.trailing,.bottom])
         .onAppear{
+            finishedLoad = false
             SetupRecurrence()
-            stopTimer()
+            amount = GetAmount()
+        }
+        .onChange(of: finishedLoad){
+            _ in
+            startloadTimer()
         }
         .onChange(of: recurrenceId){
             _ in
             
             recurrence = vm.GetRecurrence(id: recurrenceId ?? UUID()) ?? Recurrence()
-                        
-            shouldRecord = false
             amount = 0
             shouldDisable = recurrenceId != nil ? (recurrence.isComplete) : false
         }
-        .onChange(of: shouldRecord){
+        .onChange(of: amount){
             _ in
             
-            if shouldRecord {
-                shouldDisable = true
-                startTimer()
+            if finishedLoad {
+                CreateOrUpdateRecurrence()
             }
         }
-        .onReceive(timer, perform: { _ in
-            stopTimer()
+        .onReceive(loadTimer, perform: { _ in
             withAnimation{
-                CreateOrUpdateRecurrence()
+                finishedLoad = true
+                stoploadTimer()
             }
         })
     }
     
-    func CreateOrUpdateRecurrence(){
-        if shouldRecord{
-//            if recurrence.scheduleType == .
-            if let recurrenceId {
-                _ = vm.UpdateRecurrence(id: recurrenceId, request: UpdateRecurrenceRequest(amount: amount + recurrence.amount, isComplete: GetIsCompleted()))
-                recurrence = vm.GetRecurrence(id: recurrenceId) ?? recurrence
-                shouldDisable = habit.amount ?? 0 <= recurrence.amount
-                shouldRecord = false
-                amount = 0
-            }
-            else{
-                let request = CreateRecurrenceRequest(habitId: habitId, scheduleType: habit.schedule, timeOfDay: .notApplicable, startDate: date.StartOfDay(), endDate: date.EndOfDay())
-                let id = vm.CreateRecurrence(request: request)
-                
-                shouldDisable = recurrenceId != nil ? (recurrence.isComplete) : false
-                print(shouldRecord)
-                let request2 = UpdateRecurrenceRequest(amount: amount, isComplete: GetIsCompleted())
-                print(request2)
-                _ = vm.UpdateRecurrence(id: id, request: request2)
-                let update = vm.GetRecurrence(id: id) ?? Recurrence()
-                print(update)
-                recurrence = update
-                shouldRecord = false
-                amount = 0
-            }
+    func GetAmount() -> Int{
+        if recurrence.scheduleType.shouldShowAmount(){
+            return recurrence.amount
+        }
+        else{
+            return recurrence.isComplete ? 100 : 0
         }
     }
     
-    func stopTimer() {
-        self.timer.upstream.connect().cancel()
+    func CreateOrUpdateRecurrence(){
+        if let recurrenceId {
+            _ = vm.UpdateRecurrence(id: recurrenceId, request: UpdateRecurrenceRequest(amount: amount, isComplete: GetIsCompleted()))
+            recurrence = vm.GetRecurrence(id: recurrenceId) ?? recurrence
+            shouldDisable = habit.amount ?? 0 <= recurrence.amount
+        }
+        else{
+            let request = CreateRecurrenceRequest(habitId: habitId, scheduleType: habit.schedule, timeOfDay: .notApplicable, startDate: date.StartOfDay(), endDate: date.EndOfDay())
+            let id = vm.CreateRecurrence(request: request)
+            
+            shouldDisable = recurrenceId != nil ? (recurrence.isComplete) : false
+            let request2 = UpdateRecurrenceRequest(amount: amount, isComplete: GetIsCompleted())
+            print(request2)
+            _ = vm.UpdateRecurrence(id: id, request: request2)
+            let update = vm.GetRecurrence(id: id) ?? Recurrence()
+            print(update)
+            recurrence = update
+            amount = 0
+        }
     }
     
-    func startTimer() {
-        self.timer = Timer.publish(every: showPhotoCard ? 2 : 0.05, on: .main, in: .common).autoconnect()
+    func stoploadTimer() {
+        self.loadTimer.upstream.connect().cancel()
+    }
+    
+    func startloadTimer() {
+        self.loadTimer = Timer.publish(every: showPhotoCard ? 2 : 0.05, on: .main, in: .common).autoconnect()
     }
     
     func GetCaption() -> String?{
@@ -154,24 +125,6 @@ struct RecurrenceCard: View {
         return nil
     }
     
-    func GetButtonCircleColor() -> CustomColor {
-        
-        if shouldRecord {
-            if shouldDisable{
-                return .green
-            }
-            return .grey4
-        }
-        else{
-            if shouldDisable{
-                return .grey4
-            }
-            else{
-                return .purple
-            }
-        }
-    }
-    
     func GetIconColor() -> CustomColor{
         return .grey10
     }
@@ -179,17 +132,17 @@ struct RecurrenceCard: View {
     func SetupRecurrence(){
         
         recurrence = vm.GetRecurrence(id: recurrenceId ?? UUID()) ?? Recurrence()
-        amount = recurrence.amount
+        amount = recurrence.amount == 0 ? 100 : recurrence.amount
         
         habit = vm.GetHabit(id: habitId) ?? Habit()
-        shouldRecord = recurrence.isComplete
     }
     
     func GetIsCompleted() -> Bool{
-        if habit.schedule.shouldShowAmount(){
-            return recurrenceId == nil ? true : amount + recurrence.amount >= habit.amount ?? 0
+        
+        if let recurrenceId{
+            return recurrence.scheduleType.shouldShowAmount() ? amount >= habit.amount ?? 0 : amount == 100
         }
-        return shouldRecord
+        return true
     }
 }
 

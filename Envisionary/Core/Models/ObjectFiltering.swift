@@ -16,7 +16,7 @@ struct ObjectFiltering: Equatable {
     var filterProgress: Int?
     var filterCoreValue = ""
     var filterCount = 0
-    var filterDate = Date.now
+    var filterDate = Date()
     var filterTimeframe = TimeframeType.day
     var filterObject = ObjectType.home
     var filterContent = ContentViewType.execute
