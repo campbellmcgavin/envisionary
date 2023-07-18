@@ -75,6 +75,7 @@
 		613876422A5FC83200D9186B /* FormCheckoff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613876412A5FC83200D9186B /* FormCheckoff.swift */; };
 		613876442A5FC8F600D9186B /* CheckOffType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613876432A5FC8F600D9186B /* CheckOffType.swift */; };
 		613876462A5FD99F00D9186B /* GoalTrackingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613876452A5FD99F00D9186B /* GoalTrackingCard.swift */; };
+		613B27D72A663213006D50D2 /* ExampleGoalEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613B27D62A663213006D50D2 /* ExampleGoalEnum.swift */; };
 		613E113D2A2EE7630044491C /* TutorialPhases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613E113C2A2EE7630044491C /* TutorialPhases.swift */; };
 		613E113F2A2EF4C70044491C /* TutorialArchetype.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613E113E2A2EF4C70044491C /* TutorialArchetype.swift */; };
 		613E11412A2EF9B60044491C /* TutorialGetStarted.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613E11402A2EF9B60044491C /* TutorialGetStarted.swift */; };
@@ -357,6 +358,7 @@
 		613876412A5FC83200D9186B /* FormCheckoff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormCheckoff.swift; sourceTree = "<group>"; };
 		613876432A5FC8F600D9186B /* CheckOffType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckOffType.swift; sourceTree = "<group>"; };
 		613876452A5FD99F00D9186B /* GoalTrackingCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalTrackingCard.swift; sourceTree = "<group>"; };
+		613B27D62A663213006D50D2 /* ExampleGoalEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleGoalEnum.swift; sourceTree = "<group>"; };
 		613E113C2A2EE7630044491C /* TutorialPhases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialPhases.swift; sourceTree = "<group>"; };
 		613E113E2A2EF4C70044491C /* TutorialArchetype.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialArchetype.swift; sourceTree = "<group>"; };
 		613E11402A2EF9B60044491C /* TutorialGetStarted.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialGetStarted.swift; sourceTree = "<group>"; };
@@ -632,6 +634,7 @@
 				616FEBBD2A5757E300E7766C /* ArchetypeType.swift */,
 				6138763F2A5E72F800D9186B /* HomeObjectType.swift */,
 				613876432A5FC8F600D9186B /* CheckOffType.swift */,
+				613B27D62A663213006D50D2 /* ExampleGoalEnum.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -1501,6 +1504,7 @@
 				6188486429C7F7E700525AFF /* ModifierForm.swift in Sources */,
 				617ED6DB2A16EE460085D6A2 /* CollapsingListCard.swift in Sources */,
 				616FEBBC2A537C0B00E7766C /* ExpressSetupButton.swift in Sources */,
+				613B27D72A663213006D50D2 /* ExampleGoalEnum.swift in Sources */,
 				617E262529D8D7E20051DC88 /* GanttMainBar.swift in Sources */,
 				378D9EF229B96D5C008A34A2 /* FloatingActionButton.swift in Sources */,
 				61D058A72A0AA04400F1631E /* SessionReviewUpcomingCard.swift in Sources */,

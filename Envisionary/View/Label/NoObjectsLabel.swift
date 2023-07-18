@@ -11,13 +11,15 @@ struct NoObjectsLabel: View {
     
     var objectType: ObjectType
     let labelType: NoObjectLabelType
+    var shouldLeftAlign: Bool = false
     var body: some View {
         
         Text(GetText())
-            .font(.specify(style:.h6))
-            .multilineTextAlignment(.center)
+            .font(.specify(style: shouldLeftAlign ? .caption : .h6))
+            .multilineTextAlignment(shouldLeftAlign ? .leading : .center)
             .foregroundColor(.specify(color: .grey3))
-            .padding(30)
+            .padding([.top,.bottom],shouldLeftAlign ? 15: 30)
+            .padding([.leading,.trailing])
     }
     
     func GetText() -> String{

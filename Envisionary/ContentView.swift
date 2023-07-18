@@ -194,7 +194,7 @@ struct ContentView: View {
     
     func ShouldShowFloatingActionButton() -> Bool{
         
-        if vm.filtering.filterObject != .home && vm.filtering.filterObject != .creed {
+        if vm.filtering.filterObject != .home && vm.filtering.filterObject != .creed && vm.unlockedObjects.fromObject(object: vm.filtering.filterObject) {
             return true
         }
         return false

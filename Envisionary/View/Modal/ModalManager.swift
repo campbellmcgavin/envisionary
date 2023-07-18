@@ -117,7 +117,7 @@ struct ModalManager: View {
     func BuildModal() -> some View{
         switch modalType {
         case .add:
-            ModalAdd(isPresenting: $isPresentingAdd, isPresentingPhotoSource: $isPresentingPhotoSource, sourceType: $sourceType, convertDreamId: $convertDreamId, objectId: nil, parentGoalId: GetParentGoalId(), parentChapterId: GetParentChapterId(), objectType: GetObjectType(), modalType: .add, status: statusToAdd)
+            ModalAdd(isPresenting: $isPresentingAdd, convertDreamId: $convertDreamId, objectId: nil, parentGoalId: GetParentGoalId(), parentChapterId: GetParentChapterId(), objectType: GetObjectType(), modalType: .add, status: statusToAdd)
         case .search:
             ModalSearch(isPresenting: $isPresentingSearch, objectType: objectType ?? .goal)
         case .settings:
@@ -125,7 +125,7 @@ struct ModalManager: View {
         case .filter:
             ModalFilter(isPresenting: $isPresentingFilter)
         case .edit:
-            ModalAdd(isPresenting: $isPresentingEdit, isPresentingPhotoSource: $isPresentingPhotoSource, sourceType: $sourceType, convertDreamId: .constant(nil), objectId: GetObjectId(), parentGoalId: GetParentGoalId(), parentChapterId: GetParentChapterId(), objectType: GetObjectType(), modalType: .edit)
+            ModalAdd(isPresenting: $isPresentingEdit, convertDreamId: .constant(nil), objectId: GetObjectId(), parentGoalId: GetParentGoalId(), parentChapterId: GetParentChapterId(), objectType: GetObjectType(), modalType: .edit)
         case .delete:
             Modal(modalType: .delete, objectType: objectType ?? .goal, isPresenting: $isPresentingDelete, shouldConfirm: $shouldDelete, isPresentingImageSheet: .constant(false), allowConfirm: true, modalContent: {EmptyView()}, headerContent: {EmptyView()}, bottomContent: {EmptyView()}, betweenContent: {EmptyView()})
         case .photoSource:

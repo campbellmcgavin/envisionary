@@ -52,4 +52,8 @@ enum HomeObjectType: CaseIterable {
             return 0
         }
     }
+    
+    static func fromString(from string: String) -> Self{
+        return Self.allCases.first(where: {$0.toPluralString() == string}) ?? .hint
+    }
 }

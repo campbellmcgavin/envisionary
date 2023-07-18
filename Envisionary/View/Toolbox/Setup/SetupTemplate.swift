@@ -17,7 +17,7 @@ struct SetupTemplate<Content: View>: View {
     @State private var timer = Timer.publish(every: 0.2, on: .main, in: .common).autoconnect()
     @State var timeStamps: [Double] = [Double]()
     @State var shouldShowIndex = 0
-    
+    @State var finishLoad = false
     var body: some View {
         
         let transition = AnyTransition.asymmetric(insertion: .move(edge: .leading), removal: .opacity)
@@ -25,7 +25,7 @@ struct SetupTemplate<Content: View>: View {
         VStack{
             ForEach(Array(textArray.enumerated()), id:\.element){index, element in
                 
-                if index < shouldShowIndex {
+                if index < shouldShowIndex || finishLoad{
                     Text(element)
                         .foregroundColor(.specify(color: .grey9))
                         .font(.specify(style: .h5))
@@ -36,19 +36,27 @@ struct SetupTemplate<Content: View>: View {
                 }
             }
             
-            if shouldShowIndex > textArray.count {
+            if shouldShowIndex > textArray.count || finishLoad {
                 content
                     .transition(transition)
                     .modifier(ModifierForm(color: .grey15))
             }
-            else{
+            else if !finishLoad{
                 HStack{
+
                     MessageBubble(shouldShow: .constant(true))
                         .transition(transition)
+                
+
                     Spacer()
                 }
             }
         }
+        .onTapGesture(perform: {
+            withAnimation{
+                finishLoad = true
+            }
+        })
         .onAppear{
             counter = 0
             timeStamps = [Double]()
@@ -81,6 +89,10 @@ struct SetupTemplate<Content: View>: View {
             if shouldShowIndex >= timeStamps.count - 1{
                 canProceed = true
             }
+        }
+        .onChange(of: finishLoad){
+            _ in
+            canProceed = true
         }
         .onReceive(timer, perform: {_ in counter += 0.2})
     }

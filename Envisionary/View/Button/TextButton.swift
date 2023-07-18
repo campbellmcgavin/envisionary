@@ -18,9 +18,21 @@ struct TextButton: View {
     var iconType: IconType? = nil
     var height: SizeType = .minimumTouchTarget
     var hasPadding: Bool = true
+    var hasAnimation: Bool = false
+    
+    
     var body: some View {
         Button{
-            isPressed.toggle()
+            
+            if hasAnimation{
+                withAnimation{
+                    isPressed.toggle()
+                }
+            }
+            else{
+                isPressed.toggle()
+            }
+
         }
     label:{
         

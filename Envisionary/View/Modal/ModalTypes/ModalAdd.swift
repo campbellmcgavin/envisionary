@@ -9,8 +9,6 @@ import SwiftUI
 
 struct ModalAdd: View {
     @Binding var isPresenting: Bool
-    @Binding var isPresentingPhotoSource: Bool
-    @Binding var sourceType: UIImagePickerController.SourceType?
     @Binding var convertDreamId: UUID?
     let objectId: UUID?
     var parentGoalId: UUID?
@@ -28,7 +26,7 @@ struct ModalAdd: View {
             ModalAddSession(isPresenting: $isPresenting, sessionStep: .overview)
                 .environmentObject(validator)
         default:
-            ModalAddDefault(isPresenting: $isPresenting, isPresentingPhotoSource: $isPresentingPhotoSource, sourceType: $sourceType, convertDreamId: $convertDreamId, objectId: objectId, parentGoalId: parentGoalId, parentChapterId: parentChapterId, objectType: objectType, modalType: modalType)
+            ModalAddDefault(isPresenting: $isPresenting, convertDreamId: $convertDreamId, objectId: objectId, parentGoalId: parentGoalId, parentChapterId: parentChapterId, objectType: objectType, modalType: modalType)
                 .environmentObject(validator)
         }
     }
@@ -36,6 +34,6 @@ struct ModalAdd: View {
 
 struct ModalAdd_Previews: PreviewProvider {
     static var previews: some View {
-        ModalAdd(isPresenting: .constant(true), isPresentingPhotoSource: .constant(false), sourceType: .constant(.camera), convertDreamId: .constant(nil), objectId: UUID(), objectType: .goal, modalType: .add)
+        ModalAdd(isPresenting: .constant(true), convertDreamId: .constant(nil), objectId: UUID(), objectType: .goal, modalType: .add)
     }
 }

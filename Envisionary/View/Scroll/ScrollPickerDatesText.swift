@@ -44,7 +44,7 @@ struct ScrollPickerDateText: View {
         case .day:
             return dateValue.date.DayOfWeek()
         case .week:
-            let dayNumber = Calendar(identifier: .gregorian).ordinality(of: .day, in: .year, for: dateValue.date)!
+            let dayNumber = Calendar.current.ordinality(of: .day, in: .year, for: dateValue.date)!
             let weekNumber = Int(dayNumber / 7) + 1
             
             return "W" + String(weekNumber)

@@ -61,7 +61,9 @@ extension Date{
     
     func StartOfDecade() -> Date {
         let calendar = Calendar(identifier: .gregorian)
-        return calendar.date(byAdding: .year, value: -calendar.dateComponents([.year], from: self).year! % 10,  to: self.StartOfDay())!
+        let startOfYear = self.StartOfYear()
+        let startDecadeDate = calendar.date(byAdding: .year, value: -calendar.dateComponents([.year], from: startOfYear).year! % 10,  to: startOfYear)!
+        return startDecadeDate
     }
 
     func EndOfDecade() -> Date {
@@ -472,7 +474,7 @@ extension Date{
     
     func toYearAndMonth()->[String]{
         
-        let calendar = Calendar(identifier: .gregorian)
+        let calendar = Calendar.current
         let month = calendar.component(.month, from: self) - 1
         let year = calendar.component(.year, from: self)
         
@@ -499,13 +501,13 @@ extension Date{
     }
     
     func DayOfMonth() -> String{
-        let day = Calendar(identifier: .gregorian).dateComponents([.day], from: self).day
+        let day = Calendar.current.dateComponents([.day], from: self).day
         
         return "\(day!)"
     }   
     
     func StartYearToDecade() -> String{
-        let calendar = Calendar(identifier: .gregorian)
+        let calendar = Calendar.current
         let startYear = calendar.date(byAdding: .year, value: -calendar.dateComponents([.year], from: self).year! % 10,  to: self)!
         return String(calendar.component(.year, from: startYear))
 

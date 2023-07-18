@@ -80,6 +80,7 @@ struct AlertLabel: View {
                 if counter < 0.2 {
                     withAnimation{
                         isVisible = false
+                        alerts.alerts.removeAll(where: {$0 == alert})
                     }
                 }
             }

@@ -10,6 +10,7 @@ import SwiftUI
 struct Session: Identifiable, Equatable, Hashable, Codable  {
     
     let id: UUID
+    let title: String
     let date: Date
     let dateCompleted: Date
     let timeframe: TimeframeType
@@ -19,8 +20,9 @@ struct Session: Identifiable, Equatable, Hashable, Codable  {
     var childrenAddedDictionary: [UUID: [UUID]]
     
     
-    init(id: UUID = UUID(), date: Date, timeframe: TimeframeType, goalProperties: [Properties], evaluationDictionary: [UUID: EvaluationType], alignmentDictionary: [UUID: [String:Bool]], pushOffDictionary: [UUID: Int], deletionList: [UUID],  childrenAddedDictionary: [UUID: [UUID]]){
+    init(id: UUID = UUID(), title: String, date: Date, timeframe: TimeframeType, goalProperties: [Properties], evaluationDictionary: [UUID: EvaluationType], alignmentDictionary: [UUID: [String:Bool]], pushOffDictionary: [UUID: Int], deletionList: [UUID],  childrenAddedDictionary: [UUID: [UUID]]){
         self.id = id
+        self.title = title
         self.date = date
         self.dateCompleted = Date()
         self.timeframe = timeframe
@@ -32,6 +34,7 @@ struct Session: Identifiable, Equatable, Hashable, Codable  {
     
     init(from entity: SessionEntity){
         self.id = entity.id ?? UUID()
+        self.title = entity.title ?? ""
         self.date = entity.date ?? Date()
         self.dateCompleted = entity.dateCompleted ?? Date()
         self.timeframe = TimeframeType.fromString(input: entity.timeframe ?? "")
@@ -69,6 +72,7 @@ struct Session: Identifiable, Equatable, Hashable, Codable  {
         self.evaluationDictionary = [UUID: EvaluationType]()
         self.alignmentDictionary  = [UUID: [String:Bool]]()
         self.childrenAddedDictionary = [UUID: [UUID]]()
+        self.title = ""
     }
     
     private func ConvertFromStringToUUIDDictionary<T>(stringDictionary: [String: T]) -> [UUID:T]{

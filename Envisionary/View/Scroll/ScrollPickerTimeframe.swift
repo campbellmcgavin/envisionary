@@ -106,7 +106,7 @@ struct ScrollPickerTimeframe: View {
         switch timeframe{
         case .day:
 //            return vm.filtering.filterContent  != .evaluate
-            return true
+            return vm.filtering.filterObject != .session
         case .week:
             return true
         case .month:

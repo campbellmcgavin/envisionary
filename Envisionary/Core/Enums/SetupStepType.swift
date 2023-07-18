@@ -243,8 +243,7 @@ enum SetupStepType: CaseIterable {
         case .thePoint:
             array.append("You are looking great. Can we just say that??")
             array.append("As promised, we've filled everything out for you. You'll be able to delete or edit anything you want.")
-            array.append("And... one final surprise! We made you your FIRST goal. We think you'll love it. 🥹")
-            array.append("Notice how the big idea is broken into smaller ideas, starting at decade, then year, etc...")
+            array.append("And... one final surprise! We have a little present for you. 🥹")
         case .getStarted:
             array.append("Tah-tah, off you go now. 👋")
             array.append("Just remember, this is a productivity platform with many tools, so don't feel like you need to use everything all at once.")

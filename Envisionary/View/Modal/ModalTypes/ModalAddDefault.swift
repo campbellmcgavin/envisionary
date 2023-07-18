@@ -9,8 +9,6 @@ import SwiftUI
 
 struct ModalAddDefault: View {
     @Binding var isPresenting: Bool
-    @Binding var isPresentingPhotoSource: Bool
-    @Binding var sourceType: UIImagePickerController.SourceType?
     @Binding var convertDreamId: UUID?
     let objectId: UUID?
     var parentGoalId: UUID?
@@ -19,6 +17,8 @@ struct ModalAddDefault: View {
     let objectType: ObjectType
     let modalType: ModalType
     var status: StatusType?
+    @State var isPresentingPhotoSource: Bool = false
+    @State var sourceType: UIImagePickerController.SourceType? = nil
     @State var shouldAct = false
     @State var filteredValues = [ValueType]()
     @State var isPresentingImagePicker: Bool = false
@@ -30,66 +30,71 @@ struct ModalAddDefault: View {
     @EnvironmentObject var vm: ViewModel
     
     var body: some View {
-        Modal(modalType: modalType, objectType: objectType, isPresenting: $isPresenting, shouldConfirm: $shouldAct, isPresentingImageSheet: $isPresentingPhotoSource, allowConfirm: isValidForm, didAttemptToSave: didAttemptToSave,  title: GetTitle(), image: image, modalContent: {
-            
-            VStack(spacing:0){
+        
+        ZStack{
+            Modal(modalType: modalType, objectType: objectType, isPresenting: $isPresenting, shouldConfirm: $shouldAct, isPresentingImageSheet: $isPresentingPhotoSource, allowConfirm: isValidForm, didAttemptToSave: didAttemptToSave,  title: GetTitle(), image: image, modalContent: {
                 
-                if parentGoalId != nil {
-                    if let parentGoal = vm.GetGoal(id: parentGoalId!){
-                        FormLabel(fieldValue: parentGoal.title, fieldName: "Parent " + parentGoal.timeframe.toString() + " goal", iconType: .arrow_up, shouldShowLock: true)
-                            .padding(.bottom)
-                        
-                        if objectType == .goal{
-                            Text("When a " + objectType.toString() + " has a parent goal, certain attributes are set and managed by the parent goal, including timeframe, aspect and start date.")
-                                .frame(maxWidth:.infinity)
-                                .padding([.leading,.trailing])
-                                .padding(.bottom,40)
-                                .font(.specify(style: .caption))
-                                .foregroundColor(.specify(color: .grey4))
-                                .multilineTextAlignment(.leading)
+                VStack(spacing:0){
+                    
+                    if parentGoalId != nil {
+                        if let parentGoal = vm.GetGoal(id: parentGoalId!){
+                            FormLabel(fieldValue: parentGoal.title, fieldName: "Parent " + parentGoal.timeframe.toString() + " goal", iconType: .arrow_up, shouldShowLock: true)
+                                .padding(.bottom)
+                            
+                            if objectType == .goal{
+                                Text("When a " + objectType.toString() + " has a parent goal, certain attributes are set and managed by the parent goal, including timeframe, aspect and start date.")
+                                    .frame(maxWidth:.infinity)
+                                    .padding([.leading,.trailing])
+                                    .padding(.bottom,40)
+                                    .font(.specify(style: .caption))
+                                    .foregroundColor(.specify(color: .grey4))
+                                    .multilineTextAlignment(.leading)
+                            }
                         }
                     }
-                }
-                
-                FormPropertiesStack(properties: $properties, images: $images, isPresentingPhotoSource: $isPresentingPhotoSource, isValidForm: $isValidForm, didAttemptToSave: $didAttemptToSave, objectType: objectType, modalType: modalType, parentGoalId: parentGoalId, convertDreamId: convertDreamId)
                     
-            }
-            .sheet(isPresented: $isPresentingImagePicker){
-                ImagePicker(image: $image, showImagePicker: self.$isPresentingImagePicker, sourceType: self.sourceType ?? .camera)
-            }
-            .onAppear{
-                SetupFields()
-                isValidForm = true
-            }
-            .padding(8)
-            .onChange(of: image){
-                _ in
-                if image != nil {
-                    sourceType = nil
-                    isPresentingPhotoSource = false
-                    if objectType.hasProperty(property: .images){
-                        images.append(image!)
+                    FormPropertiesStack(properties: $properties, images: $images, isPresentingPhotoSource: $isPresentingPhotoSource, isValidForm: $isValidForm, didAttemptToSave: $didAttemptToSave, objectType: objectType, modalType: modalType, parentGoalId: parentGoalId, convertDreamId: convertDreamId)
+                        
+                }
+                .sheet(isPresented: $isPresentingImagePicker){
+                    ImagePicker(image: $image, showImagePicker: self.$isPresentingImagePicker, sourceType: self.sourceType ?? .camera)
+                }
+                .onAppear{
+                    SetupFields()
+                    isValidForm = true
+                }
+                .padding(8)
+                .onChange(of: image){
+                    _ in
+                    if image != nil {
+                        sourceType = nil
+                        isPresentingPhotoSource = false
+                        if objectType.hasProperty(property: .images){
+                            images.append(image!)
+                        }
+                    }
+
+                }
+                .onChange(of: shouldAct){ _ in
+                    if isValidForm{
+                        UpdateProperties()
+                        TakeAction()
+                    }
+                    didAttemptToSave = true
+                }
+                .onChange(of: sourceType){
+                    _ in
+                    if sourceType != nil {
+                        isPresentingImagePicker = true
+                    }
+                    else{
+                        isPresentingImagePicker = false
                     }
                 }
+            }, headerContent: {EmptyView()}, bottomContent: {EmptyView()}, betweenContent: {EmptyView()})
+            ModalPhotoSource(objectType: objectType, isPresenting: $isPresentingPhotoSource, sourceType: $sourceType)
+        }
 
-            }
-            .onChange(of: shouldAct){ _ in
-                if isValidForm{
-                    UpdateProperties()
-                    TakeAction()
-                }
-                didAttemptToSave = true
-            }
-            .onChange(of: sourceType){
-                _ in
-                if sourceType != nil {
-                    isPresentingImagePicker = true
-                }
-                else{
-                    isPresentingImagePicker = false
-                }
-            }
-        }, headerContent: {EmptyView()}, bottomContent: {EmptyView()}, betweenContent: {EmptyView()})
     }
     
     func SaveImages(){
@@ -339,6 +344,6 @@ struct ModalAddDefault: View {
 
 struct ModalAddDefault_Previews: PreviewProvider {
     static var previews: some View {
-        ModalAddDefault(isPresenting: .constant(true), isPresentingPhotoSource: .constant(false), sourceType: .constant(.photoLibrary), convertDreamId: .constant(nil), objectId: UUID(), objectType: .goal, modalType: .add)
+        ModalAddDefault(isPresenting: .constant(true), convertDreamId: .constant(nil), objectId: UUID(), objectType: .goal, modalType: .add)
     }
 }

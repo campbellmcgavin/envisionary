@@ -102,7 +102,6 @@ struct ModalSettings: View {
             VStack(spacing:10){
                 FormRadioButton(fieldValue: $promptContent, caption: "Help", fieldName: HelpPromptType.content.toString() + " Prompts", iconType: .help)
                 FormRadioButton(fieldValue: $promptObject, caption: "Help", fieldName: HelpPromptType.object.toString() + " Prompts", iconType: .help)
-                FormRadioButton(fieldValue: $promptShowing, caption: "Help", fieldName: HelpPromptType.showing.toString() + " Prompts", iconType: .help)
             }
             .padding([.leading,.trailing],8)
             .padding([.top])
@@ -126,7 +125,6 @@ struct ModalSettings: View {
                 FormStackPicker(fieldValue: $groupingChapter, fieldName: "Group " + ObjectType.chapter.toPluralString() + " by", options: .constant(GroupingType.allCases.filter({$0.hasObject(object: .chapter)}).map({$0.toPluralString()})), iconType: .group)
                 
                 FormStackPicker(fieldValue: $groupingEntry, fieldName: "Group " + ObjectType.entry.toPluralString() + " by", options: .constant(GroupingType.allCases.filter({$0.hasObject(object: .entry)}).map({$0.toPluralString()})), iconType: .group)
-                
             }
             .padding([.leading,.trailing],8)
             .padding([.top,.bottom])

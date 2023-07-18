@@ -13,6 +13,7 @@ struct DetailChildren: View {
     let objectType: ObjectType
     var shouldAllowNavigation: Bool = false
     var shouldShowBackground = true
+    var shouldShowSearch = true
     @State var isExpanded: Bool = true
     @State var properties: Properties = Properties()
     @State var childProperties: [Properties] = [Properties]()
@@ -30,7 +31,7 @@ struct DetailChildren: View {
                 
                 VStack{
                     
-                    if childProperties.count > 0 {
+                    if childProperties.count > 0 && shouldShowSearch {
                         FormText(fieldValue: $searchString, fieldName: "Search", axis: .horizontal, iconType: .search)
                     }
                     
@@ -136,7 +137,7 @@ struct DetailChildren: View {
     func GetTitle() -> String{
         switch objectType{
         case .goal:
-            return properties.timeframe?.toString() ?? TimeframeType.day.toString() + ObjectType.goal.toPluralString()
+             return (properties.timeframe?.toString() ?? TimeframeType.day.toString()) + " " + ObjectType.goal.toPluralString()
         case .chapter:
             return ObjectType.entry.toPluralString()
         default:

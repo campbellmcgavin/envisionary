@@ -17,6 +17,6 @@ struct CreateEmotionRequest {
         date = properties.date ?? Date()
         emotionList = properties.emotionList ?? [EmotionType]()
         activityList = properties.activityList ?? [String]()
-        amount = properties.amount ?? 4
+        amount = properties.emotionalState ?? 4
     }
 }

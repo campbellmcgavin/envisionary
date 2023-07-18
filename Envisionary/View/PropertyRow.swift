@@ -86,7 +86,22 @@ struct PropertyRow: View {
         case .title:
             return text ?? ""
         case .description:
-            return (text ?? "").count >= 0 ? (text ?? "") : "No description"
+            
+            if let text{
+                if text.count > 0
+                {
+                    return text
+                    
+                    
+                }
+                else
+                {
+                    return "No description"
+                }
+            }
+            return ""
+            
+//            return (text ?? "").count >= 0 ? (text ?? "") : "No description"
         case .start:
             return text ?? ""
         case .end:

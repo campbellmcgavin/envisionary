@@ -39,6 +39,7 @@ struct DetailHabitProgress: View {
                             .padding(30)
                     }
                     RecurrenceCard(habitId: habitId, recurrenceId: $recurrenceId, showPhotoCard: false, date: $date)
+                        .padding(.top)
                         .modifier(ModifierCard())
                 }
                 .frame(maxWidth:.infinity)

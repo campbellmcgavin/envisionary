@@ -16,7 +16,7 @@ struct MessageBubble: View {
         if shouldShow{
             
             ZStack{
-                RoundedRectangle(cornerRadius: 22.5)
+                RoundedRectangle(cornerRadius: SizeType.cornerRadiusSmall.ToSize())
                     .frame(width: 80, height:45)
                     .foregroundColor(.specify(color: .grey2))
                 

@@ -23,6 +23,19 @@ enum HabitType: CaseIterable {
     case save$20
     case newPerson
     
+    func toImageString() -> String{
+        switch self{
+        case .dailyExercise:
+            return "sample_exercise"
+        case .getUp6am:
+            return "sample_alarm"
+        case .eatHealthy:
+            return "sample_food"
+        default:
+            return ""
+        }
+    }
+    
     func toString() -> String{
         switch self {
         case .brushTeeth:

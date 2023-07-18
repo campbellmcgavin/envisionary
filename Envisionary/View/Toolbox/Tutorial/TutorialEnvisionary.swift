@@ -10,6 +10,8 @@ import SwiftUI
 struct TutorialEnvisionary: View {
     @Binding var canProceed: Bool
     @State var shouldWiggle: Bool = false
+    let familyArray = ["👨‍👩‍👧‍👦","👩‍👧","👨‍👩‍👦","👨‍👧","👪","👨‍👨‍👧","👩‍👩‍👦"]
+    @State var selectedFamily = ""
     var body: some View {
         
         let timer = Timer.publish(every: 0.25, on: .main, in: .common).autoconnect()
@@ -27,6 +29,7 @@ struct TutorialEnvisionary: View {
         .frame(height:500)
         .offset(y:30)
         .onAppear{
+            selectedFamily = familyArray.randomElement()!
             canProceed = true
         }
         .onReceive(timer){
@@ -48,8 +51,20 @@ struct TutorialEnvisionary: View {
                 .foregroundColor(.specify(color: .grey10))
                 .frame(width:size - 25, height: size - 25)
             
-            if item == 0{
+            switch item{
+            case 0:
                 "🏆".ToImage(imageSize: 120)
+            case 1:
+                "👔".ToImage(imageSize: 60)
+            case 3:
+                "💸".ToImage(imageSize: 38)
+            case 6:
+                selectedFamily.ToImage(imageSize:38)
+            case 5:
+                "💪".ToImage(imageSize: 20)
+            default:
+                let _ = "why"
+                
             }
         }
         .interactiveLabel(labelValue: GetLabel(item: item), yOffset: 40)

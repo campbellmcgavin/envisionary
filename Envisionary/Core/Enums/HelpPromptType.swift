@@ -10,7 +10,6 @@ import SwiftUI
 enum HelpPromptType {
     case object
     case content
-    case showing
     
     func toString() -> String{
         switch self {
@@ -18,8 +17,6 @@ enum HelpPromptType {
             return "Object"
         case .content:
             return "Content"
-        case .showing:
-            return "Showing"
         }
     }
 }

@@ -27,26 +27,55 @@ enum ArchetypeType: CaseIterable {
             return "Achiever"
         case .Activist:
             return "Activist"
-        case .Philanthropist:
-            return "Philanthropist"
-        case .Politician:
-            return "Politician"
         case .Adventurer:
             return "Adventurer"
+        case .Artist:
+            return "Artist"
+        case .Athlete:
+            return "Athlete"
+        case .Entrepreneur:
+            return "Entrepreneur"
         case .Essentialist:
             return "Essentialist"
         case .Executive:
             return "Executive"
         case .Influencer:
             return "Influencer"
-        case .Artist:
-            return "Artist"
-        case .Athlete:
-            return "Athlete"
+        case .Philanthropist:
+            return "Philanthropist"
+        case .Politician:
+            return "Politician"
         case .Student:
             return "Student"
+        }
+    }
+    
+    func toImageString() -> String{
+        switch self {
+        case .Achiever:
+            return "sample_harvard"
+        case .Activist:
+            return "sample_rights"
+        case .Adventurer:
+            return "sample_travel"
+        case .Athlete:
+            return "sample_gymnast"
         case .Entrepreneur:
-            return "Entrepreneur"
+            return "sample_company"
+        case .Essentialist:
+            return "sample_home"
+        case .Executive:
+            return "sample_exec"
+        case .Influencer:
+            return "sample_influencer"
+        case .Artist:
+            return "sample_gallery"
+        case .Philanthropist:
+            return "sample_change"
+        case .Politician:
+            return "sample_politician"
+        case .Student:
+            return "sample_harvard"
         }
     }
     
@@ -464,7 +493,7 @@ enum ArchetypeType: CaseIterable {
         case .political:
             return self == .Politician || self == .Achiever || self == .Athlete || self == .Essentialist
         case .religious:
-            return self == .Essentialist
+            return false
         case .romantic:
             return true
         case .sexual:
@@ -474,7 +503,7 @@ enum ArchetypeType: CaseIterable {
         case .social:
             return true
         case .spiritual:
-            return true
+            return false
         case .travel:
             return self == .Adventurer || self == .Artist || self == .Achiever || self == .Essentialist
         }

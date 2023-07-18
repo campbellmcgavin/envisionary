@@ -901,7 +901,7 @@ class DataService: DataServiceProtocol {
         newSession.id = id
         newSession.dateCompleted = request.dateCompleted
         newSession.timeframe = request.timeframe.toString()
-        
+        newSession.title = request.title
         do {
 //            let evaluationDictionary = ConvertFromUUIDToStringDictionary(uuidDictionary: request.evaluationDictionary)
 //            let alignmentDictionary = ConvertFromUUIDToStringDictionary(uuidDictionary: request.alignmentDictionary)
@@ -957,7 +957,7 @@ class DataService: DataServiceProtocol {
         do {
             let request = NSFetchRequest<SessionEntity>(entityName: "SessionEntity")
             
-            request.predicate = NSCompoundPredicate.PredicateBuilder(criteria: Criteria(), object:.session)
+            request.predicate = NSCompoundPredicate.PredicateBuilder(criteria: criteria, object:.session)
             request.fetchLimit = limit
             
             let SessionsEntityList = try container.viewContext.fetch(request)

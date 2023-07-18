@@ -168,7 +168,7 @@ struct Properties: Identifiable, Equatable, Hashable, Codable{
     
     init(session: Session?){
         self.id = session?.id ?? UUID()
-        self.title = session?.date.toString(timeframeType: session?.timeframe ?? .day)
+        self.title = session?.title ?? ""
         self.date = session?.date ?? Date()
         self.dateCompleted = session?.dateCompleted ?? Date()
         self.timeframe = session?.timeframe ?? .week

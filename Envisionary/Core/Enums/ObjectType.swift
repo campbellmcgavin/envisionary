@@ -44,7 +44,7 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
 //        case .task:
 //            return false
         case .habit:
-            return false
+            return true
         case .home:
             return false
         case .chapter:
@@ -61,6 +61,36 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             return false
         case .recurrence:
             return false
+        }
+    }
+    
+    func hasSearch() -> Bool{
+        switch self {
+            
+        case .goal:
+            return true
+        case .habit:
+            return true
+        case .entry:
+            return true
+        default:
+            return false
+        }
+    }
+    
+    func hasFilter() -> Bool{
+        return self != .home
+    }
+    
+    func hasCalendar() -> Bool{
+        
+        switch self{
+        case .goal: return true
+        case .habit: return true
+        case .session: return true
+        case .entry: return true
+        case .emotion: return true
+        default: return false
         }
     }
     
@@ -87,7 +117,7 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
         case .creed:
             return "Creed"
         case .home:
-            return "Home"
+            return "Today"
         case .emotion:
             return "Moods"
         case .dream:
@@ -147,7 +177,7 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
         case .habit:
             return "Habit"
         case .home:
-            return "Home"
+            return "Today"
         case .chapter:
             return "Chapter"
         case .entry:
@@ -459,42 +489,9 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
                 return true
             case .title:
                 return true
-            case .description:
-                return true
             default:
                 return false
             }
-//        case .task:
-//            switch property {
-//            case .timeframe:
-//                return false
-//            case .startDate:
-//                return true
-//            case .endDate:
-//                return true
-//            case .aspect:
-//                return false
-//            case .priority:
-//                return false
-//            case .progress:
-//                return true
-//            case .edited:
-//                return false
-//            case .leftAsIs:
-//                return false
-//            case .pushedOff:
-//                return false
-//            case .deleted:
-//                return false
-//            case .title:
-//                return true
-//            case .description:
-//                return false
-//            case .coreValue:
-//                return false
-//            default:
-//                return false
-//            }
         case .habit:
             switch property {
             case .title:
@@ -510,8 +507,6 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             case .aspect:
                 return true
             case .priority:
-                return true
-            case .progress:
                 return true
             case .parentId:
                 return true

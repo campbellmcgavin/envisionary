@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CreateSessionRequest {
     let date: Date
+    let title: String
     let dateCompleted: Date
     let timeframe: TimeframeType
     let goalProperties: [Properties]
@@ -18,6 +19,7 @@ struct CreateSessionRequest {
     
     init(properties: Properties){
         self.date = properties.date ?? Date()
+        self.title = (properties.timeframe ?? .day).toString() + " Session for " + (properties.date ?? Date()).toString(timeframeType: properties.timeframe ?? .day)
         self.dateCompleted = properties.dateCompleted ?? Date()
         self.timeframe = properties.timeframe ?? .year
         self.goalProperties = properties.goalProperties ?? [Properties]()

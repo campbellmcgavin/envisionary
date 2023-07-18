@@ -15,7 +15,7 @@ struct SetupGoalSetup: View {
     @State var parentGoal: UUID? = nil
     
     @State var shouldAddGoals = false
-    @State var nextGoalStep = ExampleGoalEnum.decide
+    @State var nextGoalStep = ExampleGoalEnum.decade
     
     @State var nextGoal = CreateGoalRequest(properties: Properties())
     @State var expandedGoals: [UUID] = [UUID]()

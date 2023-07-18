@@ -15,7 +15,8 @@ struct TutorialArchetype: View {
     
     @State var nextGoal = CreateGoalRequest(properties: Properties())
     @State var imageId: UUID? = nil
-    @State var nextGoalStep = ExampleGoalEnum.decide
+    @State var nextGoalStep = ExampleGoalEnum.decade
+    @State var goalParentId: UUID? = nil
     var body: some View {
         
         SetupView()
@@ -52,22 +53,65 @@ struct TutorialArchetype: View {
                 _ = vm.CreateAspect(request: request)}
             
             HabitType.allCases.filter({selectedArchetype.hasHabit(habit: $0)}).forEach{
-                let request = $0.toRequest()
+                
+                var request = $0.toRequest()
+                var localImageId: UUID? = nil
+                
+                if let image = UIImage(named: $0.toImageString()){
+                    localImageId = vm.CreateImage(image: image)
+                }
+                
+                request.image = localImageId
+                
                 _ = vm.CreateHabit(request: request)
             }
             
-            if let image = UIImage(named: "school"){
+            if let image = UIImage(named: selectedArchetype.toImageString()){
                 imageId = vm.CreateImage(image: image)
             }
             
+            
+            var firstPass = true
+            
             ExampleGoalEnum.allCases.sorted(by: {$0.rawValue < $1.rawValue}).forEach{
-                var parentId: UUID? = goalsAdded[$0.toParent()]
-                let request = $0.toGoal(parentId: parentId, imageId: imageId)
+                
+                let parentId: UUID? = goalsAdded[$0.toParent()]
+                let request = $0.toGoal(parentId: parentId, imageId: imageId, archetype: selectedArchetype)
+                
+                
                 goalsAdded[$0] = vm.CreateGoal(request: request)
+                
+                if firstPass{
+                    self.goalParentId = goalsAdded[$0]
+                    firstPass = false
+                }
+            }
+            
+            if let goalParentId{
+                let promptRequest = CreatePromptRequest(type: .favorite, title: "", date: Date(), objectType: .goal, objectId: goalParentId, timeframe: .decade)
+                _ = vm.CreatePrompt(request: promptRequest)
+            }
+            
+            let values = vm.ListCoreValues()
+            
+            if values.count > 0{
+                let value = values.first!
+                let promptRequest = CreatePromptRequest(type: .favorite, title: "", date: Date(), objectType: .value, objectId: value.id)
+                _ = vm.CreatePrompt(request: promptRequest)
             }
             
             ChapterType.allCases.filter({selectedArchetype.hasChapter(chapter: $0)}).forEach{
-                _ = vm.CreateChapter(request: $0.toRequest())
+                
+                var request = $0.toRequest()
+                var localImageId: UUID? = nil
+                
+                if let image = UIImage(named: $0.toImageString()){
+                    localImageId = vm.CreateImage(image: image)
+                }
+                
+                request.image = localImageId
+                
+                _ = vm.CreateChapter(request: request)
             }
             
             let chapterId = vm.ListChapters().first?.id ?? UUID()
@@ -81,7 +125,7 @@ struct TutorialArchetype: View {
     @ViewBuilder
     func SetupView() -> some View{
         VStack{
-            ForEach(ArchetypeType.allCases, id:\.self){
+            ForEach(ArchetypeType.allCases.sorted(by: {$0.toString() < $1.toString()}), id:\.self){
                 archetype in
                 ArchetypeCard(selectedArchetype: $selectedArchetype, archetype: archetype)
                 
@@ -101,216 +145,4 @@ struct TutorialArchetype_Previews: PreviewProvider {
 }
 
 
-enum ExampleGoalEnum: Int, CaseIterable {
-    case decide = 0
-    case decide_buildResumeAndCv = 1
-    case decide_study = 2
-    case decide_study_certify = 3
-    case decide_study_certify_1 = 4
-    case decide_study_certify_1_PurchaseMaterials = 5
-    case decide_study_ceritfy_1_PracticeTests = 6
-    case decide_study_certify_1_MakeFlashCards = 7
-    case decide_study_certify_2 = 8
-    case decide_study_certify_3 = 9
-    case decide_apply = 10
-    case decide_apply_interview = 11
-    case decide_apply_interview_stage1 = 12
-    case decide_apply_interview_stage2 = 13
-    case decide_apply_interview_stage3 = 14
-    case decide_getAccepeted = 15
-    
-    
-    func toGoal(parentId: UUID?, imageId: UUID?) -> CreateGoalRequest {
-        switch self{
-        case .decide:
-            return CreateGoalRequest(title: self.toTitle(), description: self.toDescription(), priority: .critical, startDate: Date(), endDate: self.toEndDate(), percentComplete: 0, image: imageId, aspect: .academic, timeframe: .decade, parent: parentId)
-        case .decide_buildResumeAndCv:
-            return CreateGoalRequest(title: self.toTitle(), description: self.toDescription(), priority: .critical, startDate: Date(), endDate: self.toEndDate(), percentComplete: 0, image: imageId, aspect: .academic, timeframe: .year, parent: parentId)
-        case .decide_study:
-            return CreateGoalRequest(title: self.toTitle(), description: self.toDescription(), priority: .critical, startDate: Date(), endDate: self.toEndDate(), percentComplete: 0, image: imageId, aspect: .academic, timeframe: .year, parent: parentId)
-        case .decide_study_certify:
-            return CreateGoalRequest(title: self.toTitle(), description: self.toDescription(), priority: .critical, startDate: Date(), endDate: self.toEndDate(), percentComplete: 0, image: imageId, aspect: .academic, timeframe: .month, parent: parentId)
-        case .decide_study_certify_1:
-            return CreateGoalRequest(title: self.toTitle(), description: self.toDescription(), priority: .critical, startDate: Date(), endDate: self.toEndDate(), percentComplete: 0, image: imageId, aspect: .academic, timeframe: .week, parent: parentId)
-            
-            
-        case .decide_study_certify_1_PurchaseMaterials:
-            return CreateGoalRequest(title: self.toTitle(), description: self.toDescription(), priority: .moderate, startDate: Date(), endDate: self.toEndDate(), percentComplete: 0, image: imageId, aspect: .academic, timeframe: .day, parent: parentId)
-        case .decide_study_ceritfy_1_PracticeTests:
-            return CreateGoalRequest(title: self.toTitle(), description: self.toDescription(), priority: .high, startDate: Date(), endDate: self.toEndDate(), percentComplete: 0, image: imageId, aspect: .academic, timeframe: .day, parent: parentId)
-        case .decide_study_certify_1_MakeFlashCards:
-            return CreateGoalRequest(title: self.toTitle(), description: self.toDescription(), priority: .low, startDate: Date(), endDate: self.toEndDate(), percentComplete: 0, image: imageId, aspect: .academic, timeframe: .day, parent: parentId)
-            
-            
-        case .decide_study_certify_2:
-            return CreateGoalRequest(title: self.toTitle(), description: self.toDescription(), priority: .critical, startDate: Date(), endDate: self.toEndDate(), percentComplete: 0, image: imageId, aspect: .academic, timeframe: .week, parent: parentId)
-        case .decide_study_certify_3:
-            return CreateGoalRequest(title: self.toTitle(), description: self.toDescription(), priority: .critical, startDate: Date(), endDate: self.toEndDate(), percentComplete: 0, image: imageId, aspect: .academic, timeframe: .week, parent: parentId)
-        case .decide_apply:
-            return CreateGoalRequest(title: self.toTitle(), description: self.toDescription(), priority: .critical, startDate: Date(), endDate: self.toEndDate(), percentComplete: 0, image: imageId, aspect: .academic, timeframe: .year, parent: parentId)
-        case .decide_apply_interview:
-            return CreateGoalRequest(title: self.toTitle(), description: self.toDescription(), priority: .critical, startDate: Date(), endDate: self.toEndDate(), percentComplete: 0, image: imageId, aspect: .academic, timeframe: .month, parent: parentId)
-        case .decide_apply_interview_stage1:
-            return CreateGoalRequest(title: self.toTitle(), description: self.toDescription(), priority: .critical, startDate: Date(), endDate: self.toEndDate(), percentComplete: 0, image: imageId, aspect: .academic, timeframe: .week, parent: parentId)
-        case .decide_apply_interview_stage2:
-            return CreateGoalRequest(title: self.toTitle(), description: self.toDescription(), priority: .critical, startDate: Date(), endDate: self.toEndDate(), percentComplete: 0, image: imageId, aspect: .academic, timeframe: .week, parent: parentId)
-        case .decide_apply_interview_stage3:
-            return CreateGoalRequest(title: self.toTitle(), description: self.toDescription(), priority: .critical, startDate: Date(), endDate: self.toEndDate(), percentComplete: 0, image: imageId, aspect: .academic, timeframe: .week, parent: parentId)
-        case .decide_getAccepeted:
-            return CreateGoalRequest(title: self.toTitle(), description: self.toDescription(), priority: .critical, startDate: Date(), endDate: self.toEndDate(), percentComplete: 0, image: imageId, aspect: .academic, timeframe: .year, parent: parentId)
-        }
-    }
-    
-    func toTitle() -> String{
-        switch self {
-        case .decide:
-            return "Go to Envisionary University"
-        case .decide_buildResumeAndCv:
-            return "Build Resume and CV"
-        case .decide_study:
-            return "Study!!!!"
-        case .decide_study_certify:
-            return "Study for certs"
-        case .decide_study_certify_1:
-            return "Cert 1: History of planning"
-        case .decide_study_certify_1_PurchaseMaterials:
-            return "Purchase study materials"
-        case .decide_study_ceritfy_1_PracticeTests:
-            return "Take practice tests"
-        case .decide_study_certify_1_MakeFlashCards:
-            return "Make flash cards"
-        case .decide_study_certify_2:
-            return "Cert 2: Etymology of the word plan"
-        case .decide_study_certify_3:
-            return "Cert 3: More exciting info"
-        case .decide_apply:
-            return "Application Process"
-        case .decide_apply_interview:
-            return "Interviews"
-        case .decide_apply_interview_stage1:
-            return "Stage 1: meet the board"
-        case .decide_apply_interview_stage2:
-            return "Stage 2: impress someone"
-        case .decide_apply_interview_stage3:
-            return "Stage 3: meet more people"
-        case .decide_getAccepeted:
-            return "Get accepted!!!"
-        }
-    }
-    
-    func toDescription() -> String{
-        return "Demo: Envisionary University."
-    }
-    
-    func toEndDate() -> Date{
-        switch self {
-        case .decide:
-            return Date().AdvanceDate(timeframe: .decade, forward: true)
-        case .decide_buildResumeAndCv:
-            return Date().AdvanceDate(timeframe: .year, forward: true)
-        case .decide_study:
-            return Date().AdvanceDate(timeframe: .year, forward: true)
-        case .decide_study_certify:
-            return Date().AdvanceDate(timeframe: .month, forward: true)
-        case .decide_study_certify_1:
-            return Date().AdvanceDate(timeframe: .week, forward: true)
-        case .decide_study_certify_1_PurchaseMaterials:
-            return Date().AdvanceDate(timeframe: .day, forward: true, count:6)
-        case .decide_study_ceritfy_1_PracticeTests:
-            return Date().AdvanceDate(timeframe: .day, forward: true, count:6)
-        case .decide_study_certify_1_MakeFlashCards:
-            return Date().AdvanceDate(timeframe: .day, forward: true, count:6)
-        case .decide_study_certify_2:
-            return Date().AdvanceDate(timeframe: .week, forward: true)
-        case .decide_study_certify_3:
-            return Date().AdvanceDate(timeframe: .week, forward: true)
-        case .decide_apply:
-            return Date().AdvanceDate(timeframe: .year, forward: true)
-        case .decide_apply_interview:
-            return Date().AdvanceDate(timeframe: .month, forward: true)
-        case .decide_apply_interview_stage1:
-            return Date().AdvanceDate(timeframe: .week, forward: true)
-        case .decide_apply_interview_stage2:
-            return Date().AdvanceDate(timeframe: .week, forward: true)
-        case .decide_apply_interview_stage3:
-            return Date().AdvanceDate(timeframe: .week, forward: true)
-        case .decide_getAccepeted:
-            return Date().AdvanceDate(timeframe: .year, forward: true)
-        }
-    }
-    
-    func toParent() -> Self{
-        switch self {
-        case .decide:
-            return .decide
-        case .decide_buildResumeAndCv:
-            return .decide
-        case .decide_study:
-            return .decide
-        case .decide_study_certify:
-            return .decide_study
-        case .decide_study_certify_1:
-            return .decide_study_certify
-        case .decide_study_certify_1_PurchaseMaterials:
-            return .decide_study_certify_1
-        case .decide_study_ceritfy_1_PracticeTests:
-            return .decide_study_certify_1
-        case .decide_study_certify_1_MakeFlashCards:
-            return .decide_study_certify_1
-        case .decide_study_certify_2:
-            return .decide_study_certify
-        case .decide_study_certify_3:
-            return .decide_study_certify
-        case .decide_apply:
-            return .decide
-        case .decide_apply_interview:
-            return .decide_apply
-        case .decide_apply_interview_stage1:
-            return .decide_apply_interview
-        case .decide_apply_interview_stage2:
-            return .decide_apply_interview
-        case .decide_apply_interview_stage3:
-            return .decide_apply_interview
-        case .decide_getAccepeted:
-            return .decide
 
-        }
-    }
-    
-    func getNext() -> Self{
-        switch self {
-        case .decide:
-            return .decide_buildResumeAndCv
-        case .decide_buildResumeAndCv:
-            return .decide_study
-        case .decide_study:
-            return .decide_study_certify
-        case .decide_study_certify:
-            return .decide_study_certify_1
-        case .decide_study_certify_1:
-            return .decide_study_certify_1_PurchaseMaterials
-        case .decide_study_certify_1_PurchaseMaterials:
-            return .decide_study_ceritfy_1_PracticeTests
-        case .decide_study_ceritfy_1_PracticeTests:
-            return .decide_study_certify_1_MakeFlashCards
-        case .decide_study_certify_1_MakeFlashCards:
-            return .decide_study_certify_2
-        case .decide_study_certify_2:
-            return .decide_study_certify_3
-        case .decide_study_certify_3:
-            return .decide_apply
-        case .decide_apply:
-            return .decide_apply_interview
-        case .decide_apply_interview:
-            return .decide_apply_interview_stage1
-        case .decide_apply_interview_stage1:
-            return .decide_apply_interview_stage2
-        case .decide_apply_interview_stage2:
-            return .decide_apply_interview_stage3
-        case .decide_apply_interview_stage3:
-            return .decide_getAccepeted
-        case .decide_getAccepeted:
-            return .decide_getAccepeted
-        }
-    }
-}

@@ -503,7 +503,7 @@ enum ValueType: CaseIterable, Codable, Hashable {
         case .Charity:
             return "I am charitable towards humanity, both with my time and resources."
         case .Compassion:
-            return "I allow the burdons and hardships of others to deeply impact my soul, and I moved to serve others."
+            return "I allow the burdons and hardships of others to deeply impact my soul, and I am moved to serve others."
         case .Courage:
             return "I minimize fear of temporal things and take courage to be the best version of myself that I can."
         case .Dedication:

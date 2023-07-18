@@ -31,7 +31,58 @@ enum ChapterType: CaseIterable {
     case tattooWishlist
     case spiritualExperiences
     case neitherHereNorThere
-        
+    
+    
+    func toImageString() -> String{
+        switch self {
+        case .myInsecurities:
+            return "sample_egg"
+        case .songIdeas:
+            return "sample_song"
+        case .artsyFartsy:
+            return "sample_artsy"
+        case .inspirationalQuotes:
+            return "sample_quotes"
+        case .bikingTheAlps:
+            return "sample_biking"
+        case .restaurantJournal:
+            return "sample_library"
+        case .personalMotivationJournal:
+            return "sample_motivation"
+        case .onePercentBetterEveryday:
+            return "sample_onepercent"
+        case .seeingTheImpact:
+            return "sample_impact"
+        case .backpackingEurope:
+            return "sample_backpacking"
+        case .romance:
+            return "sample_romance"
+        case .imSad:
+            return "sample_sad"
+        case .businessIdeas:
+            return "sample_ideas"
+        case .gratitude:
+            return "sample_gratitude"
+        case .allTheTimesIFailed:
+            return "sample_fail"
+        case .myInternalMusings:
+            return "sample_musings"
+        case .privateDoNotRead:
+            return "sample_private"
+        case .highSchoolMems:
+            return "sample_hs"
+        case .famDamily:
+            return "sample_famdamily"
+        case .cookingAndWine:
+            return "sample_wine"
+        case .tattooWishlist:
+            return "sample_tattoo"
+        case .spiritualExperiences:
+            return "sample_spiritual"
+        case .neitherHereNorThere:
+            return "sample_random"
+        }
+    }
     
     func toString() -> String{
         switch self {

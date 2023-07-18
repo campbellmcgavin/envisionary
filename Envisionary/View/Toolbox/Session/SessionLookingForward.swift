@@ -17,7 +17,7 @@ struct SessionLookingForward: View {
                 goalProperty in
                 VStack{
                     PhotoCardSimple(objectType: .goal, properties: goalProperty)
-                    DetailChildren(shouldExpand: $shouldExpandAll, objectId: goalProperty.id, objectType: .goal, shouldShowBackground: false, isExpanded: false)
+                    DetailChildren(shouldExpand: $shouldExpandAll, objectId: goalProperty.id, objectType: .goal, shouldShowBackground: false, shouldShowSearch: false, isExpanded: false)
                         .padding(.bottom,-16)
                     FormPropertiesMiniStackWithButtons(objectType: .goal, objectId: goalProperty.id)
                 }

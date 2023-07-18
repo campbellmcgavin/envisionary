@@ -9,7 +9,7 @@ import SwiftUI
 
 struct Setup: View {
     @Binding var shouldClose: Bool
-    @State var setupStep: SetupStepType = .welcome
+    @State var setupStep: SetupStepType = .archetype
     @State var shouldAct: Bool = false
     @State var canProceedStep: [SetupStepType: Bool] = [SetupStepType: Bool]()
     @State var canProceedMessages: [SetupStepType: Bool] = [SetupStepType: Bool]()

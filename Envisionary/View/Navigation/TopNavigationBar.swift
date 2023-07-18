@@ -27,7 +27,7 @@ struct TopNavigationBar: View {
                 if offset > 0 {
                     HStack{
                         
-                        if vm.filtering.filterObject == .home || vm.filtering.filterObject == .aspect || vm.filtering.filterObject == .value || vm.filtering.filterObject == .creed || vm.filtering.filterObject == .chapter || vm.filtering.filterObject == .dream{
+                        if vm.filtering.filterObject == .home || vm.filtering.filterObject == .aspect || vm.filtering.filterObject == .value || vm.filtering.filterObject == .creed || vm.filtering.filterObject == .chapter || vm.filtering.filterObject == .dream || !vm.filtering.filterIncludeCalendar{
                             Text(vm.filtering.filterObject.toPluralString())
                                 .font(.specify(style: .h4))
                         }

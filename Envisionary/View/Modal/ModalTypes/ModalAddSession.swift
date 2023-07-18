@@ -151,7 +151,7 @@ struct ModalAddSession: View {
     
     func CreateSession(){
         var sessionProperties = Properties()
-        sessionProperties.title = timeframe.toString() + " Sesssion"
+        sessionProperties.title = timeframe.toString() + " Session"
         sessionProperties.description = date.toString(timeframeType: timeframe)
         sessionProperties.date = date
         sessionProperties.goalProperties = goalProperties
@@ -159,8 +159,7 @@ struct ModalAddSession: View {
         sessionProperties.evaluationDictionary = evaluationDictionary
         sessionProperties.alignmentDictionary = ConvertAlignmentDictionary()
         sessionProperties.childrenAddedDictionary = childrenAddedDictionary
-        
-        
+        sessionProperties.timeframe = timeframe
         let sessionRequest = CreateSessionRequest(properties: sessionProperties)
         
         sessionId = vm.CreateSession(request: sessionRequest)
@@ -264,13 +263,13 @@ struct ModalAddSession: View {
                     .frame(alignment:.leading)
                     .multilineTextAlignment(.trailing)
                     .frame(width:55)
-                    .opacity(ShouldShowForwardButton() ? 1.0 : 0.0)
-                    .opacity(NotEnoughContent() ? 0.4 : 1.0)
+//                    .opacity(ShouldShowForwardButton() ? 1.0 : 0.0)
+//                    .opacity(NotEnoughContent() ? 0.4 : 1.0)
                 
                 IconButton(isPressed: $isPresenting, size: .medium, iconType: .arrow_right, iconColor: .grey10, circleColor: .grey0)
-                    .disabled(!ShouldShowForwardButton() || NotEnoughContent())
-                    .opacity(ShouldShowForwardButton() ? 1.0 : 0.0)
-                    .opacity(NotEnoughContent() ? 0.4 : 1.0)
+//                    .disabled(!ShouldShowForwardButton() || NotEnoughContent())
+//                    .opacity(ShouldShowForwardButton() ? 1.0 : 0.0)
+//                    .opacity(NotEnoughContent() ? 0.4 : 1.0)
             }
             else{
                 IconButton(isPressed: $shouldGoBackward, size: .medium, iconType: .arrow_left, iconColor: .grey10, circleColor: .grey0)
@@ -302,9 +301,9 @@ struct ModalAddSession: View {
                     .opacity(NotEnoughContent() ? 0.4 : 1.0)
                 
                 IconButton(isPressed: $shouldGoForward, size: .medium, iconType: .arrow_right, iconColor: .grey10, circleColor: .grey0)
-                    .disabled(!ShouldShowForwardButton() || NotEnoughContent())
+                    .disabled(!ShouldShowForwardButton() || NotEnoughContent() || WaitTillSave())
                     .opacity(ShouldShowForwardButton() ? 1.0 : 0.0)
-                    .opacity(NotEnoughContent() ? 0.4 : 1.0)
+                    .opacity(NotEnoughContent() || WaitTillSave() ? 0.4 : 1.0)
             }
 
 
@@ -314,6 +313,13 @@ struct ModalAddSession: View {
         .shadow(color: .specify(color: .grey0),radius: 50)
         .padding([.leading,.trailing],8)
         .padding(.bottom,35)
+    }
+    
+    func WaitTillSave() -> Bool{
+        if sessionStep == .saveCheckpoint{
+            return !shouldSave
+        }
+        return false
     }
             
     func NotEnoughContent() -> Bool{

@@ -27,7 +27,9 @@ struct FormSlider: View {
             }
             .transition(.move(edge:.bottom))
             .modifier(ModifierForm(color:.grey15))
-            
+            .onAppear{
+                fieldValueString = String(fieldValue) + "%"
+            }
         }
         
         .onAppear{

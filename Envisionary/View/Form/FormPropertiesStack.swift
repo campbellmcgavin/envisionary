@@ -318,9 +318,6 @@ struct FormPropertiesStack: View {
                 FormCounter(fieldValue: $amount, fieldName: GetAmountFieldName(), iconType: .dates, maxValue: ComputeMaxValue())
                     .modifier(ModifierFormValidator(fieldPropertyValidator: $validator.amount, isDirtyForm: $validator.isDirty, propertyType: .amount))
             }
-            else if objectType == .emotion{
-                FormEmotionalStatePicker(fieldValue: $amount, fieldName: "Emotional State")
-            }
         case .unit:
             if schedule.shouldShowAmount() {
                 FormStackPicker(fieldValue: $unitString, fieldName: PropertyType.unit.toString(), options: .constant(UnitType.allCases.map({$0.toString()})), iconType: .chapter)

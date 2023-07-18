@@ -99,10 +99,10 @@ extension NSCompoundPredicate {
                 switch timeframe {
                 case .decade:
                     datesArray = [
-                        criteria.date!.StartOfYear(),
-                        criteria.date!.EndOfYear(),
-                        criteria.date!.StartOfYear(),
-                        criteria.date!.EndOfYear()
+                        criteria.date!.StartOfDecade(),
+                        criteria.date!.EndOfDecade(),
+                        criteria.date!.StartOfDecade(),
+                        criteria.date!.EndOfDecade()
                     ]
                 case .year:
                     datesArray = [

@@ -17,14 +17,6 @@ class AlertsService: ObservableObject {
             alerts.append(Alert(alertType: .info_object, keyword: object.toPluralString(), description: object.toDescription(), timeAmount: 45, isPersistent: false))
         }
     }
-
-    func UpdateCalendarAlerts(object: ObjectType, timeframe: TimeframeType, date: Date, shouldShow: Bool){
-        alerts.removeAll(where: {$0.alertType == .info_timeframe})
-        
-        if shouldShow{
-            alerts.append(Alert(alertType: .info_timeframe, keyword: "Showing", description: object.toFilterDescription(date: date, timeframe: timeframe), timeAmount: 45, isPersistent: false))
-        }
-    }
     
     func UpdateContentAlerts(content: ContentViewType, shouldShow: Bool){
         alerts.removeAll(where: {$0.alertType == .info_content})

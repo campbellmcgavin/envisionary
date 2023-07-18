@@ -13,26 +13,35 @@ struct SessionEntry: View {
     @State var shouldAddEntry = false
     @State var didAttemptToSave = false
     @State var didSave = false
+    @State var shouldShowEntry = false
+    
     @EnvironmentObject var vm: ViewModel
     
     var body: some View {
         VStack{
-            HStack{
-                Text("New journal entry")
-                    .font(.specify(style: .h3))
-                    .foregroundColor(.specify(color: .grey10))
-                    .frame(alignment:.leading)
+                        
+            if shouldShowEntry{
+                HStack{
+                    Text("New journal entry")
+                        .font(.specify(style: .h3))
+                        .foregroundColor(.specify(color: .grey10))
+                        .frame(alignment:.leading)
+                        .padding(.top)
+                        .padding(.leading,8)
+                    Spacer()
+                }
+
+                
+                if !didSave{
+                    FormPropertiesStack(properties: $properties, images: .constant([UIImage]()), isPresentingPhotoSource: .constant(false), isValidForm: $isValidForm, didAttemptToSave: $didAttemptToSave, objectType: .entry, modalType: .add)
+                }
+                TextButton(isPressed: $shouldAddEntry, text: didSave ? "Entry added" : "Save entry", color: .grey0, backgroundColor: (!isValidForm && didAttemptToSave) || didSave ? .grey3 : .grey10, style: .h3, shouldHaveBackground: true)
                     .padding(.top)
-                    .padding(.leading,8)
-                Spacer()
+            }
+            else{
+                TextButton(isPressed: $shouldShowEntry, text: "Add entry", color: .grey0, backgroundColor: .grey6, style: .h3, shouldHaveBackground: true)
             }
 
-            
-            if !didSave{
-                FormPropertiesStack(properties: $properties, images: .constant([UIImage]()), isPresentingPhotoSource: .constant(false), isValidForm: $isValidForm, didAttemptToSave: $didAttemptToSave, objectType: .entry, modalType: .add)
-            }
-            TextButton(isPressed: $shouldAddEntry, text: didSave ? "Entry added" : "Add entry", color: .grey0, backgroundColor: (!isValidForm && didAttemptToSave) || didSave ? .grey3 : .grey10, style: .h3, shouldHaveBackground: true)
-                .padding(.top)
         }
         .onChange(of: shouldAddEntry){
             _ in

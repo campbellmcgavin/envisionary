@@ -27,7 +27,7 @@ struct ModalFilter: View {
             VStack(alignment: .leading, spacing:10){
                 
                 
-                TextButton(isPressed: $shouldClearFilters, text: "Clear all", color: vm.filtering.filterCount > 0 ? .purple : .grey3)
+                TextButton(isPressed: $shouldClearFilters, text: "Clear all", color: vm.filtering.filterCount > 0 ? .purple : .grey3, style: .h3)
                         .padding(.top)
                         .disabled(vm.filtering.filterCount == 0)
                         .frame(alignment:.leading)
@@ -35,35 +35,10 @@ struct ModalFilter: View {
 
                 GetActiveFilters()
                 HeaderWithContent(shouldExpand: $inactiveFiltersIsExpanded, headerColor: .grey10, header: "Inactive Filters", isExpanded: inactiveFiltersIsExpanded, content: { GetInactiveFilters() })
-                
+                    .padding(.bottom)
                 
             }
             .frame(alignment:.leading)
-//            .onChange(of:aspectString){ _ in
-//                vm.filtering.filterAspect = AspectType.allCases.first(where:{$0.toString() == aspectString})
-//                _ = vm.UpdateFilteredGoals(criteria: vm.filtering.GetFilters())
-//            }
-//            .onChange(of:priorityString){ _ in
-//                vm.filtering.filterPriority = PriorityType.allCases.first(where:{$0.toString() == priorityString})
-//                _ = vm.UpdateFilteredGoals(criteria: vm.filtering.GetFilters())
-//            }
-//            .onChange(of: vm.filtering.filterTitle){ _ in
-//                GetFilterCount()
-//                _ = vm.UpdateFilteredGoals(criteria: vm.filtering.GetFilters())
-//            }
-//            .onChange(of: vm.filtering.filterDescription){ _ in
-//                GetFilterCount()
-//                _ = vm.UpdateFilteredGoals(criteria: vm.filtering.GetFilters())
-//            }
-//            .onChange(of: vm.filtering.filterAspect){ _ in
-//                GetFilterCount()
-//                _ = vm.UpdateFilteredGoals(criteria: vm.filtering.GetFilters())
-//            }
-//            .onChange(of: vm.filtering.filterProgress){ _ in
-//                GetFilterCount()
-//                _ = vm.UpdateFilteredGoals(criteria: vm.filtering.GetFilters())
-//            }
-
             .onChange(of: progress){
                 _ in
                 vm.filtering.filterProgress = progress
