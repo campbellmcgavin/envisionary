@@ -13,7 +13,7 @@ struct FormCounter: View {
     var iconType: IconType?
     var color: CustomColor?
     var buttonSize: SizeType = .small
-    let minValue = 0
+    var minValue = 0
     var maxValue: Int = 20
     var total: Int? = nil
     var unit: UnitType? = nil
@@ -69,7 +69,7 @@ struct FormCounter: View {
                     }
                 }
 
-                Counter(fieldValue: $fieldValue, maxValue: maxValue, size: buttonSize)
+                Counter(fieldValue: $fieldValue, minValue: minValue, maxValue: maxValue, size: buttonSize)
                 .offset(x:-10, y: isSmall ? 6 : 10)
                 .onChange(of: fieldValue){
                     _ in

@@ -71,6 +71,8 @@ struct ModalMenu: View {
                 return false
             case .photo:
                 return false
+            case .feedback:
+                return false
             }
         default:
             return false

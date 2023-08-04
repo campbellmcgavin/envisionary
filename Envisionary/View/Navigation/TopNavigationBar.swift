@@ -99,7 +99,13 @@ struct TopNavigationBar: View {
     }
     
     func GetOpacity() -> CGFloat{
-        if offset > 0 && offset < 110 {
+        
+        let isHome = vm.filtering.filterObject == .home
+        
+        if isHome && offset > 0 && offset < 70 {
+            return abs(((1.0 * offset/70)))
+        }
+        else if !isHome && offset > 0 && offset < 110 {
             return abs(((1.0 * offset/110)))
         }
         return 1.0

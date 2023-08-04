@@ -23,6 +23,8 @@ struct DetailMenu: View {
     @State var shouldPresentAdd: Bool = false
     @State var shouldGoBack: Bool = false
     
+    @EnvironmentObject var vm: ViewModel
+    
     var body: some View {
         HStack(spacing:7){
             IconButton(isPressed: $shouldGoBack, size: .medium, iconType: .arrow_left, iconColor: .purple, circleColor: .grey10)
@@ -40,7 +42,7 @@ struct DetailMenu: View {
             if objectType.hasDetailMenuButton(button: .edit){
                 IconButton(isPressed: $shouldPresentEdit, size: .medium, iconType: .edit, iconColor: .purple, circleColor: .grey10)
             }
-            if objectType.hasDetailMenuButton(button: .add){
+            if objectType.hasDetailMenuButton(button: .add) && ShouldAllowDelete(){
                 IconButton(isPressed: $shouldPresentAdd, size: .medium, iconType: .add, iconColor: .purple, circleColor: .grey10)
             }
         }
@@ -76,6 +78,13 @@ struct DetailMenu: View {
             isPresentingModal.toggle()
         }
 //        .onChange(of: shouldPresent)
+    }
+    
+    func ShouldAllowDelete() -> Bool{
+        if objectType == .goal{
+            return vm.GetGoal(id: objectId)?.timeframe != .day
+        }
+        return true
     }
 }
 

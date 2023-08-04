@@ -29,6 +29,7 @@ struct ModalManager: View {
     @State var isPresentingEdit = false
     @State var isPresentingDelete = false
     @State var isPresentingPhotoSource = false
+    @State var isPresentingFeedback = false
     @State var sourceType: UIImagePickerController.SourceType? = nil
     
     
@@ -59,6 +60,8 @@ struct ModalManager: View {
                     isPresentingEdit = true
                 case .delete:
                     isPresentingDelete = true
+                case .feedback:
+                    isPresentingFeedback = true
                 case .photoSource:
                     let _ = "why"
                 case .photo:
@@ -111,6 +114,11 @@ struct ModalManager: View {
             isPresentingDelete = false
             DeleteObject()
         }
+        .onChange(of: isPresentingFeedback){ _ in
+            if isPresentingFeedback == false {
+                isPresenting = false
+            }
+        }
     }
     
     @ViewBuilder
@@ -130,6 +138,8 @@ struct ModalManager: View {
             Modal(modalType: .delete, objectType: objectType ?? .goal, isPresenting: $isPresentingDelete, shouldConfirm: $shouldDelete, isPresentingImageSheet: .constant(false), allowConfirm: true, modalContent: {EmptyView()}, headerContent: {EmptyView()}, bottomContent: {EmptyView()}, betweenContent: {EmptyView()})
         case .photoSource:
             ModalPhotoSource(objectType: GetObjectType(), isPresenting: $isPresentingPhotoSource, sourceType: $sourceType)
+        case .feedback:
+            ModalFeedback(isPresenting: $isPresentingFeedback)
         default:
             EmptyView()
         }

@@ -41,37 +41,37 @@ extension Font {
             
             //item out of focus
         case .h0:
-            return "ProximaNova-Bold"
+            return "Figtree-Light_Bold"
         case .h1:
-            return "ProximaNova-Bold"
+            return "Figtree-Light_Bold"
         case .h2:
-            return "ProximaNova-Bold"
+            return "Figtree-Light_Bold"
         case .h3:
-            return "ProximaNova-Bold"
+            return "Figtree-Light_Bold"
         case .h4:
-            return "ProximaNova-Bold"
+            return "Figtree-Light_Bold"
         case .h5:
-            return "ProximaNova-Bold"
+            return "Figtree-Light_Bold"
         case .h6:
-            return "ProximaNova-Bold"
+            return "Figtree-Light_Bold"
             
         case .body1:
-            return "ProximaNova-Regular"
+            return "Figtree-Light-Regular"
         case .body2:
-            return "ProximaNova-Regular"
+            return "Figtree-Light-Regular"
         case .body3:
-            return "ProximaNova-Regular"
+            return "Figtree-Light-Regular"
         case .body4:
-            return "ProximaNova-Regular"
+            return "Figtree-Light-Regular"
             
             //other
         case .caption:
-            return "ProximaNova-Bold"
+            return "Figtree-Light_Bold"
         case .subCaption:
-            return "ProximaNova-Bold"
+            return "Figtree-Light_Bold"
             
         case .logo:
-            return "ProximaNovaAExCn-Bold"
+            return "ProximaNovaExCn-Bold"
 
         }
     }

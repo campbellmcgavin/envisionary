@@ -23,7 +23,7 @@ struct FormImages: View {
             VStack{
                 FormDropdown(fieldValue: $fieldValueString, isExpanded: $isExpanded, fieldName: fieldName, iconType: iconType)
                 if isExpanded{
-                    ImageStack(images: $fieldValue, shouldPopImagesModal: $shouldPopImagesModal, isEditMode: true)
+                    ImageStack(images: $fieldValue, shouldPopImagesModal: $shouldPopImagesModal, selectedImage: .constant(nil), isEditMode: true)
                         .padding([.top,.bottom])
                 }
             }

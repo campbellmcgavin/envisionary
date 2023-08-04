@@ -30,7 +30,7 @@ struct Detail: View {
     @State var shouldAllowDelete = true
     @State var shouldConvertToGoal = false
     @State var convertDreamId: UUID? = nil
-    
+    @State var selectedImage: UIImage? = nil
     @EnvironmentObject var vm: ViewModel
     
     @Environment(\.presentationMode) private var dismiss
@@ -42,13 +42,12 @@ struct Detail: View {
             ObservableScrollView(offset: $offset, content:{
                 
                 ZStack(alignment:.top){
-                    
                     LazyVStack(alignment:.leading){
                         Header(offset: $offset, title: properties.title ?? "", subtitle: "View " + objectType.toString(), objectType: objectType, color: .purple, headerFrame: $headerFrame, isPresentingImageSheet: .constant(false), image: image, content: {EmptyView()})
                         
 //                        if(!isPresentingModal){
                         ZStack(alignment:.top){
-                            DetailStack(offset: $offset, focusObjectId: $focusObjectid, isPresentingModal: $isPresentingModal, modalType: $modalType, statusToAdd: $statusToAdd, isPresentingSourceType: $isPresentingPhotoSource, shouldConvertToGoal: $shouldConvertToGoal, properties: properties, objectId: objectId, objectType: objectType)
+                            DetailStack(offset: $offset, focusObjectId: $focusObjectid, isPresentingModal: $isPresentingModal, modalType: $modalType, statusToAdd: $statusToAdd, isPresentingSourceType: $isPresentingPhotoSource, shouldConvertToGoal: $shouldConvertToGoal, selectedImage: $selectedImage, properties: properties, objectId: objectId, objectType: objectType)
 //                            HStack{
 //                                Spacer()
 //                                IconButton(isPressed: .constant(false), size: .medium, iconType: .favorite, iconColor: .grey10, circleColor: .darkPurple, opacity:0.5, circleOpacity: 0.15)
@@ -76,6 +75,8 @@ struct Detail: View {
             ModalManager(isPresenting: $isPresentingModal, modalType: $modalType, convertDreamId: $convertDreamId, objectType: GetObjectType(), objectId: focusObjectid, properties: properties, statusToAdd: statusToAdd, shouldDelete: $shouldDelete)
             
             ModalPhotoSource(objectType: .goal, isPresenting: $isPresentingPhotoSource, sourceType: $sourceType)
+            
+            HighlightImage(selectedImage: $selectedImage)
             
         }
         .background(Color.specify(color: .grey0))
@@ -142,9 +143,18 @@ struct Detail: View {
         }
         .onChange(of: shouldConvertToGoal){
             _ in
-            modalType = .add
-            isPresentingModal = true
-            convertDreamId = objectId
+            
+            if shouldConvertToGoal{
+                modalType = .add
+                isPresentingModal = true
+                convertDreamId = objectId
+            }
+        }
+        .onChange(of: isPresentingModal){
+            _ in
+            if !isPresentingModal{
+                shouldConvertToGoal = false
+            }
         }
         .sheet(isPresented: $isPresentingImagePicker){
             ImagePicker(image: $newImage, showImagePicker: self.$isPresentingImagePicker, sourceType: self.sourceType ?? .camera)
@@ -173,7 +183,7 @@ struct Detail: View {
                 return .entry
             }
         }
-        else if objectType == .dream{
+        else if objectType == .dream && shouldConvertToGoal{
             return .goal
         }
         return objectType

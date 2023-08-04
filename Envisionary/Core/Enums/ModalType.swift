@@ -17,6 +17,7 @@ enum ModalType{
     case delete
     case photoSource
     case photo
+    case feedback
 //    case setup
     
     
@@ -42,6 +43,8 @@ enum ModalType{
             return false
         case .photo:
             return objectType.ShouldShowImage()
+        case .feedback:
+            return false
 //        case .setup:
 //            return false
         }

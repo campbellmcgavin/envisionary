@@ -32,6 +32,7 @@ struct DetailKanban: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(alignment: .top, spacing: 0) {
                     ForEach(StatusType.allCases, id:\.self) { status in
+                        
                         BoardListView(statusType: status, objectId: goalId, selectedObjectId: $focusGoal, isPresentingModal: $isPresentingModal, modalType: $modalType, statusToAdd: $statusToAdd, draggingObject: $draggingObject, shouldUpdateGoal: $shouldUpdateGoal, shouldHideElements: $shouldHideElements, currentPlaceToDrop: $currentPlaceToDrop)
                             .onDrop(of: [.text],
                                     delegate:
@@ -67,9 +68,10 @@ struct DetailKanban: View {
                 _ in
                 print(statusToAdd)
             }
-            .padding(.top,-29)
+                .padding(.top,-29)
                 .disabled(isStatic)
                 .frame(alignment:.topLeading)
+                .padding(.bottom,-4)
         })
     }
     

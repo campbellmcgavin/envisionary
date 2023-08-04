@@ -214,7 +214,7 @@ struct CalendarPickerCard: View {
                                 .strokeBorder(Color.specify(color: .green), lineWidth: 3)
                         case 3:
                             Circle()
-                                .strokeBorder(Color.specify(color: .blue), lineWidth: 3)
+                                .strokeBorder(Color.specify(color: .yellow), lineWidth: 3)
                         default:
                             let _ = "why"
                         }

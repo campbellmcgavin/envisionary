@@ -17,6 +17,8 @@ struct Setup: View {
     @State var contentView: ContentViewType = .envision
     @State var shouldGoBack: Bool = false
     @State var archetype: ArchetypeType? = nil
+    @State var didUsePreviousData: Bool = false
+    
     let counterTime: Double = 20
 //    @State var shouldBlock = false
     
@@ -62,7 +64,7 @@ struct Setup: View {
                         }
                         .padding([.leading,.trailing,.top],8)
                         .frame(maxWidth:.infinity)
-                        .frame(minHeight:400)
+                        .frame(minHeight:300)
                         .modifier(ModifierCard(color: .grey05))
                         .padding(.bottom,125)
                         
@@ -81,10 +83,12 @@ struct Setup: View {
                         
                         withAnimation(.spring()){
                             value.scrollTo(0,anchor:.top)
-                            vm.tutorialStep = setupStep.GetNext()
+                            
+                            let nextStep = CalculateNextStep()
+                            vm.tutorialStep = nextStep
                             UserDefaults.standard.set(vm.tutorialStep.toString(), forKey: SettingsKeyType.tutorial_step.toString())
                             
-                            setupStep = setupStep.GetNext()
+                            setupStep = nextStep
                             
                             if setupStep == .done{
                                 shouldClose.toggle()
@@ -113,7 +117,7 @@ struct Setup: View {
                 Spacer()
                 HStack{
                     
-                    if setupStep != .welcome && setupStep != .getStarted && setupStep != .thePoint{
+                    if setupStep != .welcome && setupStep != .getStarted && setupStep != .thePoint && setupStep != .oneMoreThing && setupStep != .envisionary && setupStep != .loadPreviousData{
                         IconButton(isPressed: $shouldGoBack, size: .large, iconType: .left, iconColor: .grey0, circleColor: .grey4)
                     }
                     Spacer()
@@ -161,8 +165,33 @@ struct Setup: View {
             SetupTemplate(canProceed: BindingCanProceedMessages(for: .getStarted), bumpScrollView: $bumpScrollView, textArray: SetupStepType.getStarted.toTextArray(), content: {TutorialGetStarted(canProceed: BindingCanProceedStep(for: .getStarted))})
         case .thePoint:
             SetupTemplate(canProceed: BindingCanProceedMessages(for: .thePoint), bumpScrollView: $bumpScrollView, textArray: SetupStepType.thePoint.toTextArray(), content: {TutorialThePoint(canProceed: BindingCanProceedStep(for: .thePoint))})
+        case .loadPreviousData:
+            SetupTemplate(canProceed: BindingCanProceedMessages(for: .loadPreviousData), bumpScrollView: $bumpScrollView, textArray: SetupStepType.loadPreviousData.toTextArray(), content: {TutorialLoadPreviousData(canProceed: BindingCanProceedStep(for: .loadPreviousData), didUsePreviousData: $didUsePreviousData)})
+        case .oneMoreThing:
+            SetupTemplate(canProceed: BindingCanProceedMessages(for: .oneMoreThing), bumpScrollView: $bumpScrollView, textArray: SetupStepType.oneMoreThing.toTextArray(), content: {TutorialPermissions(canProceed: BindingCanProceedStep(for: .oneMoreThing))})
         default:
             EmptyView()
+        }
+    }
+    
+    func CalculateNextStep() -> SetupStepType{
+        switch setupStep{
+        case .welcome:
+            if vm.CheckDataModelHasContent() {
+                return .loadPreviousData
+            }
+            else{
+                return .envisionary
+            }
+        case .loadPreviousData:
+            if didUsePreviousData{
+                return setupStep.GetNext()
+            }
+            else{
+                return .envisionary
+            }
+        default:
+            return setupStep.GetNext()
         }
     }
     

@@ -29,7 +29,7 @@ struct FormPropertiesStack: View {
     @State var scheduleTimeframe = TimeframeType.day
     @State var scheduleTimeframeString = ""
     @State var startDate = Date()
-    @State var numberOf = 0
+    @State var numberOf = 1
     @State var endDate = Date()
     @State var filteredValues = [ValueType]()
     @State var chapterString = ""
@@ -85,8 +85,17 @@ struct FormPropertiesStack: View {
             priorityString = properties.priority?.toString() ?? ""
             
             startDate = properties.startDate ?? Date().StartOfTimeframe(timeframe: timeframe).StartOfDay()
-            endDate = properties.endDate ?? startDate.EndOfTimeframe(timeframe: timeframe).EndOfDay()
-            numberOf = 1
+            properties.startDate = properties.startDate == nil ? Date().StartOfTimeframe(timeframe: timeframe).StartOfDay() : properties.startDate
+            
+            if properties.endDate == nil{
+                numberOf = 1
+                endDate = startDate.EndOfTimeframe(timeframe: timeframe)
+            }
+            else{
+                numberOf = startDate.CalculateNumberOfTimeframesToEndTDate(endDate: properties.endDate!, timeframe: timeframe)
+                endDate = properties.endDate!
+            }
+            
             scheduleString = properties.scheduleType?.toString() ?? schedule.toString()
             scheduleOptions = GetSchedules()
             unitString = unit.toString()
@@ -106,6 +115,13 @@ struct FormPropertiesStack: View {
             let chapters = vm.ListChapters()
             chapterString = chapters.first(where: {$0.id == properties.chapterId})?.title ?? ""
             hasChapterId = properties.chapterId != nil
+            amount = properties.amount ?? 0
+            
+            let timer = Timer.scheduledTimer(withTimeInterval: 0.25, repeats: false, block: {
+                _ in
+                isSettingUp = false
+            })
+            
         }
         .onDisappear(){
             validator.reset()
@@ -124,15 +140,17 @@ struct FormPropertiesStack: View {
         }
         .onChange(of: timeframeString){
             _ in
-            timeframe = TimeframeType.fromString(input: timeframeString)
-            numberOf = 0
-            startDate = startDate.StartOfTimeframe(timeframe: timeframe)
-            endDate = startDate.AdvanceDate(timeframe: timeframe, forward: true).EndOfTimeframe(timeframe: timeframe)
-            properties.startDate = startDate
-            properties.endDate = endDate
-            properties.timeframe = timeframe
-            validator.endDate.isDirty = true
-            validator.timeframe.isDirty = true
+            if !isSettingUp{
+                timeframe = TimeframeType.fromString(input: timeframeString)
+                numberOf = 1
+                startDate = startDate.StartOfTimeframe(timeframe: timeframe)
+                endDate = startDate.EndOfTimeframe(timeframe: timeframe)
+                properties.startDate = startDate
+                properties.endDate = endDate
+                properties.timeframe = timeframe
+                validator.endDate.isDirty = true
+                validator.timeframe.isDirty = true
+            }
         }
         .onChange(of: scheduleTimeframeString){
             _ in
@@ -141,14 +159,19 @@ struct FormPropertiesStack: View {
         }
         .onChange(of: numberOf){
             _ in
-            endDate = startDate.ComputeEndDate(timeframeType: timeframe, numberOfDates: numberOf)
-            properties.endDate = endDate
+            
+            if !isSettingUp{
+                endDate = startDate.ComputeEndDate(timeframeType: timeframe, numberOfDates: numberOf - 1 > 0 ? numberOf - 1 : 0)
+                properties.endDate = endDate
+            }
         }
         .onChange(of: startDate){
             _ in
-            endDate = startDate.ComputeEndDate(timeframeType: timeframe, numberOfDates: numberOf)
-            properties.startDate = startDate
-            validator.startDate.isDirty = true
+            if !isSettingUp{
+                endDate = startDate.ComputeEndDate(timeframeType: timeframe, numberOfDates: numberOf - 1 > 0 ? numberOf - 1 : 0)
+                properties.startDate = startDate
+                validator.startDate.isDirty = true
+            }
         }
         .onChange(of: priorityString){
             _ in
@@ -276,10 +299,18 @@ struct FormPropertiesStack: View {
                     .modifier(ModifierFormValidator(fieldPropertyValidator: $validator.timeframe, isDirtyForm: $validator.isDirty, propertyType: .timeframe))
             }
         case .startDate:
-            FormCalendarPicker(fieldValue: $startDate, fieldName: GetStartDateFieldName(), timeframeType: $timeframe, iconType: .dates, isStartDate: true)
-                .modifier(ModifierFormValidator(fieldPropertyValidator: $validator.startDate, isDirtyForm: $validator.isDirty, propertyType: .startDate))
+            if (objectType == .habit && modalType == .edit){
+                FormLabel(fieldValue: startDate.toString(timeframeType: timeframe), fieldName: GetStartDateFieldName(), iconType: .dates, shouldShowLock: true)
+            }
+            else{
+                FormCalendarPicker(fieldValue: $startDate, fieldName: GetStartDateFieldName(), timeframeType: $timeframe, iconType: .dates, isStartDate: true)
+                    .modifier(ModifierFormValidator(fieldPropertyValidator: $validator.startDate, isDirtyForm: $validator.isDirty, propertyType: .startDate))
+            }
         case .endDate:
-            FormCounter(fieldValue: $numberOf, fieldName: GetNumberOfFieldName(), iconType: .dates, maxValue: ComputeMaxValue())
+            
+            if (objectType == .habit && modalType == .add) || objectType != .habit{
+                FormCounter(fieldValue: $numberOf, fieldName: GetNumberOfFieldName(), iconType: .dates, minValue: 1, maxValue: ComputeMaxValue())
+            }
             FormLabel(fieldValue: endDate.toString(timeframeType: timeframe, isStartDate: false), fieldName: PropertyType.endDate.toString(), iconType: .dates, shouldShowLock: true)
         case .aspect:
             if objectType != .aspect{
@@ -310,18 +341,37 @@ struct FormPropertiesStack: View {
         case .images:
             FormImages(fieldValue: $images, shouldPopImagesModal: $isPresentingPhotoSource, fieldName: PropertyType.images.toString(), iconType: .photo)
         case .scheduleType:
-            FormStackPicker(fieldValue: $scheduleTimeframeString, fieldName: "Schedule " + PropertyType.timeframe.toString(), options: .constant([TimeframeType.day.toString(), TimeframeType.week.toString()]),iconType: .timeframe)
-            FormStackPicker(fieldValue: $scheduleString, fieldName: PropertyType.scheduleType.toString(), options: $scheduleOptions, iconType: .dates, isSearchable: false)
-                .modifier(ModifierFormValidator(fieldPropertyValidator: $validator.scheduleType, isDirtyForm: $validator.isDirty, propertyType: .scheduleType))
+            
+            if modalType == .add{
+                FormStackPicker(fieldValue: $scheduleTimeframeString, fieldName: "Schedule " + PropertyType.timeframe.toString(), options: .constant([TimeframeType.day.toString(), TimeframeType.week.toString()]),iconType: .timeframe)
+                FormStackPicker(fieldValue: $scheduleString, fieldName: PropertyType.scheduleType.toString(), options: $scheduleOptions, iconType: .dates, isSearchable: false)
+                    .modifier(ModifierFormValidator(fieldPropertyValidator: $validator.scheduleType, isDirtyForm: $validator.isDirty, propertyType: .scheduleType))
+            }
+            else{
+                FormLabel(fieldValue: scheduleTimeframeString, fieldName: "Schedule " + PropertyType.timeframe.toString(), iconType: .timeframe, shouldShowLock: true)
+                FormLabel(fieldValue: scheduleString, fieldName: PropertyType.scheduleType.toString(), iconType: .dates, shouldShowLock: true)
+            }
         case .amount:
             if schedule.shouldShowAmount(){
-                FormCounter(fieldValue: $amount, fieldName: GetAmountFieldName(), iconType: .dates, maxValue: ComputeMaxValue())
-                    .modifier(ModifierFormValidator(fieldPropertyValidator: $validator.amount, isDirtyForm: $validator.isDirty, propertyType: .amount))
+                
+                if modalType == .add{
+                    FormCounter(fieldValue: $amount, fieldName: GetAmountFieldName(), iconType: .dates, maxValue: ComputeMaxValue())
+                        .modifier(ModifierFormValidator(fieldPropertyValidator: $validator.amount, isDirtyForm: $validator.isDirty, propertyType: .amount))
+                }
+                else{
+                    FormLabel(fieldValue: String(amount), fieldName: GetAmountFieldName(), iconType: .dates, shouldShowLock: true)
+                }
             }
         case .unit:
-            if schedule.shouldShowAmount() {
-                FormStackPicker(fieldValue: $unitString, fieldName: PropertyType.unit.toString(), options: .constant(UnitType.allCases.map({$0.toString()})), iconType: .chapter)
-                    .modifier(ModifierFormValidator(fieldPropertyValidator: $validator.unit, isDirtyForm: $validator.isDirty, propertyType: .unit))
+            if schedule.shouldShowAmount()  {
+                
+                if modalType == .add{
+                    FormStackPicker(fieldValue: $unitString, fieldName: PropertyType.unit.toString(), options: .constant(UnitType.allCases.map({$0.toString()})), iconType: .ruler)
+                        .modifier(ModifierFormValidator(fieldPropertyValidator: $validator.unit, isDirtyForm: $validator.isDirty, propertyType: .unit))
+                }
+                else{
+                    FormLabel(fieldValue: unitString, fieldName: PropertyType.unit.toString(), iconType: .ruler, shouldShowLock: true)
+                }
             }
         case .emotions:
             FormStackGroupedMultiPicker(fieldValues: $emotionStringDictionary, fieldName: "Emotions", groupedOptions: $emotionStringOptions, iconType: .timeframe)

@@ -15,9 +15,8 @@ struct RecurrenceCard: View {
     @State var recurrence: Recurrence = Recurrence()
     @State var habit: Habit = Habit()
     @State var amount = 0
-    @State var shouldDisable = false
+    @State var shouldProcessChange = false
     @State private var loadTimer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
-    @State var finishedLoad = false
     @EnvironmentObject var vm: ViewModel
     
     var body: some View {
@@ -42,7 +41,7 @@ struct RecurrenceCard: View {
             }
 
             HStack{
-                FormCheckoff(fieldValue: $amount, finishedLoad: $finishedLoad, checkoffType: habit.schedule.shouldShowAmount() ? .amount : .checkoff, totalAmount: recurrence.scheduleType.shouldShowAmount() ? (habit.amount ?? 100) : 100, unitType: habit.unitOfMeasure)
+                FormCheckoff(fieldValue: $amount, shouldProcessChange: $shouldProcessChange, checkoffType: habit.schedule.shouldShowAmount() ? .amount : .checkoff, totalAmount: recurrence.scheduleType.shouldShowAmount() ? (habit.amount ?? 100) : 100, unitType: habit.unitOfMeasure)
             }
             .frame(alignment:.trailing)
             .padding(.leading,48)
@@ -50,34 +49,29 @@ struct RecurrenceCard: View {
         }
         .padding([.leading,.trailing,.bottom])
         .onAppear{
-            finishedLoad = false
             SetupRecurrence()
             amount = GetAmount()
         }
-        .onChange(of: finishedLoad){
-            _ in
-            startloadTimer()
-        }
+//        .onChange(of: finishedLoad){
+//            _ in
+//            if finishedLoad == false{
+//                startloadTimer()
+//            }
+//        }
         .onChange(of: recurrenceId){
             _ in
-            
             recurrence = vm.GetRecurrence(id: recurrenceId ?? UUID()) ?? Recurrence()
-            amount = 0
-            shouldDisable = recurrenceId != nil ? (recurrence.isComplete) : false
+            amount = recurrence.amount
         }
-        .onChange(of: amount){
+        .onChange(of: vm.updates.recurrence){
             _ in
-            
-            if finishedLoad {
-                CreateOrUpdateRecurrence()
-            }
+            recurrence = vm.GetRecurrence(id: recurrenceId ?? UUID()) ?? Recurrence()
+            amount = recurrence.amount
         }
-        .onReceive(loadTimer, perform: { _ in
-            withAnimation{
-                finishedLoad = true
-                stoploadTimer()
-            }
-        })
+        .onChange(of: shouldProcessChange){
+            _ in
+            CreateOrUpdateRecurrence()
+        }
     }
     
     func GetAmount() -> Int{
@@ -93,21 +87,18 @@ struct RecurrenceCard: View {
         if let recurrenceId {
             _ = vm.UpdateRecurrence(id: recurrenceId, request: UpdateRecurrenceRequest(amount: amount, isComplete: GetIsCompleted()))
             recurrence = vm.GetRecurrence(id: recurrenceId) ?? recurrence
-            shouldDisable = habit.amount ?? 0 <= recurrence.amount
         }
-        else{
-            let request = CreateRecurrenceRequest(habitId: habitId, scheduleType: habit.schedule, timeOfDay: .notApplicable, startDate: date.StartOfDay(), endDate: date.EndOfDay())
-            let id = vm.CreateRecurrence(request: request)
-            
-            shouldDisable = recurrenceId != nil ? (recurrence.isComplete) : false
-            let request2 = UpdateRecurrenceRequest(amount: amount, isComplete: GetIsCompleted())
-            print(request2)
-            _ = vm.UpdateRecurrence(id: id, request: request2)
-            let update = vm.GetRecurrence(id: id) ?? Recurrence()
-            print(update)
-            recurrence = update
-            amount = 0
-        }
+//        else{
+//            let request = CreateRecurrenceRequest(habitId: habitId, scheduleType: habit.schedule, timeOfDay: .notApplicable, startDate: date.StartOfDay(), endDate: date.EndOfDay())
+//            let id = vm.CreateRecurrence(request: request)
+//            let request2 = UpdateRecurrenceRequest(amount: amount, isComplete: GetIsCompleted())
+//            print(request2)
+//            _ = vm.UpdateRecurrence(id: id, request: request2)
+//            let update = vm.GetRecurrence(id: id) ?? Recurrence()
+//            print(update)
+//            recurrence = update
+//            amount = 0
+//        }
     }
     
     func stoploadTimer() {
@@ -133,13 +124,12 @@ struct RecurrenceCard: View {
         
         recurrence = vm.GetRecurrence(id: recurrenceId ?? UUID()) ?? Recurrence()
         amount = recurrence.amount == 0 ? 100 : recurrence.amount
-        
         habit = vm.GetHabit(id: habitId) ?? Habit()
     }
     
     func GetIsCompleted() -> Bool{
         
-        if let recurrenceId{
+        if recurrenceId != nil{
             return recurrence.scheduleType.shouldShowAmount() ? amount >= habit.amount ?? 0 : amount == 100
         }
         return true

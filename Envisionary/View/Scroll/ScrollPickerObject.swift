@@ -16,8 +16,6 @@ struct ScrollPickerObject: View {
     @State var contentOffset = CGPoint(x:0,y:0)
     @State var buttonIsChangingObject = false
     @State var objectDisplay: ObjectType = .home
-    @State private var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-    @State private var timerPop = Timer.publish(every: 0.5, on: .main, in: .common).autoconnect()
     @State var objectList = [ObjectType]()
     @State var previousObjectSetup: ObjectType = .goal
     let weirdOffset = CGFloat(8)
@@ -72,43 +70,37 @@ struct ScrollPickerObject: View {
         .frame(height:ShouldShowObjects() ? SizeType.minimumTouchTarget.ToSize() : 0)
         .onChange(of: contentOffset.x){ _ in
             objectDisplay = GetObjectFromOffset()
-            self.startTimer()
         }
         .onChange(of: vm.filtering.filterContent){
             _ in
-            self.timerPop = Timer.publish(every: 0.25, on: .main, in: .common).autoconnect()
-
+            
+            let timer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false, block: {
+                _ in
+                withAnimation{
+                    withAnimation{
+                        LoadObjects()
+                    }
+                }
+            })
         }
         .onAppear{
             RefreshView()
         }
-//        .onChange(of: vm.tutorialStep){
-//            _ in
-//            LoadObjects()
-//        }
         .onChange(of: objectList){
             _ in
             
-            if isSearch == true {
-                contentOffset.x = GetOffsetFromObject()
-                objectDisplay = objectType
-                self.startTimer()
+            withAnimation{
+                if isSearch == true {
+                    contentOffset.x = GetOffsetFromObject()
+                    objectDisplay = objectType
+                }
+                else{
+                    contentOffset.x = CGFloat(0) * (SizeType.scrollPickerWidth.ToSize() * weirdOffset)
+                    objectDisplay = GetObjectFromOffset()
+                }
             }
-            else{
-                contentOffset.x = CGFloat(0) * (SizeType.scrollPickerWidth.ToSize() * weirdOffset)
-                objectDisplay = GetObjectFromOffset()
-                self.startTimer()
-            }
+
             isLoadingObjects.toggle()
-            
-//            let setupObject = (vm.tutorialStep.toObject() ?? .value)
-//            if vm.filtering.filterContent == setupObject.toContentType() && objectList.count > 1 && setupObject.toContentType() == previousObjectSetup.toContentType() {
-//
-//                contentOffset.x =  CGFloat(objectList.firstIndex(of: previousObjectSetup) ?? 0) * (SizeType.scrollPickerWidth.ToSize() + weirdOffset)
-//                withAnimation{
-//                    objectDisplay = previousObjectSetup
-//                }
-//            }
         }
         
         .onChange(of: objectType){ _ in
@@ -118,26 +110,14 @@ struct ScrollPickerObject: View {
             _ in
             let impact = UIImpactFeedbackGenerator(style: .light)
                   impact.impactOccurred()
-        }
-        .onReceive(timerPop){
-            _ in
-            DispatchQueue.main.async{
+            
+            let timer = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: false, block: {
+                _ in
                 withAnimation{
-                    LoadObjects()
-                }
-            }
-        }
-        .onReceive(timer){ _ in
-            DispatchQueue.main.async{
-                withAnimation{
-                    self.stopTimer()
                     objectType = objectDisplay
                 }
-                isLoadingObjects.toggle()
-            }
-            
+            })
         }
-
     }
     
     func LoadObjects() {
@@ -157,8 +137,7 @@ struct ScrollPickerObject: View {
         LoadObjects()
         contentOffset.x = GetOffsetFromObject()
         objectDisplay = objectType
-        self.startTimer()
-        self.timerPop.upstream.connect().cancel()
+        objectType = objectDisplay
     }
     
     func ObjectShouldShow(object: ObjectType) -> Bool{
@@ -259,14 +238,6 @@ struct ScrollPickerObject: View {
         case .recurrence:
             return .execute
         }
-    }
-    
-    func stopTimer() {
-        self.timer.upstream.connect().cancel()
-    }
-    
-    func startTimer() {
-        self.timer = Timer.publish(every: 0.3, on: .main, in: .common).autoconnect()
     }
     
     func GetObjectFromOffset() -> ObjectType {

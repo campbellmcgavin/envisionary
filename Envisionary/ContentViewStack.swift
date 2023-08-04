@@ -11,6 +11,7 @@ struct ContentViewStack: View {
     @EnvironmentObject var vm: ViewModel
     @Binding var isPresenting: Bool
     @Binding var modalType: ModalType
+    @Binding var offset: CGPoint
     
     @State var shouldExpandAll: Bool = true
     @StateObject var alerts = AlertsService()
@@ -127,7 +128,9 @@ struct ContentViewStack: View {
                     .padding([.leading,.trailing], 8)
             }
             
-            if vm.filtering.filterObject != .session && vm.filtering.filterObject != .home && vm.filtering.filterObject != .entry && vm.filtering.filterObject != .goal{
+            let object = vm.filtering.filterObject
+            let noCustomizeArray: [ObjectType] = [.session, .home, .entry, .emotion]
+            if !noCustomizeArray.contains(object){
                 
                 let text = vm.filtering.filterObject == .creed ? "We built out your " + vm.filtering.filterObject.toPluralString().lowercased() + " based on the values for your archetype, the " + vm.archetype.toString() : "We built out your " + vm.filtering.filterObject.toPluralString() + " based on your archetype, the " + vm.archetype.toString()
                 Text(text)
@@ -370,8 +373,25 @@ struct ContentViewStack: View {
                         }
                     }
                 }
+                else{
+                    ZStack{
+                        "shape_astronaut_cable".ToImage(imageSize:110)
+                            .offset(x:75,y:-75)
+                            .opacity(0.8)
+                        "shape_astronaut_lost".ToImage(imageSize: 150)
+                            .wiggling(intensity:1.5)
+                    }
+                    .offset(y:110)
+                    .opacity(GetOpacity())
+                    
+                }
                 Spacer()
             }
+    }
+    
+    func GetOpacity() -> CGFloat{
+        let opacity = offset.y < 100 ? ((offset.y) * 0.7) / 100.0 : 0.7
+        return opacity
     }
     
     @ViewBuilder
@@ -467,7 +487,7 @@ struct ContentViewStack: View {
 
 struct ContentViewStack_Previews: PreviewProvider {
     static var previews: some View {
-        ContentViewStack(isPresenting: .constant(false), modalType: .constant(.add))
+        ContentViewStack(isPresenting: .constant(false), modalType: .constant(.add), offset: .constant(.zero))
             .environmentObject(ViewModel())
     }
 }

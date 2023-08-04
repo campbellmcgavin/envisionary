@@ -210,6 +210,15 @@ class ViewModel: ObservableObject, DataServiceProtocol
         return true
     }
     
+    func CheckDataModelHasContent() -> Bool{
+        
+        if ListCoreValues().count > 0 || ListDreams().count > 0 || ListAspects().count > 0 || ListGoals().count > 0 || ListHabits().count > 0 || ListChapters().count > 0 || ListEntries().count > 0 {
+            return true
+        }
+        
+        return false
+    }
+    
     // MARK: - ASPECTS
 
     func CreateAspect(request: CreateAspectRequest) -> UUID{

@@ -4,9 +4,8 @@
 <dict>
 	<key>UIAppFonts</key>
 	<array>
-		<string>ProximaNovaCondensed.otf</string>
-		<string>ProximaNovaBold.otf</string>
-		<string>ProximaNovaFont.otf</string>
+		<string>Figtree-VariableFont_wght.ttf</string>
+		<string>proximanovaexcn-bold.otf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>

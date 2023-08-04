@@ -9,7 +9,7 @@ import SwiftUI
 
 struct FormCheckoff: View {
     @Binding var fieldValue: Int
-    @Binding var finishedLoad: Bool
+    @Binding var shouldProcessChange: Bool
     var caption: String?
     var iconType: IconType? = nil
     var color: CustomColor = .grey2
@@ -82,18 +82,20 @@ struct FormCheckoff: View {
             }
             .onChange(of: shouldIncreaseAmount){ _ in
                 fieldValue += 1
+                shouldProcessChange.toggle()
             }
             .onChange(of: shouldIncreaseAmountMuch){ _ in
                 fieldValue = (fieldValue + 5) > totalAmount ? totalAmount : fieldValue + 5
+                shouldProcessChange.toggle()
             }
             .onChange(of: shouldDecreaseAmount){ _ in
                 fieldValue -= 1
+                shouldProcessChange.toggle()
             }
             .onChange(of: shouldComplete){
                 _ in
-                if finishedLoad{
-                    fieldValue = GetIsComplete() ? 0 : totalAmount
-                }
+                fieldValue = GetIsComplete() ? 0 : totalAmount
+                shouldProcessChange.toggle()
             }
     }
     
@@ -115,6 +117,6 @@ struct FormCheckoff: View {
 
 struct FormCheckoff_Previews: PreviewProvider {
     static var previews: some View {
-        FormCheckoff(fieldValue: .constant(0), finishedLoad: .constant(false), checkoffType: .checkoff, totalAmount: 10, unitType: .minutes)
+        FormCheckoff(fieldValue: .constant(0), shouldProcessChange: .constant(false), checkoffType: .checkoff, totalAmount: 10, unitType: .minutes)
     }
 }

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct Counter: View {
     @Binding var fieldValue: Int
-    let minValue = 0
+    var minValue = 0
     var maxValue: Int = 20
     var size: SizeType = .small
     

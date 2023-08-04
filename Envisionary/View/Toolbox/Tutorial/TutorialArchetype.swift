@@ -119,6 +119,10 @@ struct TutorialArchetype: View {
             let entryRequest = CreateEntryRequest(title: "A day to remember!", description: "Today is the day I downloaded Envisionary! I was able to learn some impressive tools that I am going to put into practice. I'm really excited because this is all going to contribute to me becoming the beautiful person that I know I can become.", startDate: Date(), chapterId: chapterId, images: [UUID]())
             
             _ = vm.CreateEntry(request: entryRequest)
+            
+            let moodRequest = CreateEmotionRequest(date: Date(), emotionList: [EmotionType.joy, EmotionType.excitement], activityList: [String](), amount: 4)
+            
+            _ = vm.CreateEmotion(request: moodRequest)
         }
     }
     

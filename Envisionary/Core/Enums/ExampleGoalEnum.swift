@@ -84,27 +84,27 @@ enum ExampleGoalEnum: Int, CaseIterable {
         switch self {
         case .decade:
             switch archetype {
-            case .Achiever: return "Go to Harvard for my Masters"
-            case .Activist: return "Found a human rights organization."
-            case .Adventurer: return "Travel to all 7 Continents in the world"
-            case .Athlete: return "Compete as a gymnast in the Olympics"
+            case .Achiever: return "Get a Harvard MBA"
+            case .Activist: return "Found a human rights Org."
+            case .Adventurer: return "Travel to all 7 Continents"
+            case .Athlete: return "Compete in Olympics as Gymnast"
             case .Entrepreneur: return "Start up my dream company"
             case .Essentialist: return "Build my dream home"
             case .Executive: return "Become a C-Suite Executive"
-            case .Influencer: return "Become an internet celebrity with 30M followers"
-            case .Artist: return "Get my artwork into my dream gallery"
-            case .Philanthropist: return "Start an international charity org"
+            case .Influencer: return "Become influencer with 30M Followers"
+            case .Artist: return "Get artwork into dream gallery"
+            case .Philanthropist: return "Start international charity org"
             case .Politician: return "Become a congressperson"
             case .Student: return "Go to Harvard for my Masters"
             }
             
         case .year0:
             switch archetype {
-            case .Achiever: return "Determine the weak points on my resume and CV"
-            case .Activist: return "Determine mission statement and purpose"
-            case .Adventurer: return "Explore my home continent (North America)"
-            case .Athlete: return "Try out and be accepted to the Olympic gymnastics team"
-            case .Entrepreneur: return "Company mission statement, business model, market research"
+            case .Achiever: return "Determine resume weaknesses"
+            case .Activist: return "Mission statement and purpose"
+            case .Adventurer: return "Explore North America"
+            case .Athlete: return "Try out for Olympic Team"
+            case .Entrepreneur: return "Mission statement, business model, market research"
             case .Essentialist: return "Study designs and architecture"
             case .Executive: return "Low-level management position with 5+ reports"
             case .Influencer: return "Determine market space and competition"
@@ -123,7 +123,7 @@ enum ExampleGoalEnum: Int, CaseIterable {
             case .Essentialist: return "Build home"
             case .Executive: return "Professional MBA"
             case .Influencer: return "Start channel"
-            case .Artist: return "Study competition and determine my style and business model"
+            case .Artist: return "Study competition. Determine Business model"
             case .Philanthropist: return "Find partner and layout leadership team."
             case .Politician: return "Run for mayor"
             case .Student: return "Study and take GMAT"
@@ -321,7 +321,7 @@ enum ExampleGoalEnum: Int, CaseIterable {
             case .Artist: return "Land in major gallery in major city"
             case .Philanthropist: return "Expand region"
             case .Politician: return "Election year"
-            case .Student: return "Invest time into local service organization."
+            case .Student: return "Invest time into local service org."
             }
         }
     }

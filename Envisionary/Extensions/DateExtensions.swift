@@ -100,6 +100,26 @@ extension Date{
         }
     }
     
+    func CalculateNumberOfTimeframesToEndTDate(endDate: Date, timeframe: TimeframeType) -> Int{
+        switch timeframe {
+        case .decade:
+            let number = Calendar.current.dateComponents([.year], from: self, to: endDate) // <3>
+            return Int((Double(number.year!) / 10.0).rounded(.toNearestOrAwayFromZero))
+        case .year:
+            let number = Calendar.current.dateComponents([.year], from: self, to: endDate)
+            return number.year!
+        case .month:
+            let number = Calendar.current.dateComponents([.month], from: self, to: endDate)
+            return number.month!
+        case .week:
+            let number = Calendar.current.dateComponents([.day], from: self, to: endDate)
+            return Int((Double(number.day!) / 7.0).rounded(.toNearestOrAwayFromZero))
+        case .day:
+            let numberOfDays = Calendar.current.dateComponents([.day], from: self, to: endDate)
+            return numberOfDays.day!
+        }
+    }
+    
     func AdvanceDate(timeframe:TimeframeType, forward: Bool, count: Int = 1) -> Date{
         
         switch timeframe{

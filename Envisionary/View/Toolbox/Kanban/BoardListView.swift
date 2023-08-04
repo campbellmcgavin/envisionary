@@ -49,7 +49,7 @@ struct BoardListView: View {
         .frame(minHeight:150)
         .frame(width: shouldHideElements ? 90 : 210)
         .modifier(ModifierCard(color: GetColor(), radius:SizeType.cornerRadiusSmall.ToSize()))
-        .padding([.leading,.trailing],shouldHideElements ? 3 : 8)
+        .padding(.trailing,shouldHideElements ? 3 : 8)
         
         .onAppear{
             childObjectList = vm.ListChildGoals(id: objectId).map({$0.id})

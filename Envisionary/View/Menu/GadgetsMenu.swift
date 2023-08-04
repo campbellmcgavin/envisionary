@@ -19,6 +19,7 @@ struct GadgetsMenu: View {
     @State var shouldPresentSettingsView: Bool = false
 //    @State var shouldPresentHelpView: Bool = false
     @State var shouldPresentSearchView: Bool = false
+    @State var shouldPresentFeedbackView: Bool = false
     
     
     @EnvironmentObject var vm: ViewModel
@@ -51,6 +52,8 @@ struct GadgetsMenu: View {
             if vm.filtering.filterObject.hasSearch(){
                 IconButton(isPressed: $shouldPresentSearchView, size: .small, iconType: .search, iconColor: .grey7)
             }
+            
+            IconButton(isPressed: $shouldPresentFeedbackView, size: .small, iconType: .chat, iconColor: .grey7)
             
             Spacer()
 //            if(offset.y < 200.0){
@@ -89,7 +92,11 @@ struct GadgetsMenu: View {
             isPresentingModal.toggle()
             modalType = .search
         }
-
+        .onChange(of:shouldPresentFeedbackView){
+            _ in
+            isPresentingModal.toggle()
+            modalType = .feedback
+        }
 
     }
 }

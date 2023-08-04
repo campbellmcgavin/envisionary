@@ -100,6 +100,8 @@ enum IconType {
     case zoomIn
     case zoomOut
     
+    case chat
+    
     func ToIconString() -> String{
         switch self {
         case .add:
@@ -240,6 +242,8 @@ enum IconType {
             return "Icon_Zoom_In"
         case .zoomOut:
             return "Icon_Zoom_Out"
+        case .chat:
+            return "Icon_Chat"
         }
     }
 }

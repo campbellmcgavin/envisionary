@@ -9,6 +9,7 @@ import SwiftUI
 
 struct DetailImages: View {
     @Binding var shouldExpand: Bool
+    @Binding var selectedImage: UIImage?
     let objectId: UUID
     let objectType: ObjectType
     
@@ -30,7 +31,7 @@ struct DetailImages: View {
                                     .foregroundColor(.specify(color: .grey4))
                                     .padding()
                             }
-                            ImageStack(images: $images, shouldPopImagesModal: .constant(false), isEditMode: false)
+                            ImageStack(images: $images, shouldPopImagesModal: .constant(false), selectedImage: $selectedImage, isEditMode: false)
                                 .frame(maxWidth:.infinity)
                                 .padding([.top,.bottom])
 
@@ -100,6 +101,6 @@ struct DetailImages: View {
 
 struct DetailPhotos_Previews: PreviewProvider {
     static var previews: some View {
-        DetailImages(shouldExpand: .constant(true), objectId: UUID(), objectType: .entry)
+        DetailImages(shouldExpand: .constant(true), selectedImage: .constant(nil), objectId: UUID(), objectType: .entry)
     }
 }

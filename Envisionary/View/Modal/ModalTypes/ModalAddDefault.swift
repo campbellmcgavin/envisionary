@@ -98,45 +98,56 @@ struct ModalAddDefault: View {
     }
     
     func SaveImages(){
-        if objectType.hasProperty(property: .image) && ( (properties.image == nil) || (properties.image != nil && image != vm.GetImage(id: properties.image!))) && image != nil {
+        
+        // if object has the "singular image" property
+        if objectType.hasProperty(property: .image)
+        
+            // and the image has been newly added
+            && ( (properties.image == nil)
+        
+            // or the image has changed
+            || (properties.image != nil && image != vm.GetImage(id: properties.image!)))
+            
+            // and image isn't blank
+            && image != nil {
             let imageId = vm.CreateImage(image: image!)
-//            let image = vm.GetImage(id: imageId)
             properties.image = imageId
         }
-        else if objectType.hasProperty(property: .images){
+        
+        // if object has the "plural images" property
+        if objectType.hasProperty(property: .images){
             
+            if properties.images == nil {
+                properties.images = [UUID]()
+            }
+            
+            // if this is a new object
             if objectId == nil{
+                
+                // if there exist an array of images
                 if images.count > 0{
-                    properties.images = [UUID]()
+                    
+                    // save all the images in data store and then add then to properties
                     for image in images{
                         properties.images!.append(vm.CreateImage(image: image))
                     }
                 }
             }
-            else if objectId != nil && objectType.hasProperty(property: .images) && properties.images != nil {
+            
+            //else if this is an object that exists and is being updated
+            else if objectId != nil && objectType.hasProperty(property: .images){
                 
-                //get rid of deleted images from properties
-                for imageId in properties.images!{
-                    if let image = vm.GetImage(id: imageId, newContext: false){
-                        if !images.contains(image){
-                            _ = vm.DeleteImage(id: imageId)
-                        }
+                //delete and remove all images
+                if let propertiesImages = properties.images{
+                    for imageId in propertiesImages{
+                        _ = vm.DeleteImage(id: imageId)
                     }
                 }
-                
-                //add new images
-                var storedImages = [UIImage]()
-                
-                for index in 0...properties.images!.count - 1{
-                    if let image = vm.GetImage(id: properties.images![index]){
-                        storedImages.append(image)
-                    }
-                }
-                
+                properties.images!.removeAll()
+
+                //add images
                 for image in images{
-                    if !storedImages.contains(image){
-                        properties.images!.append(vm.CreateImage(image: image))
-                    }
+                    properties.images!.append(vm.CreateImage(image: image))
                 }
             }
         }
@@ -289,20 +300,34 @@ struct ModalAddDefault: View {
                     if let entry = vm.GetEntry(id: objectId!){
                         properties = Properties(entry: entry)
                     }
+                case .habit:
+                    if let habit = vm.GetHabit(id: objectId!){
+                        properties = Properties(habit: habit)
+                    }
                 default:
                     properties = Properties()
                 }
             }
         }
         
-        if properties.images != nil {
-            for imageId in properties.images!{
+        if let imageIds = properties.images {
+            images.removeAll()
+            for imageId in imageIds{
                 if let image = vm.GetImage(id: imageId){
                     images.append(image)
                 }
             }
         }
-
+        
+        if let imageId = properties.image {
+            
+            if let image = vm.GetImage(id: imageId){
+                self.image = image
+            }
+        }
+        else{
+            image = nil
+        }
     }
     
     func UpdateProperties(){
@@ -322,7 +347,10 @@ struct ModalAddDefault: View {
                 properties.endDate =  properties.startDate?.AdvanceDate(timeframe: goal.timeframe.toChildTimeframe(), forward: true)
                 properties.priority = goal.priority
                 properties.aspect = goal.aspect
-                properties.image = goal.image
+                
+                if properties.image == nil {
+                    properties.image = goal.image
+                }
             }
         }
     }

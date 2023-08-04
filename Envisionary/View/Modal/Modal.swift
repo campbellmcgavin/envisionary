@@ -129,6 +129,8 @@ struct Modal<ModalContent: View, HeaderContent: View, BottomContent: View, Betwe
             return true
         case .photo:
             return true
+        case .feedback:
+            return false
         }
     }
     
@@ -181,6 +183,8 @@ struct Modal<ModalContent: View, HeaderContent: View, BottomContent: View, Betwe
             return "Photo source"
         case .photo:
             return "Photo"
+        case .feedback:
+            return "Feedback"
         }
     }
     
@@ -211,6 +215,8 @@ struct Modal<ModalContent: View, HeaderContent: View, BottomContent: View, Betwe
                 return "Select"
             case .photo:
                 return "View"
+            case .feedback:
+                return "Submit your"
             }
         }
 

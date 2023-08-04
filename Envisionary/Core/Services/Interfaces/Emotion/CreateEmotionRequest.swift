@@ -13,6 +13,13 @@ struct CreateEmotionRequest {
     var activityList: [String] = [String]()
     var amount: Int = 4
     
+    init(date: Date, emotionList: [EmotionType], activityList: [String], amount: Int){
+        self.date = date
+        self.emotionList = emotionList
+        self.activityList = activityList
+        self.amount = amount
+    }
+    
     init(properties: Properties){
         date = properties.date ?? Date()
         emotionList = properties.emotionList ?? [EmotionType]()

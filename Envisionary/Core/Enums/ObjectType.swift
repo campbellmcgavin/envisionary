@@ -380,8 +380,6 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
         switch self {
         case .goal:
             array.append("You can break big goals down into smaller goals 🌷. Each goal is locked to a timeframe (decades, years, months, weeks and days ☀️).")
-            array.append("We set up an example goal structure to go to Envisionary University, the most prestigious planning institution in the entire world. 🌎")
-//            array.append("🚨 Note the composition of goals. 🚨\n\n Decade goals are made of year goals. Year goals are made of month goals, and so on...")
         case .session:
             array.append("Pick a date, and then sessions automatically gathers everything you have planned for that period. 🦄")
             array.append("You'll be able to align everything with your values, and evaluate how to proceed with each goal. ❤️")
@@ -547,6 +545,8 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
                 return true
             case .description:
                 return true
+            case .image:
+                return true
             default:
                 return false
             }
@@ -616,7 +616,7 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             case .add:
                 return false
             case .favorite:
-                return false
+                return true
             }
         case .creed:
             switch button {

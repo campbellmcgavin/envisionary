@@ -10,10 +10,12 @@ import SwiftUI
 enum SetupStepType: CaseIterable {
     
     case welcome
+    case loadPreviousData
     case envisionary
     case phases
     case archetype
     case thePoint
+    case oneMoreThing
     case getStarted
     case done
     
@@ -33,94 +35,13 @@ enum SetupStepType: CaseIterable {
             return "done"
         case .thePoint:
             return "thePoint"
+        case .loadPreviousData:
+            return "loadPreviousData"
+        case .oneMoreThing:
+            return "oneMoreThing"
         }
     }
-//
-//    func toContentView() -> ContentViewType{
-//        switch self {
-//        case .welcome:
-//            return .envision
-//        case .envisionary:
-//            return .envision
-//        case .phases:
-//            return .envision
-//        case .archetype:
-//            return .envision
-//        case .getStarted:
-//            return .envision
-//        case .value:
-//            return .envision
-//        case .creed:
-//            return .envision
-//        case .dream:
-//            return .envision
-//        case .aspect:
-//            return .envision
-//        case .goalIntro:
-//            return .plan
-//        case .habit:
-//            return .plan
-//        case .session:
-//            return .plan
-//        case .home:
-//            return .execute
-//        case .chapter:
-//            return .journal
-//        case .entry:
-//            return .journal
-//        case .emotion:
-//            return .journal
-//        default:
-//            return .execute
-//        }
-//    }
-//
-//    func hasObject() -> Bool{
-//        switch self {
-//        case .welcome:
-//            return false
-//        case .envisionary:
-//            return false
-//        case .phases:
-//            return false
-//        case .archetype:
-//            return false
-//        case .getStarted:
-//            return false
-//        default:
-//            return true
-//        }
-//    }
-//
-//    func toObject() -> ObjectType{
-//        switch self {
-//        case .value:
-//            return .value
-//        case .creed:
-//            return .creed
-//        case .dream:
-//            return .dream
-//        case .aspect:
-//            return .aspect
-//        case .goalIntro:
-//            return .goal
-//        case .habit:
-//            return .habit
-//        case .session:
-//            return .session
-//        case .home:
-//            return .home
-//        case .chapter:
-//            return .chapter
-//        case .entry:
-//            return .entry
-//        case .emotion:
-//            return .emotion
-//        default:
-//            return .emotion
-//        }
-//    }
-//
+    
     func GetSubheader() -> String{
         switch self {
         case .welcome:
@@ -137,6 +58,10 @@ enum SetupStepType: CaseIterable {
             return ""
         case .thePoint:
             return "Hey there,"
+        case .loadPreviousData:
+            return "Looks like we found"
+        case .oneMoreThing:
+            return "Please enable"
         }
     }
 
@@ -159,6 +84,10 @@ enum SetupStepType: CaseIterable {
                 return archetype.toString() + "!"
             }
             return ""
+        case .loadPreviousData:
+            return "Something!"
+        case .oneMoreThing:
+            return "Notifications"
         }
     }
 //
@@ -194,11 +123,15 @@ enum SetupStepType: CaseIterable {
         case .archetype:
             return .thePoint
         case .thePoint:
-            return .getStarted
+            return .oneMoreThing
         case .getStarted:
             return .done
         case .done:
             return .done
+        case .loadPreviousData:
+            return .oneMoreThing
+        case .oneMoreThing:
+            return .getStarted
         }
     }
     
@@ -218,7 +151,10 @@ enum SetupStepType: CaseIterable {
             return .thePoint
         case .done:
             return .getStarted
-
+        case .loadPreviousData:
+            return .welcome
+        case .oneMoreThing:
+            return .thePoint
         }
     }
     
@@ -247,6 +183,11 @@ enum SetupStepType: CaseIterable {
         case .getStarted:
             array.append("Tah-tah, off you go now. 👋")
             array.append("Just remember, this is a productivity platform with many tools, so don't feel like you need to use everything all at once.")
+        case .loadPreviousData:
+            array.append("You have app data from a previous install.")
+            array.append("Typically, you'll want to use the existing data.")
+        case .oneMoreThing:
+            array.append("We promise we'll only help you fulfill your dreams!")
         default:
             let _ = "why"
         }

@@ -15,20 +15,20 @@ struct EnvisionaryApp: App {
         WindowGroup {
             ContentView()
                 .environmentObject(vm)
-                .onAppear{
-                    GetAllFonts()
-                }
+//                .onAppear{
+//                    GetAllFonts()
+//                }
         }
     }
     
-    func GetAllFonts(){
-        for family: String in UIFont.familyNames
-        {
-            print(family)
-            for names: String in UIFont.fontNames(forFamilyName: family)
-            {
-                print("== \(names)")
-            }
-        }
-    }
+//    func GetAllFonts(){
+//        for family: String in UIFont.familyNames
+//        {
+//            print(family)
+//            for names: String in UIFont.fontNames(forFamilyName: family)
+//            {
+//                print("== \(names)")
+//            }
+//        }
+//    }
 }

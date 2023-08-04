@@ -247,10 +247,10 @@ struct Properties: Identifiable, Equatable, Hashable, Codable{
         switch propertyType {
         case .title:
             if let title = self.title{
-                if title.count > 2 && title.count < 40{
+                if title.count > 2 && title.count < 51{
                     return true
                 }
-                else if title.count >= 24 {
+                else if title.count >= 51 {
                     return false
                 }
                 else {

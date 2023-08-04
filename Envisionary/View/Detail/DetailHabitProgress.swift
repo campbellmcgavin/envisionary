@@ -15,9 +15,11 @@ struct DetailHabitProgress: View {
     @EnvironmentObject var vm: ViewModel
     @State var recurrences: [Recurrence] = [Recurrence]()
     @State var dateStatuses: [DateValue] = [DateValue]()
+    @State var habit: Habit = Habit()
     
     @State var date: Date = Date()
     @State var recurrenceId: UUID? = nil
+    @State var shouldAddRecurrence: Bool = false
     var body: some View {
         
         VStack(spacing:0){
@@ -32,15 +34,36 @@ struct DetailHabitProgress: View {
                         .modifier(ModifierCard())
                     
                     if recurrenceId == nil {
-                        Text("The selected date has no associated records to track. You can add a record below.")
-                            .font(.specify(style:.h6))
-                            .multilineTextAlignment(.center)
-                            .foregroundColor(.specify(color: .grey3))
-                            .padding(30)
-                    }
-                    RecurrenceCard(habitId: habitId, recurrenceId: $recurrenceId, showPhotoCard: false, date: $date)
-                        .padding(.top)
+                        VStack{
+                            Text("The selected date has no associated records to track. You can add a record below.")
+                                .font(.specify(style:.h6))
+                                .multilineTextAlignment(.center)
+                                .foregroundColor(.specify(color: .grey3))
+                                .padding(30)
+                            
+                            HStack{
+                                Text("Add a record")
+                                    .padding([.leading,.top,.bottom])
+                                    .frame(height: SizeType.mediumLarge.ToSize())
+                                    .font(.specify(style: .h6))
+                                    .foregroundColor(.specify(color: .grey9))
+                                Spacer()
+                                IconButton(isPressed: $shouldAddRecurrence, size: .medium, iconType: .add, iconColor: .grey10, circleColor: .grey3)
+                                    .padding(.trailing,6)
+                            }
+                            .modifier(ModifierForm())
+                            .padding(8)
+//                            .padding(.bottom,8)
+                        }
+
                         .modifier(ModifierCard())
+                    }
+                    else{
+                        RecurrenceCard(habitId: habitId, recurrenceId: $recurrenceId, showPhotoCard: false, date: $date)
+                            .padding(.top)
+                            .modifier(ModifierCard())
+                    }
+
                 }
                 .frame(maxWidth:.infinity)
                 .frame(alignment:.leading)
@@ -62,6 +85,10 @@ struct DetailHabitProgress: View {
         .onChange(of: date){ _ in
             UpdateRecurrence()
         }
+        .onChange(of: shouldAddRecurrence){
+            _ in
+            AddRecurrence()
+        }
         .onChange(of: vm.updates.recurrence){
             _ in
             LoadRecurrences()
@@ -69,7 +96,14 @@ struct DetailHabitProgress: View {
         }
         .onAppear{
             LoadRecurrences()
+            UpdateRecurrence()
+            habit = vm.GetHabit(id: habitId) ?? Habit()
         }
+    }
+    
+    func AddRecurrence(){
+        let request = CreateRecurrenceRequest(habitId: habitId, scheduleType: habit.schedule, timeOfDay: .notApplicable, startDate: date.StartOfDay(), endDate: date.EndOfDay())
+        _ = vm.CreateRecurrence(request: request)
     }
     
     func LoadRecurrences(){
@@ -94,7 +128,7 @@ struct DetailHabitProgress: View {
         case .aCertainAmountOverTime:
             return recurrence.amount > 0 ? 3 : 0
         case .aCertainAmountPerDay:
-            return recurrence.isComplete ? 2 : 1
+            return recurrence.isComplete ? 2 : recurrence.amount > 0 ? 3 : 1
         case .oncePerDay:
             return recurrence.isComplete ? 2 : 1
 //        case .morning:

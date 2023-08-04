@@ -15,6 +15,7 @@ struct DetailStack: View {
     @Binding var statusToAdd: StatusType
     @Binding var isPresentingSourceType: Bool
     @Binding var shouldConvertToGoal: Bool
+    @Binding var selectedImage: UIImage?
     var properties: Properties
     let objectId: UUID
     let objectType: ObjectType
@@ -55,7 +56,7 @@ struct DetailStack: View {
             }
             
             if objectType == .entry || objectType == .chapter{
-                DetailImages(shouldExpand: $shouldExpandAll, objectId: objectId, objectType: objectType)
+                DetailImages(shouldExpand: $shouldExpandAll, selectedImage: $selectedImage, objectId: objectId, objectType: objectType)
             }
             
             if objectType == .chapter{
@@ -121,7 +122,7 @@ struct DetailStack: View {
 
 struct DetailStack_Previews: PreviewProvider {
     static var previews: some View {
-        DetailStack(offset: .constant(.zero), focusObjectId: .constant(UUID()), isPresentingModal: .constant(false) , modalType: .constant(.add), statusToAdd: .constant(.notStarted), isPresentingSourceType: .constant(false), shouldConvertToGoal: .constant(false) , properties: Properties() , objectId: UUID() ,objectType: .goal)
+        DetailStack(offset: .constant(.zero), focusObjectId: .constant(UUID()), isPresentingModal: .constant(false) , modalType: .constant(.add), statusToAdd: .constant(.notStarted), isPresentingSourceType: .constant(false), shouldConvertToGoal: .constant(false), selectedImage: .constant(nil) , properties: Properties() , objectId: UUID() ,objectType: .goal)
             .environmentObject(ViewModel())
     }
 }

@@ -765,6 +765,7 @@ class DataService: DataServiceProtocol {
             entityToUpdate.desc = request.description
             entityToUpdate.title = request.title
             entityToUpdate.aspect = request.aspect.toString()
+            entityToUpdate.image = request.image
             saveData()
             return true
         }
