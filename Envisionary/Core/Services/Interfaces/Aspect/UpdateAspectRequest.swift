@@ -8,16 +8,20 @@
 import Foundation
 
 struct UpdateAspectRequest{
-    
+    var title: String = ""
     var description: String = ""
-    
+    var image: UUID?
 
-    init(description: String)
+    init(title: String, description: String, image: UUID?)
     {
+        self.title = title
         self.description = description
+        self.image = image
     }
     
     init(properties: Properties){
+        self.title = properties.title ?? ""
         self.description = properties.description ?? ""
+        self.image = properties.image
     }
 }

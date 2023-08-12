@@ -53,7 +53,8 @@ struct FormStackMultiPicker: View {
                         .animation(.easeInOut)
                         
                         if isActivityPicker && searchString.count > 3 {
-                            TextButton(isPressed: $shouldAddOption, text: "Add \"" + searchString + "\"", color: .grey2, backgroundColor: .grey10, style: .h5, shouldHaveBackground: true, height: .small)
+                            
+                            TextIconButton(isPressed: $shouldAddOption, text: "Add \"" + searchString + "\"", color: .grey2, backgroundColor: .grey10, fontSize: .h5, shouldFillWidth: false, iconType: .add)
                         }
                     }
             }

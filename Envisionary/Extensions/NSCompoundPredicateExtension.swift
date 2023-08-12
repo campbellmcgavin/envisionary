@@ -23,7 +23,9 @@ extension NSCompoundPredicate {
             predicates.append(NSPredicate(format: "desc CONTAINS %@", criteria.description!))
         }
         
-
+        if criteria.valueId != nil && object.hasProperty(property: .valueId){
+            predicates.append(NSPredicate(format: "coreValueId == %@", criteria.valueId! as CVarArg))
+        }
         
         if criteria.aspect != nil && criteria.aspect!.count > 0 && object.hasProperty(property: .aspect){
             predicates.append(NSPredicate(format: "aspect == %@", criteria.aspect!))
@@ -41,6 +43,10 @@ extension NSCompoundPredicate {
             else if object == .habit{
                 
             }
+        }
+        
+        if criteria.archived != nil && object.hasProperty(property: .archived){
+            predicates.append(NSPredicate(format: "archived == %@ || archived == nil", NSNumber(value: criteria.archived!)))
         }
         
         if includeCalendarValues && criteria.timeframe != nil && object.hasProperty(property: .timeframe){

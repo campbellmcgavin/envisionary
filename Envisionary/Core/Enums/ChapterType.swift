@@ -189,51 +189,51 @@ enum ChapterType: CaseIterable {
     func toRequest() -> CreateChapterRequest{
         switch self {
         case .backpackingEurope:
-            return CreateChapterRequest(title: self.toString(), description: self.toDescription(), aspect: .travel)
+            return CreateChapterRequest(title: self.toString(), description: self.toDescription(), aspect: AspectType.travel.toString())
         case .romance:
-            return CreateChapterRequest(title: self.toString(), description: self.toDescription(), aspect: .romantic)
+            return CreateChapterRequest(title: self.toString(), description: self.toDescription(), aspect: AspectType.romantic.toString())
         case .imSad:
-            return CreateChapterRequest(title: self.toString(), description: self.toDescription(), aspect: .emotional)
+            return CreateChapterRequest(title: self.toString(), description: self.toDescription(), aspect: AspectType.emotional.toString())
         case .businessIdeas:
-            return CreateChapterRequest(title: self.toString(), description: self.toDescription(), aspect: .career)
+            return CreateChapterRequest(title: self.toString(), description: self.toDescription(), aspect: AspectType.career.toString())
         case .gratitude:
-            return CreateChapterRequest(title: self.toString(), description: self.toDescription(), aspect: .personal)
+            return CreateChapterRequest(title: self.toString(), description: self.toDescription(), aspect: AspectType.personal.toString())
         case .allTheTimesIFailed:
-            return CreateChapterRequest(title: self.toString(), description: self.toDescription(), aspect: .fun)
+            return CreateChapterRequest(title: self.toString(), description: self.toDescription(), aspect: AspectType.fun.toString())
         case .myInternalMusings:
-            return CreateChapterRequest(title: self.toString(), description: self.toDescription(), aspect: .personal)
+            return CreateChapterRequest(title: self.toString(), description: self.toDescription(), aspect: AspectType.personal.toString())
         case .privateDoNotRead:
-            return CreateChapterRequest(title: self.toString(), description: self.toDescription(), aspect: .personal)
+            return CreateChapterRequest(title: self.toString(), description: self.toDescription(), aspect: AspectType.personal.toString())
         case .highSchoolMems:
-            return CreateChapterRequest(title: self.toString(), description: self.toDescription(), aspect: .academic)
+            return CreateChapterRequest(title: self.toString(), description: self.toDescription(), aspect: AspectType.academic.toString())
         case .famDamily:
-            return CreateChapterRequest(title: self.toString(), description: self.toDescription(), aspect: .family)
+            return CreateChapterRequest(title: self.toString(), description: self.toDescription(), aspect: AspectType.family.toString())
         case .cookingAndWine:
-            return CreateChapterRequest(title: self.toString(), description: self.toDescription(), aspect: .home)
+            return CreateChapterRequest(title: self.toString(), description: self.toDescription(), aspect: AspectType.home.toString())
         case .tattooWishlist:
-            return CreateChapterRequest(title: self.toString(), description: self.toDescription(), aspect: .physical)
+            return CreateChapterRequest(title: self.toString(), description: self.toDescription(), aspect: AspectType.physical.toString())
         case .spiritualExperiences:
-            return CreateChapterRequest(title: self.toString(), description: self.toDescription(), aspect: .spiritual)
+            return CreateChapterRequest(title: self.toString(), description: self.toDescription(), aspect: AspectType.spiritual.toString())
         case .neitherHereNorThere:
-            return CreateChapterRequest(title: self.toString(), description: self.toDescription(), aspect: .fun)
+            return CreateChapterRequest(title: self.toString(), description: self.toDescription(), aspect: AspectType.fun.toString())
         case .myInsecurities:
-            return CreateChapterRequest(title: self.toString(), description: self.toDescription(), aspect: .personal)
+            return CreateChapterRequest(title: self.toString(), description: self.toDescription(), aspect: AspectType.personal.toString())
         case .songIdeas:
-            return CreateChapterRequest(title: self.toString(), description: self.toDescription(), aspect: .sideProjects)
+            return CreateChapterRequest(title: self.toString(), description: self.toDescription(), aspect: AspectType.sideProjects.toString())
         case .artsyFartsy:
-            return CreateChapterRequest(title: self.toString(), description: self.toDescription(), aspect: .sideProjects)
+            return CreateChapterRequest(title: self.toString(), description: self.toDescription(), aspect: AspectType.sideProjects.toString())
         case .inspirationalQuotes:
-            return CreateChapterRequest(title: self.toString(), description: self.toDescription(), aspect: .personal)
+            return CreateChapterRequest(title: self.toString(), description: self.toDescription(), aspect: AspectType.personal.toString())
         case .bikingTheAlps:
-            return CreateChapterRequest(title: self.toString(), description: self.toDescription(), aspect: .travel)
+            return CreateChapterRequest(title: self.toString(), description: self.toDescription(), aspect: AspectType.travel.toString())
         case .restaurantJournal:
-            return CreateChapterRequest(title: self.toString(), description: self.toDescription(), aspect: .travel)
+            return CreateChapterRequest(title: self.toString(), description: self.toDescription(), aspect: AspectType.travel.toString())
         case .personalMotivationJournal:
-            return CreateChapterRequest(title: self.toString(), description: self.toDescription(), aspect: .personal)
+            return CreateChapterRequest(title: self.toString(), description: self.toDescription(), aspect: AspectType.personal.toString())
         case .onePercentBetterEveryday:
-            return CreateChapterRequest(title: self.toString(), description: self.toDescription(), aspect: .personal)
+            return CreateChapterRequest(title: self.toString(), description: self.toDescription(), aspect: AspectType.personal.toString())
         case .seeingTheImpact:
-            return CreateChapterRequest(title: self.toString(), description: self.toDescription(), aspect: .personal)
+            return CreateChapterRequest(title: self.toString(), description: self.toDescription(), aspect: AspectType.personal.toString())
         }
     }
     

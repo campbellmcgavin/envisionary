@@ -59,5 +59,7 @@ enum StatusType: Int, CaseIterable {
         }
     }
     
-
+    static func fromString(from string: String) -> Self{
+        return Self.allCases.first(where: {$0.toString() == string}) ?? .notStarted
+    }
 }

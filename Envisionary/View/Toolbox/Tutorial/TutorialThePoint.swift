@@ -33,7 +33,7 @@ struct TutorialThePoint: View {
             .onAppear{
                 var criteria = Criteria()
                 criteria.includeCalendar = false
-                if let parent = vm.ListGoals(criteria: criteria).first(where: {$0.timeframe == .decade}){
+                if let parent = vm.ListGoals(criteria: criteria).first{
                     parentGoal = parent
                     focusGoal = parent.id
                 }
@@ -65,7 +65,7 @@ Spacer()
                         .padding(.bottom,8)
                     
                     if shouldExpand{
-                        Text("Notice how the big idea is broken into smaller ideas, starting at decade, then year, etc...")
+                        Text("Notice how the big idea is broken down into smaller ideas!!!")
                             .multilineTextAlignment(.leading)
                             .foregroundColor(.specify(color: .grey9))
                             .font(.specify(style: .h5))
@@ -75,14 +75,14 @@ Spacer()
                             .padding(.bottom,8)
                     }
                     else{
-                        TextButton(isPressed: $shouldExpand, text: "Open your goal!", color: .grey0, backgroundColor: .grey10, style:.h3, shouldHaveBackground: true, shouldFill: true, hasAnimation: true)
+                        TextIconButton(isPressed: $shouldExpand, text: "Open your goal!", color: .grey0, backgroundColor: .grey10, fontSize: .h3, shouldFillWidth: true, iconType: nil, hasAnimation: true)
                     }
 
                 
                 if openPresent{
                     ScrollView([.horizontal],showsIndicators: true){
                         HStack{
-                            TreeDiagramView(goalId: parentGoal.id, focusGoal: $focusGoal, expandedGoals: $expandedGoals, value: { goalId in
+                            TreeView(goalId: parentGoal.id, focusGoal: $focusGoal, expandedGoals: $expandedGoals, value: { goalId in
                                 BubbleView(goalId: goalId, focusGoal: $focusGoal, shouldShowStatusLabel: true)
                             }, childCount: 0)
                             .padding(.top,5)

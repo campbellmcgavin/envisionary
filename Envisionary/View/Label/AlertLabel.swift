@@ -72,7 +72,7 @@ struct AlertLabel: View {
             }
             .padding([.leading])
             .padding(.trailing,8)
-            .background(Color.specify(color: alert.alertType.GetForegroundColor()).opacity(0.15))
+            .background(Color.specify(color: alert.alertType.GetForegroundColor()).opacity(0.2))
             .foregroundColor(.specify(color: alert.alertType.GetForegroundColor()))
             .modifier(ModifierSmallCard(opacity:0.2))
             

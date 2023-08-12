@@ -16,13 +16,13 @@ struct Goal: Identifiable, Codable, Equatable, Hashable {
     var startDate: Date
     var endDate: Date
     var progress: Int
-    var aspect: AspectType
-    var timeframe: TimeframeType
+    var aspect: String
     var image: UUID?
     var parentId: UUID?
     var valuesDictionary: [String: Bool]?
+    var archived: Bool
     
-    init(id: UUID = UUID(), title: String, description: String, priority: PriorityType, startDate: Date, endDate: Date, percentComplete: Int, aspect: AspectType, timeframe: TimeframeType, image: UUID?, parent: UUID?, tasks: [UUID], journals: [UUID]){
+    init(id: UUID = UUID(), title: String, description: String, priority: PriorityType, startDate: Date, endDate: Date, percentComplete: Int, aspect: String, image: UUID?, parent: UUID?, tasks: [UUID], journals: [UUID]){
         self.id = id
         self.title = title
         self.description = description
@@ -32,9 +32,9 @@ struct Goal: Identifiable, Codable, Equatable, Hashable {
         self.progress = percentComplete
         self.image = image
         self.aspect = aspect
-        self.timeframe = timeframe
         self.parentId = parent
         self.valuesDictionary = nil
+        self.archived = false
     }
     
     init(){
@@ -45,9 +45,9 @@ struct Goal: Identifiable, Codable, Equatable, Hashable {
         self.startDate = Date()
         self.endDate = Date()
         self.progress = 0
-        self.aspect = AspectType.academic
-        self.timeframe = TimeframeType.day
+        self.aspect = AspectType.academic.toString()
         self.valuesDictionary = nil
+        self.archived = false
     }
     
     init(request: CreateGoalRequest){
@@ -59,9 +59,9 @@ struct Goal: Identifiable, Codable, Equatable, Hashable {
         self.endDate = request.endDate
         self.progress = request.progress
         self.aspect = request.aspect
-        self.timeframe = request.timeframe
         self.image = request.image
         self.parentId = request.parentId
+        self.archived = false
     }
     
     init(from entity: GoalEntity){
@@ -72,10 +72,10 @@ struct Goal: Identifiable, Codable, Equatable, Hashable {
         self.startDate = entity.startDate ?? Date()
         self.endDate = entity.endDate ?? Date()
         self.progress = Int(entity.progress)
-        self.aspect = AspectType.fromString(input: entity.aspect ?? "")
-        self.timeframe = TimeframeType.fromString(input: entity.timeframe ?? "")
+        self.aspect = entity.aspect ?? ""
         self.image = entity.image
         self.parentId = entity.parentId
+        self.archived = entity.archived
         
         do {
             let valuesDictionaryDecoded = try JSONSerialization.jsonObject(with: entity.valuesDictionary ?? Data(), options: [])
@@ -97,28 +97,6 @@ struct Goal: Identifiable, Codable, Equatable, Hashable {
         image = request.image
         aspect = request.aspect
         parentId = request.parent
+        archived = request.archived
     }
 }
-
-
-
-extension Goal {
-    
-    
-    static let sampleGoals: [Goal] =
-    [
-        Goal(title: "Empty Goal", description: "Empty Description", priority: .low, startDate: Date(), endDate: Date().ComputeEndDate(timeframeType: .day, numberOfDates: 0), percentComplete: 0, aspect: AspectType.academic, timeframe: TimeframeType.day, image: nil, parent: nil, tasks: [UUID](), journals: []),
-        
-        Goal(title: "Company Startup", description: "Start my own company", priority: .moderate, startDate: Date(), endDate: Date().ComputeEndDate(timeframeType: TimeframeType.year, numberOfDates: 2), percentComplete: 0, aspect: .career, timeframe: TimeframeType.year, image: nil, parent: nil, tasks: [UUID](), journals: []),
-        
-        Goal(title: "Charity Startup", description: "International Charitable Organization", priority: .high, startDate: Date(), endDate: Date().ComputeEndDate(timeframeType: TimeframeType.month, numberOfDates: 7), percentComplete: 0, aspect: .philanthropy, timeframe: TimeframeType.month, image: nil, parent: nil, tasks: [UUID](), journals: []),
-        
-        Goal(title: "Become Governor", description: "Become state governor", priority: .critical, startDate: Date(), endDate: Date().ComputeEndDate(timeframeType: TimeframeType.week, numberOfDates: 10), percentComplete: 0, aspect: .political, timeframe: TimeframeType.week, image: nil, parent: nil, tasks: [UUID](), journals: []),
-        
-        Goal(title: "Be a good person", description: "Be a good person",priority: .high, startDate: Date(), endDate: Date().ComputeEndDate(timeframeType: TimeframeType.day, numberOfDates: 4), percentComplete: 0, aspect: .personal, timeframe: TimeframeType.day, image: nil,  parent: nil, tasks: [UUID](), journals: []),
-        
-        Goal(title: "Spring cleaning", description: "I need to get the house all cleaned up from winter.",priority: .moderate, startDate: Date(), endDate: Date().ComputeEndDate(timeframeType: TimeframeType.week, numberOfDates: 5), percentComplete: 0, aspect: .home, timeframe: TimeframeType.week, image: nil, parent: nil, tasks: [UUID](), journals: [])
-    ]
-}
-
-

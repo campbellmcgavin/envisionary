@@ -80,7 +80,7 @@ struct SessionReviewUpcomingCard: View {
     
     @ViewBuilder
     func GetButton() -> some View{
-        TextButton(isPressed: $shouldConfirm, text: confirmed ? "Confirmed" : "Confirm", color: confirmed ? .grey7 : .grey0, backgroundColor: confirmed ? .grey4 : didAttemptToSave && !isValidForm ? .grey5 : .grey10, style: .h3, shouldHaveBackground: true)
+        TextIconButton(isPressed: $shouldConfirm, text: confirmed ? "Confirmed" : "Confirm", color: confirmed ? .grey7 : .grey0, backgroundColor: confirmed ? .grey4 : didAttemptToSave && !isValidForm ? .grey5 : .grey10, fontSize: .h3, shouldFillWidth: true, iconType: .confirm)
             .padding(.top)
             .disabled(confirmed)
     }

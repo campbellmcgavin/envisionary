@@ -10,4 +10,5 @@ import SwiftUI
 struct UpdateRecurrenceRequest {
     var amount: Int
     var isComplete: Bool
+    var archived: Bool
 }

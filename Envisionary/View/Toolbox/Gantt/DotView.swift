@@ -14,7 +14,7 @@ struct DotView: View {
     @EnvironmentObject var vm: ViewModel
     @State var image: UIImage? = nil
     var shouldShowStatusLabel: Bool = false
-    
+    var ignoreImageRefresh: Bool = false
     var body: some View {
 
         HStack{
@@ -63,9 +63,11 @@ struct DotView: View {
                 _ in
                 goal = vm.GetGoal(id: goalId) ?? Goal()
                 
-                DispatchQueue.global(qos:.background).async{
-                    if goal.image != nil {
-                        image = vm.GetImage(id: goal.image!)
+                if !ignoreImageRefresh{
+                    DispatchQueue.global(qos:.background).async{
+                        if goal.image != nil {
+                            image = vm.GetImage(id: goal.image!)
+                        }
                     }
                 }
             }
@@ -74,15 +76,9 @@ struct DotView: View {
                 VStack(alignment:.leading){
                     Text(goal.title)
                         .font(.specify(style: .caption))
-                        .lineLimit(2)
+                        .lineLimit(3)
                         .multilineTextAlignment(.leading)
                         .foregroundColor(.specify(color: .grey10))
-                    
-                    Text(goal.timeframe.toString())
-                        .textCase(.uppercase)
-                        .font(.specify(style: .subCaption))
-                        .multilineTextAlignment(.leading)
-                        .foregroundColor(.specify(color: focusGoal == goalId ? .grey10 : .grey5))
                 }
                 Spacer()
             }

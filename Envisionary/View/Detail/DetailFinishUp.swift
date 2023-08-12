@@ -13,6 +13,7 @@ struct DetailFinishUp: View {
     @State var progress: Int = 0
     @State var goal: Goal = Goal()
     @EnvironmentObject var vm: ViewModel
+    @State var hasChildren: Bool = false
     
     var body: some View {
         HStack{
@@ -21,7 +22,7 @@ struct DetailFinishUp: View {
                     .font(.specify(style: .h3))
                     .foregroundColor(.specify(color: .grey10))
                     .padding(.leading,4)
-                if goal.timeframe != .day {
+                if hasChildren {
                     if !GetIsCompleted() {
                         Text("Completing will also complete all associated sub goals.")
                             .multilineTextAlignment(.leading)
@@ -49,6 +50,7 @@ struct DetailFinishUp: View {
         }
         .onAppear{
             goal = vm.GetGoal(id: objectId) ?? Goal()
+            hasChildren = vm.ListChildGoals(id: objectId).count > 0
         }
         .onChange(of: vm.updates.goal){ _ in
             goal = vm.GetGoal(id: objectId) ?? Goal()

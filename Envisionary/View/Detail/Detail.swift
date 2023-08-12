@@ -26,6 +26,7 @@ struct Detail: View {
     @State var isPresentingImagePicker: Bool = false
     @State var newImage: UIImage? = nil
     @State var shouldMarkAsFavorite = true
+    @State var shouldMarkAsArchived = false
     @State var finishedLoading = false
     @State var shouldAllowDelete = true
     @State var shouldConvertToGoal = false
@@ -69,7 +70,7 @@ struct Detail: View {
             .ignoresSafeArea()
 
                 
-            DetailMenu(objectType: objectType, dismiss: dismiss, isPresentingModal: $isPresentingModal, modalType: $modalType, objectId: objectId, selectedObjectID: $focusObjectid, shouldMarkAsFavorite: $shouldMarkAsFavorite, finishedLoading: $finishedLoading, shouldAllowDelete: shouldAllowDelete)
+            DetailMenu(objectType: objectType, dismiss: dismiss, isPresentingModal: $isPresentingModal, modalType: $modalType, objectId: objectId, selectedObjectID: $focusObjectid, shouldMarkAsFavorite: $shouldMarkAsFavorite, shouldMarkAsArchived: $shouldMarkAsArchived, finishedLoading: $finishedLoading, shouldAllowDelete: shouldAllowDelete)
                 .frame(alignment:.top)
             
             ModalManager(isPresenting: $isPresentingModal, modalType: $modalType, convertDreamId: $convertDreamId, objectType: GetObjectType(), objectId: focusObjectid, properties: properties, statusToAdd: statusToAdd, shouldDelete: $shouldDelete)
@@ -87,9 +88,12 @@ struct Detail: View {
             focusObjectType = objectType
             RefreshImage()
             RefreshFavorite()
+            RefreshArchive()
             ShouldAllowDelete()
-            finishedLoading = true
             
+            Timer.scheduledTimer(withTimeInterval: 0.25, repeats: false) { timer in
+                finishedLoading = true
+            }
         }
         .onChange(of: shouldMarkAsFavorite){
             _ in
@@ -104,6 +108,34 @@ struct Detail: View {
                         _ = vm.DeletePrompt(id: prompt.id)
                     }
 
+                }
+            }
+        }
+        .onChange(of: shouldMarkAsArchived){
+            _ in
+            
+            if finishedLoading{
+                switch objectType {
+                case .dream:
+                    var request = UpdateDreamRequest(properties: properties)
+                    request.archived = shouldMarkAsArchived
+                    _ = vm.UpdateDream(id: objectId, request: request)
+                case .goal:
+                    _ = vm.ArchiveGoal(id: objectId, shouldArchive: shouldMarkAsArchived)
+                case .habit:
+                    var request = UpdateHabitRequest(properties: properties)
+                    request.archived = shouldMarkAsArchived
+                    _ = vm.UpdateHabit(id: objectId, request: request)
+                case .chapter:
+                    var request = UpdateChapterRequest(properties: properties)
+                    request.archived = shouldMarkAsArchived
+                    _ = vm.UpdateChapter(id: objectId, request: request)
+                case .entry:
+                    var request = UpdateEntryRequest(properties: properties)
+                    request.archived = shouldMarkAsArchived
+                    _ = vm.UpdateEntry(id: objectId, request: request)
+                default:
+                    let _ = "why"
                 }
             }
         }
@@ -190,16 +222,16 @@ struct Detail: View {
     }
     
     func RefreshFavorite(){
-        withAnimation{
-            shouldMarkAsFavorite = vm.ListPrompts(criteria: Criteria(type: .favorite)).contains(where:{$0.objectId != nil && $0.objectId == objectId})
-        }
+        shouldMarkAsFavorite = vm.ListPrompts(criteria: Criteria(type: .favorite)).contains(where:{$0.objectId != nil && $0.objectId == objectId})
+    }
+    
+    func RefreshArchive(){
+        shouldMarkAsArchived = properties.archived ?? false
     }
     
     func RefreshImage(){
         if properties.image != nil {
-            withAnimation{
-                image = vm.GetImage(id: properties.image!)
-            }
+            image = vm.GetImage(id: properties.image!)
         }
     }
     

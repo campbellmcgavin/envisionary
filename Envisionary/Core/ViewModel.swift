@@ -4,7 +4,6 @@ import CoreData
 
 class ViewModel: ObservableObject, DataServiceProtocol
 {
-    
     // MARK: - DATA SERVICE
     private let dataService = DataService()
     
@@ -71,7 +70,7 @@ class ViewModel: ObservableObject, DataServiceProtocol
         
         return dataService.ListGoals(criteria: criteria, limit: limit)
     }
-        
+    
     func ListChildGoals(id: UUID) -> [Goal]{
         
         return dataService.ListChildGoals(id: id)
@@ -82,14 +81,45 @@ class ViewModel: ObservableObject, DataServiceProtocol
         return dataService.ListAffectedGoals(id: id)
     }
     
-    func GroupGoals(criteria: Criteria = Criteria(), grouping: GroupingType) -> [String:[Goal]]{
-                
-        return dataService.GroupGoals(criteria: criteria, grouping: grouping)
+    func GroupGoals(criteria: Criteria = Criteria(), grouping: GroupingType, excludeGoalsWithChildren: Bool = false) -> [String:[Goal]]{
+        
+        return dataService.GroupGoals(criteria: criteria, grouping: grouping, excludeGoalsWithChildren: excludeGoalsWithChildren)
+    }
+    
+    func UpdateGoals(requestDictionary: [UUID: UpdateGoalRequest]) -> Bool {
+        
+        requestDictionary.forEach({ id, request in
+            _ = dataService.UpdateGoal(id: id, request: request)
+        })
+        
+        GoalsDidChange()
+        
+        return true
     }
     
     func UpdateGoal(id: UUID, request: UpdateGoalRequest) -> Bool {
+        let returnVal = dataService.UpdateGoal(id: id, request: request)
         GoalsDidChange()
-        return dataService.UpdateGoal(id: id, request: request)
+        return returnVal
+    }
+    
+    func ArchiveGoal(id: UUID, shouldArchive: Bool) -> Bool {
+        
+        if let parentGoal = self.GetParentGoal(id: id){
+            let affectedGoals = self.ListAffectedGoals(id: parentGoal.id)
+            
+            var affectedGoalsDictionary = [UUID:UpdateGoalRequest]()
+            affectedGoals.forEach({
+                var request = UpdateGoalRequest(goal: $0)
+                request.archived = shouldArchive
+                
+                affectedGoalsDictionary[$0.id] = request
+            })
+            
+            let returnVal = UpdateGoals(requestDictionary: affectedGoalsDictionary)
+            return returnVal
+        }
+        return false
     }
     
     func UpdateGoalProgress(id: UUID, progress: Int) -> Bool{
@@ -125,45 +155,51 @@ class ViewModel: ObservableObject, DataServiceProtocol
         return true
     }
     
+    func ListGoalDescendency(id: UUID) -> [Goal]{
+        var descendency = [Goal]()
+        var parentGoal = dataService.GetGoal(id: id)
+        
+        if let parentGoal {
+            descendency.append(parentGoal)
+        }
+        while parentGoal != nil {
+            if let parentId = parentGoal?.parentId{
+                parentGoal = dataService.GetGoal(id: parentId)
+                
+                if let parentGoal{
+                    descendency.append(parentGoal)
+                }
+            }
+            else{
+                return descendency
+            }
+        }
+        return descendency
+    }
+    
+    func GetParentGoal(id: UUID) -> Goal?{
+        var parentGoal = dataService.GetGoal(id: id)
+        
+        while parentGoal?.parentId != nil {
+            if let parentId = parentGoal?.parentId{
+                parentGoal = dataService.GetGoal(id: parentId)
+            }
+            else{
+                return nil
+            }
+        }
+        return parentGoal
+    }
+    
     func DeleteGoal(id: UUID) -> Bool{
         GoalsDidChange()
         return dataService.DeleteGoal(id: id)
     }
     
     private func GoalsDidChange(){
-        updates.goal.toggle() }
-
-// MARK: - TASKS
-
-//    func CreateTask(request: CreateTaskRequest) -> UUID{
-//        TasksDidChange()
-//        return dataService.CreateTask(request: request)
-//    }
-//
-//    func GetTask(id: UUID) -> Task?{
-//        TasksDidChange()
-//        return dataService.GetTask(id: id)
-//    }
-//
-//    func ListTasks(criteria: Criteria = Criteria(), limit: Int = 50) -> [Task] {
-//        return dataService.ListTasks(criteria: criteria, limit: limit)
-//    }
-//
-//    func GroupTasks(criteria: Criteria = Criteria(), grouping: GroupingType) -> [String : [Task]] {
-//        return dataService.GroupTasks(criteria: criteria, grouping: grouping)
-//    }
-//
-//    func UpdateTask(id: UUID, request: UpdateTaskRequest) -> Bool {
-//        TasksDidChange()
-//        return dataService.UpdateTask(id: id, request: request)
-//    }
-//
-//    func DeleteTask(id: UUID) -> Bool {
-//        TasksDidChange()
-//        return dataService.DeleteTask(id: id)
-//    }
-//
-//    private func TasksDidChange(){ updates.task.toggle() }
+        updates.goal.toggle()
+    }
+    
     // MARK: - OBJECT WIDE OPERATIONS
     func WipeDate() -> Bool{
         
@@ -220,12 +256,12 @@ class ViewModel: ObservableObject, DataServiceProtocol
     }
     
     // MARK: - ASPECTS
-
+    
     func CreateAspect(request: CreateAspectRequest) -> UUID{
         AspectsDidChange()
         return dataService.CreateAspect(request: request)
     }
-
+    
     func GetAspect(id: UUID) -> Aspect?{
         return dataService.GetAspect(id: id)
     }
@@ -248,17 +284,17 @@ class ViewModel: ObservableObject, DataServiceProtocol
     private func AspectsDidChange(){ updates.aspect.toggle() }
     
     
-// MARK: - DREAM
-
+    // MARK: - DREAM
+    
     func CreateDream(request: CreateDreamRequest) -> UUID{
         DreamsDidChange()
         return dataService.CreateDream(request: request)
     }
-
+    
     func GetDream(id: UUID) -> Dream?{
         return dataService.GetDream(id: id)
     }
-
+    
     func ListDreams(criteria: Criteria = Criteria(), limit: Int = 50) -> [Dream] {
         return dataService.ListDreams(criteria: criteria)
     }
@@ -271,7 +307,7 @@ class ViewModel: ObservableObject, DataServiceProtocol
         DreamsDidChange()
         return dataService.UpdateDream(id: id, request: request)
     }
-
+    
     func DeleteDream(id: UUID) -> Bool {
         DreamsDidChange()
         return dataService.DeleteDream(id: id)
@@ -280,13 +316,13 @@ class ViewModel: ObservableObject, DataServiceProtocol
     private func DreamsDidChange(){ updates.dream.toggle() }
     
     
-// MARK: - CORE VALUE
-
+    // MARK: - CORE VALUE
+    
     func CreateCoreValue(request: CreateCoreValueRequest) -> UUID{
         CoreValuesDidChange()
         return dataService.CreateCoreValue(request: request)
     }
-
+    
     func GetCoreValue(id: UUID) -> CoreValue?{
         return dataService.GetCoreValue(id: id)
     }
@@ -294,7 +330,7 @@ class ViewModel: ObservableObject, DataServiceProtocol
     func GetCoreValue(coreValue: ValueType) -> CoreValue?{
         return dataService.GetCoreValue(coreValue: coreValue)
     }
-
+    
     func ListCoreValues(criteria: Criteria = Criteria(), limit: Int = 50, filterIntroConc: Bool = true) -> [CoreValue]{
         let list = dataService.ListCoreValues(criteria: criteria, limit: limit, filterIntroConc: filterIntroConc)
         return list
@@ -303,7 +339,7 @@ class ViewModel: ObservableObject, DataServiceProtocol
         CoreValuesDidChange()
         return dataService.UpdateCoreValue(id: id, request: request)
     }
-
+    
     func DeleteCoreValue(id: UUID) -> Bool {
         CoreValuesDidChange()
         return dataService.DeleteCoreValue(id: id)
@@ -311,17 +347,17 @@ class ViewModel: ObservableObject, DataServiceProtocol
     
     private func CoreValuesDidChange(){ updates.value.toggle() }
     
-// MARK: - CHAPTER
-
+    // MARK: - CHAPTER
+    
     func CreateChapter(request: CreateChapterRequest) -> UUID{
         ChaptersDidChange()
         return dataService.CreateChapter(request: request)
     }
-
+    
     func GetChapter(id: UUID) -> Chapter?{
         return dataService.GetChapter(id: id)
     }
-
+    
     func ListChapters(criteria: Criteria = Criteria(), limit: Int = 50) -> [Chapter] {
         return dataService.ListChapters(criteria: criteria)
     }
@@ -334,7 +370,7 @@ class ViewModel: ObservableObject, DataServiceProtocol
         ChaptersDidChange()
         return dataService.UpdateChapter(id: id, request: request)
     }
-
+    
     func DeleteChapter(id: UUID) -> Bool {
         ChaptersDidChange()
         return dataService.DeleteChapter(id: id)
@@ -342,17 +378,17 @@ class ViewModel: ObservableObject, DataServiceProtocol
     
     private func ChaptersDidChange(){ updates.chapter.toggle() }
     
-// MARK: - Entry
-
+    // MARK: - Entry
+    
     func CreateEntry(request: CreateEntryRequest) -> UUID{
         EntriesDidChange()
         return dataService.CreateEntry(request: request)
     }
-
+    
     func GetEntry(id: UUID) -> Entry?{
         return dataService.GetEntry(id: id)
     }
-
+    
     func ListEntries(criteria: Criteria = Criteria(), limit: Int = 50) -> [Entry] {
         return dataService.ListEntries(criteria: criteria)
     }
@@ -365,7 +401,7 @@ class ViewModel: ObservableObject, DataServiceProtocol
         EntriesDidChange()
         return dataService.UpdateEntry(id: id, request: request)
     }
-
+    
     func DeleteEntry(id: UUID) -> Bool {
         EntriesDidChange()
         return dataService.DeleteEntry(id: id)
@@ -373,21 +409,21 @@ class ViewModel: ObservableObject, DataServiceProtocol
     
     private func EntriesDidChange(){ updates.entry.toggle() }
     
-// MARK: - SESSION
-
+    // MARK: - SESSION
+    
     func CreateSession(request: CreateSessionRequest) -> UUID{
         SessionsDidChange()
         return dataService.CreateSession(request: request)
     }
-
+    
     func GetSession(id: UUID) -> Session?{
         return dataService.GetSession(id: id)
     }
-
+    
     func ListSessions(criteria: Criteria = Criteria(), limit: Int = 50) -> [Session] {
         return dataService.ListSessions(criteria: criteria)
     }
-
+    
     func DeleteSession(id: UUID) -> Bool {
         SessionsDidChange()
         return dataService.DeleteSession(id: id)
@@ -395,28 +431,28 @@ class ViewModel: ObservableObject, DataServiceProtocol
     
     private func SessionsDidChange(){ updates.session.toggle() }
     
-// MARK: - PROMPT
-
+    // MARK: - PROMPT
+    
     func CreatePrompt(request: CreatePromptRequest) -> UUID{
         PromptsDidChange()
         return dataService.CreatePrompt(request: request)
     }
-
+    
     func GetPrompt(id: UUID) -> Prompt?{
         return dataService.GetPrompt(id: id)
     }
-
+    
     func ListPrompts(criteria: Criteria = Criteria(), limit: Int = 50) -> [Prompt] {
         return dataService.ListPrompts(criteria: criteria)
     }
-
+    
     func DeletePrompt(id: UUID) -> Bool {
         PromptsDidChange()
         return dataService.DeletePrompt(id: id)
     }
     
     private func PromptsDidChange(){ updates.prompt.toggle() }
-
+    
     // MARK: - HABITS
     
     func CreateHabit(request: CreateHabitRequest) -> UUID{
@@ -435,13 +471,14 @@ class ViewModel: ObservableObject, DataServiceProtocol
     }
     
     func GroupHabits(criteria: Criteria = Criteria(), grouping: GroupingType) -> [String:[Habit]]{
-                
+        
         return dataService.GroupHabits(criteria: criteria, grouping: grouping)
     }
     
     func UpdateHabit(id: UUID, request: UpdateHabitRequest) -> Bool {
+        let response = dataService.UpdateHabit(id: id, request: request)
         HabitsDidChange()
-        return dataService.UpdateHabit(id: id, request: request)
+        return response
     }
     
     func DeleteHabit(id: UUID) -> Bool{
@@ -472,7 +509,7 @@ class ViewModel: ObservableObject, DataServiceProtocol
     }
     
     func GroupRecurrences(criteria: Criteria = Criteria(), grouping: GroupingType) -> [String:[Recurrence]]{
-                
+        
         return dataService.GroupRecurrences(criteria: criteria, grouping: grouping)
     }
     
@@ -491,49 +528,76 @@ class ViewModel: ObservableObject, DataServiceProtocol
         updates.recurrence.toggle() }
     
     // MARK: - EMOTION
-
-        func CreateEmotion(request: CreateEmotionRequest) -> UUID{
-            EmotionsDidChange()
-            return dataService.CreateEmotion(request: request)
-        }
-
-        func GetEmotion(id: UUID) -> Emotion?{
-            return dataService.GetEmotion(id: id)
-        }
-
-        func ListEmotions(criteria: Criteria = Criteria(), limit: Int = 50) -> [Emotion] {
-            return dataService.ListEmotions(criteria: criteria)
-        }
-
-        func DeleteEmotion(id: UUID) -> Bool {
-            EmotionsDidChange()
-            return dataService.DeleteEmotion(id: id)
-        }
+    
+    func CreateEmotion(request: CreateEmotionRequest) -> UUID{
+        EmotionsDidChange()
+        return dataService.CreateEmotion(request: request)
+    }
+    
+    func GetEmotion(id: UUID) -> Emotion?{
+        return dataService.GetEmotion(id: id)
+    }
+    
+    func ListEmotions(criteria: Criteria = Criteria(), limit: Int = 50) -> [Emotion] {
+        return dataService.ListEmotions(criteria: criteria)
+    }
+    
+    func DeleteEmotion(id: UUID) -> Bool {
+        EmotionsDidChange()
+        return dataService.DeleteEmotion(id: id)
+    }
     func GroupEmotions(criteria: Criteria = Criteria()) -> [String:[Emotion]]{
         return dataService.GroupEmotions(criteria: criteria)
     }
-        
-        private func EmotionsDidChange(){ updates.emotion.toggle() }
+    
+    private func EmotionsDidChange(){ updates.emotion.toggle() }
     
     // MARK: - ACTIVITY
-
+    
     func CreateActivity(request: CreateActivityRequest) -> UUID{
         ActivitiesDidChange()
         return dataService.CreateActivity(request: request)
     }
-
+    
     func GetActivity(id: UUID) -> Activity?{
         return dataService.GetActivity(id: id)
     }
-
+    
     func ListActivities(limit: Int = 50) -> [Activity] {
         return dataService.ListActivities(limit: limit)
     }
-
+    
     func DeleteActivity(id: UUID) -> Bool {
         ActivitiesDidChange()
         return dataService.DeleteActivity(id: id)
     }
     
     private func ActivitiesDidChange(){ updates.activity.toggle() }
+    
+    // MARK: - CORE VALUE RATING
+    
+    func CreateCoreValueRating(request: CreateCoreValueRatingRequest) -> UUID{
+        CoreValueRatingDidChange()
+        return dataService.CreateCoreValueRating(request: request)
+    }
+    
+    func GetCoreValueRating(id: UUID) -> CoreValueRating?{
+        return dataService.GetCoreValueRating(id: id)
+    }
+    
+    func ListCoreValueRatings(criteria: Criteria = Criteria(), limit: Int = 50) -> [CoreValueRating] {
+        return dataService.ListCoreValueRatings(criteria: criteria, limit: limit)
+    }
+    
+    func UpdateCoreValueRating(id: UUID, request: UpdateCoreValueRatingRequest) -> Bool {
+        CoreValueRatingDidChange()
+        return dataService.UpdateCoreValueRating(id: id, request: request)
+    }
+    
+    func DeleteCoreValueRating(id: UUID) -> Bool {
+        CoreValueRatingDidChange()
+        return dataService.DeleteCoreValueRating(id: id)
+    }
+    
+    private func CoreValueRatingDidChange(){ updates.valueRating.toggle() }
 }

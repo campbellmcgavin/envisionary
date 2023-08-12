@@ -14,85 +14,87 @@ struct ModalSearch: View {
     @State var objectType: ObjectType
     @State var searchString = ""
     @State var objectsFiltered = [Properties]()
+    @State var shouldShowArchivedOnly = false
+    @State var shouldShowSuperOnly = false
+    @State var shouldShowAspectOnly = ""
+    @State var shouldShowPriorityOnly = ""
+    @State var shouldShowProgressOnly = ""
     
-    @State var shouldShowObject = false
     @EnvironmentObject var vm: ViewModel
     var body: some View {
         
-        Modal(modalType: .search, objectType: objectType, isPresenting: $isPresenting, shouldConfirm: .constant(false), isPresentingImageSheet: .constant(false), allowConfirm: true, modalContent: { GetContent() }, headerContent: { EmptyView() }, bottomContent: {EmptyView()}, betweenContent: {EmptyView()})
+        Modal(modalType: .search, objectType: objectType, isPresenting: $isPresenting, shouldConfirm: .constant(false), isPresentingImageSheet: .constant(false), allowConfirm: true, modalContent: { GetContent() }, headerContent: { EmptyView() }, bottomContent: {EmptyView()},
+              betweenContent: {
+            HStack{
+                
+                FormFilterStack(objectType: objectType, archived: $shouldShowArchivedOnly, superGoal: $shouldShowSuperOnly, aspect: $shouldShowAspectOnly, priority: $shouldShowPriorityOnly, progress: $shouldShowProgressOnly)
+                
+//                TextIconButton(isPressed: $shouldShowArchivedOnly, text: "Archived", color: .grey10, backgroundColor: shouldShowArchivedOnly ? .purple : .grey3, fontSize: .caption, shouldFillWidth: false, iconType: .archived_filled)
+//
+//                if objectType == .goal{
+//                    TextIconButton(isPressed: $shouldShowSuperOnly, text: "Super goals", color: .grey10, backgroundColor: shouldShowSuperOnly ? .purple : .grey3, fontSize: .caption, shouldFillWidth: false, iconType: .maximize)
+//                }
+//
+//                Spacer()
+            }
+        })
         .onChange(of:searchString){ _ in
             GetFullList()
         }
-        .onChange(of: vm.filtering.filterObject){ _ in
+        .onChange(of: shouldShowArchivedOnly){
+            _ in
+            GetFullList()
+        }
+        .onChange(of: shouldShowAspectOnly){
+            _ in
+            GetFullList()
+        }
+        .onChange(of: shouldShowProgressOnly){
+            _ in
+            GetFullList()
+        }
+        .onChange(of: shouldShowPriorityOnly){
+            _ in
+            GetFullList()
+        }
+        .onChange(of: vm.filtering.filterObject){
+            _ in
             objectType = vm.filtering.filterObject
             GetFullList()
         }
+        .onChange(of: shouldShowSuperOnly){
+            _ in
+            GetFullList()
+        }
         .onAppear{
-            objectType = vm.filtering.filterObject
             GetFullList()
         }
     }
     
     func GetFullList(){
+        var criteria = Criteria()
+        
+        criteria.archived = shouldShowArchivedOnly
+        criteria.includeCalendar = !shouldShowSuperOnly
+        criteria.progress = shouldShowProgressOnly.count > 0 ? StatusType.fromString(from: shouldShowProgressOnly).toInt() : nil
+        criteria.priority = shouldShowPriorityOnly.count > 0 ? PriorityType.fromString(input: shouldShowPriorityOnly) : nil
+        criteria.aspect = shouldShowAspectOnly.count > 0 ? shouldShowAspectOnly : nil
+        
+        if searchString.count > 0{
+            criteria.title = searchString
+        }
+        
         switch objectType {
-        case .value:
-            if searchString.count == 0 {
-                objectsFiltered = vm.ListCoreValues(criteria: Criteria()).map({Properties(value: $0)})
-            }
-            else{
-                objectsFiltered = vm.ListCoreValues(criteria: Criteria(title: searchString)).map({Properties(value: $0)})
-            }
         case .dream:
-            if searchString.count == 0 {
-                objectsFiltered = vm.ListDreams(criteria: Criteria()).map({Properties(dream: $0)})
-            }
-            else{
-                objectsFiltered = vm.ListDreams(criteria: Criteria(title: searchString)).map({Properties(dream: $0)})
-            }
-        case .aspect:
-            if searchString.count == 0 {
-                objectsFiltered = vm.ListAspects(criteria: Criteria()).map({Properties(aspect: $0)})
-            }
-            else{
-                var criteria = Criteria()
-                criteria.aspect = searchString
-                objectsFiltered = vm.ListAspects(criteria: Criteria(title: searchString)).map({Properties(aspect: $0)})
-            }
+            objectsFiltered = vm.ListDreams(criteria: criteria).map({Properties(dream: $0)})
         case .goal:
-            if searchString.count == 0 {
-                objectsFiltered = vm.ListGoals(criteria: Criteria()).map({Properties(goal: $0)})
-            }
-            else{
-                objectsFiltered = vm.ListGoals(criteria: Criteria(title: searchString)).map({Properties(goal: $0)})
-            }
+            objectsFiltered = vm.ListGoals(criteria: criteria).map({Properties(goal: $0)})
         case .habit:
-            if searchString.count == 0 {
-                objectsFiltered = vm.ListHabits().map({Properties(habit: $0)})
-            }
-            else{
-                objectsFiltered = vm.ListHabits(criteria: Criteria(title: searchString)).map({Properties(habit: $0)})
-            }
-//        case .task:
-//            if searchString.count == 0 {
-//                objectsFiltered = vm.ListTasks(criteria: Criteria()).map({Properties(task: $0)})
-//            }
-//            else{
-//                objectsFiltered = vm.ListTasks(criteria: Criteria(title: searchString)).map({Properties(task: $0)})
-//            }
+            objectsFiltered = vm.ListHabits(criteria: criteria).map({Properties(habit: $0)})
         case .chapter:
-            if searchString.count == 0 {
-                objectsFiltered = vm.ListChapters().map({Properties(chapter: $0)})
-            }
-            else{
-                objectsFiltered = vm.ListChapters(criteria: Criteria(title: searchString)).map({Properties(chapter: $0)})
-            }
+            objectsFiltered = vm.ListChapters(criteria: criteria).map({Properties(chapter: $0)})
         case .entry:
-            if searchString.count == 0 {
-                objectsFiltered = vm.ListEntries().map({Properties(entry: $0)})
-            }
-            else{
-                objectsFiltered = vm.ListEntries(criteria: Criteria(title: searchString)).map({Properties(entry: $0)})
-            }
+            objectsFiltered = vm.ListEntries(criteria: criteria).map({Properties(entry: $0)})
         default:
             let _ = "why"
         }
@@ -111,6 +113,12 @@ struct ModalSearch: View {
                     properties in
                     PhotoCard(objectType: objectType, objectId: properties.id, properties: properties)
                 }
+            }
+            
+            if objectsFiltered.count == 0 {
+                LabelAstronaut(opacity: 1.0)
+                    .padding(.top,80)
+                    .padding(.bottom,80)
             }
         }
     }

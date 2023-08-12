@@ -25,7 +25,7 @@ struct FormPropertiesMiniStackWithButtons: View {
             
             if isPresentingNewGoal {
                 VStack(alignment:.leading){
-                    Text("Add " + (goal?.timeframe.toChildTimeframe().toString() ?? "") + " Goal")
+                    Text("Add Goal")
                         .font(.specify(style: .h3))
                         .foregroundColor(.specify(color: .grey10))
                         .frame(alignment:.leading)
@@ -43,10 +43,10 @@ struct FormPropertiesMiniStackWithButtons: View {
                 FormPropertiesStack(properties: $properties, images: .constant([UIImage]()), isPresentingPhotoSource: .constant(false), isValidForm: $isValidForm, didAttemptToSave: $didAttemptToSave, objectType: .goal, modalType: .add, isSimple: true)
                     .padding(.bottom)
                 
-                TextButton(isPressed: $shouldAddGoal, text: "Add goal", color: .grey2, backgroundColor: !isValidForm && didAttemptToSave ? .grey3 : .grey10, style: .h3, shouldHaveBackground: true)
+                TextIconButton(isPressed: $shouldAddGoal, text: "Add goal", color: .grey2, backgroundColor: !isValidForm && didAttemptToSave ? .grey3 : .grey10, fontSize: .h3, shouldFillWidth: true, iconType: .add)
                     .disabled(!isValidForm)
             }
-            TextButton(isPressed: $isPresentingNewGoal, text: isPresentingNewGoal ? "Cancel" : "Add goal", color: isPresentingNewGoal ? .grey10 : .grey10, backgroundColor: isPresentingNewGoal ? .grey4 : .grey5, style: .h3, shouldHaveBackground: true)
+            TextIconButton(isPressed: $isPresentingNewGoal, text: isPresentingNewGoal ? "Cancel" : "Add goal", color: isPresentingNewGoal ? .grey10 : .grey10, backgroundColor: isPresentingNewGoal ? .grey4 : .grey5, fontSize: .h3, shouldFillWidth: true, iconType: isPresentingNewGoal ? .cancel : .add)
         }
         .padding(8)
         .modifier(ModifierForm(color: isPresentingNewGoal ? .grey15 : .clear))
@@ -65,11 +65,10 @@ struct FormPropertiesMiniStackWithButtons: View {
             goal = vm.GetGoal(id: objectId)
             if let goal{
                 properties.priority = goal.priority
-                properties.timeframe = goal.timeframe.toChildTimeframe()
                 properties.aspect = goal.aspect
                 properties.parentGoalId = goal.id
                 properties.startDate = goal.startDate
-                properties.endDate = goal.startDate.AdvanceDate(timeframe: goal.timeframe.toChildTimeframe(), forward: true)
+                properties.endDate = goal.endDate
             }
         }
     }

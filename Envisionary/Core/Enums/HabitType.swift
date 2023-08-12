@@ -72,33 +72,33 @@ enum HabitType: CaseIterable {
     func toRequest() -> CreateHabitRequest{
         switch self {
         case .brushTeeth:
-            return CreateHabitRequest(title: self.toString(), priority: .moderate, startDate: Date(), endDate: Date().AdvanceMonth(forward: true), schedule: .aCertainAmountPerDay, amount: 2, unitOfMeasure: .times, image: nil, aspect: .personal, timeframe: .month)
+            return CreateHabitRequest(title: self.toString(), priority: .moderate, startDate: Date(), endDate: Date().AdvanceMonth(forward: true), schedule: .aCertainAmountPerDay, amount: 2, unitOfMeasure: .times, image: nil, aspect: AspectType.personal.toString(), timeframe: .month)
         case .readABook:
-            return CreateHabitRequest(title: self.toString(), priority: .moderate, startDate: Date(), endDate: Date().AdvanceMonth(forward: true), schedule: .aCertainAmountPerDay, amount: 2, unitOfMeasure: .hours, image: nil, aspect: .academic, timeframe: .month)
+            return CreateHabitRequest(title: self.toString(), priority: .moderate, startDate: Date(), endDate: Date().AdvanceMonth(forward: true), schedule: .aCertainAmountPerDay, amount: 2, unitOfMeasure: .hours, image: nil, aspect: AspectType.academic.toString(), timeframe: .month)
         case .dailyExercise:
-            return CreateHabitRequest(title: self.toString(), priority: .moderate, startDate: Date(), endDate: Date().AdvanceMonth(forward: true), schedule: .aCertainAmountPerDay, amount: 30, unitOfMeasure: .minutes, image: nil, aspect: .physical, timeframe: .month)
+            return CreateHabitRequest(title: self.toString(), priority: .moderate, startDate: Date(), endDate: Date().AdvanceMonth(forward: true), schedule: .aCertainAmountPerDay, amount: 30, unitOfMeasure: .minutes, image: nil, aspect: AspectType.physical.toString(), timeframe: .month)
         case .makeBed:
-            return CreateHabitRequest(title: self.toString(), priority: .moderate, startDate: Date(), endDate: Date().AdvanceMonth(forward: true), schedule: .oncePerDay, amount: 0, unitOfMeasure: .times, image: nil, aspect: .personal, timeframe: .month)
+            return CreateHabitRequest(title: self.toString(), priority: .moderate, startDate: Date(), endDate: Date().AdvanceMonth(forward: true), schedule: .oncePerDay, amount: 0, unitOfMeasure: .times, image: nil, aspect: AspectType.personal.toString(), timeframe: .month)
         case .getUp6am:
-            return CreateHabitRequest(title: self.toString(), priority: .moderate, startDate: Date(), endDate: Date().AdvanceMonth(forward: true), schedule: .oncePerDay, amount: 0, unitOfMeasure: .times, image: nil, aspect: .personal, timeframe: .month)
+            return CreateHabitRequest(title: self.toString(), priority: .moderate, startDate: Date(), endDate: Date().AdvanceMonth(forward: true), schedule: .oncePerDay, amount: 0, unitOfMeasure: .times, image: nil, aspect: AspectType.personal.toString(), timeframe: .month)
         case .goToBe10pm:
-            return CreateHabitRequest(title: self.toString(), priority: .moderate, startDate: Date(), endDate: Date().AdvanceMonth(forward: true), schedule: .oncePerDay, amount: 0, unitOfMeasure: .times, image: nil, aspect: .personal, timeframe: .month)
+            return CreateHabitRequest(title: self.toString(), priority: .moderate, startDate: Date(), endDate: Date().AdvanceMonth(forward: true), schedule: .oncePerDay, amount: 0, unitOfMeasure: .times, image: nil, aspect: AspectType.personal.toString(), timeframe: .month)
         case .eatHealthy:
-            return CreateHabitRequest(title: self.toString(), priority: .moderate, startDate: Date(), endDate: Date().AdvanceMonth(forward: true), schedule: .aCertainAmountPerDay, amount: 3, unitOfMeasure: .times, image: nil, aspect: .personal, timeframe: .month)
+            return CreateHabitRequest(title: self.toString(), priority: .moderate, startDate: Date(), endDate: Date().AdvanceMonth(forward: true), schedule: .aCertainAmountPerDay, amount: 3, unitOfMeasure: .times, image: nil, aspect: AspectType.personal.toString(), timeframe: .month)
         case .drink8glassesWater:
-            return CreateHabitRequest(title: self.toString(), priority: .moderate, startDate: Date(), endDate: Date().AdvanceMonth(forward: true), schedule: .aCertainAmountPerDay, amount: 8, unitOfMeasure: .times, image: nil, aspect: .personal, timeframe: .month)
+            return CreateHabitRequest(title: self.toString(), priority: .moderate, startDate: Date(), endDate: Date().AdvanceMonth(forward: true), schedule: .aCertainAmountPerDay, amount: 8, unitOfMeasure: .times, image: nil, aspect: AspectType.personal.toString(), timeframe: .month)
         case .learnNewVocabWord:
-            return CreateHabitRequest(title: self.toString(), priority: .moderate, startDate: Date(), endDate: Date().AdvanceMonth(forward: true), schedule: .oncePerDay, amount: 0, unitOfMeasure: .times, image: nil, aspect: .academic, timeframe: .month)
+            return CreateHabitRequest(title: self.toString(), priority: .moderate, startDate: Date(), endDate: Date().AdvanceMonth(forward: true), schedule: .oncePerDay, amount: 0, unitOfMeasure: .times, image: nil, aspect: AspectType.academic.toString(), timeframe: .month)
         case .driveUnderSpeedLimit:
-            return CreateHabitRequest(title: self.toString(), priority: .moderate, startDate: Date(), endDate: Date().AdvanceMonth(forward: true), schedule: .oncePerDay, amount: 0, unitOfMeasure: .times, image: nil, aspect: .environment, timeframe: .month)
+            return CreateHabitRequest(title: self.toString(), priority: .moderate, startDate: Date(), endDate: Date().AdvanceMonth(forward: true), schedule: .oncePerDay, amount: 0, unitOfMeasure: .times, image: nil, aspect: AspectType.environment.toString(), timeframe: .month)
         case .connectWithFriend:
-            return CreateHabitRequest(title: self.toString(), priority: .moderate, startDate: Date(), endDate: Date().AdvanceMonth(forward: true), schedule: .oncePerDay, amount: 0, unitOfMeasure: .times, image: nil, aspect: .emotional, timeframe: .month)
+            return CreateHabitRequest(title: self.toString(), priority: .moderate, startDate: Date(), endDate: Date().AdvanceMonth(forward: true), schedule: .oncePerDay, amount: 0, unitOfMeasure: .times, image: nil, aspect: AspectType.emotional.toString(), timeframe: .month)
         case .pullUpChallenge:
-            return CreateHabitRequest(title: self.toString(), priority: .moderate, startDate: Date(), endDate: Date().AdvanceMonth(forward: true), schedule: .oncePerDay, amount: 0, unitOfMeasure: .times, image: nil, aspect: .personal, timeframe: .month)
+            return CreateHabitRequest(title: self.toString(), priority: .moderate, startDate: Date(), endDate: Date().AdvanceMonth(forward: true), schedule: .oncePerDay, amount: 0, unitOfMeasure: .times, image: nil, aspect: AspectType.personal.toString(), timeframe: .month)
         case .save$20:
-            return CreateHabitRequest(title: self.toString(), priority: .moderate, startDate: Date(), endDate: Date().AdvanceMonth(forward: true), schedule: .oncePerDay, amount: 20, unitOfMeasure: .dollars, image: nil, aspect: .financial, timeframe: .month)
+            return CreateHabitRequest(title: self.toString(), priority: .moderate, startDate: Date(), endDate: Date().AdvanceMonth(forward: true), schedule: .oncePerDay, amount: 20, unitOfMeasure: .dollars, image: nil, aspect: AspectType.financial.toString(), timeframe: .month)
         case .newPerson:
-            return CreateHabitRequest(title: self.toString(), priority: .moderate, startDate: Date(), endDate: Date().AdvanceMonth(forward: true), schedule: .oncePerDay, amount: 0, unitOfMeasure: .times, image: nil, aspect: .social, timeframe: .month)
+            return CreateHabitRequest(title: self.toString(), priority: .moderate, startDate: Date(), endDate: Date().AdvanceMonth(forward: true), schedule: .oncePerDay, amount: 0, unitOfMeasure: .times, image: nil, aspect: AspectType.social.toString(), timeframe: .month)
         }
     }
     

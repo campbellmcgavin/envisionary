@@ -45,7 +45,6 @@ struct FormEmotionalStatePicker: View {
                     }
                 }
                 .padding()
-
             }
         }
         .modifier(ModifierForm(color:.grey15))

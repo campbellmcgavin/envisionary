@@ -16,11 +16,12 @@ struct UpdateGoalRequest{
     var endDate: Date = Date()
     var progress: Int = 0
     var image: UUID? = nil
-    var aspect: AspectType = .academic
+    var aspect: String = AspectType.academic.toString()
     var parent: UUID? = nil
     var valuesDictionary: [String:Bool]? = nil
+    var archived: Bool = false
 
-    init(title: String, description: String, priority: PriorityType, startDate: Date, endDate: Date, percentComplete: Int, image: UUID, aspect: AspectType, parent: UUID, valuesDictionary: [String:Bool])
+    init(title: String, description: String, priority: PriorityType, startDate: Date, endDate: Date, percentComplete: Int, image: UUID, aspect: String, parent: UUID, valuesDictionary: [String:Bool], archived: Bool)
     {
         self.title = title
         self.description = description
@@ -32,6 +33,7 @@ struct UpdateGoalRequest{
         self.aspect = aspect
         self.parent = parent
         self.valuesDictionary = valuesDictionary
+        self.archived = archived
     }
     
     init(goal: Goal){
@@ -45,6 +47,7 @@ struct UpdateGoalRequest{
         self.aspect = goal.aspect
         self.parent = goal.parentId
         self.valuesDictionary = goal.valuesDictionary
+        self.archived = goal.archived
     }
     
     init(properties: Properties){
@@ -55,8 +58,9 @@ struct UpdateGoalRequest{
         self.endDate = properties.endDate ?? Date()
         self.progress = properties.progress ?? 0
         self.image = properties.image
-        self.aspect = properties.aspect ?? .academic
+        self.aspect = properties.aspect ?? AspectType.academic.toString()
         self.parent = properties.parentGoalId
         self.valuesDictionary = properties.valuesDictionary
+        self.archived = properties.archived ?? false
     }
 }

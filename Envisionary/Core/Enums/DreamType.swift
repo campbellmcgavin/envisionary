@@ -367,242 +367,242 @@ enum DreamType: CaseIterable {
         }
     }
     
-    func toAspect() -> AspectType{
+    func toAspect() -> String{
         switch self {
         case .inspireOthers:
-            return .philanthropy
+            return AspectType.philanthropy.toString()
         case .masterSkill:
-            return .career
+            return AspectType.career.toString()
         case .getPrestigiousDegree:
-            return .academic
+            return AspectType.academic.toString()
         case .getMba:
-            return .academic
+            return AspectType.academic.toString()
         case .getMastersDegree:
-            return .academic
+            return AspectType.academic.toString()
         case .getDoctorateDegree:
-            return .academic
+            return AspectType.academic.toString()
         case .becomeMd:
-            return .academic
+            return AspectType.academic.toString()
         case .getJd:
-            return .academic
+            return AspectType.academic.toString()
         case .leaderInIndustry:
-            return .career
+            return AspectType.career.toString()
         case .businessExecutive:
-            return .career
+            return AspectType.career.toString()
         case .millionaire:
-            return .financial
+            return AspectType.financial.toString()
         case .billionaire:
-            return .financial
+            return AspectType.financial.toString()
         case .travel7Continents:
-            return .travel
+            return AspectType.travel.toString()
         case .travelDreamCountry:
-            return .travel
+            return AspectType.travel.toString()
         case .reach100k:
-            return .financial
+            return AspectType.financial.toString()
         case .reach500k:
-            return .financial
+            return AspectType.financial.toString()
         case .reach1m:
-            return .financial
+            return AspectType.financial.toString()
         case .publishNovel:
-            return .career
+            return AspectType.career.toString()
         case .runMarathon:
-            return .physical
+            return AspectType.physical.toString()
         case .get6Pack:
-            return .physical
+            return AspectType.physical.toString()
         case .becomeDebtFree:
-            return .financial
+            return AspectType.financial.toString()
         case .buyDreamCar:
-            return .lifestyle
+            return AspectType.lifestyle.toString()
         case .sevenWonders:
-            return .travel
+            return AspectType.travel.toString()
         case .allSevenWonders:
-            return .travel
+            return AspectType.travel.toString()
         case .retireComfortably:
-            return .lifestyle
+            return AspectType.lifestyle.toString()
         case .graduateCollege:
-            return .academic
+            return AspectType.academic.toString()
         case .learnNewLanguage:
-            return .mental
+            return AspectType.mental.toString()
         case .foundCharity:
-            return .philanthropy
+            return AspectType.philanthropy.toString()
         case .ltr:
-            return .romantic
+            return AspectType.romantic.toString()
         case .marryLoveOfLife:
-            return .romantic
+            return AspectType.romantic.toString()
         case .climbMountain:
-            return .physical
+            return AspectType.physical.toString()
         case .climbEverest:
-            return .physical
+            return AspectType.physical.toString()
         case .learnSurfing:
-            return .travel
+            return AspectType.travel.toString()
         case .masterMusicalInstrument:
-            return .mental
+            return AspectType.mental.toString()
         case .learnHowToRockclimb:
-            return .physical
+            return AspectType.physical.toString()
         case .liveInForeignCountry:
-            return .travel
+            return AspectType.travel.toString()
         case .noJunkFood:
-            return .physical
+            return AspectType.physical.toString()
         case .becomeArtist:
-            return .career
+            return AspectType.career.toString()
         case .learnPottery:
-            return .fun
+            return AspectType.fun.toString()
         case .masterBallroomDancing:
-            return .fun
+            return AspectType.fun.toString()
         case .composeSong:
-            return .sideProjects
+            return AspectType.sideProjects.toString()
         case .reachIdealBodyType:
-            return .physical
+            return AspectType.physical.toString()
         case .getPaidForPassion:
-            return .career
+            return AspectType.career.toString()
         case .findLifePartner:
-            return .romantic
+            return AspectType.romantic.toString()
         case .healthyDiet:
-            return .physical
+            return AspectType.physical.toString()
         case .liftWeightsBuildMuscle:
-            return .physical
+            return AspectType.physical.toString()
         case .generatePassiveIncome:
-            return .financial
+            return AspectType.financial.toString()
         case .deepSeeFishing:
-            return .travel
+            return AspectType.travel.toString()
         case .firstHome:
-            return .home
+            return AspectType.home.toString()
         case .buildDreamHome:
-            return .home
+            return AspectType.home.toString()
         case .goSkydiving:
-            return .fun
+            return AspectType.fun.toString()
         case .goHangGliding:
-            return .fun
+            return AspectType.fun.toString()
         case .rideHotAirBalloon:
-            return .fun
+            return AspectType.fun.toString()
         case .snorkelInOcean:
-            return .travel
+            return AspectType.travel.toString()
         case .climbGlacier:
-            return .travel
+            return AspectType.travel.toString()
         case .whitewaterRafting:
-            return .fun
+            return AspectType.fun.toString()
         case .favoriteFootballTeam:
-            return .fun
+            return AspectType.fun.toString()
         case .olympics:
-            return .fun
+            return AspectType.fun.toString()
         case .holeInOne:
-            return .fun
+            return AspectType.fun.toString()
         case .golfGame:
-            return .fun
+            return AspectType.fun.toString()
         case .assembleCollection:
-            return .personal
+            return AspectType.personal.toString()
         case .run6MinuteMile:
-            return .physical
+            return AspectType.physical.toString()
         case .declutterHome:
-            return .home
+            return AspectType.home.toString()
         case .appearOnPodcast:
-            return .personal
+            return AspectType.personal.toString()
         case .runAPodcast:
-            return .sideProjects
+            return AspectType.sideProjects.toString()
         case .youtubeChannel:
-            return .sideProjects
+            return AspectType.sideProjects.toString()
         case .financialInheritance:
-            return .financial
+            return AspectType.financial.toString()
         case .traceAncestry:
-            return .family
+            return AspectType.family.toString()
         case .veganDiet:
-            return .physical
+            return AspectType.physical.toString()
         case .favoriteMusician:
-            return .fun
+            return AspectType.fun.toString()
         case .happyFamily:
-            return .family
+            return AspectType.family.toString()
         case .newFamilyTradition:
-            return .family
+            return AspectType.family.toString()
         case .workLifeBalance:
-            return .personal
+            return AspectType.personal.toString()
         case .startOnlineBusiness:
-            return .career
+            return AspectType.career.toString()
         case .relationshipAnniversaries:
-            return .romantic
+            return AspectType.romantic.toString()
         case .meetFavoriteAthlete:
-            return .fun
+            return AspectType.fun.toString()
         case .meetFavoriteCeleb:
-            return .fun
+            return AspectType.fun.toString()
         case .startSmallBusiness:
-            return .career
+            return AspectType.career.toString()
         case .seeTheBallDrop:
-            return .fun
+            return AspectType.fun.toString()
         case .getDreamPet:
-            return .family
+            return AspectType.family.toString()
         case .giveUpSoda:
-            return .physical
+            return AspectType.physical.toString()
         case .northernLights:
-            return .travel
+            return AspectType.travel.toString()
         case .volcanoErupt:
-            return .travel
+            return AspectType.travel.toString()
         case .goOnACruise:
-            return .travel
+            return AspectType.travel.toString()
         case .goToMardiGras:
-            return .fun
+            return AspectType.fun.toString()
         case ._750CreditScore:
-            return .financial
+            return AspectType.financial.toString()
         case .learnSelfDefense:
-            return .physical
+            return AspectType.physical.toString()
         case .learnkarate:
-            return .physical
+            return AspectType.physical.toString()
         case .learnYoga:
-            return .physical
+            return AspectType.physical.toString()
         case .vocabulary:
-            return .mental
+            return AspectType.mental.toString()
         case .recSportsLeague:
-            return .physical
+            return AspectType.physical.toString()
         case .professionalAthlete:
-            return .career
+            return AspectType.career.toString()
         case .famousActor:
-            return .career
+            return AspectType.career.toString()
         case .thrivingGarden:
-            return .lifestyle
+            return AspectType.lifestyle.toString()
         case .haveChildren:
-            return .family
+            return AspectType.family.toString()
         case .growGarden:
-            return .lifestyle
+            return AspectType.lifestyle.toString()
         case .writeMovieScript:
-            return .sideProjects
+            return AspectType.sideProjects.toString()
         case .learnSing:
-            return .sideProjects
+            return AspectType.sideProjects.toString()
         case .singInChoir:
-            return .philanthropy
+            return AspectType.philanthropy.toString()
         case .makeWebsite:
-            return .sideProjects
+            return AspectType.sideProjects.toString()
         case .ventureCapitalist:
-            return .career
+            return AspectType.career.toString()
         case .sponsorAChild:
-            return .philanthropy
+            return AspectType.philanthropy.toString()
         case .crossCountryRoadtrip:
-            return .travel
+            return AspectType.travel.toString()
         case .visitEveryCountry:
-            return .travel
+            return AspectType.travel.toString()
         case .payOffStudentLoans:
-            return .financial
+            return AspectType.financial.toString()
         case .learnToCode:
-            return .mental
+            return AspectType.mental.toString()
         case .improveDrawingSkills:
-            return .sideProjects
+            return AspectType.sideProjects.toString()
         case .goOnSoloVacation:
-            return .travel
+            return AspectType.travel.toString()
         case .learnToSew:
-            return .lifestyle
+            return AspectType.lifestyle.toString()
         case .marchForACause:
-            return .involvement
+            return AspectType.involvement.toString()
         case .becomeGovernor:
-            return .political
+            return AspectType.political.toString()
         case .becomeMayor:
-            return .political
+            return AspectType.political.toString()
         case .becomeCongressperson:
-            return .political
+            return AspectType.political.toString()
         case .valedictorian:
-            return .academic
+            return AspectType.academic.toString()
         case ._4_0_gpa:
-            return .academic
+            return AspectType.academic.toString()
         case .graduateTopOfClass:
-            return .academic
+            return AspectType.academic.toString()
         case .headOfClub:
-            return .academic
+            return AspectType.academic.toString()
         }
     }
     

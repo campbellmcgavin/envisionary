@@ -19,7 +19,7 @@ struct ModalManager: View {
     var statusToAdd: StatusType?
     
     @Binding var shouldDelete: Bool
-
+    
     @State var isPresentingAdd = false
     @State var isPresentingSearch = false
     @State var isPresentingGrouping = false
@@ -209,12 +209,60 @@ struct ModalManager: View {
                         _ = vm.DeleteChapter(id: objectId)
                     case .emotion:
                         _ = vm.DeleteEmotion(id: objectId)
-//                    case .task:
-//                        _ = vm.DeleteTask(id: objectId)
                     case .session:
                         _ = vm.DeleteSession(id: objectId)
                     case .habit:
                         _ = vm.DeleteHabit(id: objectId)
+                    default:
+                        let _ = "why" //do nothing
+                    }
+                }
+            }
+        }
+    }
+    
+    func ArchiveObject(){
+        if let objectId {
+            if let objectType {
+                withAnimation{
+                    switch objectType{
+                    case .goal:
+                        if let object = vm.GetGoal(id: objectId){
+                            var request = UpdateGoalRequest(goal: object)
+                            request.archived = true
+                            _ = vm.UpdateGoal(id: objectId, request: request)
+                        }
+                    case .dream:
+                        if let object = vm.GetDream(id: objectId){
+                            var request = UpdateDreamRequest(dream: object)
+                            request.archived = true
+                            _ = vm.UpdateDream(id: objectId, request: request)
+                        }
+                    case .chapter:
+                        if let object = vm.GetChapter(id: objectId){
+                            var request = UpdateChapterRequest(chapter: object)
+                            request.archived = true
+                            _ = vm.UpdateChapter(id: objectId, request: request)
+
+                            var criteria = Criteria()
+                            criteria.chapterId = objectId
+                            let entries = vm.ListEntries(criteria: criteria)
+                            entries.forEach({
+                                var entryRequest = UpdateEntryRequest(entry: $0)
+                                entryRequest.archived = true
+                                _ = vm.UpdateEntry(id: $0.id, request: entryRequest)
+                            })
+                        }
+                    case .emotion:
+                        _ = vm.DeleteEmotion(id: objectId)
+                    case .session:
+                        _ = vm.DeleteSession(id: objectId)
+                    case .habit:
+                        if let object = vm.GetHabit(id: objectId){
+                            var request = UpdateHabitRequest(habit: object)
+                            request.archived = true
+                            _ = vm.UpdateHabit(id: objectId, request: request)
+                        }
                     default:
                         let _ = "why" //do nothing
                     }

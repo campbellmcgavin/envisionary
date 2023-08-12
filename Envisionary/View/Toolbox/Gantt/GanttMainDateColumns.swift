@@ -18,7 +18,7 @@ struct GanttMainDateColumns: View {
     
     var body: some View {
 
-        HStack(alignment: .top, spacing:0){
+        LazyHStack(alignment: .top, spacing:0){
             ForEach(dateValues){dateValue in
                 GanttMainDateColumn(dateValue: dateValue, frameWidth: columnWidth, timeframe: timeframeType)
             }

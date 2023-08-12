@@ -14,7 +14,6 @@ struct BoardListView: View {
     @Binding var selectedObjectId: UUID
     @Binding var isPresentingModal: Bool
     @Binding var modalType: ModalType
-    @Binding var statusToAdd: StatusType
     
     @EnvironmentObject var vm: ViewModel
     @State var childObjectList: [UUID] = [UUID]()
@@ -29,8 +28,6 @@ struct BoardListView: View {
     var body: some View {
         ZStack(alignment:.bottomTrailing){
             VStack(alignment: .leading) {
-                
-                
                 headerView
                     .padding(shouldHideElements ? 5 : 10)
                     .padding([.top,.leading], shouldHideElements ? 5 : 0)
@@ -41,16 +38,17 @@ struct BoardListView: View {
                 Spacer()
             }
             .padding(.bottom,50)
-            IconButton(isPressed: $shouldAdd, size: .medium, iconType: .add, iconColor: .grey10, circleColor: .grey3)
-                .padding(5)
-                .opacity(shouldHideElements ? 0.0 : 1.0)
+            
+            if statusType == .notStarted{
+                IconButton(isPressed: $shouldAdd, size: .medium, iconType: .add, iconColor: .grey10, circleColor: .grey3)
+                    .padding(5)
+                    .opacity(shouldHideElements ? 0.0 : 1.0)
+            }
         }
-
         .frame(minHeight:150)
         .frame(width: shouldHideElements ? 90 : 210)
         .modifier(ModifierCard(color: GetColor(), radius:SizeType.cornerRadiusSmall.ToSize()))
-        .padding(.trailing,shouldHideElements ? 3 : 8)
-        
+        .padding([.top,.bottom],-4)
         .onAppear{
             childObjectList = vm.ListChildGoals(id: objectId).map({$0.id})
         }
@@ -69,8 +67,6 @@ struct BoardListView: View {
         }
         .onChange(of: shouldAdd){ _ in
             selectedObjectId = objectId
-            statusToAdd = statusType
-            print(statusToAdd)
             modalType = .add
             isPresentingModal = true
         }

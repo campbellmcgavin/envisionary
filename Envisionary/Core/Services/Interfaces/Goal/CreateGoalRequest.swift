@@ -16,12 +16,11 @@ struct CreateGoalRequest{
         var endDate: Date = Date()
         var progress: Int = 0
         var image: UUID? = nil
-        var aspect: AspectType = .academic
-        var timeframe: TimeframeType = .day
+        var aspect: String = AspectType.academic.toString()
         var parentId: UUID? = nil
     
 
-    init(title: String, description: String, priority: PriorityType, startDate: Date, endDate: Date, percentComplete: Int, image: UUID?, aspect: AspectType, timeframe: TimeframeType, parent: UUID?)
+    init(title: String, description: String, priority: PriorityType, startDate: Date, endDate: Date, percentComplete: Int, image: UUID?, aspect: String, parent: UUID?)
     {
         self.title = title
         self.description = description
@@ -31,7 +30,6 @@ struct CreateGoalRequest{
         self.progress = percentComplete
         self.image = image
         self.aspect = aspect
-        self.timeframe = timeframe
         self.parentId = parent
     }
     
@@ -43,8 +41,7 @@ struct CreateGoalRequest{
         self.endDate = properties.endDate ?? Date()
         self.progress = properties.progress ?? 0
         self.image = properties.image
-        self.aspect = properties.aspect ?? .academic
-        self.timeframe = properties.timeframe ?? .day
+        self.aspect = properties.aspect ?? AspectType.academic.toString()
         self.parentId = properties.parentGoalId
     }
 }

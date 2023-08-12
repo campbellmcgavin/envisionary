@@ -13,7 +13,7 @@ struct WrappingHStack: View {
     var isMultiSelector = false
     var isRestrictingOptions = false
     var maxCount = 20
-    
+    var fontSize: CustomFont = .caption
     @State private var totalHeight
           = CGFloat.zero       // << variant for ScrollView/List
     //    = CGFloat.infinity   // << variant for VStack
@@ -97,13 +97,7 @@ struct WrappingHStack: View {
             }
         }
         label:{
-            Text(text)
-                .font(.specify(style: .caption))
-                .frame(height:38)
-                .foregroundColor(.specify(color: .grey10))
-                .padding([.leading,.trailing],12)
-                .background(Color.specify(color:  GetColor(text:text)))
-                .cornerRadius(22)
+            TextIconLabel(text: text, color: .grey10, backgroundColor: GetColor(text:text), fontSize: .caption, shouldFillWidth: false)
         }
     }
     

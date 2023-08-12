@@ -51,7 +51,7 @@ struct ImageStack: View {
             .padding(20)
             
             if isEditMode{
-                TextButton(isPressed: $shouldPopImagesModal, text: "Add images", color: .grey0, backgroundColor: .grey10, style:.h3, shouldHaveBackground: true, shouldFill: true)
+                TextIconButton(isPressed: $shouldPopImagesModal, text: "Add images", color: .grey0, backgroundColor: .grey10, fontSize: .h3, shouldFillWidth: true)
             }
         }
         .onChange(of: stackSize.width){ _ in

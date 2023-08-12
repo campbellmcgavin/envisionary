@@ -34,22 +34,22 @@ struct TutorialArchetype: View {
     func CreateObjects(){
         if let selectedArchetype{
             
-            let requestIntro = CreateCoreValueRequest(title: ValueType.Introduction.toString(), description: ValueType.Introduction.toDescription())
+            let requestIntro = CreateCoreValueRequest(title: ValueType.Introduction.toString(), description: ValueType.Introduction.toDescription(), image: nil)
             _ = vm.CreateCoreValue(request: requestIntro)
         
-            let requestConclusion = CreateCoreValueRequest(title: ValueType.Conclusion.toString(), description: ValueType.Conclusion.toDescription())
+            let requestConclusion = CreateCoreValueRequest(title: ValueType.Conclusion.toString(), description: ValueType.Conclusion.toDescription(), image: nil)
             _ = vm.CreateCoreValue(request: requestConclusion)
     
             ValueType.allCases.filter({selectedArchetype.hasValue(value: $0)}).forEach{
-                let request = CreateCoreValueRequest(title: $0.toString(), description: $0.toDescription())
+                let request = CreateCoreValueRequest(title: $0.toString(), description: $0.toDescription(), image: nil)
                 _ = vm.CreateCoreValue(request: request)}
             
             DreamType.allCases.filter({selectedArchetype.hasDream(dream: $0)}).forEach{
-                let request = CreateDreamRequest(title: $0.toString(), description: "", aspect: $0.toAspect())
+                let request = CreateDreamRequest(title: $0.toString(), description: "", aspect: $0.toAspect(), image: nil)
                 _ = vm.CreateDream(request: request)}
             
             AspectType.allCases.filter({selectedArchetype.hasAspect(aspect: $0)}).forEach{
-                let request = CreateAspectRequest(title: $0.toString(), description: "")
+                let request = CreateAspectRequest(title: $0.toString(), description: "", image: nil)
                 _ = vm.CreateAspect(request: request)}
             
             HabitType.allCases.filter({selectedArchetype.hasHabit(habit: $0)}).forEach{

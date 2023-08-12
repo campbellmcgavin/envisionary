@@ -17,9 +17,11 @@ struct ModalPhotoSource: View {
     var body: some View {
         Modal(modalType: .photoSource, objectType: .home, isPresenting: $isPresenting, shouldConfirm: .constant(false), isPresentingImageSheet: .constant(false), allowConfirm: true, modalContent: {
             VStack{
-                TextButton(isPressed: $shouldSelectTakePhoto, text: "Take photo", color: .grey2, backgroundColor: .grey10, style: .h3, shouldHaveBackground: true)
-                TextButton(isPressed: $shouldSelectCameraRoll, text: "Photo library", color: .grey10, backgroundColor: .grey3, style: .h3, shouldHaveBackground: true)
+                TextIconButton(isPressed: $shouldSelectTakePhoto, text: "Take photo", color: .grey2, backgroundColor: .grey10, fontSize: .h3, shouldFillWidth: true)
+                
+                TextIconButton(isPressed: $shouldSelectCameraRoll, text: "Photo library", color: .grey10, backgroundColor: .grey3, fontSize: .h3, shouldFillWidth: true)
             }
+            .padding([.bottom,.top])
         }, headerContent: {EmptyView()}, bottomContent: {EmptyView()}, betweenContent: {EmptyView()})
         .onChange(of: shouldSelectTakePhoto){
             _ in

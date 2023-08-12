@@ -12,7 +12,7 @@ struct SetupTemplate<Content: View>: View {
     @Binding var bumpScrollView: Bool
     let textArray: [String]
     @ViewBuilder var content: Content
-    
+    var shouldShowCard: Bool = true
     @State var counter: Double = 0.0
     @State private var timer = Timer.publish(every: 0.2, on: .main, in: .common).autoconnect()
     @State var timeStamps: [Double] = [Double]()
@@ -39,7 +39,7 @@ struct SetupTemplate<Content: View>: View {
             if shouldShowIndex > textArray.count || finishLoad {
                 content
                     .transition(transition)
-                    .modifier(ModifierForm(color: .grey15))
+                    .modifier(ModifierForm(color: shouldShowCard ? .grey15 : .clear))
             }
             else if !finishLoad{
                 HStack{

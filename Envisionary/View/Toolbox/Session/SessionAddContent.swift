@@ -59,9 +59,10 @@ struct SessionAddContent: View {
                 FormPropertiesStack(properties: $properties, images: .constant([UIImage]()), isPresentingPhotoSource: .constant(false), isValidForm: $isValidForm, didAttemptToSave: $didAttemptToSave, objectType: .goal, modalType: .add, isSimple: true)
                     .padding(.bottom)
                 
-                TextButton(isPressed: $shouldAttemptAddGoal, text: "Add goal", color: .grey2, backgroundColor: !isValidForm && didAttemptToSave ? .grey3 : .grey10, style: .h3, shouldHaveBackground: true)
+                TextIconButton(isPressed: $shouldAttemptAddGoal, text: "Add goal", color: .grey2, backgroundColor: !isValidForm && didAttemptToSave ? .grey3 : .grey10, fontSize: .h3, shouldFillWidth: true)
             }
-            TextButton(isPressed: $isPresentingNewGoal, text: isPresentingNewGoal ? "Cancel" : "Add goal", color: isPresentingNewGoal ? .grey10 : .grey2, backgroundColor: isPresentingNewGoal ? .grey4 : .grey10, style: .h3, shouldHaveBackground: true)
+            
+            TextIconButton(isPressed: $isPresentingNewGoal, text: isPresentingNewGoal ? "Cancel" : "Add goal", color: isPresentingNewGoal ? .grey10 : .grey2, backgroundColor: isPresentingNewGoal ? .grey4 : .grey10, fontSize: .h3, shouldFillWidth: true)
         }
         .padding(8)
         .modifier(ModifierForm(color: isPresentingNewGoal ? .grey15 : .clear))

@@ -26,7 +26,7 @@ struct GanttMainDiagram<Value: Identifiable, V: View>: View where Value: Equatab
     var body: some View {
         
         return ZStack{
-        VStack(alignment: .leading, spacing: 0) {
+        LazyVStack(alignment: .leading, spacing: 0) {
             
             value(goalId as! Value)
                 .anchorPreference(key: Key.self, value: .leading, transform: {
@@ -36,18 +36,10 @@ struct GanttMainDiagram<Value: Identifiable, V: View>: View where Value: Equatab
 
             
             
-            if (expandedGoals.contains(where:{$0 == goalId})){
-
-                
-                VStack(alignment: .leading, spacing: 0) {
-                        
-                        ForEach(childGoals, content: { child in
-                            
-                            GanttMainDiagram(parentGoalId: parentGoalId, goalId: child.id, focusGoal: $focusGoal, expandedGoals: $expandedGoals, value: self.value,  childCount: childCount + 1, currentTimeframeType: $currentTimeframeType)
-                        })
-                    
-
-                }
+            if (expandedGoals.contains(goalId)){
+                ForEach(childGoals, content: { child in
+                    GanttMainDiagram(parentGoalId: parentGoalId, goalId: child.id, focusGoal: $focusGoal, expandedGoals: $expandedGoals, value: self.value,  childCount: childCount + 1, currentTimeframeType: $currentTimeframeType)
+                })
             }
 
         }

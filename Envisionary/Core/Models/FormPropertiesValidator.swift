@@ -120,7 +120,7 @@ enum FormErrorType{
     case fieldCannotBeEmpty
     case fieldIsTooLong
     case fieldCannotBeZero
-    
+    case fieldCannotBeBefore
     func toString(propertyType: PropertyType) -> String{
         switch self {
         case .fieldIsTooShort:
@@ -131,6 +131,8 @@ enum FormErrorType{
             return propertyType.toString() + " is too long."
         case .fieldCannotBeZero:
             return propertyType.toString() + " cannot be zero."
+        case .fieldCannotBeBefore:
+            return propertyType.toString() + " cannot be before start date."
         }
     }
 }

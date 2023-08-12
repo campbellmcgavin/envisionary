@@ -35,7 +35,14 @@ struct PhotoCard: View {
     func BuildCard() -> some View{
         HStack(alignment:.center, spacing:0){
             
-            ImageCircle(imageSize: imageSize.ToSize(), image: image, iconSize: .medium, icon: objectType.toIcon(), iconColor: iconColor)
+            ZStack{
+                ImageCircle(imageSize: imageSize.ToSize(), image: image, iconSize: .medium, icon: objectType.toIcon(), iconColor: iconColor)
+                if properties.archived == true {
+                    IconLabel(size: .extraSmall, iconType: .archived, iconColor: .grey10, circleColor: .red)
+                        .offset(x:18, y:18)
+                        .shadow(color: .black,radius: 5)
+                }
+            }
 
             VStack(alignment:.leading, spacing:0){
                 Text(GetHeader())
@@ -125,7 +132,7 @@ struct PhotoCard: View {
         switch objectType {
         
         case .goal:
-            return properties.aspect?.toString()
+            return properties.progress?.toStatusType().toString() ?? "Not started"
         case .habit:
             if let habit = vm.GetHabit(id: properties.habitId ?? UUID()){
                 return "\(habit.startDate.toString(timeframeType: .day)) - \(habit.endDate.toString(timeframeType: .day))"

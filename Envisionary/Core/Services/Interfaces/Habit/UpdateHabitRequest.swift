@@ -13,13 +13,24 @@ struct UpdateHabitRequest {
     var description: String = ""
     var priority: PriorityType = .moderate
     var image: UUID? = nil
-    var aspect: AspectType = .academic
+    var aspect: String = AspectType.academic.toString()
+    var archived: Bool = false
     
     init(properties: Properties){
         self.title = properties.title ?? ""
         self.description = properties.description ?? ""
         self.priority = properties.priority ?? .critical
         self.image = properties.image
-        self.aspect = properties.aspect ?? .academic
+        self.aspect = properties.aspect ?? AspectType.academic.toString()
+        self.archived = properties.archived ?? false
+    }
+    
+    init(habit: Habit){
+        self.title = habit.title
+        self.description = habit.description
+        self.priority = habit.priority
+        self.image = habit.image
+        self.aspect = habit.aspect
+        self.archived = habit.archived
     }
 }

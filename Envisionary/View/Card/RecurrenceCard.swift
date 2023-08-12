@@ -85,7 +85,7 @@ struct RecurrenceCard: View {
     
     func CreateOrUpdateRecurrence(){
         if let recurrenceId {
-            _ = vm.UpdateRecurrence(id: recurrenceId, request: UpdateRecurrenceRequest(amount: amount, isComplete: GetIsCompleted()))
+            _ = vm.UpdateRecurrence(id: recurrenceId, request: UpdateRecurrenceRequest(amount: amount, isComplete: GetIsCompleted(), archived: recurrence.archived))
             recurrence = vm.GetRecurrence(id: recurrenceId) ?? recurrence
         }
 //        else{

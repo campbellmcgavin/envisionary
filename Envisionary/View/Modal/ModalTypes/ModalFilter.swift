@@ -21,18 +21,8 @@ struct ModalFilter: View {
     @State var shouldConfirm = false
     var body: some View {
         
-        
-        
         Modal(modalType: .filter, objectType: .home, isPresenting: $isPresenting, shouldConfirm: $isPresenting, isPresentingImageSheet: .constant(false), allowConfirm: true, title: "Filters", modalContent: {
             VStack(alignment: .leading, spacing:10){
-                
-                
-                TextButton(isPressed: $shouldClearFilters, text: "Clear all", color: vm.filtering.filterCount > 0 ? .purple : .grey3, style: .h3)
-                        .padding(.top)
-                        .disabled(vm.filtering.filterCount == 0)
-                        .frame(alignment:.leading)
-                
-
                 GetActiveFilters()
                 HeaderWithContent(shouldExpand: $inactiveFiltersIsExpanded, headerColor: .grey10, header: "Inactive Filters", isExpanded: inactiveFiltersIsExpanded, content: { GetInactiveFilters() })
                     .padding(.bottom)
@@ -67,7 +57,15 @@ struct ModalFilter: View {
                 coreValue = ""
 //                _ = vm.UpdateFilteredGoals(criteria: vm.filtering.GetFilters())
             }
-        }, headerContent: {EmptyView()}, bottomContent: {EmptyView()}, betweenContent: {EmptyView()})
+        }, headerContent: {EmptyView()}, bottomContent: {EmptyView()}, betweenContent: {
+            HStack{
+                TextIconButton(isPressed: $shouldClearFilters, text: "Clear all", color: vm.filtering.filterCount > 0 ? .grey10 : .grey4, backgroundColor: vm.filtering.filterCount > 0 ? .purple : .grey1, fontSize: .caption, shouldFillWidth: false, iconType: .delete)
+                        .disabled(vm.filtering.filterCount == 0)
+                        .padding(.leading)
+                Spacer()
+            }
+
+        })
         
         
     }

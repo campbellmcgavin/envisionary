@@ -21,7 +21,7 @@ protocol DataServiceProtocol {
     func ListChildGoals(id: UUID) -> [Goal]
     func UpdateGoal(id: UUID, request: UpdateGoalRequest) -> Bool
     func DeleteGoal(id: UUID) -> Bool
-    func GroupGoals(criteria: Criteria, grouping: GroupingType) -> [String:[Goal]]
+    func GroupGoals(criteria: Criteria, grouping: GroupingType, excludeGoalsWithChildren: Bool) -> [String:[Goal]]
     func ListAffectedGoals(id: UUID) -> [Goal]
 
     // MARK: - TASKS
@@ -110,4 +110,11 @@ protocol DataServiceProtocol {
     func GetActivity(id: UUID) -> Activity?
     func ListActivities(limit: Int) -> [Activity]
     func DeleteActivity(id: UUID) -> Bool
+    
+    // MARK: - CORE VALUE RATING
+    func CreateCoreValueRating(request: CreateCoreValueRatingRequest) -> UUID
+    func GetCoreValueRating(id: UUID) -> CoreValueRating?
+    func ListCoreValueRatings(criteria: Criteria, limit: Int) -> [CoreValueRating]
+    func UpdateCoreValueRating(id: UUID, request: UpdateCoreValueRatingRequest) -> Bool
+    func DeleteCoreValueRating(id: UUID) -> Bool
 }

@@ -38,11 +38,11 @@ struct ModalAddDefault: View {
                     
                     if parentGoalId != nil {
                         if let parentGoal = vm.GetGoal(id: parentGoalId!){
-                            FormLabel(fieldValue: parentGoal.title, fieldName: "Parent " + parentGoal.timeframe.toString() + " goal", iconType: .arrow_up, shouldShowLock: true)
+                            FormLabel(fieldValue: parentGoal.title, fieldName: "Parent goal", iconType: .arrow_up, shouldShowLock: true)
                                 .padding(.bottom)
                             
                             if objectType == .goal{
-                                Text("When a " + objectType.toString() + " has a parent goal, certain attributes are set and managed by the parent goal, including timeframe, aspect and start date.")
+                                Text("When a " + objectType.toString().lowercased() + " has a parent goal, the aspect is managed by the parent goal, and the dates are set to the parent goal's dates.")
                                     .frame(maxWidth:.infinity)
                                     .padding([.leading,.trailing])
                                     .padding(.bottom,40)
@@ -279,15 +279,15 @@ struct ModalAddDefault: View {
                     if let coreValue = vm.GetCoreValue(id: objectId!){
                         properties = Properties(value: coreValue)
                     }
+                case .aspect:
+                    if let aspect = vm.GetAspect(id: objectId!){
+                        properties = Properties(aspect: aspect)
+                    }
                 case .goal:
                     if let goal = vm.GetGoal(id: objectId!){
                         properties = Properties(goal: goal)
                     }
                     GetValuesFromParentGoalId()
-//                case .task:
-//                    if let task = vm.GetTask(id: objectId!){
-//                        properties = Properties(task: task)
-//                    }
                 case .dream:
                     if let dream = vm.GetDream(id: objectId!){
                         properties = Properties(dream: dream)
@@ -342,9 +342,8 @@ struct ModalAddDefault: View {
         if parentGoalId != nil {
             if let goal = vm.GetGoal(id: parentGoalId!){
                 
-                properties.timeframe = goal.timeframe.toChildTimeframe()
                 properties.startDate = goal.startDate
-                properties.endDate =  properties.startDate?.AdvanceDate(timeframe: goal.timeframe.toChildTimeframe(), forward: true)
+                properties.endDate =  goal.endDate
                 properties.priority = goal.priority
                 properties.aspect = goal.aspect
                 

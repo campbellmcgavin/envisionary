@@ -33,36 +33,39 @@ struct DetailHabitProgress: View {
                         .padding()
                         .modifier(ModifierCard())
                     
-                    if recurrenceId == nil {
-                        VStack{
-                            Text("The selected date has no associated records to track. You can add a record below.")
-                                .font(.specify(style:.h6))
-                                .multilineTextAlignment(.center)
-                                .foregroundColor(.specify(color: .grey3))
-                                .padding(30)
-                            
-                            HStack{
-                                Text("Add a record")
-                                    .padding([.leading,.top,.bottom])
-                                    .frame(height: SizeType.mediumLarge.ToSize())
-                                    .font(.specify(style: .h6))
-                                    .foregroundColor(.specify(color: .grey9))
-                                Spacer()
-                                IconButton(isPressed: $shouldAddRecurrence, size: .medium, iconType: .add, iconColor: .grey10, circleColor: .grey3)
-                                    .padding(.trailing,6)
+                    if !habit.archived{
+                        if recurrenceId == nil {
+                            VStack{
+                                Text("The selected date has no associated records to track. You can add a record below.")
+                                    .font(.specify(style:.h6))
+                                    .multilineTextAlignment(.center)
+                                    .foregroundColor(.specify(color: .grey3))
+                                    .padding(30)
+                                
+                                HStack{
+                                    Text("Add a record")
+                                        .padding([.leading,.top,.bottom])
+                                        .frame(height: SizeType.mediumLarge.ToSize())
+                                        .font(.specify(style: .h6))
+                                        .foregroundColor(.specify(color: .grey9))
+                                    Spacer()
+                                    IconButton(isPressed: $shouldAddRecurrence, size: .medium, iconType: .add, iconColor: .grey10, circleColor: .grey3)
+                                        .padding(.trailing,6)
+                                }
+                                .modifier(ModifierForm())
+                                .padding(8)
+    //                            .padding(.bottom,8)
                             }
-                            .modifier(ModifierForm())
-                            .padding(8)
-//                            .padding(.bottom,8)
-                        }
 
-                        .modifier(ModifierCard())
-                    }
-                    else{
-                        RecurrenceCard(habitId: habitId, recurrenceId: $recurrenceId, showPhotoCard: false, date: $date)
-                            .padding(.top)
                             .modifier(ModifierCard())
+                        }
+                        else{
+                            RecurrenceCard(habitId: habitId, recurrenceId: $recurrenceId, showPhotoCard: false, date: $date)
+                                .padding(.top)
+                                .modifier(ModifierCard())
+                        }
                     }
+
 
                 }
                 .frame(maxWidth:.infinity)

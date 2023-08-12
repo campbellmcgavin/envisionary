@@ -138,6 +138,10 @@ struct PromptCard: View {
             default:
                 let _ = "why"
             }
+            
+            if properties.archived == true {
+                _ = vm.DeletePrompt(id: promptProperties.id)
+            }
         }
 
     }
@@ -165,7 +169,7 @@ struct PromptCard: View {
         .padding(.bottom,1)
             BuildTitle()
         HStack{
-            TextButton(isPressed: $shouldJump, text: "Create " + ((promptProperties.objectType?.StartsWithVowel() ?? false) ? "an " : "a ") + (promptProperties.objectType?.toString() ?? ""), color: .grey9, backgroundColor: .grey3, style: .h5, shouldHaveBackground: true, shouldFill: false)
+            TextIconButton(isPressed: $shouldJump, text: "Create " + ((promptProperties.objectType?.StartsWithVowel() ?? false) ? "an " : "a ") + (promptProperties.objectType?.toString() ?? ""), color: .grey9, backgroundColor: .grey3, fontSize: .h5, shouldFillWidth: true, iconType: .add)
             Spacer()
         }
     }

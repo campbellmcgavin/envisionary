@@ -35,11 +35,12 @@ struct SessionEntry: View {
                 if !didSave{
                     FormPropertiesStack(properties: $properties, images: .constant([UIImage]()), isPresentingPhotoSource: .constant(false), isValidForm: $isValidForm, didAttemptToSave: $didAttemptToSave, objectType: .entry, modalType: .add)
                 }
-                TextButton(isPressed: $shouldAddEntry, text: didSave ? "Entry added" : "Save entry", color: .grey0, backgroundColor: (!isValidForm && didAttemptToSave) || didSave ? .grey3 : .grey10, style: .h3, shouldHaveBackground: true)
+                
+                TextIconButton(isPressed: $shouldAddEntry, text: didSave ? "Entry added" : "Save entry", color: .grey0, backgroundColor: (!isValidForm && didAttemptToSave) || didSave ? .grey3 : .grey10, fontSize: .h3, shouldFillWidth: true)
                     .padding(.top)
             }
             else{
-                TextButton(isPressed: $shouldShowEntry, text: "Add entry", color: .grey0, backgroundColor: .grey6, style: .h3, shouldHaveBackground: true)
+                TextIconButton(isPressed: $shouldShowEntry, text: "Add entry", color: .grey0, backgroundColor: .grey6, fontSize: .h3, shouldFillWidth: true)
             }
 
         }

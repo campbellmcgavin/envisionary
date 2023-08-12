@@ -9,6 +9,8 @@ import SwiftUI
 import CoreData
 
 class DataService: DataServiceProtocol {
+    
+    
     var container: NSPersistentCloudKitContainer
     
     let lock = NSLock()
@@ -22,7 +24,6 @@ class DataService: DataServiceProtocol {
                 print("SUCCESSFULLY LOADED TASK DATA.")
             }
         })
-        
     }
     
     func saveData() {
@@ -108,11 +109,10 @@ class DataService: DataServiceProtocol {
         newGoal.startDate = request.startDate
         newGoal.endDate = request.endDate
         newGoal.progress = 0
-        newGoal.aspect = request.aspect.toString()
-        newGoal.timeframe = request.timeframe.toString()
+        newGoal.aspect = request.aspect
         newGoal.image = request.image
         newGoal.parentId = request.parentId
-        
+        newGoal.archived = false
         newGoal.id = UUID()
         saveData()
         
@@ -173,9 +173,9 @@ class DataService: DataServiceProtocol {
             entityToUpdate.progress = Int16(request.progress)
             entityToUpdate.image = request.image
             entityToUpdate.priority = request.priority.toString()
-            entityToUpdate.aspect = request.aspect.toString()
+            entityToUpdate.aspect = request.aspect
             entityToUpdate.parentId = request.parent
-            
+            entityToUpdate.archived = request.archived
             saveData()
             return true
         }
@@ -196,9 +196,14 @@ class DataService: DataServiceProtocol {
         return false
     }
     
-    func GroupGoals(criteria: Criteria, grouping: GroupingType) -> [String : [Goal]] {
+    func GroupGoals(criteria: Criteria, grouping: GroupingType, excludeGoalsWithChildren: Bool) -> [String : [Goal]] {
         
-        let goals = ListGoals(criteria: criteria)
+        var goals = ListGoals(criteria: criteria)
+        
+        if excludeGoalsWithChildren{
+            goals = goals.filter({self.ListChildGoals(id: $0.id).count == 0})
+        }
+        
         var goalsDictionary: Dictionary<String,[Goal]> = [String:[Goal]]()
                 
         for goal in goals {
@@ -210,10 +215,10 @@ class DataService: DataServiceProtocol {
                 }
                 goalsDictionary[String(goal.title.prefix(1))]!.append(goal)
             case .aspect:
-                if  goalsDictionary[goal.aspect.toString()] == nil {
-                    goalsDictionary[goal.aspect.toString()] = [Goal]()
+                if  goalsDictionary[goal.aspect] == nil {
+                    goalsDictionary[goal.aspect] = [Goal]()
                 }
-                goalsDictionary[goal.aspect.toString()]!.append(goal)
+                goalsDictionary[goal.aspect]!.append(goal)
             case .priority:
                 if  goalsDictionary[goal.priority.toString()] == nil {
                     goalsDictionary[goal.priority.toString()] = [Goal]()
@@ -284,7 +289,7 @@ class DataService: DataServiceProtocol {
         let newAspect = AspectEntity(context: container.viewContext)
         newAspect.title = request.title
         newAspect.desc = request.description
-        
+        newAspect.image = request.image
         newAspect.id = UUID()
         saveData()
         
@@ -338,7 +343,8 @@ class DataService: DataServiceProtocol {
         
         if var entityToUpdate = GetAspectEntity(id: id) {
             entityToUpdate.desc = request.description
-            
+            entityToUpdate.image = request.image
+            entityToUpdate.title = request.title
             saveData()
             return true
         }
@@ -473,8 +479,9 @@ class DataService: DataServiceProtocol {
         let newDream = DreamEntity(context: container.viewContext)
         newDream.title = request.title
         newDream.desc = request.description
-        newDream.aspect = request.aspect.toString()
-        
+        newDream.aspect = request.aspect
+        newDream.archived = false
+        newDream.image = request.image
         newDream.id = UUID()
         saveData()
         
@@ -528,7 +535,9 @@ class DataService: DataServiceProtocol {
         
         if var entityToUpdate = GetDreamEntity(id: id) {
             entityToUpdate.desc = request.description
-            
+            entityToUpdate.archived = request.archived
+            entityToUpdate.title = request.title
+            entityToUpdate.image = request.image
             saveData()
             return true
         }
@@ -558,10 +567,10 @@ class DataService: DataServiceProtocol {
                 }
                 dreamsDictionary[String(dream.title.prefix(1))]!.append(dream)
             case .aspect:
-                if  dreamsDictionary[dream.aspect.toString()] == nil {
-                    dreamsDictionary[dream.aspect.toString()] = [Dream]()
+                if  dreamsDictionary[dream.aspect] == nil {
+                    dreamsDictionary[dream.aspect] = [Dream]()
                 }
-                dreamsDictionary[dream.aspect.toString()]!.append(dream)
+                dreamsDictionary[dream.aspect]!.append(dream)
             default:
                 let _ = "why"
             }
@@ -576,6 +585,7 @@ class DataService: DataServiceProtocol {
         let newCoreValue = CoreValueEntity(context: container.viewContext)
         newCoreValue.title = request.title
         newCoreValue.desc = request.description
+        newCoreValue.image = request.image
         newCoreValue.id = UUID()
         saveData()
         
@@ -660,7 +670,7 @@ class DataService: DataServiceProtocol {
 
         if var entityToUpdate = GetCoreValueEntity(id: id) {
             entityToUpdate.desc = request.description
-            
+            entityToUpdate.image = request.image
             saveData()
             return true
         }
@@ -684,8 +694,9 @@ class DataService: DataServiceProtocol {
         let newChapter = ChapterEntity(context: container.viewContext)
         newChapter.title = request.title
         newChapter.desc = request.description
-        newChapter.aspect = request.aspect.toString()
+        newChapter.aspect = request.aspect
         newChapter.image = request.image
+        newChapter.archived = false
         newChapter.id = UUID()
         saveData()
         
@@ -748,10 +759,10 @@ class DataService: DataServiceProtocol {
                 }
                 chaptersDictionary[String(chapter.title.prefix(1))]!.append(chapter)
             case .aspect:
-                if  chaptersDictionary[chapter.aspect.toString()] == nil {
-                    chaptersDictionary[chapter.aspect.toString()] = [Chapter]()
+                if  chaptersDictionary[chapter.aspect] == nil {
+                    chaptersDictionary[chapter.aspect] = [Chapter]()
                 }
-                chaptersDictionary[chapter.aspect.toString()]!.append(chapter)
+                chaptersDictionary[chapter.aspect]!.append(chapter)
             default:
                 let _ = "why"
             }
@@ -764,8 +775,9 @@ class DataService: DataServiceProtocol {
         if var entityToUpdate = GetChapterEntity(id: id) {
             entityToUpdate.desc = request.description
             entityToUpdate.title = request.title
-            entityToUpdate.aspect = request.aspect.toString()
+            entityToUpdate.aspect = request.aspect
             entityToUpdate.image = request.image
+            entityToUpdate.archived = request.archived
             saveData()
             return true
         }
@@ -792,6 +804,7 @@ class DataService: DataServiceProtocol {
         newEntry.startDate = request.startDate
         newEntry.chapterId = request.chapterId
         newEntry.images = request.images.toCsvString()
+        newEntry.archived = false
         newEntry.id = UUID()
         
         saveData()
@@ -867,8 +880,6 @@ class DataService: DataServiceProtocol {
         return EntriesDictionary
     }
     
-    
-    
     func UpdateEntry(id: UUID, request: UpdateEntryRequest) -> Bool {
         
         if var entityToUpdate = GetEntryEntity(id: id) {
@@ -876,6 +887,7 @@ class DataService: DataServiceProtocol {
             entityToUpdate.title = request.title
             entityToUpdate.images = request.images.toCsvString()
             entityToUpdate.chapterId = request.chapterId
+            entityToUpdate.archived = request.archived
             saveData()
             return true
         }
@@ -1069,13 +1081,13 @@ class DataService: DataServiceProtocol {
         newHabit.priority = request.priority.toString()
         newHabit.startDate = request.startDate
         newHabit.endDate = request.endDate
-        newHabit.aspect = request.aspect.toString()
+        newHabit.aspect = request.aspect
         newHabit.timeframe = request.timeframe.toString()
         newHabit.image = request.image
         newHabit.schedule = request.schedule.toString()
         newHabit.amount = Int16(request.amount)
         newHabit.unitOfMeasure = request.unitOfMeasure.toString()
-        
+        newHabit.archived = false
         newHabit.id = UUID()
         saveData()
         
@@ -1132,8 +1144,17 @@ class DataService: DataServiceProtocol {
             entityToUpdate.title = request.title
             entityToUpdate.desc = request.description
             entityToUpdate.priority = request.priority.toString()
-            entityToUpdate.aspect = request.aspect.toString()
+            entityToUpdate.aspect = request.aspect
             entityToUpdate.image = request.image
+            entityToUpdate.archived = request.archived
+            
+            var criteria = Criteria()
+            criteria.habitId = id
+            
+            let recurrences = self.ListRecurrences(criteria: criteria)
+            recurrences.forEach({
+                self.UpdateRecurrence(id: $0.id, request: UpdateRecurrenceRequest(amount: $0.amount, isComplete: $0.isComplete, archived: request.archived))
+            })
             
             saveData()
             return true
@@ -1177,10 +1198,10 @@ class DataService: DataServiceProtocol {
                 }
                 habitsDictionary[String(habit.title.prefix(1))]!.append(habit)
             case .aspect:
-                if  habitsDictionary[habit.aspect.toString()] == nil {
-                    habitsDictionary[habit.aspect.toString()] = [Habit]()
+                if  habitsDictionary[habit.aspect] == nil {
+                    habitsDictionary[habit.aspect] = [Habit]()
                 }
-                habitsDictionary[habit.aspect.toString()]!.append(habit)
+                habitsDictionary[habit.aspect]!.append(habit)
             case .priority:
                 if  habitsDictionary[habit.priority.toString()] == nil {
                     habitsDictionary[habit.priority.toString()] = [Habit]()
@@ -1210,7 +1231,7 @@ class DataService: DataServiceProtocol {
         newRecurrence.endDate = request.endDate
         newRecurrence.amount = 0
         newRecurrence.timeOfDay = request.timeOfDay.toString()
-        
+        newRecurrence.archived = false
         newRecurrence.id = UUID()
         
         
@@ -1267,7 +1288,7 @@ class DataService: DataServiceProtocol {
             
             entityToUpdate.isComplete = request.isComplete
             entityToUpdate.amount = Int16(request.amount < 1000 ? request.amount : 1000)
-           
+            entityToUpdate.archived = request.archived
             saveData()
             return true
         }
@@ -1299,10 +1320,10 @@ class DataService: DataServiceProtocol {
 //                }
 //                recurrencesDictionary[String(recurrence.title.prefix(1))]!.append(recurrence)
 //            case .aspect:
-//                if  recurrencesDictionary[recurrence.aspect.toString()] == nil {
-//                    recurrencesDictionary[recurrence.aspect.toString()] = [Recurrence]()
+//                if  recurrencesDictionary[recurrence.aspect] == nil {
+//                    recurrencesDictionary[recurrence.aspect] = [Recurrence]()
 //                }
-//                recurrencesDictionary[recurrence.aspect.toString()]!.append(recurrence)
+//                recurrencesDictionary[recurrence.aspect]!.append(recurrence)
 //            case .priority:
 //                if  recurrencesDictionary[recurrence.priority.toString()] == nil {
 //                    recurrencesDictionary[recurrence.priority.toString()] = [Recurrence]()
@@ -1398,6 +1419,82 @@ class DataService: DataServiceProtocol {
     }
     
     
+    // MARK: - CREATE CORE VALUE
+    
+    func CreateCoreValueRating(request: CreateCoreValueRatingRequest) -> UUID{
+        
+        let newCoreValueRating = CoreValueRatingEntity(context: container.viewContext)
+        let id = UUID()
+        newCoreValueRating.id = id
+        newCoreValueRating.parentId = request.parentGoalId
+        newCoreValueRating.coreValueId = request.valueId
+        newCoreValueRating.amount = Int16(request.amount)
+        saveData()
+        
+        return id
+    }
+    
+    func GetCoreValueRating(id: UUID) -> CoreValueRating?{
+        
+        let CoreValueRatingEntity = GetCoreValueRatingEntity(id: id)
+        
+        if let CoreValueRatingEntity{
+            return CoreValueRating(entity: CoreValueRatingEntity)
+        }
+        return nil
+    }
+    
+    private func GetCoreValueRatingEntity(id: UUID) -> CoreValueRatingEntity?{
+        let request = NSFetchRequest<CoreValueRatingEntity>(entityName: "CoreValueRatingEntity")
+        let predicate = NSPredicate(format: "id == %@", id as CVarArg)
+        request.predicate = predicate
+        
+        do {
+            let CoreValueRatingsEntityList = try container.viewContext.fetch(request)
+            
+            return CoreValueRatingsEntityList.first
+            
+        } catch let error {
+            print ("ERROR FETCHING CoreValueRating. \(error)")
+        }
+        return nil
+    }
+    
+    func ListCoreValueRatings(criteria: Criteria, limit: Int = 50) -> [CoreValueRating]{
+        
+        do {
+            let request = NSFetchRequest<CoreValueRatingEntity>(entityName: "CoreValueRatingEntity")
+            request.fetchLimit = limit
+            request.predicate = NSCompoundPredicate.PredicateBuilder(criteria: criteria, object:.valueRating)
+            let CoreValueRatingsList = try container.viewContext.fetch(request)
+            return CoreValueRatingsList.map({CoreValueRating(entity: $0)})
+        } catch let error {
+            print ("ERROR FETCHING CoreValueRating. \(error)")
+        }
+        return [CoreValueRating]()
+    }
+    
+    func UpdateCoreValueRating(id: UUID, request: UpdateCoreValueRatingRequest) -> Bool {
+        
+        if var entityToUpdate = GetCoreValueRatingEntity(id: id) {
+            
+            entityToUpdate.amount = Int16(request.amount)
+            saveData()
+            return true
+        }
+        
+        return false
+    }
+    
+    func DeleteCoreValueRating(id: UUID) -> Bool{
+        if let CoreValueRatingToDelete = GetCoreValueRatingEntity(id: id){
+            container.viewContext.delete(CoreValueRatingToDelete)
+            saveData()
+            return true
+        }
+        return false
+    }
+    
     // MARK: - ACTIVITY
     
     func CreateActivity(request: CreateActivityRequest) -> UUID{
@@ -1438,7 +1535,6 @@ class DataService: DataServiceProtocol {
     }
     
     func ListActivities(limit: Int = 50) -> [Activity]{
-        
         do {
             let request = NSFetchRequest<ActivityEntity>(entityName: "ActivityEntity")
             request.fetchLimit = limit

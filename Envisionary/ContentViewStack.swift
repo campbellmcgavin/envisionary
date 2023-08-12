@@ -113,43 +113,48 @@ struct ContentViewStack: View {
     
     @ViewBuilder
     func BuildUnlockCard() -> some View{
-        VStack(alignment:.leading){
-            
-            ForEach(vm.filtering.filterObject.toTextArray(), id:\.self){
-                text in
-                Text(text)
-                    .multilineTextAlignment(.leading)
-                    .frame(alignment:.leading)
-                    .font(.specify(style: .h5))
-                    .foregroundColor(.specify(color: .grey9))
-                    .frame(maxWidth:.infinity, alignment:.leading)
-                    .padding()
-                    .modifier(ModifierForm(color:.grey2))
-                    .padding([.leading,.trailing], 8)
-            }
-            
-            let object = vm.filtering.filterObject
-            let noCustomizeArray: [ObjectType] = [.session, .home, .entry, .emotion]
-            if !noCustomizeArray.contains(object){
+        VStack{
+            VStack(alignment:.leading){
                 
-                let text = vm.filtering.filterObject == .creed ? "We built out your " + vm.filtering.filterObject.toPluralString().lowercased() + " based on the values for your archetype, the " + vm.archetype.toString() : "We built out your " + vm.filtering.filterObject.toPluralString() + " based on your archetype, the " + vm.archetype.toString()
-                Text(text)
-                    .multilineTextAlignment(.leading)
-                    .frame(alignment:.leading)
-                    .font(.specify(style: .h5))
-                    .foregroundColor(.specify(color: .grey9))
-                    .frame(maxWidth:.infinity, alignment:.leading)
-                    .padding()
-                    .modifier(ModifierForm(color:.grey2))
-                    .padding([.leading,.trailing], 8)
-            }
-            
-            TextButton(isPressed: $shouldUnlockObject, text: "Unlock " + vm.filtering.filterObject.toPluralString(), color: .grey0, backgroundColor: .grey10, style:.h3, shouldHaveBackground: true, shouldFill: true)
+                ForEach(vm.filtering.filterObject.toTextArray(), id:\.self){
+                    text in
+                    Text(text)
+                        .multilineTextAlignment(.leading)
+                        .frame(alignment:.leading)
+                        .font(.specify(style: .h5))
+                        .foregroundColor(.specify(color: .grey9))
+                        .frame(maxWidth:.infinity, alignment:.leading)
+                        .padding()
+                        .modifier(ModifierForm(color:.grey2))
+                        .padding([.leading,.trailing], 8)
+                }
                 
+                let object = vm.filtering.filterObject
+                let noCustomizeArray: [ObjectType] = [.session, .home, .entry, .emotion]
+                if !noCustomizeArray.contains(object){
+                    
+                    let text = vm.filtering.filterObject == .creed ? "We built out your " + vm.filtering.filterObject.toPluralString().lowercased() + " based on the values for your archetype, the " + vm.archetype.toString() : "We built out your " + vm.filtering.filterObject.toPluralString() + " based on your archetype, the " + vm.archetype.toString()
+                    Text(text)
+                        .multilineTextAlignment(.leading)
+                        .frame(alignment:.leading)
+                        .font(.specify(style: .h5))
+                        .foregroundColor(.specify(color: .grey9))
+                        .frame(maxWidth:.infinity, alignment:.leading)
+                        .padding()
+                        .modifier(ModifierForm(color:.grey2))
+                        .padding([.leading,.trailing], 8)
+                }
+                
+                
+                
+            }
+            .padding([.top, .bottom],8)
+            .modifier(ModifierCard())
+            .padding(.top)
+        TextIconButton(isPressed: $shouldUnlockObject, text: "Unlock " + vm.filtering.filterObject.toPluralString(), color: .grey0, backgroundColor: .grey10, fontSize: .h3, shouldFillWidth: true)
+            .padding(.top)
+            .padding([.leading,.trailing],8)
         }
-        .padding([.top, .bottom],8)
-        .modifier(ModifierCard())
-        .padding(.top)
     }
     
     func UpdateData(){
@@ -164,7 +169,7 @@ struct ContentViewStack: View {
             case .aspect:
                 propertiesList = vm.ListAspects(criteria: vm.filtering.GetFilters()).sorted(by: {$0.title < $1.title}).map({Properties(aspect: $0)})
             case .goal:
-                propertiesDictionary = vm.GroupGoals(criteria: vm.filtering.GetFilters(), grouping: vm.grouping.goal).mapValues({$0.map({Properties(goal: $0)})})
+                propertiesDictionary = vm.GroupGoals(criteria: vm.filtering.GetFilters(), grouping: vm.grouping.goal, excludeGoalsWithChildren: vm.filtering.filterIncludeCalendar).mapValues({$0.map({Properties(goal: $0)})})
             case .chapter:
                 propertiesDictionary = vm.GroupChapters(criteria: vm.filtering.GetFilters(), grouping: vm.grouping.chapter).mapValues({$0.map({Properties(chapter: $0)})})
             case .entry:
@@ -174,10 +179,12 @@ struct ContentViewStack: View {
                 propertiesList = vm.ListSessions(criteria: vm.filtering.GetFilters()).sorted(by: {$0.dateCompleted > $1.dateCompleted}).map({Properties(session: $0)})
             case .home:
                 propertiesDictionary.removeAll()
-                let recurrences = vm.ListRecurrences(criteria: GetHabitCriteria()).sorted(by: {!$0.isComplete && $1.isComplete}).map({Properties(recurrence: $0)})
+                let recurrences = vm.ListRecurrences(criteria: GetRecurrenceCriteria()).sorted(by: {!$0.isComplete && $1.isComplete}).map({Properties(recurrence: $0)})
                 let favorites = vm.ListPrompts(criteria: Criteria(type: .favorite)).map({Properties(prompt: $0)})
                 let hints = vm.ListPrompts(criteria: Criteria(type: .suggestion)).map({Properties(prompt: $0)})
-                let goals = vm.ListGoals(criteria: GetTaskCriteria()).sorted(by: {$0.startDate < $1.startDate}).map({Properties(goal: $0)})
+                let goals = vm.ListGoals(criteria: GetGoalCriteria()).sorted(by: {$0.startDate < $1.startDate})
+                    
+                let goalsFiltered = goals.filter({vm.ListChildGoals(id: $0.id).count == 0}).map({Properties(goal: $0)})
                 
                 if recurrences.count > 0 {
                     propertiesDictionary[HomeObjectType.habit.toPluralString()] = recurrences
@@ -189,7 +196,7 @@ struct ContentViewStack: View {
                     propertiesDictionary[HomeObjectType.hint.toPluralString()] = hints
                 }
                 if goals.count > 0{
-                    propertiesDictionary[HomeObjectType.goal.toPluralString()] = goals
+                    propertiesDictionary[HomeObjectType.goal.toPluralString()] = goalsFiltered
                 }
             case .habit:
                 propertiesDictionary = vm.GroupHabits(criteria: vm.filtering.GetFilters(), grouping: vm.grouping.habit).mapValues({$0.map({Properties(habit: $0)})})
@@ -204,17 +211,19 @@ struct ContentViewStack: View {
         }
     }
     
-    func GetHabitCriteria() -> Criteria{
+    func GetRecurrenceCriteria() -> Criteria{
         var criteria = Criteria()
         criteria.date = Date()
         criteria.timeframe = .day
+        criteria.archived = false
         return criteria
     }
     
-    func GetTaskCriteria() -> Criteria{
+    func GetGoalCriteria() -> Criteria{
         var criteria = Criteria()
         criteria.date = Date()
         criteria.timeframe = .day
+        criteria.archived = false
         return criteria
     }
     
@@ -324,7 +333,7 @@ struct ContentViewStack: View {
         var limitingResultsString = ""
         
         if includeCalendar && object.hasCalendar(){
-            limitingResultsString = " Results limited by date and timeframe."
+            limitingResultsString = " Results limited by date."
         }
         
         return showingString + formatString + sortedString + topLevelGoalString + limitingResultsString
@@ -352,7 +361,7 @@ struct ContentViewStack: View {
                     }
                     
                     if vm.filtering.filterObject.hasCalendar(){
-                        RadioButton(isSelected: $vm.filtering.filterIncludeCalendar, selectedColor: .grey8, deselectedColor: .grey4, switchColor: .grey2, iconColor: .grey2, iconType: .timeframe)
+                        TextIconButton(isPressed: $vm.filtering.filterIncludeCalendar, text: "Calendar", color: vm.filtering.filterIncludeCalendar ? .grey10 : .grey8, backgroundColor: vm.filtering.filterIncludeCalendar ? .purple : .grey15, fontSize: .caption, shouldFillWidth: false, iconType: .timeframe)
                             .padding([.leading,.trailing])
                     }
                 }
@@ -374,16 +383,8 @@ struct ContentViewStack: View {
                     }
                 }
                 else{
-                    ZStack{
-                        "shape_astronaut_cable".ToImage(imageSize:110)
-                            .offset(x:75,y:-75)
-                            .opacity(0.8)
-                        "shape_astronaut_lost".ToImage(imageSize: 150)
-                            .wiggling(intensity:1.5)
-                    }
-                    .offset(y:110)
-                    .opacity(GetOpacity())
-                    
+                    LabelAstronaut(opacity: GetOpacity())
+                        .offset(y:110)
                 }
                 Spacer()
             }
@@ -398,22 +399,54 @@ struct ContentViewStack: View {
     func GroupBuilder() -> some View{
         
         let objectType = vm.filtering.filterObject
+        let shouldShowFlatStack = objectType == .goal && vm.filtering.filterIncludeCalendar && GetResultCount() < 10
         
-        LazyVStack(spacing:0){
-            ForEach(headers, id:\.self){ header in
-                VStack(alignment:.leading, spacing:0){
-                    HeaderWithContent(shouldExpand: $shouldExpandAll, headerColor: .grey10, header: header, isExpanded: shouldExpandAll, content: {
-                        VStack(alignment:.leading,spacing:0){
-                            
-                                if objectType == .home{
-                                    HomeBuilder(header: header)
-                                }
-                                else{
-                                    
-                                    if let propertyList = propertiesDictionary[header]{
+        if shouldShowFlatStack{
+            VStack(spacing:0){
+                GroupBuilderHelper()
+            }
+        }
+        else{
+            LazyVStack(spacing:0){
+                GroupBuilderHelper()
+            }
+        }
+
+    }
+    
+    @ViewBuilder
+    func GroupBuilderHelper() -> some View{
+        let objectType = vm.filtering.filterObject
+        let shouldShowFlatStack = objectType == .goal && vm.filtering.filterIncludeCalendar
+        
+        ForEach(headers, id:\.self){ header in
+            VStack(alignment:.leading, spacing:0){
+                HeaderWithContent(shouldExpand: $shouldExpandAll, headerColor: .grey10, header: header, isExpanded: shouldExpandAll, content: {
+                    VStack(alignment:.leading,spacing:0){
+                        
+                            if objectType == .home{
+                                HomeBuilder(header: header)
+                            }
+                            else{
+                                
+                                if let propertyList = propertiesDictionary[header]{
+                                    if shouldShowFlatStack{
+                                        ForEach(propertyList){ properties in
+                                            VStack{
+                                                GoalTrackingCard(goalId: properties.id)
+                                            }
+                                            
+                                            if propertyList.last != properties{
+                                                StackDivider()
+                                            }
+                                        }
+                                    }
+                                    else{
                                         ForEach(propertyList){ properties in
                                             
-                                            PhotoCard(objectType: objectType, objectId: properties.id, properties: properties)
+                                            VStack{
+                                                PhotoCard(objectType: objectType, objectId: properties.id, properties: properties)
+                                            }
                                             
                                             if propertyList.last != properties{
                                                 StackDivider()
@@ -421,10 +454,10 @@ struct ContentViewStack: View {
                                         }
                                     }
                                 }
-                        }
-                        .modifier(ModifierCard())
-                    })
-                }
+                            }
+                    }
+                    .modifier(ModifierCard())
+                })
             }
         }
     }
@@ -460,6 +493,8 @@ struct ContentViewStack: View {
         case .prompt:
             return false
         case .recurrence:
+            return false
+        default:
             return false
         }
     }

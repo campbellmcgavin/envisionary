@@ -40,7 +40,7 @@ struct ContentView: View {
                         
                         ScrollViewReader{
                             proxy in
-                            ObservableScrollView(offset: $offset, content:{
+                            ObservableScrollView(showsIndicators: false, offset: $offset, content:{
                                 
                                 VStack{
                                     Spacer()
@@ -182,11 +182,6 @@ struct ContentView: View {
                     isPresentingMainMenu = true
                     UserDefaults.standard.set(true, forKey: SettingsKeyType.finishedFirstLaunch.toString())
                 }
-                
-//                if isFirstAppear && vm.tutorialStep != SetupStepType.allCases.last!{
-//                    isFirstAppear = false
-//                    vm.filtering.filterContent = (vm.tutorialStep.toObject() ?? .value).toContentType()
-//                }
             }
         }
 

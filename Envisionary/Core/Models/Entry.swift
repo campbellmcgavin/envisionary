@@ -15,6 +15,7 @@ struct Entry: Identifiable, Codable, Equatable, Hashable {
     var startDate: Date
     var images: [UUID]
     var chapterId: UUID?
+    var archived: Bool
         
     init(id: UUID = UUID(), title: String, description: String, startDate: Date, images: [UUID], chapterId: UUID) {
         self.id = id
@@ -23,6 +24,7 @@ struct Entry: Identifiable, Codable, Equatable, Hashable {
         self.startDate = startDate
         self.images = images
         self.chapterId = chapterId
+        self.archived = false
     }
     
     init(request: CreateEntryRequest){
@@ -33,6 +35,7 @@ struct Entry: Identifiable, Codable, Equatable, Hashable {
         self.chapterId = request.chapterId
         self.images = request.images
         self.chapterId = request.chapterId
+        self.archived = false
     }
     
     init(){
@@ -43,6 +46,7 @@ struct Entry: Identifiable, Codable, Equatable, Hashable {
         self.chapterId = UUID()
         self.images = [UUID]()
         self.chapterId = nil
+        self.archived = false
     }
     
     init(from entity: EntryEntity){
@@ -52,5 +56,6 @@ struct Entry: Identifiable, Codable, Equatable, Hashable {
         self.startDate = entity.startDate ?? Date()
         self.chapterId = entity.chapterId
         self.images = entity.images?.toIdArray() ?? [UUID]()
+        self.archived = entity.archived
     }
 }

@@ -11,7 +11,9 @@ enum ViewType: CaseIterable {
     case tree
     case gantt
     case kanban
+    case goalValueAlignment
     case creed
+    case valueGoalAlignment
     
     func toString() -> String{
         switch self {
@@ -23,6 +25,10 @@ enum ViewType: CaseIterable {
             return "Kanban"
         case .creed:
             return "Editor"
+        case .goalValueAlignment:
+            return "Values"
+        case .valueGoalAlignment:
+            return "Alignment"
         }
     }
         
@@ -36,11 +42,28 @@ enum ViewType: CaseIterable {
             return "Carry goals from start to finish."
         case .creed:
             return "Take your core values and create a life's mission statement."
+        case .goalValueAlignment:
+            return "Ensure that your goals are in-line with your core values, and who you want to become."
+        case .valueGoalAlignment:
+            return "Ensure that your goals are in-line with your core values, and who you want to become."
+        }
+    }
+    
+    func toSubDescription() -> String?{
+        switch self {
+        case .goalValueAlignment:
+            return "FYI, you only need to align your values on super goals. You won't see this on your sub goals."
+        case .valueGoalAlignment:
+            return "FYI, you only need to align your values on super goals. You won't see this on your sub goals."
+        default:
+            return nil
         }
     }
     
     func shouldHaveButton(button: ViewMenuButtonType) -> Bool {
         switch self {
+        case .goalValueAlignment:
+            return false
         case .tree:
             switch button {
             case .delete:
@@ -63,11 +86,17 @@ enum ViewType: CaseIterable {
                 return false
             case .backward:
                 return false
+            case .expand_all:
+                return true
+            case .timeAdd:
+                return false
+            case .timeSubtract:
+                return false
             }
         case .gantt:
             switch button {
             case .delete:
-                return true
+                return false
             case .timeBack:
                 return true
             case .timeForward:
@@ -77,15 +106,21 @@ enum ViewType: CaseIterable {
             case .photo:
                 return false
             case .edit:
-                return true
+                return false
             case .add:
-                return true
+                return false
             case .goTo:
                 return true
             case .forward:
                 return false
             case .backward:
                 return false
+            case .expand_all:
+                return true
+            case .timeAdd:
+                return true
+            case .timeSubtract:
+                return true
             }
         case .kanban:
             switch button {
@@ -100,15 +135,17 @@ enum ViewType: CaseIterable {
             case .photo:
                 return false
             case .edit:
-                return true
+                return false
             case .add:
-                return true
+                return false
             case .goTo:
                 return true
             case .forward:
                 return true
             case .backward:
                 return true
+            default:
+                return false
             }
         case .creed:
             switch button {
@@ -132,7 +169,15 @@ enum ViewType: CaseIterable {
                 return false
             case .goTo:
                 return true
+            default:
+                return false
             }
+        case .valueGoalAlignment:
+            return false
         }
+    }
+    
+    static func fromString(from string: String) -> Self{
+        return Self.allCases.first(where: {$0.toString() == string}) ?? .tree
     }
 }

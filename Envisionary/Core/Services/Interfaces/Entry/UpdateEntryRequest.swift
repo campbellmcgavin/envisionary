@@ -13,11 +13,21 @@ struct UpdateEntryRequest {
     var description: String
     var images: [UUID]
     var chapterId: UUID?
+    var archived: Bool
     
     init(properties: Properties){
         self.title = properties.title ?? ""
         self.description = properties.description ?? ""
         self.images = properties.images ?? [UUID]()
         self.chapterId = properties.chapterId
+        self.archived = properties.archived ?? false
+    }
+    
+    init(entry: Entry){
+        self.title = entry.title
+        self.description = entry.description
+        self.images = entry.images
+        self.chapterId = entry.chapterId
+        self.archived = entry.archived
     }
 }

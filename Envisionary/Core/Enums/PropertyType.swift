@@ -54,6 +54,12 @@ enum PropertyType: String, CaseIterable, Identifiable{
     case emotions = "emotions"
     case activities = "activities"
     
+    // ARCHIVING
+    case archived = "archived"
+    
+    // VALUE RATING
+    case valueId = "valueId"
+    
     func toIcon() -> IconType{
         switch self {
         case .startDate:
@@ -114,6 +120,10 @@ enum PropertyType: String, CaseIterable, Identifiable{
             return .run
         case .emotionalState:
             return .upDown
+        case .archived:
+            return .archived
+        case .valueId:
+            return .value
         }
     }
     
@@ -177,6 +187,10 @@ enum PropertyType: String, CaseIterable, Identifiable{
             return "Activities"
         case .emotionalState:
             return "Emotional State"
+        case .archived:
+            return "Archived"
+        case .valueId:
+            return "Value Id"
         }
     }
     

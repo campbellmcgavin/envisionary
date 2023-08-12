@@ -15,6 +15,7 @@ struct DetailMenu: View {
     var objectId: UUID
     @Binding var selectedObjectID: UUID
     @Binding var shouldMarkAsFavorite: Bool
+    @Binding var shouldMarkAsArchived: Bool
     @Binding var finishedLoading: Bool
     var shouldAllowDelete: Bool
     @State var shouldPresentDelete: Bool = false
@@ -27,22 +28,30 @@ struct DetailMenu: View {
     
     var body: some View {
         HStack(spacing:7){
+
             IconButton(isPressed: $shouldGoBack, size: .medium, iconType: .arrow_left, iconColor: .purple, circleColor: .grey10)
             Spacer()
-            if objectType.hasDetailMenuButton(button: .delete) && shouldAllowDelete{
+            
+            if shouldMarkAsArchived{
+                Text("Archived")
+                    .font(.specify(style: .h6))
+                    .foregroundColor(.specify(color: .grey10))
+            }
+            if objectType.hasDetailMenuButton(button: .delete) && shouldAllowDelete && !shouldMarkAsArchived{
                 IconButton(isPressed: $shouldPresentDelete, size: .medium, iconType: .delete, iconColor: .red, circleColor: .grey10)
             }
-            if objectType.hasDetailMenuButton(button: .favorite){
-                IconButton(isPressed: $shouldMarkAsFavorite, size: .medium, iconType: .favorite, iconColor: shouldMarkAsFavorite ? .purple : .grey8, circleColor: .grey10)
+            if objectType.hasDetailMenuButton(button: .archive){
+                IconButton(isPressed: $shouldMarkAsArchived, size: .medium, iconType: .archived_filled, iconColor: .purple, circleColor: .grey10)
+                
+            }
+            if objectType.hasDetailMenuButton(button: .favorite) && !shouldMarkAsArchived{
+                IconButton(isPressed: $shouldMarkAsFavorite, size: .medium, iconType: .favorite, iconColor: shouldMarkAsFavorite ? .lightYellow : .purple, circleColor: shouldMarkAsFavorite ? .yellow : .grey10)
                     .disabled(!finishedLoading)
             }
-//            if objectType.hasDetailMenuButton(button: .help){
-//                IconButton(isPressed: $shouldPresentHelp, size: .medium, iconType: .help, iconColor: .purple, circleColor: .grey10)
-//            }
-            if objectType.hasDetailMenuButton(button: .edit){
+            if objectType.hasDetailMenuButton(button: .edit) && !shouldMarkAsArchived{
                 IconButton(isPressed: $shouldPresentEdit, size: .medium, iconType: .edit, iconColor: .purple, circleColor: .grey10)
             }
-            if objectType.hasDetailMenuButton(button: .add) && ShouldAllowDelete(){
+            if objectType.hasDetailMenuButton(button: .add) && !shouldMarkAsArchived{
                 IconButton(isPressed: $shouldPresentAdd, size: .medium, iconType: .add, iconColor: .purple, circleColor: .grey10)
             }
         }
@@ -78,13 +87,6 @@ struct DetailMenu: View {
             isPresentingModal.toggle()
         }
 //        .onChange(of: shouldPresent)
-    }
-    
-    func ShouldAllowDelete() -> Bool{
-        if objectType == .goal{
-            return vm.GetGoal(id: objectId)?.timeframe != .day
-        }
-        return true
     }
 }
 

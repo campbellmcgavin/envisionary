@@ -19,12 +19,12 @@ struct TutorialLoadPreviousData: View {
         VStack{
             
             if !shouldUseNewData{
-                TextButton(isPressed: $shouldUsePreviousData, text: "Use existing data", color: .grey0, backgroundColor: .grey10, style:.h3, shouldHaveBackground: true, shouldFill: true)
+                TextIconButton(isPressed: $shouldUsePreviousData, text: "Use existing data", color: .grey0, backgroundColor: .grey10, fontSize: .h3, shouldFillWidth: true)
                     .padding(.bottom, canProceed ? 0 : 20)
             }
 
             if !shouldUsePreviousData{
-                TextButton(isPressed: $shouldUseNewData, text: "Delete and start fresh", color: .grey10, backgroundColor: .red, style:.h3, shouldHaveBackground: true, shouldFill: true)
+                TextIconButton(isPressed: $shouldUseNewData, text: "Delete and start fresh", color: .grey10, backgroundColor: .red, fontSize: .h3, shouldFillWidth: true)
                 
                 Spacer()
                 
@@ -41,6 +41,7 @@ struct TutorialLoadPreviousData: View {
 
             
         }
+        .padding(8)
         .disabled(canProceed)
         .opacity(canProceed ? 0.35 : 1.0)
         .onChange(of: shouldUsePreviousData){

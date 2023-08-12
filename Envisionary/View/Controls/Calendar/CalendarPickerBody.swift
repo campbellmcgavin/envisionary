@@ -56,17 +56,14 @@ struct CalendarPickerBody: View {
                     switch timeframe{
                     case .month:
                         ForEach(dates){ value in
-
                             CalendarPickerCard(date: $date, filterTimeframe: $timeframe, localized: localized, isSelected: GetIsSelected(value: value), containsGoal: dateValuesWithContent.contains(where:{$0 == value.day}), value: value)
                         }
                     case .year:
                         ForEach(dates){ value in
-
                             CalendarPickerCard(date: $date, filterTimeframe: $timeframe, localized: localized, isSelected: GetIsSelected(value: value), containsGoal: dateValuesWithContent.contains(where:{$0 == value.day}), value: value)
                         }
                     case .decade:
                         ForEach(dates){ value in
-
                             CalendarPickerCard(date: $date, filterTimeframe: $timeframe, localized: localized, isSelected: GetIsSelected(value: value), containsGoal: dateValuesWithContent.contains(where:{$0 == value.day}), value: value)
                         }
                     default:
@@ -80,8 +77,23 @@ struct CalendarPickerBody: View {
         .onChange(of: timeframe){ _ in
             GetDateValuesArray(timeframeType: timeframe)
         }
-        .onChange(of:date){ _ in
-            GetDateValuesArray(timeframeType: timeframe)
+        .onChange(of:date){ [date] newDate in
+            
+            switch timeframe {
+            case .decade:
+                if !newDate.isInSameDecade(as: date){
+                    GetDateValuesArray(timeframeType: timeframe)
+                }
+            case .year:
+                if !newDate.isInSameYear(as: date){
+                    GetDateValuesArray(timeframeType: timeframe)
+                }
+            default:
+                if !newDate.isInSameMonth(as: date){
+                    GetDateValuesArray(timeframeType: timeframe)
+                }
+            }
+
         }
         .onAppear{
             GetDateValuesArray(timeframeType: timeframe)
@@ -232,7 +244,22 @@ struct CalendarPickerCard: View {
                 .foregroundColor(.specify(color: .grey8))
                 .frame(height: 30,alignment: .top)
                 .onTapGesture {
-                    date = value.date
+                    if !value.date.isInSameTimeframe(as: date, timeframeType: filterTimeframe){
+                        
+                        if filterTimeframe == .year || filterTimeframe == .decade{
+                            let calendar = Calendar(identifier:.gregorian)
+                            let theYear = calendar.dateComponents([.year], from: value.date).year!
+                            let everythingElse = calendar.dateComponents([.month,.day], from: date)
+                            var components = DateComponents()
+                            components.year = theYear
+                            components.month = everythingElse.month ?? 1
+                            components.day = everythingElse.day ?? 1
+                            date = calendar.date(from: components) ?? value.date
+                        }
+                        else{
+                            date = value.date
+                        }
+                    }
                 }
             }
         }

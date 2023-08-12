@@ -195,6 +195,8 @@ enum GroupingType: CaseIterable {
             return false
         case .recurrence:
             return false
+        case .valueRating:
+            return false
         }
     }
     

@@ -18,7 +18,6 @@ enum ModalType{
     case photoSource
     case photo
     case feedback
-//    case setup
     
     
     func ShouldShowImage(objectType: ObjectType) -> Bool {

@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-enum CustomColor{
+enum CustomColor: CaseIterable{
     
     //normal colors
     case red

@@ -12,9 +12,8 @@ struct SessionSaveCheckpoint: View {
     
     var body: some View {
         VStack{
-            TextButton(isPressed: $shouldSave, text: shouldSave ? "Saved" : "Save", color: shouldSave ? .grey7 : .grey0, backgroundColor: shouldSave ? .grey3 : .grey10, style: .h3, shouldHaveBackground: true)
+            TextIconButton(isPressed: $shouldSave, text: shouldSave ? "Saved" : "Save", color: shouldSave ? .grey7 : .grey0, backgroundColor: shouldSave ? .grey3 : .grey10, fontSize: .h3, shouldFillWidth: true)
                 .padding([.leading,.trailing],-8)
-//                .padding(.top)
                 .disabled(shouldSave)
         }
     }

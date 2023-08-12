@@ -23,11 +23,11 @@ struct GoalEditSimpleCard: View {
             FormStackPicker(fieldValue: $priorityString, fieldName: PropertyType.priority.toString(), options: .constant(PriorityType.allCases.map({$0.toString()})), iconType: .priority)
         }
         .onAppear{
-            aspectString = goal.aspect.toString()
+            aspectString = goal.aspect
             priorityString = goal.priority.toString()
         }
         .onChange(of: aspectString){ _ in
-            goal.aspect = AspectType.fromString(input: aspectString)
+            goal.aspect = aspectString
         }
         .onChange(of: priorityString){ _ in
             goal.priority = PriorityType.fromString(input: priorityString)

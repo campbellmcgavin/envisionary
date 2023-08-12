@@ -37,7 +37,7 @@ struct IconLabel: View {
                 return size.ToSize()*1.1
             }
             else{
-                return size.ToSize()*0.75
+                return size.ToSize()*0.8
             }
         }
     }

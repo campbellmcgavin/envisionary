@@ -13,6 +13,9 @@ struct GoalTrackingCard: View {
     @State private var timer = Timer.publish(every: 0.5, on: .main, in: .common).autoconnect()
     @State var amount = 0
     @State var shouldProcessChange = false
+    @State var isVisible = false
+    let totalAmount = 100
+    
     @EnvironmentObject var vm: ViewModel
     
     var body: some View {
@@ -20,11 +23,16 @@ struct GoalTrackingCard: View {
             PhotoCard(objectType: .goal, objectId: goalId, properties: Properties(goal:goal), shouldHidePadding: true, imageSize: .mediumLarge)
                 .padding([.leading,.trailing],15)
 
-            FormCheckoff(fieldValue: $amount, shouldProcessChange: $shouldProcessChange, checkoffType: .checkoff, totalAmount: 100)
-                .frame(alignment:.trailing)
-                .padding(.leading,65)
-                .padding(.top,-5)
-                .padding([.bottom,.trailing])
+            HStack(spacing:6){
+                GoalDependencyStack(isVisible: $isVisible, objectId: goalId, tapToShow: true)
+                IconButton(isPressed: $shouldProcessChange, size: .medium, iconType: .confirm, iconColor: .grey10, circleColor: GetIsComplete() ? .green : .grey3)
+                    .padding(.trailing,8)
+            }
+            .modifier(ModifierForm(color:.grey15))
+            .padding(8)
+            .padding(.bottom,5)
+            .padding(.leading, isVisible ? 0 : 59)
+            .padding(.top,-10)
   
         }
         .onAppear{
@@ -33,6 +41,7 @@ struct GoalTrackingCard: View {
         }
         .onChange(of: shouldProcessChange){
             _ in
+            amount = GetIsComplete() ? 0 : totalAmount
             UpdateGoal()
         }
         .onChange(of: vm.updates.goal){
@@ -43,6 +52,10 @@ struct GoalTrackingCard: View {
     
     func UpdateGoal(){
         _ = vm.UpdateGoalProgress(id: goalId, progress: amount)
+    }
+    
+    func GetIsComplete() -> Bool {
+        return goal.progress >= totalAmount
     }
     
     func stopTimer() {

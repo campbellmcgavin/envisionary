@@ -11,10 +11,11 @@ struct Properties: Identifiable, Equatable, Hashable, Codable{
     let id: UUID
     var chapterId: UUID?
     var parentGoalId: UUID?
+    var valueId: UUID?
     
     var title: String?
-    var coreValue: String??
-    var aspect: AspectType?
+    var coreValue: String?
+    var aspect: String?
     var description: String?
     var timeframe: TimeframeType?
     var startDate: Date?
@@ -26,7 +27,6 @@ struct Properties: Identifiable, Equatable, Hashable, Codable{
     
     var start: String?
     var end: String?
-    
     var valuesDictionary: [String: Bool]?
     
     var scheduleType: ScheduleType?
@@ -53,11 +53,14 @@ struct Properties: Identifiable, Equatable, Hashable, Codable{
     var objectType: ObjectType?
     var objectId: UUID?
     
+    //archiving
+    var archived: Bool?
+    
     init(objectType: ObjectType){
         timeframe = .day
         startDate = Date()
         endDate = Date()
-        aspect = AspectType.allCases.randomElement()!
+        aspect = AspectType.allCases.randomElement()!.toString()
         priority = PriorityType.allCases.randomElement()!
         title = "Learn Spanish"
         description = "I want to learn Spanish using duo lingo over a period of 12 months. I will spend 4 hours per day, 5 days per week. I will track my metrics using the app interface and then use people I can hold myself accountable to."
@@ -67,16 +70,6 @@ struct Properties: Identifiable, Equatable, Hashable, Codable{
     }
     
     init(){
-        timeframe = nil
-        startDate = nil
-        endDate = nil
-        aspect = nil
-        priority = nil
-        title = nil
-        description = nil
-        parentGoalId = nil
-        image = nil
-        images = nil
         id = UUID()
     }
     
@@ -86,13 +79,13 @@ struct Properties: Identifiable, Equatable, Hashable, Codable{
         self.scheduleType = recurrence?.scheduleType ?? .oncePerDay
         self.amount = recurrence?.amount ?? 0
         self.habitId = recurrence?.habitId
+        self.archived = recurrence?.archived
     }
     
     init(goal: Goal?){
         self.id = goal?.id ?? UUID()
         self.title = goal?.title ?? "Empty Goal"
         self.description = goal?.description ?? "Empty Description"
-        self.timeframe = goal?.timeframe
         self.startDate = goal?.startDate
         self.endDate = goal?.endDate
         self.aspect = goal?.aspect
@@ -100,6 +93,7 @@ struct Properties: Identifiable, Equatable, Hashable, Codable{
         self.progress = goal?.progress
         self.parentGoalId = goal?.parentId
         self.image = goal?.image
+        self.archived = goal?.archived
     }
     
     init(dream: Dream?){
@@ -108,6 +102,7 @@ struct Properties: Identifiable, Equatable, Hashable, Codable{
         self.description = dream?.description ?? "Empty Description"
         self.aspect = dream?.aspect
         self.image = dream?.image
+        self.archived = dream?.archived
     }
     
     init(value: CoreValue?){
@@ -115,22 +110,15 @@ struct Properties: Identifiable, Equatable, Hashable, Codable{
         self.title = value?.title ?? "Empty Value"
         self.coreValue = value?.title
         self.description = value?.description ?? "Empty Description"
+        self.image = value?.image
     }
     
     init(aspect: Aspect?){
         self.id = aspect?.id ?? UUID()
         self.title = aspect?.title ?? "Empty Value"
         self.description = aspect?.description ?? "Empty Description"
+        self.image = aspect?.image
     }
-    
-//    init(task: Task?){
-//        self.id = task?.id ?? UUID()
-//        self.title = task?.title ?? "Empty Value"
-//        self.description = task?.description ?? "Empty Description"
-//        self.startDate = task?.startDate
-//        self.endDate = task?.endDate
-//        self.progress = task?.progress
-//    }
     
     init(creed: Bool, valueCount: Int){
         self.id = UUID()
@@ -140,12 +128,20 @@ struct Properties: Identifiable, Equatable, Hashable, Codable{
         self.end = "Death"
     }
     
+    init(valueRating: CoreValueRating){
+        self.id = valueRating.id
+        self.parentGoalId = valueRating.parentGoalId
+        self.valueId = valueRating.coreValueId
+        self.amount = valueRating.amount
+    }
+    
     init(chapter: Chapter?){
         self.id = chapter?.id ?? UUID()
         self.title = chapter?.title ?? "Empty Chapter"
         self.description = chapter?.description ?? "Empty Description"
         self.aspect = chapter?.aspect
         self.image = chapter?.image
+        self.archived = chapter?.archived
     }
     init(entry: Entry?){
         self.id = entry?.id ?? UUID()
@@ -154,6 +150,7 @@ struct Properties: Identifiable, Equatable, Hashable, Codable{
         self.images = entry?.images
         self.chapterId = entry?.chapterId
         self.startDate = entry?.startDate
+        self.archived = entry?.archived
     }
     
     init(prompt: Prompt?){
@@ -192,6 +189,7 @@ struct Properties: Identifiable, Equatable, Hashable, Codable{
         self.amount = habit?.amount
         self.unitOfMeasure = habit?.unitOfMeasure
         self.scheduleType = habit?.schedule
+        self.archived = habit?.archived
     }
     
     init(emotion: Emotion?){
@@ -224,6 +222,17 @@ struct Properties: Identifiable, Equatable, Hashable, Codable{
             return .fieldCannotBeEmpty
         case .startDate:
             return .fieldCannotBeEmpty
+        case .endDate:
+            if endDate == nil{
+                return .fieldCannotBeEmpty
+            }
+            if startDate == nil{
+                return .fieldCannotBeEmpty
+            }
+            if (startDate!.isAfter(date: endDate!)){
+                return .fieldCannotBeBefore
+            }
+            return nil
         case .aspect:
             return .fieldCannotBeEmpty
         case .priority:
@@ -267,7 +276,7 @@ struct Properties: Identifiable, Equatable, Hashable, Codable{
         case .startDate:
             return startDate != nil
         case .endDate:
-            return timeframe != nil
+            return endDate != nil && startDate != nil && !startDate!.isAfter(date: endDate!)
         case .aspect:
             return aspect != nil
         case .priority:

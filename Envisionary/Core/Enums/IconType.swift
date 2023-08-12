@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-enum IconType {
+enum IconType: CaseIterable {
     case add
     case delete
     case edit
@@ -101,6 +101,15 @@ enum IconType {
     case zoomOut
     
     case chat
+    case archived
+    case archived_filled
+    
+    case maximize_all
+    case minimize_all
+    
+    case time_add
+    case time_subtract
+    
     
     func ToIconString() -> String{
         switch self {
@@ -244,6 +253,19 @@ enum IconType {
             return "Icon_Zoom_Out"
         case .chat:
             return "Icon_Chat"
+        case .archived:
+            return "Icon_Archived"
+        case .archived_filled:
+            return "Icon_Archived_Filled"
+        case .maximize_all:
+            return "Icon_Maximize_All"
+        case .minimize_all:
+            return "Icon_Minimize_All"
+        case .time_add:
+            return "Icon_Time_Add"
+        case .time_subtract:
+            return "Icon_Time_Subtract"
+            return "Icon_Time_Subtract"
         }
     }
 }

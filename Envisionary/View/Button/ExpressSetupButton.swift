@@ -16,10 +16,10 @@ struct ExpressSetupButton: View {
     var body: some View {
         
         HStack{
-            TextButton(isPressed: $shouldBeExpress, text: "Express",  color:!isExpressSetup ? .grey0 : .grey1, backgroundColor: isExpressSetup ? .grey10 : .grey4, style:.h5, shouldHaveBackground: true, shouldFill: true, hasPadding: false)
-                .frame(maxWidth:.infinity)
-            
-            TextButton(isPressed: $shouldNotBeExpress, text: "Custom", color: !isExpressSetup ? .grey0 : .grey0, backgroundColor: !isExpressSetup ? .grey10 : .grey4, style:.h5, shouldHaveBackground: true, shouldFill: true, hasPadding: false)
+//            TextButton(isPressed: $shouldBeExpress, text: "Express",  color:!isExpressSetup ? .grey0 : .grey1, backgroundColor: isExpressSetup ? .grey10 : .grey4, style:.h5, shouldHaveBackground: true, shouldFill: true, hasPadding: false)
+//                .frame(maxWidth:.infinity)
+//
+//            TextButton(isPressed: $shouldNotBeExpress, text: "Custom", color: !isExpressSetup ? .grey0 : .grey0, backgroundColor: !isExpressSetup ? .grey10 : .grey4, style:.h5, shouldHaveBackground: true, shouldFill: true, hasPadding: false)
         }
         .onChange(of: shouldBeExpress){
             _ in

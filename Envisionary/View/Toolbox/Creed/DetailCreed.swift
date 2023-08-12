@@ -29,11 +29,11 @@ struct DetailCreed: View {
     
     var body: some View {
         
-        DetailView(viewType: .creed, objectId: UUID(), selectedObjectId: $focusValue, selectedObjectType: .constant(.value), shouldExpandAll: $shouldExpand, expandedObjects: .constant([UUID]()), isPresentingModal: $isPresentingModal, modalType: $modalType, isPresentingSourceType: .constant(false), currentTimeframe: .day, content: {
+        DetailView(viewType: .creed, objectId: UUID(), selectedObjectId: $focusValue, selectedObjectType: .constant(.value), shouldExpandAll: $shouldExpand, expandedObjects: .constant([UUID]()), isPresentingModal: $isPresentingModal, modalType: $modalType, isPresentingSourceType: .constant(false), didEditPrimaryGoal: .constant(false), currentTimeframe: .day, content: {
         
             MainContentBuilder()
 
-        })
+        }, aboveContent: {EmptyView()})
         .onAppear(){
             properties.title = "Life's Creed"
             values = vm.ListCoreValues(criteria: vm.filtering.GetFilters())

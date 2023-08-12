@@ -12,7 +12,6 @@ struct PropertyRow: View {
     let propertyType: PropertyType
     var date: Date?
     var timeframe: TimeframeType?
-    var aspect: AspectType?
     var int: Int?
     var priority: PriorityType?
     var text: String?
@@ -20,13 +19,30 @@ struct PropertyRow: View {
     var schedule: ScheduleType?
     var unit: UnitType?
     
+    @EnvironmentObject var vm: ViewModel
+    
     var body: some View {
         
-        Button{
-            
-            
-        }
-    label:{
+        
+        BuildLabel()
+    }
+    
+    @ViewBuilder
+    func BuildNavButton(aspect: Aspect) -> some View{
+        NavigationLink(destination: {Detail(objectType: .aspect, objectId: aspect.id)}, label: {
+            ZStack{
+                BuildLabel()
+                HStack{
+                    Spacer()
+                    IconLabel(size: .extraSmall, iconType: .right, iconColor: .grey3)
+                }
+            }
+        })
+        .id(UUID())
+    }
+    
+    @ViewBuilder
+    func BuildLabel() -> some View{
         VStack(alignment:.leading){
             HStack(alignment:.center, spacing:0){
                 
@@ -49,9 +65,7 @@ struct PropertyRow: View {
                 .padding(.trailing)
                 Spacer()
                 
-//                if propertyType != .title && propertyType != .description{
-//                    IconLabel(size: .extraSmall, iconType: .right, iconColor: .grey3)
-//                }
+
 
             }
             .frame(alignment:.leading)
@@ -60,9 +74,6 @@ struct PropertyRow: View {
                 .overlay(Color.specify(color: .grey2))
                 .padding(.leading,50)
         }
-    }
-    .disabled(true)//(propertyType == .title || propertyType == .description)
-
     }
     
     func GetPropertyAsString() -> String{
@@ -78,7 +89,7 @@ struct PropertyRow: View {
         case .dateCompleted:
             return date?.toString(timeframeType: .day) ?? Date().toString(timeframeType: .day)
         case .aspect:
-            return aspect?.toString() ?? AspectType.academic.toString()
+            return text ?? AspectType.academic.toString()
         case .priority:
             return priority?.toString() ?? PriorityType.high.toString()
         case .progress:

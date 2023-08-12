@@ -130,12 +130,14 @@ struct Setup: View {
 //                            }
                     }
                     else if !disabled{
-                        LargeTextButtonWithicon(isPressed: $shouldAct)
+                        
+                        TextIconButton(isPressed: $shouldAct, text: "Get Envisioning", color: .grey0, backgroundColor: .grey10, fontSize: .h3, shouldFillWidth: false, iconType: .arrow_right)
                     }
         
                 }
             }
-            .padding([.leading,.trailing],20)
+            .padding([.leading,.trailing])
+            .padding(.bottom)
             
         }
         .background(Color.specify(color: .grey0))
@@ -168,7 +170,7 @@ struct Setup: View {
         case .loadPreviousData:
             SetupTemplate(canProceed: BindingCanProceedMessages(for: .loadPreviousData), bumpScrollView: $bumpScrollView, textArray: SetupStepType.loadPreviousData.toTextArray(), content: {TutorialLoadPreviousData(canProceed: BindingCanProceedStep(for: .loadPreviousData), didUsePreviousData: $didUsePreviousData)})
         case .oneMoreThing:
-            SetupTemplate(canProceed: BindingCanProceedMessages(for: .oneMoreThing), bumpScrollView: $bumpScrollView, textArray: SetupStepType.oneMoreThing.toTextArray(), content: {TutorialPermissions(canProceed: BindingCanProceedStep(for: .oneMoreThing))})
+            SetupTemplate(canProceed: BindingCanProceedMessages(for: .oneMoreThing), bumpScrollView: $bumpScrollView, textArray: SetupStepType.oneMoreThing.toTextArray(), content: {TutorialPermissions(canProceed: BindingCanProceedStep(for: .oneMoreThing))}, shouldShowCard: false)
         default:
             EmptyView()
         }

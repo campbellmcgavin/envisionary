@@ -440,16 +440,38 @@ extension Date{
     var isInThePast:   Bool { self < Date() }
     
     
+    static func toBestTimeframe(start: Date, end: Date) -> TimeframeType{
+        let diff = end - start
+        
+        // greater than 20 years
+        if diff > 20 * 365 * 24 * 60 * 60
+        {
+            return .decade
+        }
+        // 5- 20 years
+        else if diff > 5 * 365 * 24 * 60 * 60
+        {
+            return .year
+        }
+        // 12 - 72 months
+        else if diff > 12 * 30 * 24 * 60 * 60
+        {
+            return .month
+        }
+        // 0 - 12 months
+        return .week
+    }
+    
     static func - (lhs: Date, rhs: Date) -> TimeInterval {
         return lhs.timeIntervalSinceReferenceDate - rhs.timeIntervalSinceReferenceDate
     }
     
     func isAfter(date: Date) -> Bool{
-        return self < date
+        return self > date
     }
     
     func isBefore(date: Date) -> Bool{
-        return self > date
+        return self < date
     }
 
     func isBetween(datePair: DatePair) -> Bool {
@@ -516,6 +538,13 @@ extension Date{
     func DayOfWeek() -> String{
         let dateFormatter = DateFormatter()
         let weekday = dateFormatter.shortWeekdaySymbols[Calendar(identifier: .gregorian).component(.weekday, from: self) - 1]
+        
+        return weekday
+    }
+    
+    func LongDayOfWeek() -> String{
+        let dateFormatter = DateFormatter()
+        let weekday = dateFormatter.weekdaySymbols[Calendar(identifier: .gregorian).component(.weekday, from: self) - 1]
         
         return weekday
     }

@@ -16,6 +16,7 @@ struct Recurrence: Identifiable, Codable, Equatable, Hashable{
     let timeOfDay: TimeOfDayType
     let startDate: Date
     let endDate: Date
+    let archived: Bool
     
     init(from entity: RecurrenceEntity){
         self.id = entity.id ?? UUID()
@@ -26,6 +27,7 @@ struct Recurrence: Identifiable, Codable, Equatable, Hashable{
         self.timeOfDay = TimeOfDayType.fromString(input: entity.timeOfDay ?? "")
         self.startDate = entity.startDate ?? Date()
         self.endDate = entity.endDate ?? Date()
+        self.archived = entity.archived
     }
     
     init(){
@@ -37,5 +39,6 @@ struct Recurrence: Identifiable, Codable, Equatable, Hashable{
         timeOfDay = .notApplicable
         startDate = Date()
         endDate = Date()
+        archived = false
     }
 }

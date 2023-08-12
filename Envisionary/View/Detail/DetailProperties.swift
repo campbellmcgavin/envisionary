@@ -91,7 +91,7 @@ struct DetailProperties: View {
             }
         case .aspect:
             if properties.aspect != nil {
-                PropertyRow(propertyType: .aspect, aspect:properties.aspect)
+                PropertyRow(propertyType: .aspect, text:properties.aspect)
             }
         case .priority:
             if properties.priority != nil {
@@ -162,6 +162,8 @@ struct DetailProperties: View {
             let _ = "why"
         }
     }
+    
+    
     
     func GetEvaluationDicitonaryItem(evaluation: EvaluationType) -> Int{
         if let evaluationDictionary = properties.evaluationDictionary{

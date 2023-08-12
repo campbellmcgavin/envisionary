@@ -7,12 +7,14 @@
 
 import SwiftUI
 
-struct GanttMain: View {
+struct GanttView: View {
     
     var goalId: UUID
     @Binding var focusGoal: UUID
     @Binding var expandedGoals: [UUID]
     @Binding var timeframe: TimeframeType
+    @Binding var didEditPrimaryGoal: Bool
+    var image: UIImage? 
     @State var dateValues: [DateValue] = [DateValue]()
     @State var offsetX: CGFloat = 0
     @State var goal: Goal = Goal()
@@ -21,39 +23,38 @@ struct GanttMain: View {
     @EnvironmentObject var vm: ViewModel
     @State var shouldZoomOut = false
     @State var shouldZoomIn = false
-    
     var body: some View {
-        
-        
         ZStack(alignment:.topLeading){
 
-            ScrollView(isPreview ? [.horizontal] : [.horizontal,.vertical], showsIndicators: true){
-                ZStack(alignment:.leading){
+            ScrollView(.horizontal, showsIndicators: false){
+                ZStack(alignment:.topLeading){
                     GanttMainDateColumns(dateValues: dateValues, columnWidth: columnWidth, timeframeType: timeframe)
                     HStack{
                         
                         GanttMainDiagram(parentGoalId: goalId, goalId: goalId, focusGoal: $focusGoal, expandedGoals: $expandedGoals, value: { localGoalId in
                             
-                            BubbleView(goalId: localGoalId, focusGoal: $focusGoal, width: GetWidth(localGoalId: localGoalId), offset: GetOffset(localGoalId: localGoalId), shouldShowDetails: false)
+                            BubbleView(goalId: localGoalId, focusGoal: $focusGoal, width: GetWidth(localGoalId: localGoalId), offset: GetOffset(localGoalId: localGoalId), shouldShowDetails: false, ignoreImageLoad: true, ignoreImageRefresh: true)
                         }, childCount: 0,  currentTimeframeType: $timeframe)
                     }
-                
                     .offset(x: columnWidth/2 + 30, y:columnWidth/2)
                     .padding(.bottom,columnWidth/2)
                 }
                 .offset(x:columnWidth + 28)
             }
+            
             Rectangle()
                 .frame(width:34)
                 .frame(maxHeight:.infinity)
                 .foregroundColor(.specify(color: .grey15))
                 .padding(.top,columnWidth/2-5)
-            TreeDiagramView(goalId: goalId, focusGoal: $focusGoal, expandedGoals: $expandedGoals, value: { goalId in
-                DotView(goalId: goalId, focusGoal: $focusGoal, shouldShowStatusLabel: true)
-                
-            }, childCount: 0, isStatic: true)
-            .offset(x:10, y:columnWidth/2)
             
+            
+                TreeView(goalId: goalId, focusGoal: $focusGoal, expandedGoals: $expandedGoals, value: { goalId in
+                    DotView(goalId: goalId, focusGoal: $focusGoal, shouldShowStatusLabel: true, ignoreImageRefresh: true)
+                    
+                }, childCount: 0, isStatic: true, shouldScroll: false)
+                .offset(x:10, y:columnWidth/2 - 5)
+
             VStack{
                 Spacer()
                 HStack{
@@ -79,15 +80,19 @@ struct GanttMain: View {
         }
         .onChange(of: vm.updates.goal){
             _ in
+            
             goal = vm.GetGoal(id: goalId) ?? Goal()
             
-            DispatchQueue.global(qos: .userInteractive).async{
-                    GetDateValues()
+            if didEditPrimaryGoal{
+                DispatchQueue.global(qos: .userInteractive).async{
+                        GetDateValues()
+                }
             }
+            didEditPrimaryGoal = false
         }
         .onAppear(){
             goal = vm.GetGoal(id: goalId) ?? Goal()
-            timeframe = goal.timeframe
+            timeframe = Date.toBestTimeframe(start: goal.startDate, end: goal.endDate)
             GetDateValues()
         }
     }

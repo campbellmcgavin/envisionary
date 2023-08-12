@@ -32,32 +32,43 @@ struct ModalFeedback: View {
                             FormViewPicker(fieldValue: $feedbackProperties.mainScreen, fieldName: "What screen is having the bug?", options: GetOptions(), iconType: .help)
                         }
                     }
-                    FormText(fieldValue: $feedbackProperties.description, fieldName: "Description", axis: .vertical, iconType: .description)
+                        FormText(fieldValue: $feedbackProperties.description, fieldName: "Description", axis: .vertical, iconType: .description)
                     
-                    Spacer()
-                    
-                    TextButton(isPressed: $shouldSendFeedback, text: "Submit Feedback", color: .grey0, backgroundColor: .grey10, style:.h3, shouldHaveBackground: true, shouldFill: true)
                 }
                 .padding(8)
                 .onAppear(){
                     feedbackProperties = FeedbackProperties()
                     alerts.alerts.removeAll()
+                    shouldSendFeedback = false
                 }
             }
             else{
                 EmptyView()
             }
             
-        }, headerContent: {EmptyView()}, bottomContent: {EmptyView()}, betweenContent: {
+        }, headerContent: {EmptyView()}, bottomContent: {
+            
+            HStack{
+                if !shouldSendFeedback{
+                    Spacer()
+                    TextIconButton(isPressed: $shouldSendFeedback, text: "Send Feedback", color: .grey0, backgroundColor: .grey10, fontSize: .h3, shouldFillWidth: false, iconType: .chat)
+                        .padding()
+                }
+                
+                if shouldPresentClose{
+                    Spacer()
+                    TextIconButton(isPressed: $shouldClose, text: "Close", color: .grey0, backgroundColor: .grey10, fontSize: .h3, shouldFillWidth: false, iconType: .cancel)
+                        .padding()
+                }
+            }
+            .padding(.bottom,50)
+            
+        }, betweenContent: {
             VStack(spacing:0){
                 ForEach(alerts.alerts){
                     alert in
                     AlertLabel(alert: alert)
                         
-                }
-                if shouldPresentClose{
-                    TextButton(isPressed: $shouldClose, text: "Close", color: .grey0, backgroundColor: .grey10, style:.h3, shouldHaveBackground: true, shouldFill: true)
-                        .padding([.top])
                 }
             }
             .environmentObject(alerts)
@@ -71,8 +82,9 @@ struct ModalFeedback: View {
         }
         .onChange(of: shouldSendFeedback){
             _ in
-            
-            makePOSTCall()
+            if shouldSendFeedback{
+                makePOSTCall()
+            }
         }
         .onChange(of: statusCode){
             _ in

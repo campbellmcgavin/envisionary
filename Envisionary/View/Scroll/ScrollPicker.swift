@@ -253,7 +253,7 @@ final class UIScrollViewController<Content: View> : UIViewController, Observable
     var onScale: ((CGFloat)->Void)?
     let hostingController: UIHostingController<Content>
     private let axis: Axis
-    lazy var scrollView: UIScrollView = {
+    var scrollView: UIScrollView = {
         
         let scrollView                                       = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -264,9 +264,6 @@ final class UIScrollViewController<Content: View> : UIViewController, Observable
         scrollView.decelerationRate                          = .fast
         scrollView.bounces                                   = true
         
-        if self.onScale != nil {
-            scrollView.addGestureRecognizer(UIPinchGestureRecognizer(target: self, action: #selector(self.onGesture)))
-        }
         
         return scrollView
     }()

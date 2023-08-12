@@ -14,8 +14,7 @@ struct TutorialPermissions: View {
     @State var didAcceptNotifcations = false
     var body: some View {
         
-        
-        TextButton(isPressed: $shouldRequestPermissions, text: canProceed ? (didAcceptNotifcations ? "Notifications Enabled" : "Notifications Disabled") : "Enable Notifications", color: .grey0, backgroundColor: canProceed ? (didAcceptNotifcations ? .green : .red) : .grey10, style:.h3, shouldHaveBackground: true, shouldFill: true)
+        TextIconButton(isPressed: $shouldRequestPermissions, text: canProceed ? (didAcceptNotifcations ? "Notifications Enabled" : "Notifications Disabled") : "Enable Notifications", color: .grey0, backgroundColor: canProceed ? (didAcceptNotifcations ? .green : .red) : .grey10, fontSize: .h3, shouldFillWidth: true)
             .padding([.top,.bottom],8)
             .disabled(canProceed)
             .opacity(canProceed ? 0.3 : 1.0)
