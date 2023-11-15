@@ -20,7 +20,10 @@ struct ModalSettings: View {
     @State var promptContent: Bool = false
     @State var promptShowing: Bool = false
     @State var shouldExpandAll: Bool = true
-//    @State var groupingEmotion: String = GroupingType.title.toPluralString()
+    
+    @State var reminderDigest: Bool = false
+    @State var reminderEntry: Bool = false
+    @State var reminderValue: Bool = false
     
     @EnvironmentObject var vm: ViewModel
     var body: some View {
@@ -30,6 +33,7 @@ struct ModalSettings: View {
                 ParentHeaderButton(shouldExpandAll: $shouldExpandAll, color: .purple, header: "Expand All", headerCollapsed: "Collapse All")
                 GetContent()
                 GetContentPrompts()
+                GetNotificationsPrompt()
                 Spacer()
             }
             .frame(minHeight:180)
@@ -47,6 +51,9 @@ struct ModalSettings: View {
                 promptObject = vm.helpPrompts.object
                 promptContent = vm.helpPrompts.content
                 promptShowing = vm.helpPrompts.showing
+                reminderEntry = vm.notifications.entry
+                reminderDigest = vm.notifications.digest
+                reminderValue = vm.notifications.valueAlignment
             }
             .onChange(of: groupingDream){
                 _ in
@@ -93,7 +100,25 @@ struct ModalSettings: View {
                 vm.helpPrompts.showing = promptShowing
                 UserDefaults.standard.set(vm.helpPrompts.showing, forKey: SettingsKeyType.help_prompts_showing.toString())
             }
-        
+            .onChange(of: reminderEntry){
+                _ in
+                vm.notifications.entry = reminderEntry
+                UserDefaults.standard.set(vm.notifications.entry, forKey: SettingsKeyType.notification_entry.toString())
+            }
+            .onChange(of: reminderValue){
+                _ in
+                vm.notifications.valueAlignment = reminderValue
+                UserDefaults.standard.set(vm.notifications.valueAlignment, forKey: SettingsKeyType.notification_value_align.toString())
+            }
+            .onChange(of: reminderDigest){
+                _ in
+                vm.notifications.digest = reminderDigest
+                UserDefaults.standard.set(vm.notifications.digest, forKey: SettingsKeyType.notification_digest.toString())
+            }
+            .onChange(of: vm.notifications){
+                _ in
+                _ = vm.CreateNotifications()
+            }
     }
     
     @ViewBuilder
@@ -102,6 +127,22 @@ struct ModalSettings: View {
             VStack(spacing:10){
                 FormRadioButton(fieldValue: $promptContent, caption: "Help", fieldName: HelpPromptType.content.toString() + " Prompts", iconType: .help)
                 FormRadioButton(fieldValue: $promptObject, caption: "Help", fieldName: HelpPromptType.object.toString() + " Prompts", iconType: .help)
+            }
+            .padding([.leading,.trailing],8)
+            .padding([.top])
+        })
+    }
+    
+    @ViewBuilder
+    func GetNotificationsPrompt() -> some View {
+        HeaderWithContent(shouldExpand: $shouldExpandAll, headerColor: .grey10, header: "Notifications", content: {
+            VStack(spacing:10){
+                FormRadioButton(fieldValue: $reminderDigest, caption: "Mornings", fieldName: PromptType.digest.toString() + " Reminders", iconType: .notification)
+                FormInlineDescription(description: PromptType.digest.toDescription())
+                FormRadioButton(fieldValue: $reminderEntry, caption: "Evenings", fieldName: PromptType.entry.toString() + " Reminders", iconType: .notification)
+                FormInlineDescription(description: PromptType.entry.toDescription())
+                FormRadioButton(fieldValue: $reminderValue, caption: "Bi-Weekly", fieldName: PromptType.valueAlignment.toString() + " Reminders", iconType: .notification)
+                FormInlineDescription(description: PromptType.valueAlignment.toDescription())
             }
             .padding([.leading,.trailing],8)
             .padding([.top])

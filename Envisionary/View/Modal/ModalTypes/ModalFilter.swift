@@ -44,13 +44,13 @@ struct ModalFilter: View {
             .onChange(of:shouldClearFilters){
                 _ in
                 
-                vm.filtering.filterProgress = nil
+                vm.filtering.filterProgress = 0
                 vm.filtering.filterTitle = ""
                 vm.filtering.filterDescription = ""
                 vm.filtering.filterAspect = ""
                 vm.filtering.filterChapter = ""
                 vm.filtering.filterProgress = 0
-                vm.filtering.filterPriority = nil
+                vm.filtering.filterPriority = ""
                 vm.filtering.filterCoreValue = ""
                 aspectString = ""
                 priorityString = ""

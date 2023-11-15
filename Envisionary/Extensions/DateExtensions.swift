@@ -439,7 +439,12 @@ extension Date{
     var isInTheFuture: Bool { self > Date() }
     var isInThePast:   Bool { self < Date() }
     
-    
+    func isHappeningDuring(start: Date, end: Date) -> Bool{
+        return (self.isInSameDay(as: start)) || (self.isInSameDay(as: end)) || (start < self && end > self)
+    }
+    static func isHappeningNow(start: Date, end: Date) -> Bool{
+        return (start.isInToday) || (end.isInToday) || (start.isInThePast && end.isInTheFuture)
+    }
     static func toBestTimeframe(start: Date, end: Date) -> TimeframeType{
         let diff = end - start
         

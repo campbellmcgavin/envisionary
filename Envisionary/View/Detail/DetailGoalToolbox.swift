@@ -14,7 +14,9 @@ struct DetailGoalToolbox: View {
     @Binding var modalType: ModalType
     @Binding var focusGoal: UUID
     var goalId: UUID
+    let proxy: ScrollViewProxy
     let isStatic = false
+    @State var newGoalId: UUID? = nil
     @State var image: UIImage? = nil
     @State var expandedGoals = [UUID]()
     @State var isExpanded: Bool = true
@@ -26,7 +28,9 @@ struct DetailGoalToolbox: View {
     @State var didEditPrimaryGoal = false
     @State var goal: Goal = Goal()
     @State var selectedView = ViewType.tree.toString()
+    @State var shouldShowAllCheckOff = false
     @State var viewOptions: [String] = [String]()
+    @State var dropFields: CheckOffDropDelegateField = CheckOffDropDelegateField()
     @EnvironmentObject var vm: ViewModel
     
     var body: some View {
@@ -34,20 +38,30 @@ struct DetailGoalToolbox: View {
             
             VStack{
                 switch viewType {
-                case .tree:
-                    TreeView(goalId: goalId, focusGoal: $focusGoal, expandedGoals: $expandedGoals, value: { goalId in
-                        BubbleView(goalId: goalId, focusGoal: $focusGoal, shouldShowStatusLabel: true)
-                    }, childCount: 0)
+//                case .tree:
+//                    TreeView(goalId: goalId, focusGoal: $focusGoal, expandedGoals: $expandedGoals, value: { goalId in
+//                        BubbleView(goalId: goalId, focusGoal: $focusGoal, shouldShowStatusLabel: true)
+//                    }, childCount: 0)
                 case .gantt:
                     GanttView(goalId: goalId, focusGoal: $focusGoal, expandedGoals: $expandedGoals, timeframe: $currentTimeframe, didEditPrimaryGoal: $didEditPrimaryGoal)
                         .padding(.top)
                 case .kanban:
                     KanbanView(isPresentingModal: $isPresentingModal, modalType: $modalType, focusGoal: $focusGoal, goalId: goalId)
                         .disabled(goal.archived)
-                case .goalValueAlignment:
-                    if goal.parentId == nil{
-                        GoalValueAlignmentView(goalId: goalId)
-                            .disabled(goal.archived)
+                case .checkOff:
+                    CheckoffView(shouldShowAll: $shouldShowAllCheckOff, focusGoal: $focusGoal, parentGoalId: goalId, goalId: goalId, leftPadding: -27, outerPadding: 17, canEdit: true, proxy: proxy, value: {
+                        goalId, leftPadding, outerPadding in
+                        CheckoffCard(goalId: goalId, superId: self.goalId, canEdit: true, leftPadding: leftPadding, outerPadding: outerPadding, proxy: proxy, selectedGoalId: $focusGoal, isPresentingModal: $isPresentingModal, modalType: $modalType, newGoalId: $newGoalId, dropFields: $dropFields)
+                            .padding(.leading,6)
+                    })
+                    .padding(.top,4)
+                    .onChange(of: dropFields.dropPerformed){
+                        _ in
+                        vm.UpdateGoalFromDragAndDrop(focusId: dropFields.currentItem?.id, selectedId: dropFields.currentDropTarget, selectedPlacement: dropFields.currentDropPlacement)
+                        
+                        dropFields.currentDropPlacement = nil
+                        dropFields.currentDropTarget = nil
+                        dropFields.currentItem = nil
                     }
                 default:
                     EmptyView()
@@ -69,12 +83,12 @@ struct DetailGoalToolbox: View {
                 goal = vm.GetGoal(id: goalId) ?? Goal()
                 viewOptions.removeAll()
                 
-                if goal.parentId == nil{
-                    viewOptions.append(ViewType.goalValueAlignment.toString())
-                }
-                viewOptions.append(ViewType.tree.toString())
+                viewOptions.append(ViewType.checkOff.toString())
+//                viewOptions.append(ViewType.tree.toString())
                 viewOptions.append(ViewType.gantt.toString())
                 viewOptions.append(ViewType.kanban.toString())
+                
+                
                 selectedView = viewOptions.first!
             }
             .onChange(of: vm.updates.goal){

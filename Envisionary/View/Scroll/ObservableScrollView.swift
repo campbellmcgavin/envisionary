@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ObservableScrollView<Content: View>: View {
-    var axes: Axis.Set = [.vertical]
+    var axes: Axis.Set = .vertical
     var showsIndicators = true
     @Binding var offset: CGPoint
     @ViewBuilder var content: () -> Content
@@ -21,6 +21,7 @@ struct ObservableScrollView<Content: View>: View {
     
     var body: some View {
         ScrollView(axes, showsIndicators: showsIndicators) {
+            
             PositionObservingView(
                 coordinateSpace: .named(coordinateSpaceName),
                 position: Binding(
@@ -37,14 +38,13 @@ struct ObservableScrollView<Content: View>: View {
         }
         .scrollDismissesKeyboard(.interactively)
         .coordinateSpace(name: coordinateSpaceName)
-        
     }
 }
 
 
 struct PositionObservingView<Content: View>: View {
     var coordinateSpace: CoordinateSpace
-@Binding var position: CGPoint
+    @Binding var position: CGPoint
     @ViewBuilder var content: () -> Content
 
     var body: some View {

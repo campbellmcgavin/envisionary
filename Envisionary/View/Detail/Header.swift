@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct Header<Content: View>: View {
-    @Binding var offset: CGPoint
+    @State var offset: CGPoint = CGPoint()
     var title: String
     var subtitle: String
     var objectType: ObjectType
@@ -19,9 +19,27 @@ struct Header<Content: View>: View {
     var image: UIImage?
     
     @ViewBuilder var content: Content
+    private let coordinateSpaceName = UUID()
     
     var body: some View {
         
+        PositionObservingView(
+            coordinateSpace: .named(coordinateSpaceName),
+            position: Binding(
+                get: { offset },
+                set: { newOffset in
+                    offset = CGPoint(
+                        x: -newOffset.x,
+                        y: -newOffset.y
+                    )
+                }
+            ),
+            content: {BuildHeader()}
+        )
+    }
+    
+    @ViewBuilder
+    func BuildHeader() -> some View{
         ZStack{
             VStack(alignment:.leading, spacing:0){
                 HStack(alignment:.top, spacing:0){

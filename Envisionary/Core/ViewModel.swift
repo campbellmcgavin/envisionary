@@ -15,8 +15,9 @@ class ViewModel: ObservableObject, DataServiceProtocol
     @Published var tutorialStep: SetupStepType = SetupStepType.fromString(from: UserDefaults.standard.string(forKey: SettingsKeyType.tutorial_step.toString()) ?? "")
     @Published var unlockedObjects = UnlockedObjects()
     @Published var helpPrompts = HelpPrompts()
+    @Published var notifications = NotificationPreferences()
     @Published var convertDreamToGoalId: UUID? = nil
-    
+    @Published var goalToolboxView: ViewType = .tree
     var archetype: ArchetypeType = ArchetypeType.fromString(from: UserDefaults.standard.string(forKey: SettingsKeyType.archetype_type.toString()) ?? "")
     
     // MARK: - GLOBAL STATE
@@ -56,6 +57,13 @@ class ViewModel: ObservableObject, DataServiceProtocol
     
     // MARK: - GOALS
     
+    func CreateGoal(request: CreateGoalRequest, silenceUpdates: Bool) -> UUID{
+        if !silenceUpdates{
+            GoalsDidChange()
+        }
+        return dataService.CreateGoal(request: request)
+    }
+    
     func CreateGoal(request: CreateGoalRequest) -> UUID{
         GoalsDidChange()
         return dataService.CreateGoal(request: request)
@@ -71,6 +79,11 @@ class ViewModel: ObservableObject, DataServiceProtocol
         return dataService.ListGoals(criteria: criteria, limit: limit)
     }
     
+    func ListParentGoals(id: UUID) -> [Goal] {
+        
+        return dataService.ListParentGoals(id: id)
+    }
+    
     func ListChildGoals(id: UUID) -> [Goal]{
         
         return dataService.ListChildGoals(id: id)
@@ -81,12 +94,16 @@ class ViewModel: ObservableObject, DataServiceProtocol
         return dataService.ListAffectedGoals(id: id)
     }
     
-    func GroupGoals(criteria: Criteria = Criteria(), grouping: GroupingType, excludeGoalsWithChildren: Bool = false) -> [String:[Goal]]{
-        
-        return dataService.GroupGoals(criteria: criteria, grouping: grouping, excludeGoalsWithChildren: excludeGoalsWithChildren)
+    func ComputeGoalPosition(parentId: UUID, siblingAbove: UUID?) -> String {
+        return dataService.ComputeGoalPosition(parentId: parentId, siblingAbove: siblingAbove)
     }
     
-    func UpdateGoals(requestDictionary: [UUID: UpdateGoalRequest]) -> Bool {
+    func GroupGoals(criteria: Criteria = Criteria(), grouping: GroupingType) -> [String:[Goal]]{
+        
+        return dataService.GroupGoals(criteria: criteria, grouping: grouping)
+    }
+    
+    func UpdateGoals(requestDictionary: [UUID: UpdateGoalRequest], updatePositionPreviousId: UUID? = nil) -> Bool {
         
         requestDictionary.forEach({ id, request in
             _ = dataService.UpdateGoal(id: id, request: request)
@@ -97,9 +114,54 @@ class ViewModel: ObservableObject, DataServiceProtocol
         return true
     }
     
+    func UpdateGoalFromDragAndDrop(focusId: UUID?, selectedId: UUID?, selectedPlacement: PlacementType?, shouldOutdent: Bool = false){
+        if let goalIdToUpdate = focusId{
+            if let goal = GetGoal(id: goalIdToUpdate){
+                var request = UpdateGoalRequest(goal: goal)
+                
+                
+                
+                if let placement = selectedPlacement {
+                    if let reorderGoalId = selectedId{
+                        
+                        if shouldOutdent{
+                            let childGoals = ListChildGoals(id: goal.parentId ?? UUID())
+                            
+                            if let focusGoalIndex = childGoals.firstIndex(of: goal){
+                                if focusGoalIndex + 1 <= childGoals.count - 1 {
+                                    for index in focusGoalIndex + 1...childGoals.count - 1{
+                                        let childGoal = childGoals[index]
+                                        var childRequest = UpdateGoalRequest(goal: childGoal)
+                                        childRequest.parent = goal.id
+                                        _ = UpdateGoal(id: childGoal.id, request: childRequest, notify: false)
+                                    }
+                                }
+                            }
+                        }
+                        
+                        request.reorderPlacement = placement
+                        request.reorderGoalId = reorderGoalId
+                        _ = UpdateGoal(id: goal.id, request: request, notify: false)
+                        
+                        GoalsDidChange()
+                    }
+                }
+            }
+        }
+    }
+    
     func UpdateGoal(id: UUID, request: UpdateGoalRequest) -> Bool {
         let returnVal = dataService.UpdateGoal(id: id, request: request)
         GoalsDidChange()
+        return returnVal
+    }
+    
+    func UpdateGoal(id: UUID, request: UpdateGoalRequest, notify: Bool = true) -> Bool {
+        let returnVal = dataService.UpdateGoal(id: id, request: request)
+        
+        if notify{
+            GoalsDidChange()
+        }
         return returnVal
     }
     
@@ -130,6 +192,7 @@ class ViewModel: ObservableObject, DataServiceProtocol
         for goal in affectedGoals{
             var request = UpdateGoalRequest(goal: goal)
             request.progress = progress
+            request.completedDate = progress >= 100 ? Date() : nil
             _ = dataService.UpdateGoal(id: goal.id, request: request)
         }
         
@@ -145,6 +208,7 @@ class ViewModel: ObservableObject, DataServiceProtocol
                     let progressDenominator = Double(childGoals.count <= 0 ? 1 : childGoals.count)
                     let progress = Int(progressNumerator/progressDenominator)
                     goal.progress = progress
+                    goal.completedDate = progress >= 100 ? Date() : nil
                     _ = dataService.UpdateGoal(id: parentIdLocal, request: UpdateGoalRequest(goal: goal))
                     parentId = goal.parentId
                 }
@@ -196,7 +260,7 @@ class ViewModel: ObservableObject, DataServiceProtocol
         return dataService.DeleteGoal(id: id)
     }
     
-    private func GoalsDidChange(){
+    func GoalsDidChange(){
         updates.goal.toggle()
     }
     
@@ -453,6 +517,75 @@ class ViewModel: ObservableObject, DataServiceProtocol
     
     private func PromptsDidChange(){ updates.prompt.toggle() }
     
+    // MARK: - NOTIFICATIONS
+    func CreateNotifications() -> Bool{
+        UNUserNotificationCenter.current().removeAllDeliveredNotifications() // For removing all delivered notification
+        UNUserNotificationCenter.current().removeAllPendingNotificationRequests() // For removing all pending notifications which are not delivered yet but scheduled.
+        
+        if notifications.digest{
+            let content = UNMutableNotificationContent()
+            content.title = PromptType.digest.toString()
+            content.body = PromptType.digest.toDescription()
+            content.sound = UNNotificationSound.default
+            content.badge = 1
+
+            var dateComponents = DateComponents()
+            dateComponents.hour = 9
+            dateComponents.minute = 0
+            // show this notification five seconds from now
+            let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+
+            // choose a random identifier
+            let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+
+            // add our notification request
+            UNUserNotificationCenter.current().add(request)
+        }
+
+        if (notifications.entry){
+            let content = UNMutableNotificationContent()
+            content.title = PromptType.entry.toString()
+            content.body = PromptType.entry.toDescription()
+            content.sound = UNNotificationSound.default
+            content.badge = 1
+
+            var dateComponents = DateComponents()
+            dateComponents.hour = 21
+            dateComponents.minute = 0
+            // show this notification five seconds from now
+            let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+
+            // choose a random identifier
+            let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+
+            // add our notification request
+            UNUserNotificationCenter.current().add(request)
+        }
+
+        if notifications.valueAlignment{
+            let content = UNMutableNotificationContent()
+            content.title = PromptType.valueAlignment.toString()
+            content.body = PromptType.valueAlignment.toDescription()
+            content.sound = UNNotificationSound.default
+            content.badge = 1
+            
+            var dateComponents = DateComponents()
+            dateComponents.hour = 20
+            dateComponents.minute = 0
+            dateComponents.weekday = 1
+            // show this notification five seconds from now
+            let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+
+            // choose a random identifier
+            let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+
+            // add our notification request
+            UNUserNotificationCenter.current().add(request)
+        }
+        
+        return true
+    }
+    
     // MARK: - HABITS
     
     func CreateHabit(request: CreateHabitRequest) -> UUID{
@@ -526,31 +659,6 @@ class ViewModel: ObservableObject, DataServiceProtocol
     
     private func RecurrencesDidChange(){
         updates.recurrence.toggle() }
-    
-    // MARK: - EMOTION
-    
-    func CreateEmotion(request: CreateEmotionRequest) -> UUID{
-        EmotionsDidChange()
-        return dataService.CreateEmotion(request: request)
-    }
-    
-    func GetEmotion(id: UUID) -> Emotion?{
-        return dataService.GetEmotion(id: id)
-    }
-    
-    func ListEmotions(criteria: Criteria = Criteria(), limit: Int = 50) -> [Emotion] {
-        return dataService.ListEmotions(criteria: criteria)
-    }
-    
-    func DeleteEmotion(id: UUID) -> Bool {
-        EmotionsDidChange()
-        return dataService.DeleteEmotion(id: id)
-    }
-    func GroupEmotions(criteria: Criteria = Criteria()) -> [String:[Emotion]]{
-        return dataService.GroupEmotions(criteria: criteria)
-    }
-    
-    private func EmotionsDidChange(){ updates.emotion.toggle() }
     
     // MARK: - ACTIVITY
     

@@ -43,7 +43,7 @@ struct Modal<ModalContent: View, HeaderContent: View, BottomContent: View, Betwe
                     ObservableScrollView(offset: $offset, content: {
                             
                         VStack(spacing:0){
-                                Header(offset: $offset, title: GetTitle(), subtitle: GetSubtitle(), objectType: objectType, color: GetHeaderColor(), headerFrame: $headerFrame, isPresentingImageSheet: $isPresentingImageSheet, modalType: modalType, image: image, content: {headerContent})
+                                Header(title: GetTitle(), subtitle: GetSubtitle(), objectType: objectType, color: GetHeaderColor(), headerFrame: $headerFrame, isPresentingImageSheet: $isPresentingImageSheet, modalType: modalType, image: image, content: {headerContent})
                                 .padding(.bottom, objectType.ShouldShowImage() ? 10 : 0)
                                 
                                 betweenContent

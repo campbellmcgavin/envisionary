@@ -15,14 +15,15 @@ struct Goal: Identifiable, Codable, Equatable, Hashable {
     var priority: PriorityType
     var startDate: Date
     var endDate: Date
+    var completedDate: Date?
     var progress: Int
     var aspect: String
     var image: UUID?
     var parentId: UUID?
-    var valuesDictionary: [String: Bool]?
     var archived: Bool
+    var position: String
     
-    init(id: UUID = UUID(), title: String, description: String, priority: PriorityType, startDate: Date, endDate: Date, percentComplete: Int, aspect: String, image: UUID?, parent: UUID?, tasks: [UUID], journals: [UUID]){
+    init(id: UUID = UUID(), title: String, description: String, priority: PriorityType, startDate: Date, endDate: Date, percentComplete: Int, aspect: String, image: UUID?, parent: UUID?, tasks: [UUID], journals: [UUID], position: String){
         self.id = id
         self.title = title
         self.description = description
@@ -33,35 +34,21 @@ struct Goal: Identifiable, Codable, Equatable, Hashable {
         self.image = image
         self.aspect = aspect
         self.parentId = parent
-        self.valuesDictionary = nil
         self.archived = false
+        self.position = position
     }
     
-    init(){
+    init(emptyTitle: Bool = false){
         self.id = UUID()
-        self.title = "New Goal"
-        self.description = "New Description"
+        self.title = emptyTitle ? "" : "New Goal"
+        self.description = ""
         self.priority = .moderate
         self.startDate = Date()
         self.endDate = Date()
         self.progress = 0
         self.aspect = AspectType.academic.toString()
-        self.valuesDictionary = nil
         self.archived = false
-    }
-    
-    init(request: CreateGoalRequest){
-        self.id = UUID()
-        self.title = request.title
-        self.description = request.description
-        self.priority = request.priority
-        self.startDate = request.startDate
-        self.endDate = request.endDate
-        self.progress = request.progress
-        self.aspect = request.aspect
-        self.image = request.image
-        self.parentId = request.parentId
-        self.archived = false
+        self.position = "A"
     }
     
     init(from entity: GoalEntity){
@@ -76,15 +63,8 @@ struct Goal: Identifiable, Codable, Equatable, Hashable {
         self.image = entity.image
         self.parentId = entity.parentId
         self.archived = entity.archived
-        
-        do {
-            let valuesDictionaryDecoded = try JSONSerialization.jsonObject(with: entity.valuesDictionary ?? Data(), options: [])
-            if let valuesDictionary = valuesDictionaryDecoded as? [String:Bool] {
-                self.valuesDictionary = valuesDictionary
-            }
-        } catch {
-            print(error.localizedDescription)
-        }
+        self.position = entity.position ?? ""
+        self.completedDate = entity.completedDate
     }
     
     mutating func update(from request: UpdateGoalRequest) {
@@ -98,5 +78,7 @@ struct Goal: Identifiable, Codable, Equatable, Hashable {
         aspect = request.aspect
         parentId = request.parent
         archived = request.archived
+        position = request.position
+        completedDate = request.completedDate
     }
 }

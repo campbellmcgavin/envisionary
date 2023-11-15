@@ -20,7 +20,7 @@ struct CreateSessionRequest {
     init(properties: Properties){
         self.date = properties.date ?? Date()
         self.title = (properties.timeframe ?? .day).toString() + " Session for " + (properties.date ?? Date()).toString(timeframeType: properties.timeframe ?? .day)
-        self.dateCompleted = properties.dateCompleted ?? Date()
+        self.dateCompleted = properties.completedDate ?? Date()
         self.timeframe = properties.timeframe ?? .year
         self.goalProperties = properties.goalProperties ?? [Properties]()
         self.evaluationDictionary = properties.evaluationDictionary ?? [UUID: EvaluationType]()

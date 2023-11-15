@@ -40,36 +40,28 @@ struct Detail: View {
         
         ZStack(alignment:.top){
             
-            ObservableScrollView(offset: $offset, content:{
+            ScrollViewReader{
+                proxy in
                 
-                ZStack(alignment:.top){
-                    LazyVStack(alignment:.leading){
-                        Header(offset: $offset, title: properties.title ?? "", subtitle: "View " + objectType.toString(), objectType: objectType, color: .purple, headerFrame: $headerFrame, isPresentingImageSheet: .constant(false), image: image, content: {EmptyView()})
+                
+                ScrollView(.vertical){
+                    VStack(alignment:.center){
                         
-//                        if(!isPresentingModal){
-                        ZStack(alignment:.top){
-                            DetailStack(offset: $offset, focusObjectId: $focusObjectid, isPresentingModal: $isPresentingModal, modalType: $modalType, statusToAdd: $statusToAdd, isPresentingSourceType: $isPresentingPhotoSource, shouldConvertToGoal: $shouldConvertToGoal, selectedImage: $selectedImage, properties: properties, objectId: objectId, objectType: objectType)
-//                            HStack{
-//                                Spacer()
-//                                IconButton(isPressed: .constant(false), size: .medium, iconType: .favorite, iconColor: .grey10, circleColor: .darkPurple, opacity:0.5, circleOpacity: 0.15)
-//                            }
-//                            .padding()
-////                            .offset(y: objectType.ShouldShowImage() ? -88 : -25)
-//                            .offset(y:objectType.ShouldShowImage() ? -35 : 20)
-                        }
-
-//                        }
+                        Header(title: properties.title ?? "", subtitle: "View " + objectType.toString(), objectType: objectType, color: .purple, headerFrame: $headerFrame, isPresentingImageSheet: .constant(false), image: image, content: {EmptyView()})
+                        
+                        DetailStack(focusObjectId: $focusObjectid, isPresentingModal: $isPresentingModal, modalType: $modalType, statusToAdd: $statusToAdd, isPresentingSourceType: $isPresentingPhotoSource, shouldConvertToGoal: $shouldConvertToGoal, selectedImage: $selectedImage, properties: properties, objectId: objectId, objectType: objectType, proxy: proxy)
+                            .offset(y:offset.y < 150 ? -offset.y/1.5 : -100)
                     }
-                }
-                .frame(alignment:.top)
-                
-                Spacer()
+                    .frame(alignment:.top)
+                    
+                    Spacer()
                         .frame(height:250)
+                }
+                .frame(width: UIScreen.screenWidth)
+                .ignoresSafeArea()
                 
-            })
-            .ignoresSafeArea()
-
-                
+            }
+            
             DetailMenu(objectType: objectType, dismiss: dismiss, isPresentingModal: $isPresentingModal, modalType: $modalType, objectId: objectId, selectedObjectID: $focusObjectid, shouldMarkAsFavorite: $shouldMarkAsFavorite, shouldMarkAsArchived: $shouldMarkAsArchived, finishedLoading: $finishedLoading, shouldAllowDelete: shouldAllowDelete)
                 .frame(alignment:.top)
             
@@ -80,6 +72,7 @@ struct Detail: View {
             HighlightImage(selectedImage: $selectedImage)
             
         }
+        .frame(alignment:.center)
         .background(Color.specify(color: .grey0))
         .navigationBarHidden(true)
         .onAppear{
@@ -100,7 +93,7 @@ struct Detail: View {
             
             if finishedLoading{
                 if shouldMarkAsFavorite {
-                    let request = CreatePromptRequest(type: .favorite, title: "", date: Date(), objectType: objectType, objectId: objectId)
+                    let request = CreatePromptRequest(type: .favorite, title: "", description: "", date: Date(), objectType: objectType, objectId: objectId)
                     _ = vm.CreatePrompt(request: request)
                 }
                 else{

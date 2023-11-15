@@ -12,6 +12,7 @@ struct TutorialPermissions: View {
     
     @State var shouldRequestPermissions: Bool = false
     @State var didAcceptNotifcations = false
+    
     var body: some View {
         
         TextIconButton(isPressed: $shouldRequestPermissions, text: canProceed ? (didAcceptNotifcations ? "Notifications Enabled" : "Notifications Disabled") : "Enable Notifications", color: .grey0, backgroundColor: canProceed ? (didAcceptNotifcations ? .green : .red) : .grey10, fontSize: .h3, shouldFillWidth: true)
@@ -30,9 +31,15 @@ struct TutorialPermissions: View {
             if success {
                 didAcceptNotifcations = true
                 canProceed = true
+                UserDefaults.standard.set(true, forKey: SettingsKeyType.notification_entry.toString())
+                UserDefaults.standard.set(true, forKey: SettingsKeyType.notification_value_align.toString())
+                UserDefaults.standard.set(true, forKey: SettingsKeyType.notification_digest.toString())
             } else if let error = error {
                 print(error.localizedDescription)
                 canProceed = true
+                UserDefaults.standard.set(false, forKey: SettingsKeyType.notification_entry.toString())
+                UserDefaults.standard.set(false, forKey: SettingsKeyType.notification_value_align.toString())
+                UserDefaults.standard.set(false, forKey: SettingsKeyType.notification_digest.toString())
             }
             
         }

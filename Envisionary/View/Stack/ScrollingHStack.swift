@@ -28,6 +28,7 @@ struct SelectableHStack: View {
                 BuildView()
             }
             .frame(maxWidth:.infinity)
+            .modifier(ModifierCard(color:.grey2, padding:0))
         }
     }
     
@@ -36,7 +37,10 @@ struct SelectableHStack: View {
         ForEach(options, id:\.self){
             option in
             Button{
-                fieldValue = option
+                withAnimation{
+                    fieldValue = option
+                }
+                
             }
         label:{
             TextIconLabel(text: option, color: .grey10, backgroundColor: GetColor(text: option), fontSize: fontSize, shouldFillWidth: shouldScroll ? false : true)
@@ -49,7 +53,7 @@ struct SelectableHStack: View {
             return .purple
         }
         else{
-            return .grey3
+            return .clear
         }
     }
 }

@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct DetailStack: View {
-    @Binding var offset: CGPoint
     @Binding var focusObjectId: UUID
     @Binding var isPresentingModal: Bool
     @Binding var modalType: ModalType
@@ -19,6 +18,7 @@ struct DetailStack: View {
     var properties: Properties
     let objectId: UUID
     let objectType: ObjectType
+    let proxy: ScrollViewProxy
     
     @State var superGoal: Goal = Goal()
     @State var shouldExpandAll: Bool = true
@@ -28,7 +28,7 @@ struct DetailStack: View {
     
 
     var body: some View {
-        VStack(alignment:.leading, spacing:0){
+        VStack(alignment:.center, spacing:0){
             ForEach(DetailStackType.allCases){
                 detailStack in
                 if objectType.hasDetailStack(detailStack: detailStack){
@@ -36,7 +36,6 @@ struct DetailStack: View {
                 }
             }
         }
-        .offset(y:offset.y < 150 ? -offset.y/1.5 : -100)
         .frame(alignment:.leading)
         .offset(y:100)
         .onAppear(){
@@ -77,7 +76,6 @@ struct DetailStack: View {
         .id(navLinkId)
     }
     
-    
     @ViewBuilder
     func BuildStack(detailStack: DetailStackType) -> some View{
         switch detailStack {
@@ -96,7 +94,8 @@ struct DetailStack: View {
             }
         case .convertToGoal:
             if properties.archived != true{
-                TextIconButton(isPressed: $shouldConvertToGoal, text: "Convert to goal", color: .grey0, backgroundColor: .grey10, fontSize: .h3, shouldFillWidth: true, iconType: .goal)
+                TextIconButton(isPressed: $shouldConvertToGoal, text: "Convert to goal", color: .grey0, backgroundColor: .grey10, fontSize: .h3, shouldFillWidth: true)
+                    .padding(.top,35)
             }
         case .parentHeader:
             ParentHeaderButton(shouldExpandAll: $shouldExpandAll, color: .purple, header: "Expand All", headerCollapsed: "Collapse All")
@@ -105,6 +104,10 @@ struct DetailStack: View {
                 .frame(maxWidth:.infinity)
         case .creed:
             DetailCreed(shouldExpand: $shouldExpandAll, isPresentingModal: $isPresentingModal, modalType: $modalType, focusValue: $focusObjectId)
+        case .goalValueAlignment:
+            if properties.parentGoalId == nil {
+                DetailGoalValueAlignmentView(shouldExpand: $shouldExpandAll, goalId: objectId)
+            }
         case .valueGoalAlignment:
             DetailValueGoalAlignmentView(shouldExpand: $shouldExpandAll, valueId: objectId)
         case .images:
@@ -112,7 +115,9 @@ struct DetailStack: View {
         case .children:
             DetailChildren(shouldExpand: $shouldExpandAll, objectId: objectId, objectType: .chapter, shouldAllowNavigation: true)
         case .toolbox:
-            DetailGoalToolbox(shouldExpand: $shouldExpandAll, isPresentingModal: $isPresentingModal, isPresentingSourceType: $isPresentingSourceType, modalType: $modalType, focusGoal: $focusObjectId, goalId: objectId)
+            if properties.parentGoalId == nil {
+                DetailGoalToolbox(shouldExpand: $shouldExpandAll, isPresentingModal: $isPresentingModal, isPresentingSourceType: $isPresentingSourceType, modalType: $modalType, focusGoal: $focusObjectId, goalId: objectId, proxy: proxy)
+            }
         case .affectedGoals:
             DetailAffectedGoals(shouldExpand: $shouldExpandAll, sessionProperties: properties)
         case .habitProgress:
@@ -123,7 +128,11 @@ struct DetailStack: View {
 
 struct DetailStack_Previews: PreviewProvider {
     static var previews: some View {
-        DetailStack(offset: .constant(.zero), focusObjectId: .constant(UUID()), isPresentingModal: .constant(false) , modalType: .constant(.add), statusToAdd: .constant(.notStarted), isPresentingSourceType: .constant(false), shouldConvertToGoal: .constant(false), selectedImage: .constant(nil) , properties: Properties() , objectId: UUID() ,objectType: .goal)
-            .environmentObject(ViewModel())
+        ScrollViewReader{
+            proxy in
+            DetailStack(focusObjectId: .constant(UUID()), isPresentingModal: .constant(false) , modalType: .constant(.add), statusToAdd: .constant(.notStarted), isPresentingSourceType: .constant(false), shouldConvertToGoal: .constant(false), selectedImage: .constant(nil) , properties: Properties() , objectId: UUID() ,objectType: .goal, proxy: proxy)
+                .environmentObject(ViewModel())
+        }
+
     }
 }

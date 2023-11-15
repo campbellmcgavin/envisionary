@@ -49,11 +49,6 @@ enum PropertyType: String, CaseIterable, Identifiable{
     case isComplete = "isComplete"
     case habitId = "habitId"
     
-    // EMOTIONS
-    case emotionalState = "emotionalState"
-    case emotions = "emotions"
-    case activities = "activities"
-    
     // ARCHIVING
     case archived = "archived"
     
@@ -114,11 +109,6 @@ enum PropertyType: String, CaseIterable, Identifiable{
             return .confirm
         case .habitId:
             return .habit
-        case .emotions:
-            return .emotion
-        case .activities:
-            return .run
-        case .emotionalState:
             return .upDown
         case .archived:
             return .archived
@@ -181,12 +171,6 @@ enum PropertyType: String, CaseIterable, Identifiable{
             return "Completion"
         case .habitId:
             return "Habit"
-        case .emotions:
-            return "Emotions"
-        case .activities:
-            return "Activities"
-        case .emotionalState:
-            return "Emotional State"
         case .archived:
             return "Archived"
         case .valueId:

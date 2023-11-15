@@ -37,8 +37,8 @@ struct ValueGoalAlignmentView: View {
         .onAppear{
             var criteria1 = Criteria()
             criteria1.archived = false
-            criteria1.includeCalendar = false
             goals = vm.ListGoals(criteria: criteria1)
+            goals = goals.filter({$0.parentId == nil})
             
             var criteria2 = Criteria()
             criteria2.valueId = valueId

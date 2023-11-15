@@ -16,15 +16,16 @@ enum DetailStackType: CaseIterable, Identifiable {
     case superCard
     case finishUp
     case archived
-    case convertToGoal
     case parentHeader
     case properties
     case creed
     case valueGoalAlignment
+    case goalValueAlignment
     case images
     case children
     case toolbox
     case affectedGoals
     case habitProgress
+    case convertToGoal
     
 }

@@ -25,7 +25,6 @@ struct ObjectGrouping: Equatable {
         habit = GroupingType.fromString(from: UserDefaults.standard.string(forKey: SettingsKeyType.group_habit.toString()) ?? "")
         chapter = GroupingType.fromString(from: UserDefaults.standard.string(forKey: SettingsKeyType.group_chapter.toString()) ?? "")
         entry = GroupingType.fromString(from: UserDefaults.standard.string(forKey: SettingsKeyType.group_entry.toString()) ?? "")
-//        emotion = GroupingType.fromString(from: UserDefaults.standard.string(forKey: SettingsKeyType.group_emotion.toString()) ?? "")
     }
     
     func fromObject(object: ObjectType) -> GroupingType{

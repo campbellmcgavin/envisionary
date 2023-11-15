@@ -154,9 +154,6 @@ struct ModalAddDefault: View {
     }
     
     func GetTitle() -> String{
-        if objectType == .emotion{
-            return "Check-in"
-        }
         if properties.title?.count ?? 0 > 0 {
             return properties.title ?? ""
         }
@@ -237,14 +234,6 @@ struct ModalAddDefault: View {
             if modalType == .edit && objectId != nil {
                 _ = vm.UpdateHabit(id: objectId!, request: UpdateHabitRequest(properties: properties))
             }
-//        case .home:
-//            <#code#>
-//        case .entry:
-//            <#code#>
-        case .emotion:
-            _ = vm.CreateEmotion(request: CreateEmotionRequest(properties: properties))
-//        case .stats:
-//            <#code#>
         default:
             let _ = ""
         }

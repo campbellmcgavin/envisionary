@@ -16,7 +16,6 @@ enum SettingsKeyType {
     case group_habit
     case group_chapter
     case group_entry
-    case group_emotion
     
     case tutorial_step
     
@@ -36,7 +35,11 @@ enum SettingsKeyType {
     case unlock_home
     case unlock_chapter
     case unlock_entry
-    case unlock_mood
+    case unlock_favorite
+    
+    case notification_digest
+    case notification_entry
+    case notification_value_align
     
     func toString() -> String{
         switch self {
@@ -54,8 +57,6 @@ enum SettingsKeyType {
             return "group_chapter"
         case .group_entry:
             return "group_entry"
-        case .group_emotion:
-            return "group_emotion"
         case .finishedFirstLaunch:
             return "finishedFirstLaunch"
         case .tutorial_step:
@@ -88,8 +89,14 @@ enum SettingsKeyType {
             return "unlock_chapter"
         case .unlock_entry:
             return "unlock_entry"
-        case .unlock_mood:
-            return "unlock_mood"
+        case .notification_entry:
+            return "notification_entry"
+        case .notification_value_align:
+            return "notification_value_align"
+        case .notification_digest:
+            return "notification_digest"
+        case .unlock_favorite:
+            return "unlock_favorite"
         }
     }
 }

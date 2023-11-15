@@ -11,9 +11,9 @@ struct ObjectFiltering: Equatable {
     var filterTitle = ""
     var filterDescription = ""
     var filterAspect = ""
-    var filterPriority: PriorityType?
+    var filterPriority = ""
     var filterChapter = ""
-    var filterProgress: Int?
+    var filterProgress: Int = 99
     var filterCoreValue = ""
     var filterCount = 0
     var filterDate = Date()
@@ -21,9 +21,11 @@ struct ObjectFiltering: Equatable {
     var filterObject = ObjectType.home
     var filterContent = ContentViewType.execute
     var filterIncludeCalendar = false
+    var filterArchived = false
+    var filterShowSubGoals = false
     
     func GetFilters() -> Criteria {
-        let criteria = Criteria(title: self.filterTitle, description: self.filterDescription, timeframe: self.filterTimeframe, date: self.filterDate, aspect: self.filterAspect, priority: self.filterPriority, progress: self.filterProgress, coreValue: self.filterCoreValue, parentId: nil, chapterId: nil, includeCalendar: self.filterIncludeCalendar, archived: false)
+        let criteria = Criteria(title: self.filterTitle, description: self.filterDescription, timeframe: self.filterTimeframe, date: self.filterDate, aspect: self.filterAspect, priority: self.filterPriority, progress: self.filterProgress, coreValue: self.filterCoreValue, parentId: nil, chapterId: nil, includeCalendar: self.filterIncludeCalendar, archived: self.filterArchived, superOnly: true)
         
         return criteria
     }
@@ -59,7 +61,8 @@ struct ObjectFiltering: Equatable {
                         lhs.filterTimeframe == rhs.filterTimeframe &&
                         lhs.filterObject == rhs.filterObject &&
                         lhs.filterContent == rhs.filterContent &&
-                        lhs.filterIncludeCalendar == rhs.filterIncludeCalendar
+                        lhs.filterIncludeCalendar == rhs.filterIncludeCalendar &&
+                        lhs.filterArchived == rhs.filterArchived
         return isEqual
     }
 }

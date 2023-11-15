@@ -124,8 +124,6 @@ struct ModalAddSession: View {
             if let goal = vm.GetGoal(id: goalProperty.id){
                 var goalProperties = Properties(goal:goal)
                 
-                goalProperties.valuesDictionary = ConvertInstanceOfAlignmentDictionary(id: goal.id)
-                
                 if let pushOff = pushOffDictionary[goal.id]{
                     goalProperties.startDate = goalProperties.startDate?.AdvanceDate(timeframe: timeframe, forward: true, count: pushOff)
                     goalProperties.endDate = goalProperties.endDate?.AdvanceDate(timeframe: timeframe, forward: true, count: pushOff)
@@ -155,7 +153,7 @@ struct ModalAddSession: View {
         sessionProperties.description = date.toString(timeframeType: timeframe)
         sessionProperties.date = date
         sessionProperties.goalProperties = goalProperties
-        sessionProperties.dateCompleted = Date()
+        sessionProperties.completedDate = Date()
         sessionProperties.evaluationDictionary = evaluationDictionary
         sessionProperties.alignmentDictionary = ConvertAlignmentDictionary()
         sessionProperties.childrenAddedDictionary = childrenAddedDictionary
@@ -199,6 +197,11 @@ struct ModalAddSession: View {
         properties.endDate = date.EndOfTimeframe(timeframe: timeframe)
         properties.description = "Added in a session."
         properties.timeframe = timeframe
+        
+        if let parentId = properties.parentGoalId {
+            properties.position = vm.ComputeGoalPosition(parentId: parentId, siblingAbove: nil)
+        }
+
         let goalId = vm.CreateGoal(request: CreateGoalRequest(properties: properties))
         if let goal = vm.GetGoal(id: goalId){
             SetupGoal(goal: goal)

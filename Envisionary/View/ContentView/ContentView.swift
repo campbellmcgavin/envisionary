@@ -182,6 +182,8 @@ struct ContentView: View {
                     isPresentingMainMenu = true
                     UserDefaults.standard.set(true, forKey: SettingsKeyType.finishedFirstLaunch.toString())
                 }
+                
+                UIApplication.shared.applicationIconBadgeNumber = 0
             }
         }
 

@@ -19,7 +19,7 @@ struct UnlockedObjects: Equatable {
     var unlock_home: Bool
     var unlock_chapter: Bool
     var unlock_entry: Bool
-    var unlock_mood: Bool
+    var unlock_favorite: Bool
     
     init(){
         unlock_value = UserDefaults.standard.bool(forKey: SettingsKeyType.unlock_value.toString())
@@ -32,7 +32,7 @@ struct UnlockedObjects: Equatable {
         unlock_home = UserDefaults.standard.bool(forKey: SettingsKeyType.unlock_home.toString())
         unlock_chapter = UserDefaults.standard.bool(forKey: SettingsKeyType.unlock_chapter.toString())
         unlock_entry = UserDefaults.standard.bool(forKey: SettingsKeyType.unlock_entry.toString())
-        unlock_mood = UserDefaults.standard.bool(forKey: SettingsKeyType.unlock_mood.toString())
+        unlock_favorite = UserDefaults.standard.bool(forKey: SettingsKeyType.unlock_favorite.toString())
     }
     
     static func == (lhs: UnlockedObjects, rhs: UnlockedObjects) -> Bool {
@@ -47,7 +47,7 @@ struct UnlockedObjects: Equatable {
                         lhs.unlock_home == rhs.unlock_home &&
                         lhs.unlock_chapter == rhs.unlock_chapter &&
                         lhs.unlock_entry == rhs.unlock_entry &&
-                        lhs.unlock_mood == rhs.unlock_mood
+                        lhs.unlock_favorite == rhs.unlock_favorite
         return isEqual
     }
     
@@ -73,8 +73,8 @@ struct UnlockedObjects: Equatable {
             return unlock_chapter
         case .entry:
             return unlock_entry
-        case .emotion:
-            return unlock_mood
+        case .favorite:
+            return unlock_favorite
         default:
             return false
         }
@@ -112,9 +112,9 @@ struct UnlockedObjects: Equatable {
         case .entry:
             unlock_entry = true
             UserDefaults.standard.set(true, forKey: SettingsKeyType.unlock_entry.toString())
-        case .emotion:
-            unlock_mood = true
-            UserDefaults.standard.set(true, forKey: SettingsKeyType.unlock_mood.toString())
+        case .favorite:
+            unlock_favorite = true
+            UserDefaults.standard.set(true, forKey: SettingsKeyType.unlock_favorite.toString())
         default:
             let _ = "why"
         }

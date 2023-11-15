@@ -25,7 +25,7 @@ struct PromptCard: View {
                 LoadProperties()
             }
         }
-        .padding([.leading,.trailing])
+
         .modifier(ModifierCard())
         .onChange(of: shouldRemove){
             _ in
@@ -46,7 +46,7 @@ struct PromptCard: View {
         if let promptObjectType = promptProperties.objectType{
             vm.filtering.filterContent = promptObjectType.toContentType()
             vm.filtering.filterObject = promptObjectType
-            if promptObjectType == .session || promptObjectType == .entry || promptObjectType == .emotion{
+            if promptObjectType == .session || promptObjectType == .entry {
                 vm.triggers.shouldPresentModal.toggle()
             }
             if promptObjectType == .session{
@@ -131,10 +131,6 @@ struct PromptCard: View {
                 else{
                     _ = vm.DeletePrompt(id: promptProperties.id)
                 }
-//            case .emotion:
-//                properties = Properties(emotion: vm.GE(id: objectId) ?? Goal())
-//            case .stats:
-//                properties = Properties(goal: vm.GetGoal(id: objectId) ?? Goal())
             default:
                 let _ = "why"
             }
@@ -143,17 +139,16 @@ struct PromptCard: View {
                 _ = vm.DeletePrompt(id: promptProperties.id)
             }
         }
-
     }
     
     @ViewBuilder
     func BuildCard() -> some View{
         switch promptProperties.promptType{
-        case .suggestion:
-            BuildSuggestion()
+//        case .suggestion:
+//            BuildSuggestion()
         case .favorite:
             BuildFavorite()
-        case nil:
+        default:
             EmptyView()
         }
     }
@@ -177,9 +172,10 @@ struct PromptCard: View {
     @ViewBuilder
     func BuildFavorite() -> some View{
         PhotoCard(objectType: promptProperties.objectType ?? .goal, objectId: promptProperties.objectId ?? UUID(), properties: properties, shouldHidePadding: true, imageSize: .mediumLarge)
+            .padding([.leading,.trailing])
         BuildFavoriteBadge()
-            .padding(.leading,48)
-            .padding(.bottom)
+            .padding(.leading,63)
+            .padding([.bottom,.trailing],10)
     }
     
     @ViewBuilder
@@ -232,9 +228,9 @@ struct PromptCard: View {
         switch promptProperties.promptType {
         case .favorite:
             return properties.title ?? ""
-        case .suggestion:
-            return promptProperties.title ?? ""
-        case nil:
+//        case .suggestion:
+//            return promptProperties.title ?? ""
+        default:
             return ""
         
         }
@@ -254,14 +250,14 @@ struct PromptCard: View {
     }
 }
 
-struct PromptCard_Previews: PreviewProvider {
-    static var previews: some View {
-        ScrollView{
-            PromptCard(promptProperties: Properties(prompt:Prompt.samplePrompts[0]))
-            PromptCard(promptProperties: Properties(prompt:Prompt.samplePrompts[1]))
-            PromptCard(promptProperties: Properties(prompt:Prompt.samplePrompts[2]))
-        }
-        .environmentObject(ViewModel())
-
-    }
-}
+//struct PromptCard_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ScrollView{
+//            PromptCard(promptProperties: Properties(prompt:Prompt.samplePrompts[0]))
+//            PromptCard(promptProperties: Properties(prompt:Prompt.samplePrompts[1]))
+//            PromptCard(promptProperties: Properties(prompt:Prompt.samplePrompts[2]))
+//        }
+//        .environmentObject(ViewModel())
+//
+//    }
+//}

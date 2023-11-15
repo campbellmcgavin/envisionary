@@ -25,28 +25,10 @@ struct GadgetsMenu: View {
     
     var body: some View {
         
+        
         HStack(alignment:.center){
             IconButton(isPressed: $shouldPresentSettingsView, size: .small, iconType: .settings, iconColor: .grey7)
             
-            
-//            if vm.filtering.filterObject.hasFilter(){
-//                ZStack{
-//                    IconButton(isPressed: $shouldPresentFilterView, size: .small, iconType: .filter, iconColor: .grey7)
-//
-//                    if filterCount > 0 {
-//                        ZStack{
-//                            Circle()
-//                                .frame(width:14,height:14)
-//                                .foregroundColor(.specify(color: .red))
-//                            Text(String(filterCount))
-//                                .font(.specify(style: .caption))
-//                                .foregroundColor(.specify(color: .grey15))
-//                        }
-//                        .offset(x:8, y:-8)
-//                    }
-//
-//                }
-//            }
             
             if vm.filtering.filterObject.hasSearch(){
                 IconButton(isPressed: $shouldPresentSearchView, size: .small, iconType: .search, iconColor: .grey7)
@@ -96,6 +78,11 @@ struct GadgetsMenu: View {
             isPresentingModal.toggle()
             modalType = .feedback
         }
+    }
+    
+    @ViewBuilder
+    func BuildView() -> some View{
+        
     }
 }
 

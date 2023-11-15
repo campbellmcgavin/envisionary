@@ -10,6 +10,7 @@ import Foundation
 enum SizeType {
     case tiny
     case extraSmall
+    case moderatelySmall
     case small
     case medium
     case mediumLarge
@@ -40,6 +41,8 @@ enum SizeType {
             return 14
         case .extraSmall:
             return 20
+        case .moderatelySmall:
+            return 25
         case .small:
             return 29
         case .medium:

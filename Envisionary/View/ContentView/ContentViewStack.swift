@@ -12,6 +12,7 @@ struct ContentViewStack: View {
     @Binding var isPresenting: Bool
     @Binding var modalType: ModalType
     @Binding var offset: CGPoint
+    let proxy: ScrollViewProxy?
     
     @State var shouldExpandAll: Bool = true
     @StateObject var alerts = AlertsService()
@@ -23,6 +24,13 @@ struct ContentViewStack: View {
     
     @State var shouldUnlockObject: Bool = false
     
+    
+    @State var shouldShowArchivedOnly = false
+    @State var shouldShowSuperOnly = false
+    @State var shouldShowAspectOnly = ""
+    @State var shouldShowPriorityOnly = ""
+    @State var shouldShowProgressOnly = ""
+    @State var shouldShowCalendar = false
     
     var body: some View {
         
@@ -130,7 +138,7 @@ struct ContentViewStack: View {
                 }
                 
                 let object = vm.filtering.filterObject
-                let noCustomizeArray: [ObjectType] = [.session, .home, .entry, .emotion]
+                let noCustomizeArray: [ObjectType] = [.session, .home, .favorite, .entry]
                 if !noCustomizeArray.contains(object){
                     
                     let text = vm.filtering.filterObject == .creed ? "We built out your " + vm.filtering.filterObject.toPluralString().lowercased() + " based on the values for your archetype, the " + vm.archetype.toString() : "We built out your " + vm.filtering.filterObject.toPluralString() + " based on your archetype, the " + vm.archetype.toString()
@@ -169,7 +177,7 @@ struct ContentViewStack: View {
             case .aspect:
                 propertiesList = vm.ListAspects(criteria: vm.filtering.GetFilters()).sorted(by: {$0.title < $1.title}).map({Properties(aspect: $0)})
             case .goal:
-                propertiesDictionary = vm.GroupGoals(criteria: vm.filtering.GetFilters(), grouping: vm.grouping.goal, excludeGoalsWithChildren: vm.filtering.filterIncludeCalendar).mapValues({$0.map({Properties(goal: $0)})})
+                propertiesDictionary = vm.GroupGoals(criteria: vm.filtering.GetFilters(), grouping: vm.grouping.goal).mapValues({$0.map({Properties(goal: $0)})})
             case .chapter:
                 propertiesDictionary = vm.GroupChapters(criteria: vm.filtering.GetFilters(), grouping: vm.grouping.chapter).mapValues({$0.map({Properties(chapter: $0)})})
             case .entry:
@@ -177,32 +185,30 @@ struct ContentViewStack: View {
                 propertiesList = vm.ListEntries(criteria: vm.filtering.GetFilters()).sorted(by: {$0.startDate > $1.startDate}).map({Properties(entry: $0)})
             case .session:
                 propertiesList = vm.ListSessions(criteria: vm.filtering.GetFilters()).sorted(by: {$0.dateCompleted > $1.dateCompleted}).map({Properties(session: $0)})
+            case .favorite:
+                propertiesList = vm.ListPrompts(criteria: Criteria(type: .favorite)).map({Properties(prompt: $0)})
             case .home:
                 propertiesDictionary.removeAll()
                 let recurrences = vm.ListRecurrences(criteria: GetRecurrenceCriteria()).sorted(by: {!$0.isComplete && $1.isComplete}).map({Properties(recurrence: $0)})
-                let favorites = vm.ListPrompts(criteria: Criteria(type: .favorite)).map({Properties(prompt: $0)})
-                let hints = vm.ListPrompts(criteria: Criteria(type: .suggestion)).map({Properties(prompt: $0)})
-                let goals = vm.ListGoals(criteria: GetGoalCriteria()).sorted(by: {$0.startDate < $1.startDate})
+//                let hints = vm.ListPrompts(criteria: Criteria(type: .suggestion)).map({Properties(prompt: $0)})
+                let goals = vm.ListGoals(criteria: GetGoalCriteria()).sorted(by: {
+//                    if $0.progress != $1.progress{
+//                        return $0.progress < $1.progress
+//                    }
+                    return $0.title < $1.title
+                })
                     
-                let goalsFiltered = goals.filter({vm.ListChildGoals(id: $0.id).count == 0}).map({Properties(goal: $0)})
-                
                 if recurrences.count > 0 {
                     propertiesDictionary[HomeObjectType.habit.toPluralString()] = recurrences
                 }
-                if favorites.count > 0{
-                    propertiesDictionary[HomeObjectType.favorite.toPluralString()] = favorites
-                }
-                if hints.count > 0{
-                    propertiesDictionary[HomeObjectType.hint.toPluralString()] = hints
-                }
+//                if hints.count > 0{
+//                    propertiesDictionary[HomeObjectType.hint.toPluralString()] = hints
+//                }
                 if goals.count > 0{
-                    propertiesDictionary[HomeObjectType.goal.toPluralString()] = goalsFiltered
+                    propertiesDictionary[HomeObjectType.goal.toPluralString()] = goals.map({Properties(goal: $0)})
                 }
             case .habit:
                 propertiesDictionary = vm.GroupHabits(criteria: vm.filtering.GetFilters(), grouping: vm.grouping.habit).mapValues({$0.map({Properties(habit: $0)})})
-            case .emotion:
-                propertiesDictionary = vm.GroupEmotions(criteria: vm.filtering.GetFilters()).mapValues({$0.map({Properties(emotion: $0)})})
-                propertiesList = vm.ListEmotions(criteria: vm.filtering.GetFilters()).sorted(by: {$0.date > $1.date}).map({Properties(emotion: $0)})
             default:
                 let _ = "why"
             }
@@ -224,6 +230,7 @@ struct ContentViewStack: View {
         criteria.date = Date()
         criteria.timeframe = .day
         criteria.archived = false
+        criteria.superOnly = true
         return criteria
     }
     
@@ -239,7 +246,10 @@ struct ContentViewStack: View {
                     }
                 }
                 else{
-                    if properties.title != ValueType.Introduction.toString() && properties.title != ValueType.Conclusion.toString(){
+                    if objectType == .favorite {
+                        PromptCard(promptProperties: properties)
+                    }
+                    else if properties.title != ValueType.Introduction.toString() && properties.title != ValueType.Conclusion.toString(){
                         PhotoCard(objectType: objectType, objectId: properties.id, properties: properties)
                     }
                 }
@@ -270,21 +280,29 @@ struct ContentViewStack: View {
             let homeObjectType = HomeObjectType.fromString(from: header)
             if propertyList.count > 0{
                 
-                ForEach(propertyList){properties in
-                    switch homeObjectType{
-                    case .hint:
-                        let _ = "why"
-                    case .favorite:
-                        PromptCard(promptProperties: properties)
-                    case .goal:
-                        GoalTrackingCard(goalId: properties.id)
-                    case .habit:
-                        RecurrenceCard(habitId:  properties.habitId ?? UUID(), recurrenceId: .constant(properties.id), date: .constant(Date()))
-                    }
-                    if propertyList.last != properties{
-                        StackDivider()
+                LazyVStack{
+                    ForEach(propertyList){properties in
+                        switch homeObjectType{
+                        case .hint:
+                            let _ = "why"
+                        case .favorite:
+                            PromptCard(promptProperties: properties)
+                        case .goal:
+                            CheckOff(goalId: properties.id, properties: properties, canEdit: false, proxy: proxy, isPresenting: $isPresenting, modalType: $modalType)
+    //                        GoalTrackingCard(goalId: properties.id)
+                        case .habit:
+                            RecurrenceCard(habitId:  properties.habitId ?? UUID(), recurrenceId: .constant(properties.id), date: .constant(Date()))
+                        }
+                        if propertyList.last != properties && homeObjectType != .goal{
+                            StackDivider()
+                        }
                     }
                 }
+                .if(homeObjectType != .goal){
+                    view in
+                    view.modifier(ModifierCard())
+                }
+                
             }
             else{
                 Text(GetHomeNoObjectCaption(homeObjectType: homeObjectType))
@@ -344,29 +362,37 @@ struct ContentViewStack: View {
             
             
             VStack{
+                
+                if vm.filtering.filterObject.hasCalendar(){
                 HStack(alignment:.center){
-                    if !GetHasContent(){
-                        NoObjectsLabel(objectType: vm.filtering.filterObject, labelType: .page, shouldLeftAlign: true)
-                        Spacer()
-                    }
-                    else{
-                        Text(GetContentCaption())
-                            .font(.specify(style: .caption))
-                            .foregroundColor(.specify(color: .grey3))
-                            .multilineTextAlignment(.leading)
-                            .frame(alignment:.leading)
-                            .padding(.leading)
+//                    if !GetHasContent(){
+//                        NoObjectsLabel(objectType: vm.filtering.filterObject, labelType: .page, shouldLeftAlign: true)
+//                        Spacer()
+//                    }
+//                    else{
+//                        Text(GetContentCaption())
+//                            .font(.specify(style: .caption))
+//                            .foregroundColor(.specify(color: .grey3))
+//                            .multilineTextAlignment(.leading)
+//                            .frame(alignment:.leading)
+//                            .padding(.leading)
+//
+//                        Spacer()
+//                    }
+//
+
                         
-                        Spacer()
+                    FormFilterStack(objectType: vm.filtering.filterObject, date: $vm.filtering.filterIncludeCalendar, archived: $vm.filtering.filterArchived, subGoals: $vm.filtering.filterShowSubGoals, aspect: $vm.filtering.filterAspect, priority: $vm.filtering.filterPriority, progress: $vm.filtering.filterProgress)
+                        
+                        
+//                        TextIconButton(isPressed: $vm.filtering.filterIncludeCalendar, text: "Calendar", color: vm.filtering.filterIncludeCalendar ? .grey10 : .grey8, backgroundColor: vm.filtering.filterIncludeCalendar ? .purple : .grey15, fontSize: .caption, shouldFillWidth: false, iconType: .timeframe)
+//                            .padding([.leading,.trailing],8)
                     }
-                    
-                    if vm.filtering.filterObject.hasCalendar(){
-                        TextIconButton(isPressed: $vm.filtering.filterIncludeCalendar, text: "Calendar", color: vm.filtering.filterIncludeCalendar ? .grey10 : .grey8, backgroundColor: vm.filtering.filterIncludeCalendar ? .purple : .grey15, fontSize: .caption, shouldFillWidth: false, iconType: .timeframe)
-                            .padding([.leading,.trailing])
-                    }
-                }
                 .padding(.top, alerts.alerts.count > 0 ? 15 : 0)
                 .padding(.bottom, -10)
+
+                }
+
                 
                 if GetHasContent(){
                     VStack(spacing:0){
@@ -401,62 +427,60 @@ struct ContentViewStack: View {
         let objectType = vm.filtering.filterObject
         let shouldShowFlatStack = objectType == .goal && vm.filtering.filterIncludeCalendar && GetResultCount() < 10
         
-        if shouldShowFlatStack{
-            VStack(spacing:0){
-                GroupBuilderHelper()
-            }
-        }
-        else{
+//        if shouldShowFlatStack{
+//            VStack(spacing:0){
+//                GroupBuilderHelper()
+//            }
+//        }
+//        else{
             LazyVStack(spacing:0){
                 GroupBuilderHelper()
             }
-        }
+//        }
 
     }
     
     @ViewBuilder
     func GroupBuilderHelper() -> some View{
         let objectType = vm.filtering.filterObject
-        let shouldShowFlatStack = objectType == .goal && vm.filtering.filterIncludeCalendar
+//        let shouldShowFlatStack = objectType == .goal && vm.filtering.filterIncludeCalendar
         
         ForEach(headers, id:\.self){ header in
             VStack(alignment:.leading, spacing:0){
                 HeaderWithContent(shouldExpand: $shouldExpandAll, headerColor: .grey10, header: header, isExpanded: shouldExpandAll, content: {
-                    VStack(alignment:.leading,spacing:0){
+
+                    let shouldShowElements = !(vm.filtering.filterObject == ObjectType.goal) || ( vm.filtering.filterObject == .goal && !vm.filtering.filterShowSubGoals)
                         
                             if objectType == .home{
                                 HomeBuilder(header: header)
                             }
                             else{
-                                
+                                VStack(alignment:.leading,spacing:0){
                                 if let propertyList = propertiesDictionary[header]{
-                                    if shouldShowFlatStack{
                                         ForEach(propertyList){ properties in
                                             VStack{
-                                                GoalTrackingCard(goalId: properties.id)
+                                                if vm.filtering.filterShowSubGoals && vm.filtering.filterObject == .goal{
+                                                    CheckOff(goalId: properties.id, properties: properties, canEdit: false, proxy: proxy, isPresenting: $isPresenting, modalType: $modalType)
+                                                }
+                                                else{
+                                                    PhotoCard(objectType: objectType, objectId: properties.id, properties: properties)
+                                                }
+                                                
                                             }
                                             
-                                            if propertyList.last != properties{
+                                            if propertyList.last != properties && shouldShowElements{
                                                 StackDivider()
                                             }
                                         }
-                                    }
-                                    else{
-                                        ForEach(propertyList){ properties in
-                                            
-                                            VStack{
-                                                PhotoCard(objectType: objectType, objectId: properties.id, properties: properties)
-                                            }
-                                            
-                                            if propertyList.last != properties{
-                                                StackDivider()
-                                            }
-                                        }
-                                    }
+//                                    }
                                 }
                             }
-                    }
-                    .modifier(ModifierCard())
+                            .if(shouldShowElements){
+                                view in
+                                view.modifier(ModifierCard())
+                            }
+                            }
+
                 })
             }
         }
@@ -487,8 +511,6 @@ struct ContentViewStack: View {
         case .chapter:
             return true
         case .entry:
-            return calendarOn
-        case .emotion:
             return calendarOn
         case .prompt:
             return false
@@ -522,7 +544,7 @@ struct ContentViewStack: View {
 
 struct ContentViewStack_Previews: PreviewProvider {
     static var previews: some View {
-        ContentViewStack(isPresenting: .constant(false), modalType: .constant(.add), offset: .constant(.zero))
+        ContentViewStack(isPresenting: .constant(false), modalType: .constant(.add), offset: .constant(.zero), proxy: nil)
             .environmentObject(ViewModel())
     }
 }

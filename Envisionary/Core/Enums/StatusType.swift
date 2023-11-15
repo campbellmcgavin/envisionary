@@ -36,6 +36,17 @@ enum StatusType: Int, CaseIterable {
         }
     }
     
+    func toBasicInt() -> Int {
+        switch self {
+        case .notStarted:
+            return 0
+        case .inProgress:
+            return 1
+        case .completed:
+            return 100
+        }
+    }
+    
     func hasObject(progress: Int) -> Bool {
         switch self {
         case .notStarted:

@@ -22,11 +22,11 @@ struct GoalDependencyStack: View {
     let height: CGFloat = 50
     let timerCount: Double = 25
     @State var timer = Timer.publish(every: 25, on: .main, in: .common).autoconnect()
-    
+    @State var offset: CGPoint = .zero
     var body: some View {
         ZStack{
             
-            ScrollView(.horizontal, showsIndicators: false){
+            ObservableScrollView(axes: .horizontal, showsIndicators: false, offset: $offset){
                 HStack{
                     if (!tapToShow && !isVisible) || isVisible{
                         ForEach(goalDescendency){goal in
@@ -47,23 +47,30 @@ struct GoalDependencyStack: View {
                         }
                     }
                     else{
-                        ForEach(numbers.reversed(), id:\.self){
-                            number in
-                            HStack{
-                                if number != numbers.reversed().first {
-                                    IconLabel(size: .tiny, iconType: .arrow_right, iconColor: .grey5)
+                        HStack{
+                            ForEach(numbers.reversed(), id:\.self){
+                                number in
+                                HStack{
+                                    if number != numbers.reversed().first {
+                                        IconLabel(size: .tiny, iconType: .arrow_right, iconColor: .grey5)
+                                    }
+                                    BubbleViewLabel(goalId: randomId, focusGoal: .constant(randomId), width: width, height: height, shouldShowDetails: false, goal: randomGoal, image: nil, shouldShowStatusLabel: false, color: .grey25, highlightColor: .grey25, ignoreImageLoad: true)
+                                        .scaleEffect(0.67)
+                                        .padding([.trailing,.leading],-43)
+                                        .opacity(0.5)
+                                        .disabled(true)
                                 }
-                                BubbleViewLabel(goalId: randomId, focusGoal: .constant(randomId), width: width, height: height, shouldShowDetails: false, goal: randomGoal, image: nil, shouldShowStatusLabel: false, color: .grey25, highlightColor: .grey25, ignoreImageLoad: true)
-                                    .environmentObject(vm)
-                                    .scaleEffect(0.67)
-                                    .padding([.trailing,.leading],-43)
-                                    .opacity(0.5)
-                                    .disabled(true)
+                                .onTapGesture {
+                                    withAnimation{
+                                        isVisible = true
+                                    }
+                                }
                             }
-                            .onTapGesture {
-                                withAnimation{
-                                    isVisible = true
-                                }
+                        }
+                        .onChange(of: offset){
+                            _ in
+                            withAnimation{
+                                isVisible = true
                             }
                         }
                     }
@@ -96,6 +103,10 @@ struct GoalDependencyStack: View {
             goalDescendency = vm.ListGoalDescendency(id: objectId)
             image = vm.GetImage(id: goalDescendency.first?.image ?? UUID())
             stopTimer()
+        }
+        .onChange(of: isVisible){
+            _ in
+            startTimer()
         }
         .onReceive(timer){
             _ in

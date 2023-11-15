@@ -24,6 +24,7 @@ struct BubbleView: View {
     var ignoreImageRefresh = false
     var body: some View {
 
+        VStack{
             Button{
                 withAnimation{
                     if focusGoal == goalId {
@@ -34,14 +35,13 @@ struct BubbleView: View {
                     }
                 }
             }
-
-        label:{
-
-            BubbleViewLabel(goalId: goalId, focusGoal: $focusGoal, width: width, height: height, offset: offset, shouldShowDetails: shouldShowDetails, shouldShowStatusLabel: shouldShowStatusLabel, ignoreImageLoad: ignoreImageLoad, ignoreImageRefresh: ignoreImageRefresh)
-            
-                
+            label:{
+                BubbleViewLabel(goalId: goalId, focusGoal: $focusGoal, width: width, height: height, shouldShowDetails: shouldShowDetails, shouldShowStatusLabel: shouldShowStatusLabel, ignoreImageLoad: ignoreImageLoad, ignoreImageRefresh: ignoreImageRefresh)
+            }
+            .buttonStyle(.plain)
         }
-        .buttonStyle(.plain)
+        .offset(x:offset)
+
 
     }
 }

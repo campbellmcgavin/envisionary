@@ -21,7 +21,6 @@ struct ObjectUpdates: Equatable {
     var entry: Bool
     var prompt: Bool
     var recurrence: Bool
-    var emotion: Bool
     var activity: Bool
     var valueRating: Bool
     
@@ -40,7 +39,6 @@ struct ObjectUpdates: Equatable {
         session = false
         prompt = false
         recurrence = false
-        emotion = false
         activity = false
         valueRating = false
     }
@@ -60,7 +58,6 @@ struct ObjectUpdates: Equatable {
         lhs.entry == rhs.entry &&
         lhs.prompt == rhs.prompt &&
         lhs.recurrence == rhs.recurrence &&
-        lhs.emotion == rhs.emotion &&
         lhs.activity == rhs.activity &&
         lhs.valueRating == rhs.valueRating
         

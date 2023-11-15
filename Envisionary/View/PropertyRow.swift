@@ -27,19 +27,19 @@ struct PropertyRow: View {
         BuildLabel()
     }
     
-    @ViewBuilder
-    func BuildNavButton(aspect: Aspect) -> some View{
-        NavigationLink(destination: {Detail(objectType: .aspect, objectId: aspect.id)}, label: {
-            ZStack{
-                BuildLabel()
-                HStack{
-                    Spacer()
-                    IconLabel(size: .extraSmall, iconType: .right, iconColor: .grey3)
-                }
-            }
-        })
-        .id(UUID())
-    }
+//    @ViewBuilder
+//    func BuildNavButton(aspect: Aspect) -> some View{
+//        NavigationLink(destination: {Detail(objectType: .aspect, objectId: aspect.id)}, label: {
+//            ZStack{
+//                BuildLabel()
+//                HStack{
+//                    Spacer()
+//                    IconLabel(size: .extraSmall, iconType: .right, iconColor: .grey3)
+//                }
+//            }
+//        })
+//        .id(UUID())
+//    }
     
     @ViewBuilder
     func BuildLabel() -> some View{
@@ -132,12 +132,6 @@ struct PropertyRow: View {
         case .unit:
             return unit?.toString() ?? UnitType.minutes.toString()
         case .chapter:
-            return text ?? ""
-        case .emotions:
-            return text ?? ""
-        case .activities:
-            return text ?? ""
-        case .emotionalState:
             return text ?? ""
         default:
             return ""

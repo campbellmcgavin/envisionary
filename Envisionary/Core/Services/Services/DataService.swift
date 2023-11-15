@@ -9,8 +9,6 @@ import SwiftUI
 import CoreData
 
 class DataService: DataServiceProtocol {
-    
-    
     var container: NSPersistentCloudKitContainer
     
     let lock = NSLock()
@@ -79,7 +77,6 @@ class DataService: DataServiceProtocol {
         request.predicate = predicate
         
         do {
-            
             if newContext{
                 let context = container.newBackgroundContext()
                 
@@ -91,7 +88,6 @@ class DataService: DataServiceProtocol {
                 let imageEntityList = try container.viewContext.fetch(request)
                 return imageEntityList.first
             }
-            
         } catch let error {
             print ("ERROR FETCHING IMAGE. \(error)")
         }
@@ -101,8 +97,10 @@ class DataService: DataServiceProtocol {
     // MARK: - GOALS
     
     func CreateGoal(request: CreateGoalRequest) -> UUID{
-        
+        let id = UUID()
         let newGoal = GoalEntity(context: container.viewContext)
+        
+        newGoal.position = ComputeLexoRank(parentId: request.parentId, referenceId: request.previousGoalId, referencePlacement: .below)?.string
         newGoal.title = request.title
         newGoal.desc = request.description
         newGoal.priority = request.priority.toString()
@@ -113,10 +111,70 @@ class DataService: DataServiceProtocol {
         newGoal.image = request.image
         newGoal.parentId = request.parentId
         newGoal.archived = false
-        newGoal.id = UUID()
+        newGoal.id = id
         saveData()
         
         return newGoal.id!
+    }
+    
+    private func ComputeLexoRank(parentId: UUID?, referenceId: UUID?, referencePlacement: PlacementType?) -> LexoRank?{
+        // if this is a child goal
+        do{
+            if let parentId{
+                
+            let siblingGoals = ListChildGoals(id: parentId)
+            
+            // if this is the first child
+            if siblingGoals.count == 0 {
+                return try LexoRank.first()
+            }
+            // if there is a reference goal marker
+            if let goal1Index = siblingGoals.firstIndex(where:{$0.id == referenceId}){
+                
+                let lexoRank1 = try LexoRank(siblingGoals[goal1Index].position)
+                var goal2Index = 0
+                
+                if let referencePlacement{
+                    switch referencePlacement{
+                    case .above:
+                        goal2Index = goal1Index-1
+                        
+                        if goal1Index == 0{
+                            return try lexoRank1.prev()
+                        }
+                        let lexoRank2 = try LexoRank(siblingGoals[goal2Index].position)
+                        return try lexoRank1.between(other: lexoRank2)
+                    case .below:
+                        goal2Index = goal1Index+1
+                        
+                        if siblingGoals.count - 1 == goal1Index{
+                            return try lexoRank1.next()
+                        }
+                        let lexoRank2 = try LexoRank(siblingGoals[goal2Index].position)
+                        return try lexoRank1.between(other: lexoRank2)
+                        
+                    case .on:
+                        return try LexoRank(siblingGoals.first!.position).prev()
+                    }
+                }
+                
+                else if goal2Index > -1 && goal1Index != goal2Index{
+                    let lexoRank2 = try LexoRank(siblingGoals[goal2Index].position)
+                    return try lexoRank1.between(other: lexoRank2)
+                }
+            }
+            
+            // else throw it at the end of the children
+            else{
+                let lastGoalPosition = siblingGoals.last!.position
+                return try LexoRank(lastGoalPosition).next()
+            }
+            
+            return try LexoRank.first()
+        }
+        }
+        catch{}
+        return nil
     }
     
     func GetGoal(id: UUID) -> Goal?{
@@ -145,6 +203,31 @@ class DataService: DataServiceProtocol {
         return nil
     }
     
+    func ComputeGoalPosition(parentId: UUID, siblingAbove: UUID?) -> String {
+        let childGoals = self.ListChildGoals(id: parentId).sorted(by: {$0.position < $1.position})
+        
+        if childGoals.count == 0 {
+            return "a"
+        }
+        
+        if siblingAbove == nil {
+            return String.toPosition(positionAbove: childGoals.last?.position, positionBelow: nil)
+        }
+        else{
+            if let siblingAboveGoal = childGoals.first(where: {$0.id == siblingAbove!}){
+                if siblingAboveGoal == childGoals.last {
+                    return String.toPosition(positionAbove: siblingAboveGoal.position, positionBelow: nil)
+                }
+                else{
+                    let indexOfNext = childGoals.index(after: childGoals.firstIndex(of: siblingAboveGoal) ?? childGoals.count-1)
+                    
+                    return String.toPosition(positionAbove: siblingAboveGoal.position, positionBelow: childGoals[indexOfNext].position)
+                }
+            }
+        }
+        return "a"
+    }
+    
     func ListGoals(criteria: Criteria, limit: Int = 50) -> [Goal]{
         
         
@@ -166,6 +249,35 @@ class DataService: DataServiceProtocol {
         
         if var entityToUpdate = GetGoalEntity(id: id) {
             
+            if request.reorderGoalId != nil && request.reorderPlacement != nil{
+                
+                let affectedGoals = ListAffectedGoals(id: id)
+                if !affectedGoals.contains(where: {$0.id == request.reorderGoalId}){
+                    
+                    if let reorderGoal = GetGoal(id:request.reorderGoalId!){
+                        switch request.reorderPlacement!{
+                        case .above:
+                            entityToUpdate.parentId = reorderGoal.parentId
+                        case .on:
+                            entityToUpdate.parentId = reorderGoal.id
+                        case .below:
+                            entityToUpdate.parentId = reorderGoal.parentId
+                        }
+                        
+                        entityToUpdate.position = ComputeLexoRank(parentId: entityToUpdate.parentId, referenceId: request.reorderGoalId, referencePlacement: request.reorderPlacement)?.string ?? ""
+                    }
+                }
+                else{
+                    entityToUpdate.parentId = request.parent
+                }
+                
+                
+            }
+            else{
+                entityToUpdate.parentId = request.parent
+            }
+            
+            
             entityToUpdate.title = request.title
             entityToUpdate.desc = request.description
             entityToUpdate.startDate = request.startDate
@@ -174,8 +286,8 @@ class DataService: DataServiceProtocol {
             entityToUpdate.image = request.image
             entityToUpdate.priority = request.priority.toString()
             entityToUpdate.aspect = request.aspect
-            entityToUpdate.parentId = request.parent
             entityToUpdate.archived = request.archived
+            entityToUpdate.completedDate = request.completedDate
             saveData()
             return true
         }
@@ -196,13 +308,9 @@ class DataService: DataServiceProtocol {
         return false
     }
     
-    func GroupGoals(criteria: Criteria, grouping: GroupingType, excludeGoalsWithChildren: Bool) -> [String : [Goal]] {
+    func GroupGoals(criteria: Criteria, grouping: GroupingType) -> [String : [Goal]] {
         
         var goals = ListGoals(criteria: criteria)
-        
-        if excludeGoalsWithChildren{
-            goals = goals.filter({self.ListChildGoals(id: $0.id).count == 0})
-        }
         
         var goalsDictionary: Dictionary<String,[Goal]> = [String:[Goal]]()
                 
@@ -236,10 +344,27 @@ class DataService: DataServiceProtocol {
         return goalsDictionary
     }
     
+    func ListParentGoals(id: UUID) -> [Goal] {
+        var goals = [Goal]()
+        var focusId: UUID? = id
+        
+        while let nextId = focusId{
+            if let goal = GetGoal(id: nextId){
+                goals.append(goal)
+                focusId = goal.parentId
+            }
+            else{
+                focusId = nil
+            }
+        }
+        
+        return goals
+    }
+    
     func ListChildGoals(id: UUID) -> [Goal] {
         var criteria = Criteria()
         criteria.parentId = id
-        return self.ListGoals(criteria: criteria)
+        return self.ListGoals(criteria: criteria).sorted(by: {$0.position < $1.position})
     }
     
     func ListAffectedGoals(id: UUID) -> [Goal] {
@@ -1002,7 +1127,6 @@ class DataService: DataServiceProtocol {
         newPrompt.title = request.title
         newPrompt.objectType = request.objectType.toString()
         newPrompt.objectId = request.objectId
-        newPrompt.timeframe = request.timeframe?.toString()
         saveData()
         
         return id
@@ -1335,87 +1459,6 @@ class DataService: DataServiceProtocol {
 //            }
 //        }
         return recurrencesDictionary
-    }
-    
-    // MARK: - EMOTION
-    
-    func CreateEmotion(request: CreateEmotionRequest) -> UUID{
-        
-        let newEmotion = EmotionEntity(context: container.viewContext)
-        let id = UUID()
-        newEmotion.id = id
-        newEmotion.startDate = request.date
-        newEmotion.emotionList = request.emotionList.map({$0.toString()}).toCsvString()
-        newEmotion.activityList = request.activityList.toCsvString()
-        newEmotion.amount = Int16(request.amount)
-        saveData()
-        
-        return id
-    }
-    
-    func GetEmotion(id: UUID) -> Emotion?{
-        
-        let EmotionEntity = GetEmotionEntity(id: id)
-        
-        if let EmotionEntity{
-            return Emotion(from: EmotionEntity)
-        }
-        return nil
-    }
-    
-    private func GetEmotionEntity(id: UUID) -> EmotionEntity?{
-        let request = NSFetchRequest<EmotionEntity>(entityName: "EmotionEntity")
-        let predicate = NSPredicate(format: "id == %@", id as CVarArg)
-        request.predicate = predicate
-        
-        do {
-            let EmotionsEntityList = try container.viewContext.fetch(request)
-            
-            return EmotionsEntityList.first
-            
-        } catch let error {
-            print ("ERROR FETCHING Emotion. \(error)")
-        }
-        return nil
-    }
-    
-    func ListEmotions(criteria: Criteria, limit: Int = 50) -> [Emotion]{
-        
-        do {
-            let request = NSFetchRequest<EmotionEntity>(entityName: "EmotionEntity")
-            
-            request.predicate = NSCompoundPredicate.PredicateBuilder(criteria: criteria, object:.emotion)
-            request.fetchLimit = limit
-            
-            let EmotionsEntityList = try container.viewContext.fetch(request)
-            return EmotionsEntityList.map({Emotion(from: $0)})
-        } catch let error {
-            print ("ERROR FETCHING Emotion. \(error)")
-        }
-        return [Emotion]()
-    }
-    
-    func DeleteEmotion(id: UUID) -> Bool{
-        if let EmotionToDelete = GetEmotionEntity(id: id){
-            container.viewContext.delete(EmotionToDelete)
-            saveData()
-            return true
-        }
-        return false
-    }
-    
-    func GroupEmotions(criteria: Criteria) -> [String : [Emotion]] {
-        
-        let emotions = ListEmotions(criteria: criteria)
-        var emotionsDictionary: Dictionary<String,[Emotion]> = [String:[Emotion]]()
-                
-        for emotion in emotions {
-            if  emotionsDictionary[emotion.emotionalState.toEmotionalState()] == nil {
-                emotionsDictionary[emotion.emotionalState.toEmotionalState()] = [Emotion]()
-            }
-            emotionsDictionary[emotion.emotionalState.toEmotionalState()]!.append(emotion)
-        }
-        return emotionsDictionary
     }
     
     

@@ -194,10 +194,6 @@ struct ExpandedMenu: View {
             return false
         case .entry:
             return true
-//        case .stats:
-//            return false
-        case .emotion:
-            return true
         case .dream:
             return false
         case .prompt:
@@ -229,10 +225,6 @@ struct ExpandedMenu: View {
         case .chapter:
             return false
         case .entry:
-            return true
-//        case .stats:
-//            return false
-        case .emotion:
             return true
         case .dream:
             return false

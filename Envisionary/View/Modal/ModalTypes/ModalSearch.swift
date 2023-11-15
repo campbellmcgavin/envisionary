@@ -18,8 +18,8 @@ struct ModalSearch: View {
     @State var shouldShowSuperOnly = false
     @State var shouldShowAspectOnly = ""
     @State var shouldShowPriorityOnly = ""
-    @State var shouldShowProgressOnly = ""
-    
+    @State var shouldShowProgressOnly = 0
+    @State var shouldShowCalendar = false
     @EnvironmentObject var vm: ViewModel
     var body: some View {
         
@@ -27,15 +27,7 @@ struct ModalSearch: View {
               betweenContent: {
             HStack{
                 
-                FormFilterStack(objectType: objectType, archived: $shouldShowArchivedOnly, superGoal: $shouldShowSuperOnly, aspect: $shouldShowAspectOnly, priority: $shouldShowPriorityOnly, progress: $shouldShowProgressOnly)
-                
-//                TextIconButton(isPressed: $shouldShowArchivedOnly, text: "Archived", color: .grey10, backgroundColor: shouldShowArchivedOnly ? .purple : .grey3, fontSize: .caption, shouldFillWidth: false, iconType: .archived_filled)
-//
-//                if objectType == .goal{
-//                    TextIconButton(isPressed: $shouldShowSuperOnly, text: "Super goals", color: .grey10, backgroundColor: shouldShowSuperOnly ? .purple : .grey3, fontSize: .caption, shouldFillWidth: false, iconType: .maximize)
-//                }
-//
-//                Spacer()
+                FormFilterStack(objectType: objectType, date: $shouldShowCalendar, archived: $shouldShowArchivedOnly, subGoals: $shouldShowSuperOnly, aspect: $shouldShowAspectOnly, priority: $shouldShowPriorityOnly, progress: $shouldShowProgressOnly)
             }
         })
         .onChange(of:searchString){ _ in
@@ -76,8 +68,8 @@ struct ModalSearch: View {
         
         criteria.archived = shouldShowArchivedOnly
         criteria.includeCalendar = !shouldShowSuperOnly
-        criteria.progress = shouldShowProgressOnly.count > 0 ? StatusType.fromString(from: shouldShowProgressOnly).toInt() : nil
-        criteria.priority = shouldShowPriorityOnly.count > 0 ? PriorityType.fromString(input: shouldShowPriorityOnly) : nil
+        criteria.progress = shouldShowProgressOnly > 0 ? shouldShowProgressOnly : nil
+        criteria.priority = shouldShowPriorityOnly.count > 0 ? shouldShowPriorityOnly : nil
         criteria.aspect = shouldShowAspectOnly.count > 0 ? shouldShowAspectOnly : nil
         
         if searchString.count > 0{

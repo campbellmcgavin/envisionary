@@ -47,7 +47,8 @@ struct RecurrenceCard: View {
             .padding(.leading,48)
             .padding(.top,-5)
         }
-        .padding([.leading,.trailing,.bottom])
+        .padding(.leading)
+        .padding([.trailing,.bottom],10)
         .onAppear{
             SetupRecurrence()
             amount = GetAmount()

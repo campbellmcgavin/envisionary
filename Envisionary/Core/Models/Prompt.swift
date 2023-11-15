@@ -29,7 +29,7 @@ struct Prompt: Identifiable, Codable, Equatable, Hashable {
     
     init(){
         self.id = UUID()
-        self.type = .suggestion
+        self.type = .favorite
         self.title = ObjectType.session.GetPromptTitle()
         self.date = Date()
         self.objectType = .session
@@ -63,16 +63,5 @@ struct Prompt: Identifiable, Codable, Equatable, Hashable {
 }
 
 
-
-extension Prompt {
-    
-    
-    static let samplePrompts: [Prompt] =
-    [
-        Prompt(type: .favorite, date: Date(), objectType: .goal, objectId: UUID()),
-        Prompt(type: .suggestion, date: Date(), objectType: .session, objectId: UUID(), timeframe: .year),
-        Prompt(type: .suggestion, date: Date(), objectType: .entry, objectId: UUID())
-    ]
-}
 
 

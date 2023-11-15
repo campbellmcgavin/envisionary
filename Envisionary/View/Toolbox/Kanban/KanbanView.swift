@@ -86,7 +86,6 @@ struct KanbanView: View {
         
         func dropExited(info: DropInfo) {
             withAnimation{
-                //                shouldHideElements = false
             }
             
         }
@@ -95,9 +94,6 @@ struct KanbanView: View {
             shouldHideElements = true
             currentPlaceToDrop = destinationItem
             shouldUpdateGoal.toggle()
-            
-            // Swap Items
-            
         }
     }
 }

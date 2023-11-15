@@ -207,8 +207,6 @@ struct ModalManager: View {
                         _ = vm.DeleteDream(id: objectId)
                     case .chapter:
                         _ = vm.DeleteChapter(id: objectId)
-                    case .emotion:
-                        _ = vm.DeleteEmotion(id: objectId)
                     case .session:
                         _ = vm.DeleteSession(id: objectId)
                     case .habit:
@@ -253,8 +251,6 @@ struct ModalManager: View {
                                 _ = vm.UpdateEntry(id: $0.id, request: entryRequest)
                             })
                         }
-                    case .emotion:
-                        _ = vm.DeleteEmotion(id: objectId)
                     case .session:
                         _ = vm.DeleteSession(id: objectId)
                     case .habit:

@@ -30,16 +30,6 @@ class AlertsService: ObservableObject {
         alerts.removeAll(where: {$0.alertType == .confirm})
             var message = "has been unlocked!"
             
-//            if object == .goal {
-//                message.append(" Go to Plan to continue.")
-//            }
-//            if object == .home{
-//                message.append(" Go to Execute to continue.")
-//            }
-//            if object == .chapter{
-//                message.append(" Go to Journal to continue.")
-//            }
-            
             alerts.append(Alert(alertType: .confirm, keyword: object.toPluralString(), description: message, timeAmount: 45, isPersistent: false))
 //        }
     }

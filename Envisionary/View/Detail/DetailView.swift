@@ -20,6 +20,7 @@ struct DetailView<Content: View, AboveContent: View>: View {
     @Binding var didEditPrimaryGoal: Bool
     var currentTimeframe: TimeframeType
     var alternativeTitle: String?
+    var shouldShowText: Bool = true
     @ViewBuilder var content: Content
     @ViewBuilder var aboveContent: AboveContent
     
@@ -52,43 +53,47 @@ struct DetailView<Content: View, AboveContent: View>: View {
                 
                 VStack(alignment:.leading){
                     
-                    VStack(alignment:.leading, spacing:0){
-                        Text(viewType.toDescription())
-                            .font(.specify(style: .h5))
-                            .foregroundColor(.specify(color: .grey10))
-                        
-                        if let subsdescription = viewType.toSubDescription(){
-                            Text(subsdescription)
-                                .font(.specify(style: .h6))
-                                .foregroundColor(.specify(color: .grey5))
-                                .padding(.bottom)
-                                .padding(.top,4)
-                                .multilineTextAlignment(.leading)
-                                .fixedSize(horizontal: false, vertical: true)
-                        }
-                        else{
-                            Text("Select a " + selectedObjectType.toString() + " to get started.")
-                                .font(.specify(style: .h6))
-                                .foregroundColor(.specify(color: .grey5))
-                                .padding(.bottom)
-                                .padding(.top,4)
-                        }
+                    
+                    if shouldShowText{
+                        VStack(alignment:.leading, spacing:0){
+                            Text(viewType.toDescription())
+                                .font(.specify(style: .h5))
+                                .foregroundColor(.specify(color: .grey10))
+                            
+                            if let subsdescription = viewType.toSubDescription(){
+                                Text(subsdescription)
+                                    .font(.specify(style: .h6))
+                                    .foregroundColor(.specify(color: .grey5))
+                                    .padding(.bottom)
+                                    .padding(.top,4)
+                                    .multilineTextAlignment(.leading)
+                                    .fixedSize(horizontal: false, vertical: true)
+                            }
+                            else{
+                                Text("Select a " + selectedObjectType.toString() + " to get started.")
+                                    .font(.specify(style: .h6))
+                                    .foregroundColor(.specify(color: .grey5))
+                                    .padding(.bottom)
+                                    .padding(.top,4)
+                            }
 
-                        
-                        if viewType != .valueGoalAlignment && viewType != .goalValueAlignment{
-                            BuildMenu()
+                            
+                            if viewType != .valueGoalAlignment && viewType != .goalValueAlignment{
+                                BuildMenu()
+                            }
                         }
+                        .padding([.leading,.trailing,.top])
                     }
-                    .padding([.leading,.trailing,.top])
+
                     
                     content
                         .padding(8)
                         .frame(alignment:.leading)
-                        .modifier(ModifierForm(color:.grey15))
+                        .modifier(ModifierForm(color:.grey1))
                         .padding(8)
 
                 }
-                .modifier(ModifierCard())
+                .modifier(ModifierCard(color:.grey05))
             }
             .padding(.top,5)
             .onAppear{
@@ -432,6 +437,8 @@ struct DetailView<Content: View, AboveContent: View>: View {
         case .goalValueAlignment:
             return vm.GetGoal(id: selectedObjectId) != nil
         case .valueGoalAlignment:
+            return true
+        case .checkOff:
             return true
         }
     }

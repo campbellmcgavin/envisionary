@@ -12,9 +12,8 @@ struct BubbleViewLabel: View {
     @Binding var focusGoal: UUID
     var width: CGFloat = 180
     var height: CGFloat = 50
-    var offset: CGFloat = 0
     var shouldShowDetails = true
-    @State var goal: Goal? = Goal()
+    @State var goal: Goal? = nil
     @State var shouldLoadImage = false
     
     @State var image: UIImage? = nil
@@ -27,58 +26,64 @@ struct BubbleViewLabel: View {
     var body: some View {
         HStack{
             
-            ZStack{
-                ImageCircle(imageSize: SizeType.minimumTouchTarget.ToSize(), image: image, iconSize: .medium, icon: .goal)
-                
-                if shouldShowStatusLabel{
-                    Circle()
-                        .foregroundColor(.specify(color: GetColor()))
-                        .frame(width:SizeType.tiny.ToSize(), height:SizeType.tiny.ToSize())
-//                            .opacity(goal?.progress ?? 0 >= 99 ? 1.0 : 0.0)
-                        .offset(x:15,y:15)
-                }
-            }
-                if goal != nil && width > 50{
-                    VStack(alignment:.leading){
-                        Text(goal!.title)
-                            .font(.specify(style: .caption))
-                            .lineLimit(3)
-                            .multilineTextAlignment(.leading)
-                            .foregroundColor(.specify(color: .grey10))
+            if shouldShowDetails{
+                ZStack{
+                    ImageCircle(imageSize: SizeType.minimumTouchTarget.ToSize(), image: image, iconSize: .medium, icon: .goal)
+                    
+                    
+                    if shouldShowStatusLabel{
+                        Circle()
+                            .foregroundColor(.specify(color: GetColor()))
+                            .frame(width:SizeType.tiny.ToSize(), height:SizeType.tiny.ToSize())
+    //                            .opacity(goal?.progress ?? 0 >= 99 ? 1.0 : 0.0)
+                            .offset(x:15,y:15)
                     }
-                    Spacer()
+                }
+                
+                VStack(alignment:.leading){
+                    Text(goal?.title ?? "")
+                        .font(.specify(style: .caption))
+                        .lineLimit(3)
+                        .multilineTextAlignment(.leading)
+                        .foregroundColor(.specify(color: .grey10))
                 }
             }
-            .opacity(shouldShowDetails ? 1.0 : 0.0)
-            .padding(7)
-            .modifier(ModifierCard(color: focusGoal == goalId ? highlightColor : color))
-            .offset(x: offset)
-            .frame(width:width < 50 ? 50 : width, height:50)
-            .onAppear{
-                if !ignoreImageLoad{
-                    shouldLoadImage.toggle()
-                }
+            
+            Spacer()
+
+        }
+        .frame(height:SizeType.minimumTouchTarget.ToSize())
+        .opacity(shouldShowDetails ? 1.0 : 0.0)
+        .padding(7)
+        .modifier(ModifierCard(color: focusGoal == goalId ? highlightColor : color))
+
+        .frame(width:width < 50 ? 50 : width, height:50)
+        .onAppear{
+            if shouldShowDetails{
+                LoadGoal()
             }
-            .onChange(of: vm.updates.image){
-                _ in
-                if !ignoreImageRefresh{
-                    shouldLoadImage.toggle()
-                }
-            }
-            .onChange(of: vm.updates.goal){
-                _ in
-                if !ignoreImageRefresh{
-                    shouldLoadImage.toggle()
-                }
-            }
-            .onChange(of: shouldLoadImage){
-                _ in
+            if !ignoreImageLoad{
                 LoadImage()
             }
+        }
+        .onChange(of: vm.updates.image){
+            _ in
+            if !ignoreImageRefresh{
+                LoadImage()
+            }
+        }
+        .onChange(of: vm.updates.goal){
+            _ in
+            if shouldShowDetails{
+                LoadGoal()
+            }
+        }
+    }
+    func LoadGoal(){
+        goal = vm.GetGoal(id: goalId)
     }
     
     func LoadImage(){
-        goal = vm.GetGoal(id: goalId)
         DispatchQueue.global(qos:.background).async{
             if goal?.image != nil {
                 image = vm.GetImage(id: goal!.image!)

@@ -9,11 +9,12 @@ import SwiftUI
 
 struct FormFilterStack: View {
     let objectType: ObjectType
+    @Binding var date: Bool
     @Binding var archived: Bool
-    @Binding var superGoal: Bool
+    @Binding var subGoals: Bool
     @Binding var aspect: String
     @Binding var priority: String
-    @Binding var progress: String
+    @Binding var progress: Int
     
     @State var filters: [FilterType: Bool] = [FilterType:Bool]()
     @State var filterShouldChange: [FilterType: Int] = [FilterType:Int]()
@@ -31,7 +32,7 @@ struct FormFilterStack: View {
                 
                 let hasFilters = filters.values.filter({$0}).count > 0
                 
-                TextIconButton(isPressed: $shouldClearAll, text: "Clear all", color: hasFilters ? .grey10 : .grey3, backgroundColor: hasFilters ? .red : .grey1, fontSize: .caption, shouldFillWidth: false, iconType: .cancel)
+                TextIconButton(isPressed: $shouldClearAll, text: "Clear all", color: hasFilters ? .grey10 : .grey3, backgroundColor: hasFilters ? .red : .grey1, fontSize: .subCaption, shouldFillWidth: false, iconType: .cancel)
                     .disabled(!hasFilters)
                 
                 ForEach(filters.sorted{
@@ -46,23 +47,22 @@ struct FormFilterStack: View {
                     }
                 }
             }
-            .padding()
         }
         .animation(.easeInOut)
         .onAppear{
             FilterType.allCases.forEach({filters[$0] = false})
             aspects = vm.ListAspects().map({$0.title})
             filters[.archived] = archived
-            filters[.superGoal] = superGoal
+            filters[.subGoals] = subGoals
             filters[.aspect] = aspect.count > 0
             filters[.priority] = priority.count > 0
-            filters[.progress] = progress.count > 0
+            filters[.completed] = progress == 100
             
             filterShouldChange[.archived] = archived ? 2 : 0
-            filterShouldChange[.superGoal] = superGoal ? 2 : 0
+            filterShouldChange[.subGoals] = subGoals ? 2 : 0
             filterShouldChange[.aspect] = aspect.count > 0 ? 2 : 0
             filterShouldChange[.priority] = priority.count > 0 ? 2 : 0
-            filterShouldChange[.progress] = progress.count > 0 ? 2 : 0
+            filterShouldChange[.completed] = progress == 100 ? 2 : 0
         }
         .onChange(of: shouldClearAll){ _ in
             FilterType.allCases.forEach({
@@ -70,17 +70,18 @@ struct FormFilterStack: View {
                 filterShouldChange[$0] = 0
             })
             archived = false
-            superGoal = false
+            subGoals = false
             aspect = ""
             priority = ""
-            progress = ""
+            progress = 0
+            date = false
         }
     }
     
     @ViewBuilder
     func BuildButton(filter: FilterType) -> some View{
         
-        VStack(alignment:.leading){
+        HStack(alignment:.center){
             let pressedState = filterShouldChange[filter] ?? 0
             
             
@@ -94,12 +95,19 @@ struct FormFilterStack: View {
                             filterShouldChange[filter] = 2
                             filters[filter] = true
                             
-                            if filter == .superGoal{
-                                superGoal = true
+                            if filter == .completed {
+                                progress = 100
+                            }
+                            if filter == .subGoals{
+                                subGoals = true
                             }
                             
                             if filter == .archived{
                                 archived = true
+                            }
+                            
+                            if filter == .date{
+                                date = true
                             }
                         }
                         
@@ -112,15 +120,16 @@ struct FormFilterStack: View {
                         switch filter{
                         case .aspect: aspect = ""
                         case .priority: priority = ""
-                        case .progress: progress = ""
-                        case .superGoal: superGoal = false
+                        case .completed: progress = 99
+                        case .subGoals: subGoals = false
                         case .archived: archived = false
+                        case .date: date = false
                         }
                     }
                 }
             }
         label:{
-            TextIconLabel(text: GetText(filter: filter), color: .grey10, backgroundColor: pressedState != 0 ? .purple : .grey25, fontSize: .caption, shouldFillWidth: false, iconType: .filter)
+            TextIconLabel(text: GetText(filter: filter), color: .grey10, backgroundColor: pressedState != 0 ? .purple : .grey2, fontSize: .subCaption, shouldFillWidth: false, iconType: filter.toIcon())
         }
             
 
@@ -134,14 +143,16 @@ struct FormFilterStack: View {
         switch filter {
         case .archived:
             return filter.toString()
-        case .superGoal:
+        case .subGoals:
             return filter.toString()
         case .aspect:
             return filter.toString() + (aspect.count > 0 ? ": " + aspect : "")
         case .priority:
             return filter.toString() + (priority.count > 0 ? ": " + priority : "")
-        case .progress:
-            return filter.toString() + (progress.count > 0 ? ": " + progress : "")
+        case .completed:
+            return filter.toString()
+        case .date:
+            return filter.toString()
         }
     }
     
@@ -159,28 +170,11 @@ struct FormFilterStack: View {
                         
                     }
                 label:{
-                    TextIconLabel(text: aspect, color: .grey10, backgroundColor: .grey25, fontSize: .caption, shouldFillWidth: false, iconType: .filter)
+                    TextIconLabel(text: aspect, color: .grey6, backgroundColor: .darkPurple, fontSize: .caption, shouldFillWidth: false)
+                        .opacity(0.7)
                 }
                 }
         }
-        
-        if filter == .progress {
-            
-                ForEach(Array(statuses), id:\.self){ status in
-                    Button{
-                        withAnimation{
-                            self.progress = status
-                            filters[filter] = true
-                            filterShouldChange[filter] = 2
-                        }
-                    }
-                label:{
-                    TextIconLabel(text: status, color: .grey10, backgroundColor: .grey25, fontSize: .caption, shouldFillWidth: false, iconType: .filter)
-                }
-                }
-            
-        }
-        
         
         if filter == .priority {
             
@@ -193,7 +187,8 @@ struct FormFilterStack: View {
                         }
                     }
                 label:{
-                    TextIconLabel(text: priority, color: .grey10, backgroundColor: .grey25, fontSize: .caption, shouldFillWidth: false, iconType: .filter)
+                    TextIconLabel(text: priority, color: .grey6, backgroundColor: .darkPurple, fontSize: .caption, shouldFillWidth: false)
+                        .opacity(0.7)
                 }
                 }
         }
@@ -210,6 +205,6 @@ struct FormFilterStack: View {
 
 struct FormFilterStack_Previews: PreviewProvider {
     static var previews: some View {
-        FormFilterStack(objectType: .goal, archived: .constant(false), superGoal: .constant(true), aspect: .constant(""), priority: .constant(""), progress: .constant(""))
+        FormFilterStack(objectType: .goal, date: .constant(true), archived: .constant(false), subGoals: .constant(true), aspect: .constant(""), priority: .constant(""), progress: .constant(0))
     }
 }

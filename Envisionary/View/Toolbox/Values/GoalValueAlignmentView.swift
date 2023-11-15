@@ -13,24 +13,49 @@ struct GoalValueAlignmentView: View {
     @State var valueRatings: [CoreValueRating] = [CoreValueRating]()
     @EnvironmentObject var vm: ViewModel
     @State var errorLevel: Int = 2
+    @State var shouldShowAssessment: Bool = false
+    @State var asessmentProgress: Int = 0
     var body: some View {
-        VStack(spacing:0){
+        VStack(){
             BuildMessage()
             
-            ForEach(values.sorted(by: {$0.title < $1.title})){ coreValue in
-                CoreValuesViewRow(properties: Properties(value: coreValue), objectType: .goal, valueRating: BindingValueRating(for: coreValue))
+
+            
+            if shouldShowAssessment {
+                
+                HStack{
+                    IconLabel(size: .small, iconType: .info_nocircle, iconColor: .grey10, circleColor: .grey6)
+                    
+                    Text("FYI, Only super goals have value alignment. Any goal below this will not need alignment.")
+                       .font(.specify(style: .caption))
+                       .frame(maxWidth:.infinity)
+                       .foregroundColor(.specify(color: .grey8))
+                }
+                .padding(8)
+                .modifier(ModifierForm(color: .grey2, radius: .cornerRadiusSmall))
+
+                
+                
+                VStack(spacing:0){
+                    ForEach(values.sorted(by: {$0.title < $1.title})){ coreValue in
+                        CoreValuesViewRow(properties: Properties(value: coreValue), objectType: .goal, valueRating: BindingValueRating(for: coreValue))
+                    }
+                    .padding(.trailing,-7)
+                }
+
+                
             }
-            .padding(.trailing,-7)
+            
+            TextIconButton(isPressed: $shouldShowAssessment, text: shouldShowAssessment ? "Hide Assessment" : GetButtonText(), color: GetButtonTextColor(), backgroundColor: GetButtonColor(), fontSize: .h5, shouldFillWidth: true)
+                .padding([.top,.bottom],8)
         }
         .padding(.bottom,-6)
         .onChange(of: valueRatings){
             _ in
-            let redCount = valueRatings.filter({$0.amount == 0}).count > 0
-            let yellowCount = valueRatings.filter({$0.amount == 1}).count > 0
-            let notFinishedCount = valueRatings.filter({$0.amount == -1}).count > 0
-            withAnimation{
-                errorLevel = redCount ? 0 : yellowCount ? 1 : notFinishedCount ? -1 : 2
+            if !valueRatings.contains(where: {$0.amount == -1}){
+                ComputeErrorLevel()
             }
+            ComputeProgress()
         }
         .frame(maxWidth:.infinity)
         .onAppear{
@@ -55,6 +80,78 @@ struct GoalValueAlignmentView: View {
                 }
             }
             valueRatings = vm.ListCoreValueRatings(criteria: criteria)
+            
+            ComputeErrorLevel()
+            ComputeProgress()
+        }
+    }
+    
+    func GetButtonColor() -> CustomColor{
+        if shouldShowAssessment{
+            return .grey3
+        }
+        else{
+            switch asessmentProgress{
+            case 0:
+                return .grey10
+            case 1:
+                return .grey10
+            case 2:
+                return .grey3
+            default:
+                return .grey3
+            }
+        }
+    }
+    
+    func GetButtonTextColor() -> CustomColor{
+        if shouldShowAssessment{
+            return .grey10
+        }
+        else{
+            switch asessmentProgress{
+            case 0:
+                return .grey0
+            case 1:
+                return .grey0
+            case 2:
+                return .grey10
+            default:
+                return .grey10
+            }
+        }
+    }
+    
+    func GetButtonText() -> String{
+        switch asessmentProgress{
+        case 0:
+            return "Take Assessment"
+        case 1:
+            return "Continue Assessment"
+        case 2:
+            return "Review Assessment"
+        default:
+            return ""
+        }
+    }
+    
+    func ComputeProgress() {
+        if !valueRatings.contains(where: {$0.amount == -1}){
+            asessmentProgress = 2
+        }
+        else if valueRatings.contains(where:{$0.amount != -1}) {
+            asessmentProgress = 1
+        }
+        else{
+            asessmentProgress = 0
+        }
+    }
+    func ComputeErrorLevel() {
+        let redCount = valueRatings.filter({$0.amount == 0}).count > 0
+        let yellowCount = valueRatings.filter({$0.amount == 1}).count > 0
+        let notFinishedCount = valueRatings.filter({$0.amount == -1}).count > 0
+        withAnimation{
+            errorLevel =  notFinishedCount ? -1 : redCount ? 0 : yellowCount ? 1 : 2
         }
     }
     
@@ -138,7 +235,7 @@ struct GoalValueAlignmentView: View {
                             .fixedSize(horizontal: false, vertical: true)
                     }
                     else if errorLevel == -1{
-                        Text("Go ahead and finish evaluating how your goal checks with each of your core values.")
+                        Text("Go ahead and evaluate how your goal checks with each of your core values.")
                             .foregroundColor(.specify(color: .grey7))
                             .font(.specify(style: .h6))
                             .multilineTextAlignment(.leading)
@@ -190,7 +287,6 @@ struct GoalValueAlignmentView: View {
         }
         .padding(8)
         .modifier(ModifierForm(color: .grey2, radius: .cornerRadiusSmall))
-        .padding(.bottom)
     }
 }
 

@@ -21,17 +21,10 @@ protocol DataServiceProtocol {
     func ListChildGoals(id: UUID) -> [Goal]
     func UpdateGoal(id: UUID, request: UpdateGoalRequest) -> Bool
     func DeleteGoal(id: UUID) -> Bool
-    func GroupGoals(criteria: Criteria, grouping: GroupingType, excludeGoalsWithChildren: Bool) -> [String:[Goal]]
+    func GroupGoals(criteria: Criteria, grouping: GroupingType) -> [String:[Goal]]
     func ListAffectedGoals(id: UUID) -> [Goal]
+    func ListParentGoals(id: UUID) -> [Goal]
 
-    // MARK: - TASKS
-//    func GetTask(id: UUID) -> Task?
-//    func CreateTask(request: CreateTaskRequest) -> UUID
-//    func UpdateTask(id: UUID, request: UpdateTaskRequest) -> Bool
-//    func ListTasks(criteria: Criteria, limit: Int) -> [Task]
-//    func DeleteTask(id: UUID) -> Bool
-//    func GroupTasks(criteria: Criteria, grouping: GroupingType) -> [String:[Task]]
-    
     // MARK: - ASPECT
     func CreateAspect(request: CreateAspectRequest) -> UUID
     func GetAspect(id: UUID) -> Aspect?
@@ -97,13 +90,6 @@ protocol DataServiceProtocol {
     func UpdateRecurrence(id: UUID, request: UpdateRecurrenceRequest) -> Bool
     func DeleteRecurrence(id: UUID) -> Bool
     func GroupRecurrences(criteria: Criteria, grouping: GroupingType) -> [String:[Recurrence]]
-    
-    // MARK: - EMOTION
-    func CreateEmotion(request: CreateEmotionRequest) -> UUID
-    func GetEmotion(id: UUID) -> Emotion?
-    func ListEmotions(criteria: Criteria, limit: Int) -> [Emotion]
-    func DeleteEmotion(id: UUID) -> Bool
-    func GroupEmotions(criteria: Criteria) -> [String:[Emotion]]
     
     // MARK: - ACTIVITY
     func CreateActivity(request: CreateActivityRequest) -> UUID

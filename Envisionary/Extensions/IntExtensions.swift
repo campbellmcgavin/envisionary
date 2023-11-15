@@ -43,34 +43,4 @@ extension Int {
             }
         }
     }
-    
-    func toEmotionalState() -> String{
-        switch self{
-        case 0:
-            return "Awful"
-        case 1:
-            return "Bad"
-        case 2:
-            return "Okay"
-        case 3:
-            return "Good"
-        default:
-            return "Great"
-        }
-    }
-    
-    func toEmotionalStateColor() -> CustomColor{
-        switch self{
-        case 0:
-            return .red
-        case 1:
-            return .yellow
-        case 2:
-            return .blue
-        case 3:
-            return .green
-        default:
-            return .purple
-        }
-    }
 }

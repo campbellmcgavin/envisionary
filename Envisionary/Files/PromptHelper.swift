@@ -22,20 +22,6 @@ struct PromptHelper {
         "You look fabulous. Let's write about it."
     ]
     
-    static let emotionPrompts =
-    [
-        "Let's talk about feelings.",
-        "How are you feeling?",
-        "But how do you really feel?",
-        "Your feelings called. Time for a check-in.",
-        "Let's look inwards for a minute.",
-        "Let's get personal for a minute.",
-        "Have you had a good day today?",
-        "On a scale of 1 to 10, how do you feel?",
-        "Eazy peazy or messy depressy today?",
-        "Spill your guts. It's feelings time."
-    ]
-    
     static let sessionPrompts =
     [
         "It's planning time.",

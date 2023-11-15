@@ -9,18 +9,19 @@ import Foundation
 
 struct CreateGoalRequest{
     
-        var title: String = ""
-        var description: String = ""
-        var priority: PriorityType = .moderate
-        var startDate: Date = Date()
-        var endDate: Date = Date()
-        var progress: Int = 0
-        var image: UUID? = nil
-        var aspect: String = AspectType.academic.toString()
-        var parentId: UUID? = nil
+    var title: String = ""
+    var description: String = ""
+    var priority: PriorityType = .moderate
+    var startDate: Date = Date()
+    var endDate: Date = Date()
+    var progress: Int = 0
+    var image: UUID? = nil
+    var aspect: String = AspectType.academic.toString()
+    var parentId: UUID? = nil
+    var previousGoalId: UUID? = nil
     
 
-    init(title: String, description: String, priority: PriorityType, startDate: Date, endDate: Date, percentComplete: Int, image: UUID?, aspect: String, parent: UUID?)
+    init(title: String, description: String, priority: PriorityType, startDate: Date, endDate: Date, percentComplete: Int, image: UUID?, aspect: String, parent: UUID?,  previousGoalId: UUID? = nil)
     {
         self.title = title
         self.description = description
@@ -31,6 +32,7 @@ struct CreateGoalRequest{
         self.image = image
         self.aspect = aspect
         self.parentId = parent
+        self.previousGoalId = previousGoalId
     }
     
     init(properties: Properties){

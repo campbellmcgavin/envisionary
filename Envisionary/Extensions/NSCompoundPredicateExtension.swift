@@ -31,26 +31,26 @@ extension NSCompoundPredicate {
             predicates.append(NSPredicate(format: "aspect == %@", criteria.aspect!))
         }
         
+        // if there's a parent id then look for it
         if criteria.parentId != nil && object.hasProperty(property: .parentId){
             predicates.append(NSPredicate(format: "parentId == %@", criteria.parentId! as CVarArg))
         }
-        else if criteria.includeCalendar != nil && !criteria.includeCalendar!{
-            includeCalendarValues = false
+        
+        else if criteria.superOnly != nil && criteria.superOnly!{
             if object == .goal{
                 let pred = NSPredicate(format: "parentId = nil")
                 predicates.append(pred)
             }
-            else if object == .habit{
-                
-            }
+        }
+        
+        // else if you shouldn't include calendar
+        if criteria.includeCalendar != nil && !criteria.includeCalendar!{
+            includeCalendarValues = false
+
         }
         
         if criteria.archived != nil && object.hasProperty(property: .archived){
-            predicates.append(NSPredicate(format: "archived == %@ || archived == nil", NSNumber(value: criteria.archived!)))
-        }
-        
-        if includeCalendarValues && criteria.timeframe != nil && object.hasProperty(property: .timeframe){
-            predicates.append(NSPredicate(format: "timeframe == %@", criteria.timeframe!.toString()))
+            predicates.append(NSPredicate(format: "archived == %@ || archived == nil || archived == false", NSNumber(value: criteria.archived!)))
         }
         
         if criteria.chapterId != nil && object.hasProperty(property: .chapter){
@@ -155,12 +155,12 @@ extension NSCompoundPredicate {
         }
     }
         
-        if criteria.priority != nil && object.hasProperty(property: .priority){
-            predicates.append(NSPredicate(format: "priority == %@", criteria.priority!.toString()))
+        if criteria.priority?.count ?? 0 > 0 && object.hasProperty(property: .priority){
+            predicates.append(NSPredicate(format: "priority == %@", criteria.priority!))
         }
         
-        if criteria.progress != nil && object.hasProperty(property: .progress){
-            predicates.append(NSPredicate(format: "progress >= %i", criteria.progress!))
+        if criteria.archived == nil && criteria.progress != nil && object.hasProperty(property: .progress){
+            predicates.append(NSPredicate(format: "progress <= %i", criteria.progress!))
         }
         
         if criteria.promptType != nil && object.hasProperty(property: .promptType){

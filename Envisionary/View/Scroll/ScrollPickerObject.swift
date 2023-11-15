@@ -142,57 +142,16 @@ struct ScrollPickerObject: View {
     
     func ObjectShouldShow(object: ObjectType) -> Bool{
         
-//        if (vm.tutorialStep.toObject() ?? .value ).rawValue < object.rawValue{
-//            return false
-//        }
-        
-        if isSearch == true{
-            switch object {
-            case .value:
-                return true
-            case .creed:
-                return false
-            case .dream:
-                return true
-            case .aspect:
-                return true
-            case .goal:
-                return true
-            case .session:
-                return false
-//            case .task:
-//                return true
-            case .habit:
-                return true
-            case .home:
-                return false
-            case .chapter:
-                return true
-            case .entry:
-                return true
-            case .emotion:
-                return true
-            default:
-                return false
-            }
+        switch vm.filtering.filterContent{
+        case .envision:
+            return object == .value || object == .creed || object == .dream || object == .aspect
+        case .plan:
+            return object == .goal || object == .habit //|| object == .task
+        case .execute:
+            return object == .home || object == .favorite
+        case .journal:
+            return object == .chapter || object == .entry
         }
-        
-        else{
-            
-            switch vm.filtering.filterContent{
-            case .envision:
-                return object == .value || object == .creed || object == .dream || object == .aspect
-            case .plan:
-                return object == .goal || object == .habit //|| object == .task
-            case .execute:
-                return object == .home
-            case .journal:
-                return object == .chapter || object == .entry || object == .emotion
-//            case .evaluate:
-//                return object == .stats
-            }
-        }
-
     }
     
     
@@ -221,11 +180,11 @@ struct ScrollPickerObject: View {
             return .plan
         case .home:
             return .execute
+        case .favorite:
+            return .execute
         case .chapter:
             return .journal
         case .entry:
-            return .journal
-        case .emotion:
             return .journal
         case .dream:
             return .envision
@@ -269,7 +228,7 @@ struct ScrollPickerObject: View {
     }
     
     func ShouldShowObjects() -> Bool {
-        return isSearch == true || (vm.filtering.filterContent != .execute )//&&  vm.filtering.filterContent != .evaluate)
+        return true
     }
 }
 

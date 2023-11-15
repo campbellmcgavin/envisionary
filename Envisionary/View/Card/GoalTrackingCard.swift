@@ -19,21 +19,19 @@ struct GoalTrackingCard: View {
     @EnvironmentObject var vm: ViewModel
     
     var body: some View {
-        VStack{
+        VStack(spacing:0){
             PhotoCard(objectType: .goal, objectId: goalId, properties: Properties(goal:goal), shouldHidePadding: true, imageSize: .mediumLarge)
                 .padding([.leading,.trailing],15)
 
             HStack(spacing:6){
                 GoalDependencyStack(isVisible: $isVisible, objectId: goalId, tapToShow: true)
                 IconButton(isPressed: $shouldProcessChange, size: .medium, iconType: .confirm, iconColor: .grey10, circleColor: GetIsComplete() ? .green : .grey3)
-                    .padding(.trailing,8)
+                    .padding(.trailing,6)
             }
             .modifier(ModifierForm(color:.grey15))
-            .padding(8)
-            .padding(.bottom,5)
-            .padding(.leading, isVisible ? 0 : 59)
-            .padding(.top,-10)
-  
+            .padding([.trailing,.bottom],10)
+            .padding(.leading, isVisible ? 0 : 52)
+            .padding(.leading)
         }
         .onAppear{
             goal = vm.GetGoal(id: goalId) ?? Goal()

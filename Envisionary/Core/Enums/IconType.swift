@@ -109,6 +109,8 @@ enum IconType: CaseIterable {
     
     case time_add
     case time_subtract
+    case notification
+    case options
     
     
     func ToIconString() -> String{
@@ -265,7 +267,10 @@ enum IconType: CaseIterable {
             return "Icon_Time_Add"
         case .time_subtract:
             return "Icon_Time_Subtract"
-            return "Icon_Time_Subtract"
+        case .notification:
+            return "Icon_Notification"
+        case .options:
+            return "Icon_Options"
         }
     }
 }

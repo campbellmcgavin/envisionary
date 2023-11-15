@@ -24,10 +24,10 @@ struct Properties: Identifiable, Equatable, Hashable, Codable{
     var progress: Int?
     var image: UUID?
     var images: [UUID]?
+    var position: String?
     
     var start: String?
     var end: String?
-    var valuesDictionary: [String: Bool]?
     
     var scheduleType: ScheduleType?
     var amount: Int?
@@ -37,16 +37,11 @@ struct Properties: Identifiable, Equatable, Hashable, Codable{
     
     //sessions
     var date: Date?
-    var dateCompleted: Date?
+    var completedDate: Date?
     var goalProperties: [Properties]?
     var evaluationDictionary: [UUID: EvaluationType]?
     var alignmentDictionary: [UUID: [String:Bool]]?
     var childrenAddedDictionary: [UUID: [UUID]]?
-    
-    //emotions
-    var emotionList: [EmotionType]?
-    var activityList: [String]?
-    var emotionalState: Int?
     
     //prompt
     var promptType: PromptType?
@@ -94,6 +89,7 @@ struct Properties: Identifiable, Equatable, Hashable, Codable{
         self.parentGoalId = goal?.parentId
         self.image = goal?.image
         self.archived = goal?.archived
+        self.position = goal?.position
     }
     
     init(dream: Dream?){
@@ -167,7 +163,7 @@ struct Properties: Identifiable, Equatable, Hashable, Codable{
         self.id = session?.id ?? UUID()
         self.title = session?.title ?? ""
         self.date = session?.date ?? Date()
-        self.dateCompleted = session?.dateCompleted ?? Date()
+        self.completedDate = session?.dateCompleted ?? Date()
         self.timeframe = session?.timeframe ?? .week
         self.goalProperties = session?.goalProperties
         self.evaluationDictionary = session?.evaluationDictionary
@@ -190,15 +186,6 @@ struct Properties: Identifiable, Equatable, Hashable, Codable{
         self.unitOfMeasure = habit?.unitOfMeasure
         self.scheduleType = habit?.schedule
         self.archived = habit?.archived
-    }
-    
-    init(emotion: Emotion?){
-        self.id = emotion?.id ?? UUID()
-        self.emotionList = emotion?.emotionList
-        self.activityList = emotion?.activityList
-        self.title = "Check-in"
-        self.startDate = emotion?.date
-        self.emotionalState = emotion?.emotionalState
     }
     
     func getFormError(propertyType: PropertyType) -> FormErrorType?{

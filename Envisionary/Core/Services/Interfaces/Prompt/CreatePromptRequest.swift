@@ -10,8 +10,8 @@ import SwiftUI
 struct CreatePromptRequest {
     var type: PromptType
     var title: String
+    var description: String
     var date: Date
     var objectType: ObjectType
     var objectId: UUID?
-    var timeframe: TimeframeType?
 }

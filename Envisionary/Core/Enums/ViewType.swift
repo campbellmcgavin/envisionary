@@ -14,6 +14,7 @@ enum ViewType: CaseIterable {
     case goalValueAlignment
     case creed
     case valueGoalAlignment
+    case checkOff
     
     func toString() -> String{
         switch self {
@@ -29,6 +30,8 @@ enum ViewType: CaseIterable {
             return "Values"
         case .valueGoalAlignment:
             return "Alignment"
+        case .checkOff:
+            return "Todo"
         }
     }
         
@@ -46,6 +49,8 @@ enum ViewType: CaseIterable {
             return "Ensure that your goals are in-line with your core values, and who you want to become."
         case .valueGoalAlignment:
             return "Ensure that your goals are in-line with your core values, and who you want to become."
+        case .checkOff:
+            return "Throttle the power of hierarchy and execution with a pyramid-style todo list."
         }
     }
     
@@ -173,6 +178,8 @@ enum ViewType: CaseIterable {
                 return false
             }
         case .valueGoalAlignment:
+            return false
+        case .checkOff:
             return false
         }
     }

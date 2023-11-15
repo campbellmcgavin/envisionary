@@ -20,8 +20,12 @@ struct UpdateGoalRequest{
     var parent: UUID? = nil
     var valuesDictionary: [String:Bool]? = nil
     var archived: Bool = false
+    var completedDate: Date? = nil
+    var reorderGoalId: UUID? = nil
+    var reorderPlacement: PlacementType? = nil
+    var position: String = ""
 
-    init(title: String, description: String, priority: PriorityType, startDate: Date, endDate: Date, percentComplete: Int, image: UUID, aspect: String, parent: UUID, valuesDictionary: [String:Bool], archived: Bool)
+    init(title: String, description: String, priority: PriorityType, startDate: Date, endDate: Date, percentComplete: Int, image: UUID, aspect: String, parent: UUID, valuesDictionary: [String:Bool], archived: Bool, completedDate: Date?)
     {
         self.title = title
         self.description = description
@@ -34,6 +38,7 @@ struct UpdateGoalRequest{
         self.parent = parent
         self.valuesDictionary = valuesDictionary
         self.archived = archived
+        self.completedDate = completedDate
     }
     
     init(goal: Goal){
@@ -46,8 +51,9 @@ struct UpdateGoalRequest{
         self.image = goal.image
         self.aspect = goal.aspect
         self.parent = goal.parentId
-        self.valuesDictionary = goal.valuesDictionary
         self.archived = goal.archived
+        self.position = goal.position
+        self.completedDate = goal.completedDate
     }
     
     init(properties: Properties){
@@ -60,7 +66,8 @@ struct UpdateGoalRequest{
         self.image = properties.image
         self.aspect = properties.aspect ?? AspectType.academic.toString()
         self.parent = properties.parentGoalId
-        self.valuesDictionary = properties.valuesDictionary
         self.archived = properties.archived ?? false
+        self.position = properties.position ?? ""
+        self.completedDate = properties.completedDate
     }
 }

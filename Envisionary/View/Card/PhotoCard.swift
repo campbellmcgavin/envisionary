@@ -92,8 +92,6 @@ struct PhotoCard: View {
         switch objectType {
         case .creed:
             return "Creed"
-        case .emotion:
-            return "Check-in"
         default:
             return properties.title ?? ""
         }
@@ -104,7 +102,7 @@ struct PhotoCard: View {
         case .creed:
             return "Your life's mission statement"
         case .session:
-            return "Completed on " + (properties.dateCompleted?.toString(timeframeType: .day) ?? Date().toString(timeframeType: .day))
+            return "Completed on " + (properties.completedDate?.toString(timeframeType: .day) ?? Date().toString(timeframeType: .day))
         case .habit:
             if let schedule = properties.scheduleType{
                 switch schedule {
@@ -119,10 +117,6 @@ struct PhotoCard: View {
                 }
             }
             return properties.description ?? ""
-//        case .task:
-//            return properties.startDate?.toString(timeframeType: .day) ?? ""
-        case .emotion:
-            return properties.startDate?.toString(timeframeType: .day) ?? ""
         default:
             return properties.description ?? ""
         }
@@ -138,8 +132,6 @@ struct PhotoCard: View {
                 return "\(habit.startDate.toString(timeframeType: .day)) - \(habit.endDate.toString(timeframeType: .day))"
             }
             return nil
-        case .emotion:
-            return properties.emotionalState?.toEmotionalState() ?? ""
         case .entry:
             return properties.startDate?.toString(timeframeType: .day)
         default:

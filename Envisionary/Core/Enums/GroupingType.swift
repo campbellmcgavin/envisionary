@@ -15,7 +15,6 @@ enum GroupingType: CaseIterable {
     case schedule
     case chapter
     case hasImages
-    case emotionalState
     
     func toString() -> String{
         switch self {
@@ -33,8 +32,6 @@ enum GroupingType: CaseIterable {
             return "Chapter"
         case .hasImages:
             return "Has Images"
-        case .emotionalState:
-            return "Emotional State"
         }
     }
     
@@ -54,8 +51,6 @@ enum GroupingType: CaseIterable {
             return "Schedules"
         case .chapter:
             return "Chapters"
-        case .emotionalState:
-            return "Emotional States"
         }
     }
     
@@ -82,8 +77,6 @@ enum GroupingType: CaseIterable {
                 return false
             case .hasImages:
                 return false
-            case .emotionalState:
-                return false
             }
         case .aspect:
             return false
@@ -103,28 +96,9 @@ enum GroupingType: CaseIterable {
                 return false
             case .hasImages:
                 return false
-            case .emotionalState:
-                return false
             }
         case .session:
             return false
-//        case .task:
-//            switch self {
-//            case .title:
-//                return true
-//            case .aspect:
-//                return false
-//            case .priority:
-//                return false
-//            case .progress:
-//                return true
-//            case .schedule:
-//                return false
-//            case .chapter:
-//                return false
-//            case .hasImages:
-//                return false
-//            }
         case .habit:
             switch self {
             case .title:
@@ -140,8 +114,6 @@ enum GroupingType: CaseIterable {
             case .chapter:
                 return false
             case .hasImages:
-                return false
-            case .emotionalState:
                 return false
             }
         case .home:
@@ -162,8 +134,6 @@ enum GroupingType: CaseIterable {
                 return false
             case .hasImages:
                 return false
-            case .emotionalState:
-                return false
             }
         case .entry:
             switch self {
@@ -181,21 +151,14 @@ enum GroupingType: CaseIterable {
                 return true
             case .hasImages:
                 return true
-            case .emotionalState:
-                return false
             }
-        case .emotion:
-            if self == .emotionalState{
-                return true
-            }
-            return false
-//        case .stats:
-//            return false
         case .prompt:
             return false
         case .recurrence:
             return false
         case .valueRating:
+            return false
+        case .favorite:
             return false
         }
     }

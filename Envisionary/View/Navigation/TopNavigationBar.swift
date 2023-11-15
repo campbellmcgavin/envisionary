@@ -27,7 +27,7 @@ struct TopNavigationBar: View {
                 if offset > 0 {
                     HStack{
                         
-                        if vm.filtering.filterObject == .home || vm.filtering.filterObject == .aspect || vm.filtering.filterObject == .value || vm.filtering.filterObject == .creed || vm.filtering.filterObject == .chapter || vm.filtering.filterObject == .dream || !vm.filtering.filterIncludeCalendar{
+                        if vm.filtering.filterObject == .home || vm.filtering.filterObject == .favorite || vm.filtering.filterObject == .aspect || vm.filtering.filterObject == .value || vm.filtering.filterObject == .creed || vm.filtering.filterObject == .chapter || vm.filtering.filterObject == .dream || !vm.filtering.filterIncludeCalendar{
                             Text(vm.filtering.filterObject.toPluralString())
                                 .font(.specify(style: .h4))
                         }
@@ -100,12 +100,7 @@ struct TopNavigationBar: View {
     
     func GetOpacity() -> CGFloat{
         
-        let isHome = vm.filtering.filterObject == .home
-        
-        if isHome && offset > 0 && offset < 70 {
-            return abs(((1.0 * offset/70)))
-        }
-        else if !isHome && offset > 0 && offset < 110 {
+        if offset > 0 && offset < 110 {
             return abs(((1.0 * offset/110)))
         }
         return 1.0

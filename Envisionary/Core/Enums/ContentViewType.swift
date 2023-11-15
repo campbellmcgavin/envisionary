@@ -82,9 +82,7 @@ enum ContentViewType: String, CaseIterable{
         case .execute:
             return "Execute is the phase for executing day to day work that leads to the vision."
         case .journal:
-            return "Journal is the phase for recording your thoughts and emotions along the way."
-//        case .evaluate:
-//            return "Evaluate is the phase for quantifying performance, growth and progress."
+            return "Journal is the phase for recording your thoughts and feelings along the way."
         }
 
     }

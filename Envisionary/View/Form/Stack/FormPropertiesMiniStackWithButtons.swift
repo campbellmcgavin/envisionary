@@ -56,7 +56,7 @@ struct FormPropertiesMiniStackWithButtons: View {
             
             if isValidForm{
                 isPresentingNewGoal = false
-                let request = CreateGoalRequest(properties: properties)
+                var request = CreateGoalRequest(properties: properties)
                 _ = vm.CreateGoal(request: request)
             }
             didAttemptToSave = true

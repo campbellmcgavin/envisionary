@@ -8,39 +8,60 @@
 import SwiftUI
 
 enum FilterType: CaseIterable {
-    case archived // bool
-    case superGoal // 
+    case date
+    case subGoals
     case aspect
     case priority
-    case progress
+    case completed
+    case archived
  
+    func toIcon() -> IconType {
+        switch self {
+        case .date:
+            return .filter
+        case .subGoals:
+            return .envisionFilled
+        case .archived:
+            return .envisionFilled
+        case .aspect:
+            return .filter
+        case .priority:
+            return .filter
+        case .completed:
+            return .envisionFilled
+        }
+    }
     
     func toInt() -> Int{
         switch self {
-        case .archived:
+        case .date:
             return 0
-        case .superGoal:
+        case .subGoals:
             return 1
-        case .aspect:
-            return 3
-        case .priority:
+        case .archived:
             return 5
-        case .progress:
+        case .aspect:
             return 4
+        case .priority:
+            return 3
+        case .completed:
+            return 2
         }
     }
     func toString() -> String{
         switch self {
         case .archived:
             return "Archived"
-        case .superGoal:
-            return "Super Goals"
+        case .subGoals:
+            return "Subgoals"
         case .aspect:
             return "Aspect"
         case .priority:
             return "Priority"
-        case .progress:
-            return "Progress"
+        case .completed:
+            return "Completed"
+        case .date:
+            return "Date"
         }
     }
     
@@ -48,14 +69,16 @@ enum FilterType: CaseIterable {
         switch self {
         case .archived:
             return false
-        case .superGoal:
+        case .subGoals:
             return false
         case .aspect:
             return true
         case .priority:
             return true
-        case .progress:
-            return true
+        case .completed:
+            return false
+        case .date:
+            return false
         }
     }
 }

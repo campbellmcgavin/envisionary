@@ -76,8 +76,7 @@ struct TutorialArchetype: View {
             ExampleGoalEnum.allCases.sorted(by: {$0.rawValue < $1.rawValue}).forEach{
                 
                 let parentId: UUID? = goalsAdded[$0.toParent()]
-                let request = $0.toGoal(parentId: parentId, imageId: imageId, archetype: selectedArchetype)
-                
+                var request = $0.toGoal(parentId: parentId, imageId: imageId, archetype: selectedArchetype)
                 
                 goalsAdded[$0] = vm.CreateGoal(request: request)
                 
@@ -88,7 +87,7 @@ struct TutorialArchetype: View {
             }
             
             if let goalParentId{
-                let promptRequest = CreatePromptRequest(type: .favorite, title: "", date: Date(), objectType: .goal, objectId: goalParentId, timeframe: .decade)
+                let promptRequest = CreatePromptRequest(type: .favorite, title: "", description: "", date: Date(), objectType: .goal, objectId: goalParentId)
                 _ = vm.CreatePrompt(request: promptRequest)
             }
             
@@ -96,7 +95,7 @@ struct TutorialArchetype: View {
             
             if values.count > 0{
                 let value = values.first!
-                let promptRequest = CreatePromptRequest(type: .favorite, title: "", date: Date(), objectType: .value, objectId: value.id)
+                let promptRequest = CreatePromptRequest(type: .favorite, title: "", description: "", date: Date(), objectType: .value, objectId: value.id)
                 _ = vm.CreatePrompt(request: promptRequest)
             }
             
@@ -119,10 +118,6 @@ struct TutorialArchetype: View {
             let entryRequest = CreateEntryRequest(title: "A day to remember!", description: "Today is the day I downloaded Envisionary! I was able to learn some impressive tools that I am going to put into practice. I'm really excited because this is all going to contribute to me becoming the beautiful person that I know I can become.", startDate: Date(), chapterId: chapterId, images: [UUID]())
             
             _ = vm.CreateEntry(request: entryRequest)
-            
-            let moodRequest = CreateEmotionRequest(date: Date(), emotionList: [EmotionType.joy, EmotionType.excitement], activityList: [String](), amount: 4)
-            
-            _ = vm.CreateEmotion(request: moodRequest)
         }
     }
     

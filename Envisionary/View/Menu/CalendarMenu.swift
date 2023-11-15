@@ -127,10 +127,6 @@ struct CalendarMenu: View {
             return false
         case .entry:
             return true
-//        case .stats:
-//            return false
-        case .emotion:
-            return true
         case .dream:
             return false
         case .prompt:
@@ -162,10 +158,6 @@ struct CalendarMenu: View {
         case .chapter:
             return false
         case .entry:
-            return true
-//        case .stats:
-//            return false
-        case .emotion:
             return true
         case .dream:
             return false

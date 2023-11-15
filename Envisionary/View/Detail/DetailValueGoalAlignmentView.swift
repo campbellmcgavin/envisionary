@@ -16,3 +16,18 @@ struct DetailValueGoalAlignmentView: View {
         DetailView(viewType: .valueGoalAlignment, objectId: valueId, selectedObjectId: .constant(UUID()), selectedObjectType: .constant(.valueRating), shouldExpandAll: $shouldExpand, expandedObjects: .constant([UUID]()), isPresentingModal: .constant(false), modalType: .constant(.add), isPresentingSourceType: .constant(false), didEditPrimaryGoal: .constant(false), currentTimeframe: .day, content: { ValueGoalAlignmentView(valueId: valueId)}, aboveContent: {EmptyView()})
     }
 }
+
+struct DetailGoalValueAlignmentView: View {
+    @Binding var shouldExpand: Bool
+    let goalId: UUID
+    
+    @EnvironmentObject var vm: ViewModel
+    
+    var body: some View {
+        
+       DetailView(viewType: .goalValueAlignment, objectId: goalId, selectedObjectId: .constant(UUID()), selectedObjectType: .constant(.valueRating), shouldExpandAll: $shouldExpand, expandedObjects: .constant([UUID]()), isPresentingModal: .constant(false), modalType: .constant(.add), isPresentingSourceType: .constant(false), didEditPrimaryGoal: .constant(false), currentTimeframe: .day, shouldShowText: false, content: {
+           GoalValueAlignmentView(goalId: goalId)
+            
+        }, aboveContent: {EmptyView()})
+    }
+}

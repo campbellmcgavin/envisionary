@@ -125,6 +125,16 @@ struct WiggleModifier: ViewModifier {
     }
 }
 
+extension ShapeStyle where Self == Color {
+    static var random: Color {
+        Color(
+            red: .random(in: 0...1),
+            green: .random(in: 0...1),
+            blue: .random(in: 0...1)
+        )
+    }
+}
+
 struct ExpensiveWiggleModifier: ViewModifier {
     @State private var isRotating = false
     @State private var isBouncing = false

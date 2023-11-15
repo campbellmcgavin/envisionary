@@ -37,11 +37,6 @@ struct FormPropertiesStack: View {
     @State var amount = 0
     @State var unit = UnitType.minutes
     @State var unitString = ""
-    @State var emotionStringDictionary = [String:Bool]()
-    @State var emotionStringOptions = [String:[String]]()
-    @State var activityStringDictionary = [String:Bool]()
-    @State var activityStringOptions = [String]()
-    @State var emotionalState: Int = 3
     
     @State private var titleDirtyTimer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
     @State private var setupTimer = Timer.publish(every: 1.0, on: .main, in: .common).autoconnect()
@@ -95,12 +90,6 @@ struct FormPropertiesStack: View {
             isValidForm = validator.isValidForm()
             didAttemptToSave = false
             titleDirtyTimer.upstream.connect().cancel()
-            
-            emotionStringDictionary = FillEmotionDictionary()
-            emotionStringOptions = FillEmotionOptions()
-            
-            activityStringDictionary = FillActivitiesDictionary()
-            activityStringOptions = vm.ListActivities().map({$0.keyword})
             
             let chapters = vm.ListChapters()
             chapterString = chapters.first(where: {$0.id == properties.chapterId})?.title ?? ""
@@ -187,25 +176,6 @@ struct FormPropertiesStack: View {
             properties.chapterId = vm.ListChapters().first(where: {$0.title == chapterString})?.id
             validator.chapter.isDirty = true
         }
-        .onChange(of: vm.updates.activity){
-            _ in
-            activityStringDictionary = FillActivitiesDictionary()
-            activityStringOptions = vm.ListActivities().map({$0.keyword})
-        }
-        .onChange(of: emotionStringDictionary){ _ in
-            
-            let dictionaryToList = emotionStringDictionary.filter({$0.value}).keys
-            properties.emotionList = dictionaryToList.map({EmotionType.fromString(from: $0)})
-        }
-        .onChange(of: activityStringDictionary){
-            _ in
-            let dictionaryToList = activityStringDictionary.filter({$0.value}).keys
-            properties.activityList = Array(dictionaryToList)
-        }
-        .onChange(of: emotionalState){
-            _ in
-            properties.emotionalState = emotionalState
-        }
         .onReceive(titleDirtyTimer){ _ in
             titleDirtyTimer.upstream.connect().cancel()
             validator.title.isDirty = true
@@ -270,7 +240,7 @@ struct FormPropertiesStack: View {
                     FormLabel(fieldValue: aspectString, fieldName: PropertyType.aspect.toString(), iconType: .aspect, shouldShowLock: true)
                 }
                 else{
-                    FormStackPicker(fieldValue: $aspectString, fieldName: PropertyType.aspect.toString(), options: .constant(vm.ListAspects().map({$0.title})),iconType: .aspect)
+                    FormStackPicker(fieldValue: $aspectString, fieldName: PropertyType.aspect.toString(), options: .constant(vm.ListAspects().map({$0.title}).sorted()),iconType: .aspect)
                         .modifier(ModifierFormValidator(fieldPropertyValidator: $validator.aspect, isDirtyForm: $validator.isDirty, propertyType: .aspect))
                 }
             }
@@ -325,12 +295,6 @@ struct FormPropertiesStack: View {
                     FormLabel(fieldValue: unitString, fieldName: PropertyType.unit.toString(), iconType: .ruler, shouldShowLock: true)
                 }
             }
-        case .emotions:
-            FormStackGroupedMultiPicker(fieldValues: $emotionStringDictionary, fieldName: "Emotions", groupedOptions: $emotionStringOptions, iconType: .timeframe)
-        case .activities:
-            FormStackMultiPicker(fieldValues: $activityStringDictionary, fieldName: "Activities", options: $activityStringOptions, iconType: .run, isSearchable: true, isActivityPicker: true)
-        case .emotionalState:
-            FormEmotionalStatePicker(fieldValue: $emotionalState, fieldName: "Emotional State")
         default:
             let _ = "why"
         }
@@ -373,46 +337,6 @@ struct FormPropertiesStack: View {
         case .day:
             return 7
         }
-    }
-    
-    func FillEmotionDictionary() -> [String: Bool]{
-        var emotionDictionary = [String:Bool]()
-        
-        for emotion in EmotionType.allCases{
-            emotionDictionary[emotion.toString()] = false
-        }
-        
-        return emotionDictionary
-    }
-    
-    func FillEmotionOptions() -> [String:[String]]{
-        var groupedDictionary = [String:[String]]()
-        for parentEmotion in EmotionType.allCases.filter({$0.isParentEmotion()}){
-            
-            var childEmotionList = [String]()
-            
-            for childEmotion in EmotionType.allCases.filter({$0.toParentEmotion() == parentEmotion}){
-                childEmotionList.append(childEmotion.toString())
-            }
-            groupedDictionary[parentEmotion.toString()] = childEmotionList
-        }
-        return groupedDictionary
-    }
-    
-    func FillActivitiesDictionary() -> [String: Bool]{
-        var activitiesDictionary = [String:Bool]()
-        let activities = vm.ListActivities()
-        
-        for activity in activities{
-            if let selectedActivity = self.activityStringDictionary[activity.keyword]{
-                activitiesDictionary[activity.keyword] = selectedActivity
-            }
-            else{
-                activitiesDictionary[activity.keyword] = false
-            }
-        }
-        
-        return activitiesDictionary
     }
 }
 
