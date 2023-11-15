@@ -11,7 +11,6 @@ struct ContentViewStack: View {
     @EnvironmentObject var vm: ViewModel
     @Binding var isPresenting: Bool
     @Binding var modalType: ModalType
-    @Binding var offset: CGPoint
     let proxy: ScrollViewProxy?
     
     @State var shouldExpandAll: Bool = true
@@ -409,17 +408,17 @@ struct ContentViewStack: View {
                     }
                 }
                 else{
-                    LabelAstronaut(opacity: GetOpacity())
+                    LabelAstronaut(opacity: 1.0)
                         .offset(y:110)
                 }
                 Spacer()
             }
     }
     
-    func GetOpacity() -> CGFloat{
-        let opacity = offset.y < 100 ? ((offset.y) * 0.7) / 100.0 : 0.7
-        return opacity
-    }
+//    func GetOpacity() -> CGFloat{
+//        let opacity = offset.y < 100 ? ((offset.y) * 0.7) / 100.0 : 0.7
+//        return opacity
+//    }
     
     @ViewBuilder
     func GroupBuilder() -> some View{
@@ -544,7 +543,7 @@ struct ContentViewStack: View {
 
 struct ContentViewStack_Previews: PreviewProvider {
     static var previews: some View {
-        ContentViewStack(isPresenting: .constant(false), modalType: .constant(.add), offset: .constant(.zero), proxy: nil)
+        ContentViewStack(isPresenting: .constant(false), modalType: .constant(.add), proxy: nil)
             .environmentObject(ViewModel())
     }
 }

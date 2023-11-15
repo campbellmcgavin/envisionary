@@ -65,7 +65,7 @@ struct ContentView: View {
                                             .frame(height:100)
                                             .id(1)
                                         
-                                        ContentViewStack(isPresenting: $isPresentingModal, modalType: $modalType, offset: $offset)
+                                        ContentViewStack(isPresenting: $isPresentingModal, modalType: $modalType, proxy: proxy)
                                         
                                     }
                                         .padding(.top,GetStackOffset())

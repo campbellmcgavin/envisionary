@@ -20,19 +20,29 @@ struct ContentViewMenu: View {
     @State var offset = CGPoint()
     @State var offsetRate: CGPoint = CGPoint(x: 0, y: 0)
     
+    private let coordinateSpaceName = UUID()
     @EnvironmentObject var vm: ViewModel
     
     var body: some View {
-        ZStack(alignment:.top){
-            
-            GadgetsMenu(shouldPop: $shouldPopScrollToHideHeader, offset: $offset, isPresentingModal: $isPresentingModal, modalType: $modalType, filterCount: vm.filtering.filterCount)
-                .id(2)
-                .offset(y:GetGadgetsOffset())
-                .saveSize(in: $gadgetFrame)
-            
-            ExpandedMenu(offset: $offset.y, frame: $objectFrame)
-                .saveSize(in: $objectFrame)
-                .offset(y:GetObjectOffset())
+        
+        PositionObservingView(coordinateSpace: .named(coordinateSpaceName), position: $offset, content: {
+            ZStack(alignment:.top){
+                
+                GadgetsMenu(shouldPop: $shouldPopScrollToHideHeader, offset: $offset, isPresentingModal: $isPresentingModal, modalType: $modalType, filterCount: vm.filtering.filterCount)
+                    .id(2)
+                    .offset(y:GetGadgetsOffset())
+                    .saveSize(in: $gadgetFrame)
+                
+                ExpandedMenu(offset: $offset.y, frame: $objectFrame)
+                    .saveSize(in: $objectFrame)
+                    .offset(y:GetObjectOffset())
+                
+                TopNavigationBar(offset: $offset.y, isPresentingSetup: $isPresentingModal, modalType: $modalType)
+                    .offset(y: -offset.y)
+            }
+        })
+        .onAppear{
+            popHeaderTimer.upstream.connect().cancel()
         }
         .onChange(of: offset){ [offset] newOffset in
             DispatchQueue.global(qos:.userInteractive).async{
@@ -53,7 +63,7 @@ struct ContentViewMenu: View {
         .onReceive(popHeaderTimer){ _ in
             withAnimation{
                 popHeaderTimer.upstream.connect().cancel()
-                shouldDisableScrollView.toggle()
+                shouldDisableScrollView = true
                 if offsetRate.y < 0 && offset.y < gadgetFrame.height + objectFrame.height {
                     proxy.scrollTo(0, anchor:.top)
                 }
