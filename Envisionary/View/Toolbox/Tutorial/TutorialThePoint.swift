@@ -82,7 +82,7 @@ Spacer()
                 if openPresent{
                     ScrollView([.horizontal],showsIndicators: true){
                         HStack{
-                            TreeView(goalId: parentGoal.id, focusGoal: $focusGoal, expandedGoals: $expandedGoals, value: { goalId in
+                            TreeView(parentGoalId: parentGoal.id, goalId: parentGoal.id, focusGoal: $focusGoal, filteredGoals: .constant(0), shouldShowAll: .constant(true), leftPadding: 0, value: { goalId, leftPadding in
                                 BubbleView(goalId: goalId, focusGoal: $focusGoal, shouldShowStatusLabel: true)
                             }, childCount: 0)
                             .padding(.top,5)

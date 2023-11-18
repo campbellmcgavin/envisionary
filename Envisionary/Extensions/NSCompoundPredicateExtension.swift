@@ -43,6 +43,10 @@ extension NSCompoundPredicate {
             }
         }
         
+        if criteria.superId != nil && object.hasProperty(property: .superId){
+            predicates.append(NSPredicate(format: "superId == %@", criteria.superId! as CVarArg))
+        }
+        
         // else if you shouldn't include calendar
         if criteria.includeCalendar != nil && !criteria.includeCalendar!{
             includeCalendarValues = false

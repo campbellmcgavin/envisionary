@@ -78,9 +78,9 @@ struct DetailView<Content: View, AboveContent: View>: View {
                             }
 
                             
-                            if viewType != .valueGoalAlignment && viewType != .goalValueAlignment{
-                                BuildMenu()
-                            }
+//                            if viewType != .valueGoalAlignment && viewType != .goalValueAlignment{
+//                                BuildMenu()
+//                            }
                         }
                         .padding([.leading,.trailing,.top])
                     }
@@ -165,25 +165,41 @@ struct DetailView<Content: View, AboveContent: View>: View {
                     _ = vm.UpdateGoal(id: goal.id, request: updateRequest)
                 }
             }
-            .onChange(of: shouldMoveForward){
-                _ in
-                if let affectedGoal = vm.GetGoal(id: selectedObjectId){
-                    var updateRequest = UpdateGoalRequest(goal: affectedGoal)
-                    updateRequest.progress = updateRequest.progress.updateProgress(isForward: true)
-                    withAnimation{
-                        _ = vm.UpdateGoal(id: affectedGoal.id, request: updateRequest)
-                    }
+            .onChange(of:shouldPushBack){ _ in
+                if selectedObjectId == objectId {
+                    didEditPrimaryGoal = true
                 }
+                let affectedGoals = vm.ListAffectedGoals(id: selectedObjectId)
+    
+                let timeframe = currentTimeframe == .decade ? .year : currentTimeframe
+                var requestDictionary = [UUID:UpdateGoalRequest]()
+                
+                for affectedGoal in affectedGoals {
+                    var updateRequest = UpdateGoalRequest(goal: affectedGoal)
+                    updateRequest.startDate = updateRequest.startDate.AdvanceDate(timeframe: timeframe, forward: false)
+                    updateRequest.endDate = updateRequest.endDate.AdvanceDate(timeframe: timeframe, forward: false)
+                    requestDictionary[affectedGoal.id] = updateRequest
+                }
+                
+                _ = vm.UpdateGoals(requestDictionary: requestDictionary)
+                
             }
-            .onChange(of: shouldMoveBackward){
-                _ in
-                if let affectedGoal = vm.GetGoal(id: selectedObjectId){
-                    var updateRequest = UpdateGoalRequest(goal: affectedGoal)
-                    updateRequest.progress = updateRequest.progress.updateProgress(isForward: false)
-                    withAnimation{
-                        _ = vm.UpdateGoal(id: affectedGoal.id, request: updateRequest)
-                    }
+            .onChange(of:shouldPushForward){ _ in
+                if selectedObjectId == objectId {
+                    didEditPrimaryGoal = true
                 }
+                let affectedGoals = vm.ListAffectedGoals(id: selectedObjectId)
+    
+                let timeframe = currentTimeframe == .decade ? .year : currentTimeframe
+                var requestDictionary = [UUID:UpdateGoalRequest]()
+                
+                for affectedGoal in affectedGoals {
+                    var updateRequest = UpdateGoalRequest(goal: affectedGoal)
+                    updateRequest.startDate = updateRequest.startDate.AdvanceDate(timeframe: timeframe, forward: true)
+                    updateRequest.endDate = updateRequest.endDate.AdvanceDate(timeframe: timeframe, forward: true)
+                    requestDictionary[affectedGoal.id] = updateRequest
+                }
+                _ = vm.UpdateGoals(requestDictionary: requestDictionary)
             }
         })
     }

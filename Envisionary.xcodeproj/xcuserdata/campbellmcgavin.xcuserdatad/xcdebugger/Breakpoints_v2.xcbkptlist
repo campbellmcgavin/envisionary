@@ -990,9 +990,9 @@
             filePath = "Envisionary/View/Detail/DetailView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "404"
-            endingLineNumber = "404"
-            landmarkName = "PrintObjectType()"
+            startingLineNumber = "420"
+            endingLineNumber = "420"
+            landmarkName = "BuildNavTextIconButton()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1006,8 +1006,8 @@
             filePath = "Envisionary/Core/Models/Properties.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "106"
-            endingLineNumber = "106"
+            startingLineNumber = "108"
+            endingLineNumber = "108"
             landmarkName = "init(value:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1022,8 +1022,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "717"
-            endingLineNumber = "717"
+            startingLineNumber = "719"
+            endingLineNumber = "719"
             landmarkName = "CreateCoreValue(request:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1118,8 +1118,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "366"
-            endingLineNumber = "366"
+            startingLineNumber = "368"
+            endingLineNumber = "368"
             landmarkName = "ListChildGoals(id:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1134,8 +1134,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "241"
-            endingLineNumber = "241"
+            startingLineNumber = "242"
+            endingLineNumber = "242"
             landmarkName = "ListGoals(criteria:limit:)"
             landmarkType = "7">
             <Locations>
@@ -1191,54 +1191,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "45C5990F-9183-4344-92B8-F38633F8A9B6"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Envisionary/Core/Services/Services/DataService.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "390"
-            endingLineNumber = "390"
-            landmarkName = "ListAffectedGoals(id:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "45C5990F-9183-4344-92B8-F38633F8A9B6 - c32b56dbd4587727"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Envisionary.DataService.ListAffectedGoals(id: Foundation.UUID) -&gt; Swift.Array&lt;Envisionary.Goal&gt;"
-                  moduleName = "Envisionary"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/campbellmcgavin/Documents/Envisionary/Envisionary/Core/Services/Services/DataService.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "231"
-                  endingLineNumber = "231"
-                  offsetFromSymbolStart = "1396">
-               </Location>
-               <Location
-                  uuid = "45C5990F-9183-4344-92B8-F38633F8A9B6 - 4b3358b50b1284d9"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Envisionary.GoalEntity) -&gt; Envisionary.Goal in Envisionary.DataService.ListAffectedGoals(id: Foundation.UUID) -&gt; Swift.Array&lt;Envisionary.Goal&gt;"
-                  moduleName = "Envisionary"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/campbellmcgavin/Documents/Envisionary/Envisionary/Core/Services/Services/DataService.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "231"
-                  endingLineNumber = "231"
-                  offsetFromSymbolStart = "35">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "0B01D8E9-D856-4D3B-ABF2-DA87B23D3C78"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -1262,8 +1214,8 @@
             filePath = "Envisionary/Core/Services/Interfaces/Goal/UpdateGoalRequest.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "64"
-            endingLineNumber = "64"
+            startingLineNumber = "66"
+            endingLineNumber = "66"
             landmarkName = "init(properties:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1278,8 +1230,8 @@
             filePath = "Envisionary/Core/Models/Goal.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "63"
-            endingLineNumber = "63"
+            startingLineNumber = "66"
+            endingLineNumber = "66"
             landmarkName = "init(from:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1310,8 +1262,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "457"
-            endingLineNumber = "457"
+            startingLineNumber = "459"
+            endingLineNumber = "459"
             landmarkName = "ListAspects(criteria:limit:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1342,8 +1294,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "250"
-            endingLineNumber = "250"
+            startingLineNumber = "251"
+            endingLineNumber = "251"
             landmarkName = "UpdateGoal(id:request:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1358,8 +1310,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "365"
-            endingLineNumber = "365"
+            startingLineNumber = "367"
+            endingLineNumber = "367"
             landmarkName = "ListChildGoals(id:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1374,8 +1326,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "372"
-            endingLineNumber = "372"
+            startingLineNumber = "374"
+            endingLineNumber = "374"
             landmarkName = "ListAffectedGoals(id:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1390,8 +1342,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "235"
-            endingLineNumber = "235"
+            startingLineNumber = "236"
+            endingLineNumber = "236"
             landmarkName = "ListGoals(criteria:limit:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1406,8 +1358,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "182"
-            endingLineNumber = "182"
+            startingLineNumber = "183"
+            endingLineNumber = "183"
             landmarkName = "GetGoal(id:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1416,7 +1368,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "678DDBB9-8046-4E3D-9C9A-1D3F19D21626"
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
@@ -1441,22 +1393,6 @@
             startingLineNumber = "76"
             endingLineNumber = "76"
             landmarkName = "GetImageEntity(id:newContext:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "78A51457-8BAB-4C99-9312-7859B850EC6A"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Envisionary/Core/Services/Services/DataService.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "385"
-            endingLineNumber = "385"
-            landmarkName = "ListAffectedGoals(id:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1614,8 +1550,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "775"
-            endingLineNumber = "775"
+            startingLineNumber = "777"
+            endingLineNumber = "777"
             landmarkName = "ListCoreValues(criteria:limit:filterIntroConc:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1710,8 +1646,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "780"
-            endingLineNumber = "780"
+            startingLineNumber = "782"
+            endingLineNumber = "782"
             landmarkName = "ListCoreValues(criteria:limit:filterIntroConc:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1726,8 +1662,8 @@
             filePath = "Envisionary/Extensions/NSCompoundPredicateExtension.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "102"
-            endingLineNumber = "102"
+            startingLineNumber = "106"
+            endingLineNumber = "106"
             landmarkName = "PredicateBuilder(criteria:object:)"
             landmarkType = "7">
             <Locations>
@@ -1774,8 +1710,8 @@
             filePath = "Envisionary/Extensions/NSCompoundPredicateExtension.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "159"
-            endingLineNumber = "159"
+            startingLineNumber = "163"
+            endingLineNumber = "163"
             landmarkName = "PredicateBuilder(criteria:object:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1790,8 +1726,8 @@
             filePath = "Envisionary/Extensions/NSCompoundPredicateExtension.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "163"
-            endingLineNumber = "163"
+            startingLineNumber = "167"
+            endingLineNumber = "167"
             landmarkName = "PredicateBuilder(criteria:object:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1806,8 +1742,8 @@
             filePath = "Envisionary/Extensions/NSCompoundPredicateExtension.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "152"
-            endingLineNumber = "152"
+            startingLineNumber = "156"
+            endingLineNumber = "156"
             landmarkName = "PredicateBuilder(criteria:object:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1822,8 +1758,8 @@
             filePath = "Envisionary/Extensions/NSCompoundPredicateExtension.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "151"
-            endingLineNumber = "151"
+            startingLineNumber = "155"
+            endingLineNumber = "155"
             landmarkName = "PredicateBuilder(criteria:object:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1854,8 +1790,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "862"
-            endingLineNumber = "862"
+            startingLineNumber = "864"
+            endingLineNumber = "864"
             landmarkName = "ListChapters(criteria:limit:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1886,8 +1822,8 @@
             filePath = "Envisionary/Extensions/NSCompoundPredicateExtension.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "100"
-            endingLineNumber = "100"
+            startingLineNumber = "104"
+            endingLineNumber = "104"
             landmarkName = "PredicateBuilder(criteria:object:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1918,8 +1854,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "926"
-            endingLineNumber = "926"
+            startingLineNumber = "928"
+            endingLineNumber = "928"
             landmarkName = "CreateEntry(request:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1950,8 +1886,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "986"
-            endingLineNumber = "986"
+            startingLineNumber = "988"
+            endingLineNumber = "988"
             landmarkName = "GroupEntries(criteria:grouping:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1982,8 +1918,8 @@
             filePath = "Envisionary/Extensions/NSCompoundPredicateExtension.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "62"
-            endingLineNumber = "62"
+            startingLineNumber = "66"
+            endingLineNumber = "66"
             landmarkName = "PredicateBuilder(criteria:object:)"
             landmarkType = "7">
             <Locations>
@@ -2190,8 +2126,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "927"
-            endingLineNumber = "927"
+            startingLineNumber = "929"
+            endingLineNumber = "929"
             landmarkName = "CreateEntry(request:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2206,8 +2142,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "945"
-            endingLineNumber = "945"
+            startingLineNumber = "947"
+            endingLineNumber = "947"
             landmarkName = "GetEntry(id:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2462,8 +2398,8 @@
             filePath = "Envisionary/Core/Enums/PropertyType.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "180"
-            endingLineNumber = "180"
+            startingLineNumber = "185"
+            endingLineNumber = "185"
             landmarkName = "PropertyType"
             landmarkType = "13">
          </BreakpointContent>
@@ -2478,8 +2414,8 @@
             filePath = "Envisionary/Core/Enums/PropertyType.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "179"
-            endingLineNumber = "179"
+            startingLineNumber = "184"
+            endingLineNumber = "184"
             landmarkName = "toString()"
             landmarkType = "7">
          </BreakpointContent>
@@ -2512,8 +2448,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "459"
             endingLineNumber = "459"
-            landmarkName = "ModalAddSession"
-            landmarkType = "14">
+            landmarkName = "SetupGoals()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2590,8 +2526,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1036"
-            endingLineNumber = "1036"
+            startingLineNumber = "1038"
+            endingLineNumber = "1038"
             landmarkName = "CreateSession(request:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2606,8 +2542,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1069"
-            endingLineNumber = "1069"
+            startingLineNumber = "1071"
+            endingLineNumber = "1071"
             landmarkName = "GetSession(id:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2622,8 +2558,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1078"
-            endingLineNumber = "1078"
+            startingLineNumber = "1080"
+            endingLineNumber = "1080"
             landmarkName = "GetSessionEntity(id:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2638,8 +2574,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1096"
-            endingLineNumber = "1096"
+            startingLineNumber = "1098"
+            endingLineNumber = "1098"
             landmarkName = "ListSessions(criteria:limit:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2654,8 +2590,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1110"
-            endingLineNumber = "1110"
+            startingLineNumber = "1112"
+            endingLineNumber = "1112"
             landmarkName = "DeleteSession(id:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2734,8 +2670,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1026"
-            endingLineNumber = "1026"
+            startingLineNumber = "1028"
+            endingLineNumber = "1028"
             landmarkName = "DeleteEntry(id:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2750,8 +2686,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1044"
-            endingLineNumber = "1044"
+            startingLineNumber = "1046"
+            endingLineNumber = "1046"
             landmarkName = "CreateSession(request:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2814,8 +2750,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1047"
-            endingLineNumber = "1047"
+            startingLineNumber = "1049"
+            endingLineNumber = "1049"
             landmarkName = "CreateSession(request:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2862,8 +2798,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1099"
-            endingLineNumber = "1099"
+            startingLineNumber = "1101"
+            endingLineNumber = "1101"
             landmarkName = "ListSessions(criteria:limit:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2878,8 +2814,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1038"
-            endingLineNumber = "1038"
+            startingLineNumber = "1040"
+            endingLineNumber = "1040"
             landmarkName = "CreateSession(request:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2910,8 +2846,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1095"
-            endingLineNumber = "1095"
+            startingLineNumber = "1097"
+            endingLineNumber = "1097"
             landmarkName = "ListSessions(criteria:limit:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3134,8 +3070,8 @@
             filePath = "Envisionary/Extensions/NSCompoundPredicateExtension.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "166"
-            endingLineNumber = "166"
+            startingLineNumber = "170"
+            endingLineNumber = "170"
             landmarkName = "PredicateBuilder(criteria:object:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3150,8 +3086,8 @@
             filePath = "Envisionary/Extensions/NSCompoundPredicateExtension.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "167"
-            endingLineNumber = "167"
+            startingLineNumber = "171"
+            endingLineNumber = "171"
             landmarkName = "PredicateBuilder(criteria:object:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3262,8 +3198,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "819"
-            endingLineNumber = "819"
+            startingLineNumber = "821"
+            endingLineNumber = "821"
             landmarkName = "CreateChapter(request:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3470,8 +3406,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "493"
-            endingLineNumber = "493"
+            startingLineNumber = "495"
+            endingLineNumber = "495"
             landmarkName = "DataService"
             landmarkType = "3">
          </BreakpointContent>
@@ -3486,8 +3422,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "501"
-            endingLineNumber = "501"
+            startingLineNumber = "503"
+            endingLineNumber = "503"
             landmarkName = "DataService"
             landmarkType = "3">
          </BreakpointContent>
@@ -3502,8 +3438,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1190"
-            endingLineNumber = "1190"
+            startingLineNumber = "1192"
+            endingLineNumber = "1192"
             landmarkName = "CreateHabit(request:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3662,8 +3598,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1195"
-            endingLineNumber = "1195"
+            startingLineNumber = "1197"
+            endingLineNumber = "1197"
             landmarkName = "CreateHabit(request:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3678,8 +3614,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1198"
-            endingLineNumber = "1198"
+            startingLineNumber = "1200"
+            endingLineNumber = "1200"
             landmarkName = "CreateHabit(request:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3710,8 +3646,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1313"
-            endingLineNumber = "1313"
+            startingLineNumber = "1315"
+            endingLineNumber = "1315"
             landmarkName = "GroupHabits(criteria:grouping:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3726,8 +3662,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1343"
-            endingLineNumber = "1343"
+            startingLineNumber = "1345"
+            endingLineNumber = "1345"
             landmarkName = "GroupHabits(criteria:grouping:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3742,8 +3678,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1292"
-            endingLineNumber = "1292"
+            startingLineNumber = "1294"
+            endingLineNumber = "1294"
             landmarkName = "DeleteHabit(id:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3758,8 +3694,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1297"
-            endingLineNumber = "1297"
+            startingLineNumber = "1299"
+            endingLineNumber = "1299"
             landmarkName = "DeleteHabit(id:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3774,8 +3710,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1298"
-            endingLineNumber = "1298"
+            startingLineNumber = "1300"
+            endingLineNumber = "1300"
             landmarkName = "DeleteHabit(id:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3822,8 +3758,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1194"
-            endingLineNumber = "1194"
+            startingLineNumber = "1196"
+            endingLineNumber = "1196"
             landmarkName = "CreateHabit(request:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3838,8 +3774,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1398"
-            endingLineNumber = "1398"
+            startingLineNumber = "1400"
+            endingLineNumber = "1400"
             landmarkName = "ListRecurrences(criteria:limit:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3854,8 +3790,8 @@
             filePath = "Envisionary/Extensions/NSCompoundPredicateExtension.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "187"
-            endingLineNumber = "187"
+            startingLineNumber = "191"
+            endingLineNumber = "191"
             landmarkName = "PredicateBuilder(criteria:object:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3870,8 +3806,8 @@
             filePath = "Envisionary/Extensions/NSCompoundPredicateExtension.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "155"
-            endingLineNumber = "155"
+            startingLineNumber = "159"
+            endingLineNumber = "159"
             landmarkName = "PredicateBuilder(criteria:object:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3886,8 +3822,8 @@
             filePath = "Envisionary/Extensions/NSCompoundPredicateExtension.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "135"
-            endingLineNumber = "135"
+            startingLineNumber = "139"
+            endingLineNumber = "139"
             landmarkName = "PredicateBuilder(criteria:object:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4062,8 +3998,8 @@
             filePath = "Envisionary/Extensions/NSCompoundPredicateExtension.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "183"
-            endingLineNumber = "183"
+            startingLineNumber = "187"
+            endingLineNumber = "187"
             landmarkName = "PredicateBuilder(criteria:object:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4078,8 +4014,8 @@
             filePath = "Envisionary/Extensions/NSCompoundPredicateExtension.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "182"
-            endingLineNumber = "182"
+            startingLineNumber = "186"
+            endingLineNumber = "186"
             landmarkName = "PredicateBuilder(criteria:object:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4142,8 +4078,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "930"
-            endingLineNumber = "930"
+            startingLineNumber = "932"
+            endingLineNumber = "932"
             landmarkName = "CreateEntry(request:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4350,8 +4286,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1011"
-            endingLineNumber = "1011"
+            startingLineNumber = "1013"
+            endingLineNumber = "1013"
             landmarkName = "UpdateEntry(id:request:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4366,8 +4302,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "835"
-            endingLineNumber = "835"
+            startingLineNumber = "837"
+            endingLineNumber = "837"
             landmarkName = "GetChapter(id:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4382,8 +4318,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "833"
-            endingLineNumber = "833"
+            startingLineNumber = "835"
+            endingLineNumber = "835"
             landmarkName = "GetChapter(id:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4574,8 +4510,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1350"
-            endingLineNumber = "1350"
+            startingLineNumber = "1352"
+            endingLineNumber = "1352"
             landmarkName = "CreateRecurrence(request:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4606,8 +4542,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1411"
-            endingLineNumber = "1411"
+            startingLineNumber = "1413"
+            endingLineNumber = "1413"
             landmarkName = "UpdateRecurrence(id:request:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4622,8 +4558,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1413"
-            endingLineNumber = "1413"
+            startingLineNumber = "1415"
+            endingLineNumber = "1415"
             landmarkName = "UpdateRecurrence(id:request:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4830,8 +4766,8 @@
             filePath = "Envisionary/Core/Models/Properties.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "270"
-            endingLineNumber = "270"
+            startingLineNumber = "272"
+            endingLineNumber = "272"
             landmarkName = "isValid(propertyType:objectType:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -5278,8 +5214,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "777"
-            endingLineNumber = "777"
+            startingLineNumber = "779"
+            endingLineNumber = "779"
             landmarkName = "ListCoreValues(criteria:limit:filterIntroConc:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -5294,8 +5230,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "808"
-            endingLineNumber = "808"
+            startingLineNumber = "810"
+            endingLineNumber = "810"
             landmarkName = "DeleteCoreValue(id:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -5310,8 +5246,8 @@
             filePath = "Envisionary/Extensions/NSCompoundPredicateExtension.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "64"
-            endingLineNumber = "64"
+            startingLineNumber = "68"
+            endingLineNumber = "68"
             landmarkName = "PredicateBuilder(criteria:object:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -5326,8 +5262,8 @@
             filePath = "Envisionary/Extensions/NSCompoundPredicateExtension.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "154"
-            endingLineNumber = "154"
+            startingLineNumber = "158"
+            endingLineNumber = "158"
             landmarkName = "PredicateBuilder(criteria:object:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -5336,22 +5272,6 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "6C536335-F82B-4ED3-B13B-5A46FA28490B"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Envisionary/Extensions/NSCompoundPredicateExtension.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "171"
-            endingLineNumber = "171"
-            landmarkName = "PredicateBuilder(criteria:object:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "36ED5FF9-0EB6-40DC-8B1B-B1579CD760E2"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -5367,7 +5287,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "1C5357E0-94CE-4412-87D0-2F1D85D5127F"
+            uuid = "36ED5FF9-0EB6-40DC-8B1B-B1579CD760E2"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -5383,6 +5303,22 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "1C5357E0-94CE-4412-87D0-2F1D85D5127F"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Extensions/NSCompoundPredicateExtension.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "183"
+            endingLineNumber = "183"
+            landmarkName = "PredicateBuilder(criteria:object:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
             uuid = "6A511520-6383-4C74-AE01-B44597459396"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -5390,8 +5326,8 @@
             filePath = "Envisionary/Extensions/NSCompoundPredicateExtension.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "168"
-            endingLineNumber = "168"
+            startingLineNumber = "172"
+            endingLineNumber = "172"
             landmarkName = "PredicateBuilder(criteria:object:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -5406,8 +5342,8 @@
             filePath = "Envisionary/Extensions/NSCompoundPredicateExtension.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "103"
-            endingLineNumber = "103"
+            startingLineNumber = "107"
+            endingLineNumber = "107"
             landmarkName = "PredicateBuilder(criteria:object:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -5614,8 +5550,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "500"
-            endingLineNumber = "500"
+            startingLineNumber = "502"
+            endingLineNumber = "502"
             landmarkName = "DataService"
             landmarkType = "3">
          </BreakpointContent>
@@ -6126,8 +6062,8 @@
             filePath = "Envisionary/Core/Models/Properties.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "245"
-            endingLineNumber = "245"
+            startingLineNumber = "247"
+            endingLineNumber = "247"
             landmarkName = "isValid(propertyType:objectType:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -6742,8 +6678,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "971"
-            endingLineNumber = "971"
+            startingLineNumber = "973"
+            endingLineNumber = "973"
             landmarkName = "ListEntries(criteria:limit:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -6758,8 +6694,8 @@
             filePath = "Envisionary/Extensions/NSCompoundPredicateExtension.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "58"
-            endingLineNumber = "58"
+            startingLineNumber = "62"
+            endingLineNumber = "62"
             landmarkName = "PredicateBuilder(criteria:object:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -6774,8 +6710,8 @@
             filePath = "Envisionary/Extensions/NSCompoundPredicateExtension.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "56"
-            endingLineNumber = "56"
+            startingLineNumber = "60"
+            endingLineNumber = "60"
             landmarkName = "PredicateBuilder(criteria:object:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -6790,8 +6726,8 @@
             filePath = "Envisionary/Extensions/NSCompoundPredicateExtension.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "57"
-            endingLineNumber = "57"
+            startingLineNumber = "61"
+            endingLineNumber = "61"
             landmarkName = "PredicateBuilder(criteria:object:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -6806,8 +6742,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "974"
-            endingLineNumber = "974"
+            startingLineNumber = "976"
+            endingLineNumber = "976"
             landmarkName = "ListEntries(criteria:limit:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -7178,6 +7114,53 @@
             endingLineNumber = "76"
             landmarkName = "CreateObjects()"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "1414B807-9164-4435-988A-3FC4BBEC326B - 8f149d72df037fe3"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Envisionary.TutorialArchetype.CreateObjects() -&gt; ()"
+                  moduleName = "Envisionary"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/campbellmcgavin/Documents/Envisionary/Envisionary/View/Toolbox/Tutorial/TutorialArchetype.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "76"
+                  endingLineNumber = "76"
+                  offsetFromSymbolStart = "3134">
+               </Location>
+               <Location
+                  uuid = "1414B807-9164-4435-988A-3FC4BBEC326B - b3a4c30578a193bc"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #9 (Envisionary.ExampleGoalEnum, Envisionary.ExampleGoalEnum) -&gt; Swift.Bool in Envisionary.TutorialArchetype.CreateObjects() -&gt; ()"
+                  moduleName = "Envisionary"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/campbellmcgavin/Documents/Envisionary/Envisionary/View/Toolbox/Tutorial/TutorialArchetype.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "76"
+                  endingLineNumber = "76"
+                  offsetFromSymbolStart = "20">
+               </Location>
+               <Location
+                  uuid = "1414B807-9164-4435-988A-3FC4BBEC326B - 744feea847610797"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #10 (Envisionary.ExampleGoalEnum) -&gt; () in Envisionary.TutorialArchetype.CreateObjects() -&gt; ()"
+                  moduleName = "Envisionary"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/campbellmcgavin/Documents/Envisionary/Envisionary/View/Toolbox/Tutorial/TutorialArchetype.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "78"
+                  endingLineNumber = "78"
+                  offsetFromSymbolStart = "353">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -7193,38 +7176,6 @@
             startingLineNumber = "78"
             endingLineNumber = "78"
             landmarkName = "CreateObjects()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "402B320A-E1BC-4A97-B042-045338A466F6"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Envisionary/Core/Services/Services/DataService.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "377"
-            endingLineNumber = "377"
-            landmarkName = "ListAffectedGoals(id:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "077F034D-DDD0-447E-9CD1-CA91CBB4EEB1"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Envisionary/Core/Services/Services/DataService.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "375"
-            endingLineNumber = "375"
-            landmarkName = "ListAffectedGoals(id:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -7254,8 +7205,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "900"
-            endingLineNumber = "900"
+            startingLineNumber = "902"
+            endingLineNumber = "902"
             landmarkName = "UpdateChapter(id:request:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -7619,8 +7570,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "860"
-            endingLineNumber = "860"
+            startingLineNumber = "862"
+            endingLineNumber = "862"
             landmarkName = "ListChapters(criteria:limit:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -7635,8 +7586,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1396"
-            endingLineNumber = "1396"
+            startingLineNumber = "1398"
+            endingLineNumber = "1398"
             landmarkName = "ListRecurrences(criteria:limit:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -7667,8 +7618,8 @@
             filePath = "Envisionary/Extensions/NSCompoundPredicateExtension.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "143"
-            endingLineNumber = "143"
+            startingLineNumber = "147"
+            endingLineNumber = "147"
             landmarkName = "PredicateBuilder(criteria:object:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -8178,8 +8129,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1097"
-            endingLineNumber = "1097"
+            startingLineNumber = "1099"
+            endingLineNumber = "1099"
             landmarkName = "ListSessions(criteria:limit:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -8194,8 +8145,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1098"
-            endingLineNumber = "1098"
+            startingLineNumber = "1100"
+            endingLineNumber = "1100"
             landmarkName = "ListSessions(criteria:limit:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -8210,8 +8161,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "237"
-            endingLineNumber = "237"
+            startingLineNumber = "238"
+            endingLineNumber = "238"
             landmarkName = "ListGoals(criteria:limit:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -8226,8 +8177,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "313"
-            endingLineNumber = "313"
+            startingLineNumber = "315"
+            endingLineNumber = "315"
             landmarkName = "GroupGoals(criteria:grouping:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -8242,8 +8193,8 @@
             filePath = "Envisionary/Extensions/NSCompoundPredicateExtension.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "148"
-            endingLineNumber = "148"
+            startingLineNumber = "152"
+            endingLineNumber = "152"
             landmarkName = "PredicateBuilder(criteria:object:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -8274,8 +8225,8 @@
             filePath = "Envisionary/Extensions/NSCompoundPredicateExtension.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "107"
-            endingLineNumber = "107"
+            startingLineNumber = "111"
+            endingLineNumber = "111"
             landmarkName = "PredicateBuilder(criteria:object:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -8354,8 +8305,8 @@
             filePath = "Envisionary/Extensions/NSCompoundPredicateExtension.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "149"
-            endingLineNumber = "149"
+            startingLineNumber = "153"
+            endingLineNumber = "153"
             landmarkName = "PredicateBuilder(criteria:object:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -8372,7 +8323,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "49"
             endingLineNumber = "49"
-            landmarkName = "toGoal(parentId:imageId:archetype:)"
+            landmarkName = "toGoal(parentId:superId:imageId:archetype:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -8388,7 +8339,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "55"
             endingLineNumber = "55"
-            landmarkName = "toGoal(parentId:imageId:archetype:)"
+            landmarkName = "toGoal(parentId:superId:imageId:archetype:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -8404,7 +8355,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "58"
             endingLineNumber = "58"
-            landmarkName = "toGoal(parentId:imageId:archetype:)"
+            landmarkName = "toGoal(parentId:superId:imageId:archetype:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -8418,8 +8369,8 @@
             filePath = "Envisionary/EnvisionaryApp.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "49"
-            endingLineNumber = "49"
+            startingLineNumber = "46"
+            endingLineNumber = "46"
             landmarkName = "EnvisionaryApp"
             landmarkType = "14">
          </BreakpointContent>
@@ -9537,8 +9488,8 @@
             filePath = "Envisionary/Core/Models/Properties.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "213"
-            endingLineNumber = "213"
+            startingLineNumber = "215"
+            endingLineNumber = "215"
             landmarkName = "getFormError(propertyType:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -9553,8 +9504,8 @@
             filePath = "Envisionary/Core/Models/Properties.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "220"
-            endingLineNumber = "220"
+            startingLineNumber = "222"
+            endingLineNumber = "222"
             landmarkName = "getFormError(propertyType:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -9728,8 +9679,8 @@
             filePath = "Envisionary/Extensions/NSCompoundPredicateExtension.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "53"
-            endingLineNumber = "53"
+            startingLineNumber = "57"
+            endingLineNumber = "57"
             landmarkName = "PredicateBuilder(criteria:object:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -9760,8 +9711,8 @@
             filePath = "Envisionary/Core/Models/Properties.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "91"
-            endingLineNumber = "91"
+            startingLineNumber = "92"
+            endingLineNumber = "92"
             landmarkName = "init(goal:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -9824,8 +9775,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1280"
-            endingLineNumber = "1280"
+            startingLineNumber = "1282"
+            endingLineNumber = "1282"
             landmarkName = "UpdateHabit(id:request:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -9840,8 +9791,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1278"
-            endingLineNumber = "1278"
+            startingLineNumber = "1280"
+            endingLineNumber = "1280"
             landmarkName = "UpdateHabit(id:request:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -10128,8 +10079,8 @@
             filePath = "Envisionary/View/Detail/DetailView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "379"
-            endingLineNumber = "379"
+            startingLineNumber = "395"
+            endingLineNumber = "395"
             landmarkName = "BuildMenu()"
             landmarkType = "7">
             <Locations>
@@ -10176,8 +10127,8 @@
             filePath = "Envisionary/View/Detail/DetailView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "385"
-            endingLineNumber = "385"
+            startingLineNumber = "401"
+            endingLineNumber = "401"
             landmarkName = "BuildMenu()"
             landmarkType = "7">
          </BreakpointContent>
@@ -10256,8 +10207,8 @@
             filePath = "Envisionary/View/Toolbox/Gantt/GanttView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "84"
-            endingLineNumber = "84"
+            startingLineNumber = "198"
+            endingLineNumber = "198"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -10352,8 +10303,8 @@
             filePath = "Envisionary/View/Toolbox/Gantt/GanttView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "73"
-            endingLineNumber = "73"
+            startingLineNumber = "179"
+            endingLineNumber = "179"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -10441,22 +10392,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "6570DD05-75E5-46AB-92A1-3D6326BCDAE4"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Envisionary/View/Toolbox/Tree/TreeView.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "57"
-            endingLineNumber = "57"
-            landmarkName = "BuildView()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "3D89971D-2B72-47E9-BD6F-36B51A39C74F"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -10512,8 +10447,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1469"
-            endingLineNumber = "1469"
+            startingLineNumber = "1471"
+            endingLineNumber = "1471"
             landmarkName = "CreateCoreValueRating(request:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -10672,8 +10607,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "607"
-            endingLineNumber = "607"
+            startingLineNumber = "609"
+            endingLineNumber = "609"
             landmarkName = "CreateDream(request:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -10688,8 +10623,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1130"
-            endingLineNumber = "1130"
+            startingLineNumber = "1132"
+            endingLineNumber = "1132"
             landmarkName = "CreatePrompt(request:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -10825,22 +10760,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "C52F08AD-4B8F-418B-93D4-D6FBADC3B62D"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Envisionary/Core/Services/Services/DataService.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "239"
-            endingLineNumber = "239"
-            landmarkName = "ListGoals(criteria:limit:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "01956316-1293-469F-884F-FFCB3FECB84E"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -10848,8 +10767,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "240"
-            endingLineNumber = "240"
+            startingLineNumber = "241"
+            endingLineNumber = "241"
             landmarkName = "ListGoals(criteria:limit:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -10912,25 +10831,9 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "234"
-            endingLineNumber = "234"
+            startingLineNumber = "235"
+            endingLineNumber = "235"
             landmarkName = "ListGoals(criteria:limit:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "ACD735D4-EC3D-4C6B-A225-13146AFBBFE1"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Envisionary/View/Toolbox/Checkoff/CheckoffCard.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "494"
-            endingLineNumber = "494"
-            landmarkName = "BuildEmphasisText()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -11072,8 +10975,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "207"
-            endingLineNumber = "207"
+            startingLineNumber = "208"
+            endingLineNumber = "208"
             landmarkName = "ComputeGoalPosition(parentId:siblingAbove:)"
             landmarkType = "7">
             <Locations>
@@ -11120,8 +11023,8 @@
             filePath = "Envisionary/Core/Services/Services/DataService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "209"
-            endingLineNumber = "209"
+            startingLineNumber = "210"
+            endingLineNumber = "210"
             landmarkName = "ComputeGoalPosition(parentId:siblingAbove:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -11248,8 +11151,8 @@
             filePath = "Envisionary/View/Toolbox/Checkoff/CheckoffCard.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "366"
-            endingLineNumber = "366"
+            startingLineNumber = "367"
+            endingLineNumber = "367"
             landmarkName = "ExecuteButtonFunction(button:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -11264,8 +11167,8 @@
             filePath = "Envisionary/View/Toolbox/Checkoff/CheckoffCard.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "433"
-            endingLineNumber = "433"
+            startingLineNumber = "434"
+            endingLineNumber = "434"
             landmarkName = "GetDropFields(isIndent:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -11280,8 +11183,8 @@
             filePath = "Envisionary/View/Toolbox/Checkoff/CheckoffCard.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "358"
-            endingLineNumber = "358"
+            startingLineNumber = "359"
+            endingLineNumber = "359"
             landmarkName = "ExecuteButtonFunction(button:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -11312,8 +11215,8 @@
             filePath = "Envisionary/View/Toolbox/Checkoff/CheckoffCard.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "374"
-            endingLineNumber = "374"
+            startingLineNumber = "375"
+            endingLineNumber = "375"
             landmarkName = "ExecuteButtonFunction(button:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -11328,8 +11231,8 @@
             filePath = "Envisionary/View/Toolbox/Checkoff/CheckoffCard.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "40"
-            endingLineNumber = "40"
+            startingLineNumber = "41"
+            endingLineNumber = "41"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -11360,8 +11263,8 @@
             filePath = "Envisionary/View/Toolbox/Checkoff/CheckoffCard.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "43"
-            endingLineNumber = "43"
+            startingLineNumber = "44"
+            endingLineNumber = "44"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -11392,8 +11295,8 @@
             filePath = "Envisionary/View/Toolbox/Checkoff/CheckoffCard.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "716"
-            endingLineNumber = "716"
+            startingLineNumber = "722"
+            endingLineNumber = "722"
             landmarkName = "dropExited(info:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -11408,8 +11311,8 @@
             filePath = "Envisionary/View/Toolbox/Checkoff/CheckoffCard.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "721"
-            endingLineNumber = "721"
+            startingLineNumber = "727"
+            endingLineNumber = "727"
             landmarkName = "dropEntered(info:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -11433,38 +11336,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "318F1A95-E9A9-4152-89D6-5A4012655A83"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Envisionary/View/Toolbox/Checkoff/CheckoffCard.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "247"
-            endingLineNumber = "247"
-            landmarkName = "BuildCard()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "BC9B59E9-2F15-4844-B7B2-4B3D93B3C6D8"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Envisionary/View/Toolbox/Checkoff/CheckoffCard.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "303"
-            endingLineNumber = "303"
-            landmarkName = "BuildCard()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "040E6E94-2D77-494F-BC90-74B16411959E"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -11472,8 +11343,8 @@
             filePath = "Envisionary/View/Toolbox/Checkoff/CheckoffView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "47"
-            endingLineNumber = "47"
+            startingLineNumber = "48"
+            endingLineNumber = "48"
             landmarkName = "CheckoffView"
             landmarkType = "14">
          </BreakpointContent>
@@ -11488,24 +11359,8 @@
             filePath = "Envisionary/View/Toolbox/Checkoff/CheckoffCard.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "631"
-            endingLineNumber = "631"
-            landmarkName = "body"
-            landmarkType = "24">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "CA6FE944-20D2-4F5F-AD2A-4D84E2D9FE5A"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Envisionary/EnvisionaryApp.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "21"
-            endingLineNumber = "21"
+            startingLineNumber = "637"
+            endingLineNumber = "637"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -11545,16 +11400,192 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "31A745E8-AA28-457C-A22B-8C5EA3B63264"
+            uuid = "48388C35-0C6F-4D20-A1E9-15E6653E102B"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/View/Toolbox/Tutorial/TutorialArchetype.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "81"
+            endingLineNumber = "81"
+            landmarkName = "CreateObjects()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "76B15825-CECD-4CFB-9B80-E8568048ECAB"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/View/Toolbox/Tutorial/TutorialArchetype.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "83"
+            endingLineNumber = "83"
+            landmarkName = "CreateObjects()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "1A7197B7-4B61-4689-B356-FE13F370DC82"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Envisionary/View/Toolbox/Checkoff/CheckoffCard.swift"
+            filePath = "Envisionary/View/Toolbox/Tutorial/TutorialArchetype.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "225"
-            endingLineNumber = "225"
-            landmarkName = "BuildCard()"
+            startingLineNumber = "82"
+            endingLineNumber = "82"
+            landmarkName = "CreateObjects()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D8B23234-602F-4029-AB76-E5F9615DE782"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/View/Toolbox/Checkoff/CheckoffView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "126"
+            endingLineNumber = "126"
+            landmarkName = "UpdateGoals()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0446E3C6-BDF0-429F-B100-3A8BFE4D2512"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/Core/ViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "192"
+            endingLineNumber = "192"
+            landmarkName = "UpdateGoalProgress(id:progress:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "76DB4286-1C06-4A14-A0EB-C13397FAA68B"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/View/Scroll/ScrollViewDirectionReader.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "35"
+            endingLineNumber = "35"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "2854528D-FAA2-4CC8-9B0C-272E6F021456"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/View/Scroll/ScrollViewDirectionReader.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "33"
+            endingLineNumber = "33"
+            landmarkName = "body"
+            landmarkType = "24">
+            <Locations>
+               <Location
+                  uuid = "2854528D-FAA2-4CC8-9B0C-272E6F021456 - 3a9919b074a7e6f6"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #4 (__C.CGPoint) -&gt; () in Envisionary.ScrollViewDirectionReader.body.getter : some"
+                  moduleName = "Envisionary"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/campbellmcgavin/Documents/Envisionary/Envisionary/View/Scroll/ScrollViewDirectionReader.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "33"
+                  endingLineNumber = "33"
+                  offsetFromSymbolStart = "259">
+               </Location>
+               <Location
+                  uuid = "2854528D-FAA2-4CC8-9B0C-272E6F021456 - 6795948847d2af99"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; () in closure #4 (__C.CGPoint) -&gt; () in Envisionary.ScrollViewDirectionReader.body.getter : some"
+                  moduleName = "Envisionary"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/campbellmcgavin/Documents/Envisionary/Envisionary/View/Scroll/ScrollViewDirectionReader.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "35"
+                  endingLineNumber = "35"
+                  offsetFromSymbolStart = "208">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "7BA8D280-22B6-48EB-BC09-D3EEA32F66A5"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/View/Toolbox/Gantt/GanttMainDiagram.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "47"
+            endingLineNumber = "47"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3B04F813-7420-4BDE-B35D-2D87774149B6"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/View/Scroll/ScrollViewDirectionReader.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "36"
+            endingLineNumber = "36"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0CC46A8A-8A08-4195-86B8-901BFE340DF6"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Envisionary/View/Toolbox/Gantt/GanttMainDiagram.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "107"
+            endingLineNumber = "107"
+            landmarkName = "ShouldShow(goal:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

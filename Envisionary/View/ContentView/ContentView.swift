@@ -132,6 +132,7 @@ struct ContentView: View {
                 SplashScreen(isPresenting: $isPresentingSplashScreen)
                 
             }
+            .ignoresSafeArea(.keyboard,edges:.bottom)
             .background(Color.specify(color: .grey0))
             .saveSize(in:$screenHeight)
             .onReceive(splashScreenTimer){ _ in

@@ -14,12 +14,14 @@ struct IconLabel: View {
     var circleColor: CustomColor = .clear
     var opacity: Double = 1
     var circleOpacity: Double = 1
+    var showIcon = true
     var body: some View {
         ZStack{
             Circle()
                 .frame(width:size.ToSize(), height: size.ToSize())
                 .foregroundColor(Color.specify(color: circleColor))
                 .opacity(circleOpacity)
+            
             iconType.ToIconString().ToImage(imageSize: GetIconSize())
                 .foregroundColor(.specify(color: iconColor))
                 .opacity(opacity)

@@ -104,6 +104,8 @@ struct ContentViewStack: View {
                 vm.filtering.filterIncludeCalendar = false
             }
         }
+        .ignoresSafeArea(.keyboard,edges:.bottom)
+
     }
     
     @ViewBuilder

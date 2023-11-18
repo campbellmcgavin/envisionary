@@ -19,7 +19,7 @@ struct BubbleViewLabel: View {
     @State var image: UIImage? = nil
     var shouldShowStatusLabel = false
     @EnvironmentObject var vm: ViewModel
-    var color: CustomColor = .grey3
+    var color: CustomColor = .grey2
     var highlightColor: CustomColor = .purple
     var ignoreImageLoad: Bool = false
     var ignoreImageRefresh: Bool = false
@@ -52,12 +52,11 @@ struct BubbleViewLabel: View {
             Spacer()
 
         }
-        .frame(height:SizeType.minimumTouchTarget.ToSize())
+        .frame(height:height)
         .opacity(shouldShowDetails ? 1.0 : 0.0)
-        .padding(7)
         .modifier(ModifierCard(color: focusGoal == goalId ? highlightColor : color))
 
-        .frame(width:width < 50 ? 50 : width, height:50)
+        .frame(width:width < 50 ? 50 : width, height:height)
         .onAppear{
             if shouldShowDetails{
                 LoadGoal()

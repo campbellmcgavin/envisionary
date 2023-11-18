@@ -27,8 +27,8 @@ struct CheckOff: View {
                 .padding([.leading,.trailing],15)
                 .modifier(ModifierCard(color:.grey15))
             
-            CheckoffView(shouldShowAll: $shouldShowAll, focusGoal: $focusGoal, parentGoalId: properties.id, goalId: properties.id, leftPadding: -27, outerPadding: 8, canEdit: canEdit, proxy: proxy, value: { goalId, leftPadding, outerPadding  in
-                CheckoffCard(goalId: goalId, superId: self.goalId, canEdit: canEdit, leftPadding: leftPadding, outerPadding: outerPadding, proxy: proxy, selectedGoalId: $focusGoal, isPresentingModal: $isPresenting, modalType: $modalType,  newGoalId: $newGoalId, dropFields: $dropFields)
+            CheckoffView(shouldShowAll: $shouldShowAll, focusGoal: $focusGoal, parentGoalId: properties.id, goalId: properties.id, leftPadding: -27, outerPadding: 8, canEdit: canEdit, proxy: proxy, shouldDismissInteractively: false, value: { goalId, leftPadding, outerPadding  in
+                CheckoffCard(goalId: goalId, superId: self.goalId, canEdit: canEdit, leftPadding: leftPadding, outerPadding: outerPadding, proxy: proxy, shouldDismissInteractively: false, selectedGoalId: $focusGoal, isPresentingModal: $isPresenting, modalType: $modalType,  newGoalId: $newGoalId, dropFields: $dropFields)
                     .padding(.leading,6)
                     .contentShape(Rectangle())
             })

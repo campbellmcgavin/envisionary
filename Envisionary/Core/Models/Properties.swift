@@ -25,6 +25,7 @@ struct Properties: Identifiable, Equatable, Hashable, Codable{
     var image: UUID?
     var images: [UUID]?
     var position: String?
+    var superId: UUID?
     
     var start: String?
     var end: String?
@@ -90,6 +91,7 @@ struct Properties: Identifiable, Equatable, Hashable, Codable{
         self.image = goal?.image
         self.archived = goal?.archived
         self.position = goal?.position
+        self.superId = goal?.superId
     }
     
     init(dream: Dream?){

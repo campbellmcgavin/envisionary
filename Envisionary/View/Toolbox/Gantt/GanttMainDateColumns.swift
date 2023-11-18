@@ -12,7 +12,6 @@ struct GanttMainDateColumns: View {
     var dateValues: [DateValue]
     var columnWidth: CGFloat
     var timeframeType: TimeframeType
-//    let goalId: UUID
     
     @EnvironmentObject var vm: ViewModel
     
@@ -21,10 +20,12 @@ struct GanttMainDateColumns: View {
         LazyHStack(alignment: .top, spacing:0){
             ForEach(dateValues){dateValue in
                 GanttMainDateColumn(dateValue: dateValue, frameWidth: columnWidth, timeframe: timeframeType)
+                    
             }
         }
         .padding(.trailing,200)
         .padding(.leading,30)
+        
     }
 }
 

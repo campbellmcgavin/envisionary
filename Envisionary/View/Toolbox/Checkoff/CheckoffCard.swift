@@ -14,6 +14,7 @@ struct CheckoffCard: View {
     let leftPadding: CGFloat
     let outerPadding: CGFloat
     let proxy: ScrollViewProxy?
+    let shouldDismissInteractively: Bool
     var selectedColor: CustomColor = .grey10
     @Binding var selectedGoalId: UUID
     @Binding var isPresentingModal: Bool
@@ -46,7 +47,6 @@ struct CheckoffCard: View {
             StackDivider(shouldIndent: false, color: .grey35)
                 .offset(x: leftPadding + SizeType.mediumLarge.ToSize())
         }
-        .background(.random)
         .onDrag{
             withAnimation{
                 self.dropFields.currentItem = IdItem(id: (goalId ?? UUID()))
@@ -232,7 +232,7 @@ struct CheckoffCard: View {
                 VStack(alignment:.leading){
                     
                     if isSelected != 0 && !IsCompleted(){
-                        CheckOffCardEditor(goalId: goalId, superId: superId, proxy: proxy, selectedGoalId: selectedGoalId, goal: $goal, newGoalId: $newGoalId, shouldAdd: $shouldAdd, isSelected: $isSelected)
+                        CheckOffCardEditor(goalId: goalId, superId: superId, proxy: proxy, shouldDismissInteractively: shouldDismissInteractively, selectedGoalId: selectedGoalId, goal: $goal, newGoalId: $newGoalId, shouldAdd: $shouldAdd, isSelected: $isSelected)
                     }
                     else{
                         if goalId != nil {
@@ -242,6 +242,7 @@ struct CheckoffCard: View {
                                 .foregroundColor(.specify(color: IsCompleted() ? .grey5 : .grey10))
                                 .multilineTextAlignment(.leading)
                                 .frame(minHeight:17)
+                                .lineLimit(1)
                         }
                         else{
                             Text("Add a new goal")
@@ -545,7 +546,6 @@ return nil
             .frame(height:13)
             .frame(maxWidth:.infinity)
         }
-        
     }
     
     @ViewBuilder
@@ -577,7 +577,7 @@ return nil
                 if let parentGoal = vm.GetGoal(id: parentId) {
                     
                     // add new goal
-                    let request = CreateGoalRequest(title: "", description: "", priority: parentGoal.priority, startDate: parentGoal.startDate, endDate: parentGoal.endDate, percentComplete: 0, image: parentGoal.image, aspect: parentGoal.aspect, parent: parentGoal.id, previousGoalId: selectedGoalId)
+                    let request = CreateGoalRequest(title: "", description: "", priority: parentGoal.priority, startDate: parentGoal.startDate, endDate: parentGoal.endDate, percentComplete: 0, image: parentGoal.image, aspect: parentGoal.aspect, parent: parentGoal.id, previousGoalId: selectedGoalId, superId: parentGoal.superId)
                     let createdId = vm.CreateGoal(request: request, silenceUpdates: true)
                     selectedGoalId = createdId
                     newGoalId = createdId
@@ -593,7 +593,7 @@ return nil
         }
         else{
             if let parentGoal = vm.GetGoal(id: superId){
-                let request = CreateGoalRequest(title: goal.title, description: "", priority: parentGoal.priority, startDate: parentGoal.startDate, endDate: parentGoal.endDate, percentComplete: 0, image: parentGoal.image, aspect: parentGoal.aspect, parent: parentGoal.id, previousGoalId: selectedGoalId)
+                let request = CreateGoalRequest(title: goal.title, description: "", priority: parentGoal.priority, startDate: parentGoal.startDate, endDate: parentGoal.endDate, percentComplete: 0, image: parentGoal.image, aspect: parentGoal.aspect, parent: parentGoal.id, previousGoalId: selectedGoalId, superId: parentGoal.superId)
                 let createdId = vm.CreateGoal(request: request, silenceUpdates: false)
             }
         }
@@ -606,6 +606,7 @@ struct CheckOffCardEditor: View{
     let goalId: UUID?
     let superId: UUID
     let proxy: ScrollViewProxy?
+    let shouldDismissInteractively: Bool
     var selectedGoalId: UUID
     @Binding var goal: Goal
     @Binding var newGoalId: UUID?
@@ -620,7 +621,12 @@ struct CheckOffCardEditor: View{
         
         TextField("", text: $goal.title, axis: .vertical)
             .focused($isFocused)
-            .scrollDismissesKeyboard(.interactively)
+            .if(shouldDismissInteractively, transform: {
+                view in
+                view
+                    .scrollDismissesKeyboard(.interactively)
+            })
+            
             .submitLabel(.return)
             .frame(maxWidth:.infinity, alignment: .topLeading)
             .font(.specify(style: .body3))

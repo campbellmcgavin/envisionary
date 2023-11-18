@@ -9,6 +9,7 @@ import SwiftUI
 
 enum IconType: CaseIterable {
     case add
+    case subtract
     case delete
     case edit
     
@@ -117,6 +118,8 @@ enum IconType: CaseIterable {
         switch self {
         case .add:
             return "Icon_Add"
+        case .subtract:
+            return "Icon_Subtract"
         case .delete:
             return "Icon_Trash_Delete"
         case .edit:

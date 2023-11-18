@@ -20,10 +20,11 @@ struct Goal: Identifiable, Codable, Equatable, Hashable {
     var aspect: String
     var image: UUID?
     var parentId: UUID?
+    var superId: UUID?
     var archived: Bool
     var position: String
     
-    init(id: UUID = UUID(), title: String, description: String, priority: PriorityType, startDate: Date, endDate: Date, percentComplete: Int, aspect: String, image: UUID?, parent: UUID?, tasks: [UUID], journals: [UUID], position: String){
+    init(id: UUID = UUID(), title: String, description: String, priority: PriorityType, startDate: Date, endDate: Date, percentComplete: Int, aspect: String, image: UUID?, parent: UUID?, position: String, superId: UUID?){
         self.id = id
         self.title = title
         self.description = description
@@ -36,11 +37,12 @@ struct Goal: Identifiable, Codable, Equatable, Hashable {
         self.parentId = parent
         self.archived = false
         self.position = position
+        self.superId = superId
     }
     
     init(emptyTitle: Bool = false){
         self.id = UUID()
-        self.title = emptyTitle ? "" : "New Goal"
+        self.title = emptyTitle ? "" : "New Goal with a long name"
         self.description = ""
         self.priority = .moderate
         self.startDate = Date()
@@ -49,6 +51,7 @@ struct Goal: Identifiable, Codable, Equatable, Hashable {
         self.aspect = AspectType.academic.toString()
         self.archived = false
         self.position = "A"
+        self.superId = nil
     }
     
     init(from entity: GoalEntity){
@@ -65,6 +68,7 @@ struct Goal: Identifiable, Codable, Equatable, Hashable {
         self.archived = entity.archived
         self.position = entity.position ?? ""
         self.completedDate = entity.completedDate
+        self.superId = entity.superId
     }
     
     mutating func update(from request: UpdateGoalRequest) {
@@ -80,5 +84,6 @@ struct Goal: Identifiable, Codable, Equatable, Hashable {
         archived = request.archived
         position = request.position
         completedDate = request.completedDate
+        superId = request.superId
     }
 }
