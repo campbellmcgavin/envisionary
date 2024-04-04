@@ -34,6 +34,7 @@ struct ContentViewStack: View {
     var body: some View {
         
         VStack{
+            let _ = Self._printChanges()
             if !vm.unlockedObjects.fromObject(object: vm.filtering.filterObject){
                 BuildUnlockCard()
             }
@@ -366,28 +367,7 @@ struct ContentViewStack: View {
                 
                 if vm.filtering.filterObject.hasCalendar(){
                 HStack(alignment:.center){
-//                    if !GetHasContent(){
-//                        NoObjectsLabel(objectType: vm.filtering.filterObject, labelType: .page, shouldLeftAlign: true)
-//                        Spacer()
-//                    }
-//                    else{
-//                        Text(GetContentCaption())
-//                            .font(.specify(style: .caption))
-//                            .foregroundColor(.specify(color: .grey3))
-//                            .multilineTextAlignment(.leading)
-//                            .frame(alignment:.leading)
-//                            .padding(.leading)
-//
-//                        Spacer()
-//                    }
-//
-
-                        
                     FormFilterStack(objectType: vm.filtering.filterObject, date: $vm.filtering.filterIncludeCalendar, archived: $vm.filtering.filterArchived, subGoals: $vm.filtering.filterShowSubGoals, aspect: $vm.filtering.filterAspect, priority: $vm.filtering.filterPriority, progress: $vm.filtering.filterProgress)
-                        
-                        
-//                        TextIconButton(isPressed: $vm.filtering.filterIncludeCalendar, text: "Calendar", color: vm.filtering.filterIncludeCalendar ? .grey10 : .grey8, backgroundColor: vm.filtering.filterIncludeCalendar ? .purple : .grey15, fontSize: .caption, shouldFillWidth: false, iconType: .timeframe)
-//                            .padding([.leading,.trailing],8)
                     }
                 .padding(.top, alerts.alerts.count > 0 ? 15 : 0)
                 .padding(.bottom, -10)
@@ -434,7 +414,7 @@ struct ContentViewStack: View {
 //            }
 //        }
 //        else{
-            LazyVStack(spacing:0){
+            VStack(spacing:0){
                 GroupBuilderHelper()
             }
 //        }

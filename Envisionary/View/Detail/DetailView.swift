@@ -29,7 +29,6 @@ struct DetailView<Content: View, AboveContent: View>: View {
     @State var shouldMoveBackward: Bool = false
     @State var shouldPushBack: Bool = false
     @State var shouldPushForward: Bool = false
-    
     @State var shouldExpand: Bool = false
     @State var shouldExpandAllObjects: Bool = false
     @State var shouldMinimize: Bool = false
@@ -48,7 +47,6 @@ struct DetailView<Content: View, AboveContent: View>: View {
     var body: some View {
         HeaderWithContent(shouldExpand: $shouldExpandAll, headerColor: .grey10, header: alternativeTitle ?? viewType.toString(), content: {
             VStack{
-                
                 aboveContent
                 
                 VStack(alignment:.leading){

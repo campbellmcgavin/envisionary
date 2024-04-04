@@ -15,7 +15,6 @@ struct Detail: View {
     @State var sourceType: UIImagePickerController.SourceType? = nil
     @State var properties: Properties = Properties()
     @State var shouldDelete: Bool = false
-    @State var offset: CGPoint = .zero
     @State var headerFrame: CGSize = .zero
     @State var isPresentingModal: Bool = false
     @State var modalType: ModalType = .add
@@ -48,16 +47,21 @@ struct Detail: View {
                     VStack(alignment:.center){
                         
                         Header(title: properties.title ?? "", subtitle: "View " + objectType.toString(), objectType: objectType, color: .purple, headerFrame: $headerFrame, isPresentingImageSheet: .constant(false), image: image, content: {EmptyView()})
+                            .id(0)
                         
                         DetailStack(focusObjectId: $focusObjectid, isPresentingModal: $isPresentingModal, modalType: $modalType, statusToAdd: $statusToAdd, isPresentingSourceType: $isPresentingPhotoSource, shouldConvertToGoal: $shouldConvertToGoal, selectedImage: $selectedImage, properties: properties, objectId: objectId, objectType: objectType, proxy: proxy)
-                            .offset(y:offset.y < 150 ? -offset.y/1.5 : -100)
+                    }
+                    .onAppear{
+                        proxy.scrollTo(0)
                     }
                     .frame(alignment:.top)
                     
                     Spacer()
-                        .frame(height:250)
+                        .frame(height:UIScreen.screenHeight/2 + 100)
                 }
+                .scrollDismissesKeyboard(.interactively)
                 .frame(width: UIScreen.screenWidth)
+                .frame(maxWidth: UIScreen.screenWidth)
                 .ignoresSafeArea()
                 
             }

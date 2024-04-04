@@ -9,22 +9,17 @@ import SwiftUI
 
 struct TopNavigationBar: View {
     @EnvironmentObject var vm: ViewModel
-    @Binding var offset: CGFloat
+    @Binding var shouldShowTopTitle: Bool
     @Binding var isPresentingSetup: Bool
     @Binding var modalType: ModalType
-    
-//    @State var shouldPresentSetup: Bool = false
     @State var shouldMoveDateForward = false
     @State var shouldMoveDateBackward = false
     var body: some View {
         
             HStack{
-//                IconButton(isPressed: $shouldPresentSetup, size: .medium, iconType: .hambugerMenu, iconColor: .grey10)
-//                    .opacity(0.0)
-//                    .disabled(true)
                 Spacer()
                 
-                if offset > 0 {
+                if shouldShowTopTitle {
                     HStack{
                         
                         if vm.filtering.filterObject == .home || vm.filtering.filterObject == .favorite || vm.filtering.filterObject == .aspect || vm.filtering.filterObject == .value || vm.filtering.filterObject == .creed || vm.filtering.filterObject == .chapter || vm.filtering.filterObject == .dream || !vm.filtering.filterIncludeCalendar{
@@ -100,10 +95,12 @@ struct TopNavigationBar: View {
     
     func GetOpacity() -> CGFloat{
         
-        if offset > 0 && offset < 110 {
-            return abs(((1.0 * offset/110)))
+        if shouldShowTopTitle{
+            return 1.0
         }
-        return 1.0
+        else{
+            return 0.0
+        }
     }
     
     
@@ -111,7 +108,7 @@ struct TopNavigationBar: View {
 
 struct TopNavigationBar_Previews: PreviewProvider {
     static var previews: some View {
-        TopNavigationBar(offset: .constant(0), isPresentingSetup: .constant(false), modalType: .constant(.add))
+        TopNavigationBar(shouldShowTopTitle: .constant(false), isPresentingSetup: .constant(false), modalType: .constant(.add))
             .environmentObject(ViewModel())
     }
 }

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct Header<Content: View>: View {
-    @State var offset: CGPoint = CGPoint()
+    @State var offset: CGPoint = .zero
     var title: String
     var subtitle: String
     var objectType: ObjectType
@@ -86,21 +86,13 @@ struct Header<Content: View>: View {
             
             if(ShouldShowImage()){
                 HeaderImage(offset: offset, headerFrame: headerFrame, modalType: modalType, image: image, isPresentingImageSheet: $isPresentingImageSheet)
-                
             }
-//            if modalType == nil && objectType.hasDetailMenuButton(button: .favorite){
-//                VStack(){
-//                    Spacer()
-//                    HStack{
-//                        Spacer()
-//                        IconButton(isPressed: .constant(false), size: .medium, iconType: .favorite, iconColor: .grey10, circleColor: .grey0, opacity: 0.5, circleOpacity: 0.2)
-//                    }
-//                }
-//
-//                .padding()
-////                .offset(y: ShouldShowImage() ? 100 : 50)
-//            }
         }
+        .offset(y:GetOffset())
+    }
+    
+    func GetOffset() -> CGFloat {
+        return offset.y < 0 ? offset.y * 0.5 : 0
     }
     
     func ShouldShowImage() -> Bool{
@@ -118,9 +110,3 @@ struct Header<Content: View>: View {
         return 36
     }
 }
-
-//struct Header_Previews: PreviewProvider {
-//    static var previews: some View {
-//        Header(offset: .constant(.zero), title: "VIEW GOAL", subtitle: "Learn Spanish", objectType: .goal, modalType: .add, color: .red, headerFrame: .constant(.zero), content: {EmptyView()})
-//    }
-//}

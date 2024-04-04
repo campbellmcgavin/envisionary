@@ -37,8 +37,8 @@ struct ContentViewMenu: View {
                     .saveSize(in: $objectFrame)
                     .offset(y:GetObjectOffset())
                 
-                TopNavigationBar(offset: $offset.y, isPresentingSetup: $isPresentingModal, modalType: $modalType)
-                    .offset(y: -offset.y)
+//                TopNavigationBar(offset: $offset.y, isPresentingSetup: $isPresentingModal, modalType: $modalType)
+//                    .offset(y: -offset.y)
             }
         })
         .onAppear{

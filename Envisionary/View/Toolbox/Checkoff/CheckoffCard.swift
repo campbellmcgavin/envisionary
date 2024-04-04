@@ -39,6 +39,7 @@ struct CheckoffCard: View {
         VStack(alignment:.leading, spacing:0){
             if !dropFields.isDragging{
                 BuildCard()
+                    .background(.random)
             }
             else{
                 BuildDraggingCard()
@@ -66,7 +67,6 @@ struct CheckoffCard: View {
                 if let proxy{
                     proxy.scrollTo(goalId, anchor: .center)
                 }
-                
             }
         }
             .frame(maxWidth:.infinity)
@@ -621,12 +621,7 @@ struct CheckOffCardEditor: View{
         
         TextField("", text: $goal.title, axis: .vertical)
             .focused($isFocused)
-            .if(shouldDismissInteractively, transform: {
-                view in
-                view
-                    .scrollDismissesKeyboard(.interactively)
-            })
-            
+            .scrollDismissesKeyboard(.immediately)
             .submitLabel(.return)
             .frame(maxWidth:.infinity, alignment: .topLeading)
             .font(.specify(style: .body3))

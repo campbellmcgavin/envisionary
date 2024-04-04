@@ -29,7 +29,7 @@ struct FormFilterStack: View {
         
         ScrollView(.horizontal, showsIndicators: false){
             HStack(alignment:.top){
-                
+                let _ = Self._printChanges()
                 let hasFilters = filters.values.filter({$0}).count > 0
                 
                 TextIconButton(isPressed: $shouldClearAll, text: "Clear all", color: hasFilters ? .grey10 : .grey3, backgroundColor: hasFilters ? .red : .grey1, fontSize: .subCaption, shouldFillWidth: false, iconType: .cancel)

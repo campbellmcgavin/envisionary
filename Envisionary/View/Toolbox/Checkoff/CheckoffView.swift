@@ -84,6 +84,8 @@ struct CheckoffView<Value: Identifiable, V: View>: View where Value: Equatable {
                         
                         StackDivider(shouldIndent: false, color: .grey3)
                         
+                        // can't see any goals
+                        // or all goals completed
                         if visibleChildGoals == 0 || allGoalsCompleted {
                             CheckoffCard(goalId: nil, superId: parentGoalId, canEdit: true, leftPadding: leftPadding + 30 + 8, outerPadding: outerPadding, proxy: proxy, shouldDismissInteractively: shouldDismissInteractively, selectedGoalId: $focusGoal, isPresentingModal: .constant(false), modalType: .constant(.add),  newGoalId: .constant(nil), dropFields: .constant(CheckOffDropDelegateField()))
                                 .padding(.top,-9)
@@ -99,7 +101,7 @@ struct CheckoffView<Value: Identifiable, V: View>: View where Value: Equatable {
                 })
             
             if parentGoalId == goalId{
-                if visibleChildGoals != 0 || allGoalsCompleted {
+                if visibleChildGoals != 0 && goals.last?.progress ?? 100 < 100 {
                     CheckoffCard(goalId: nil, superId: parentGoalId, canEdit: true, leftPadding: leftPadding + 30 + 8, outerPadding: outerPadding, proxy: proxy, shouldDismissInteractively: shouldDismissInteractively, selectedGoalId: $focusGoal, isPresentingModal: .constant(false), modalType: .constant(.add),  newGoalId: .constant(nil), dropFields: .constant(CheckOffDropDelegateField()))
                         .offset(x:-2)
                 }
