@@ -83,13 +83,13 @@ struct CheckOffCardNew: View {
         if goalName.count > 2{
             
             if let goal = vm.GetGoal(id: selectedGoalId) {
-                let request = CreateGoalRequest(title: goalName, description: "", priority: goal.priority, startDate: goal.startDate, endDate: goal.endDate, percentComplete: 0, image: goal.image, aspect: goal.aspect, parent: goal.id)
-                
-                let newGoalId = vm.CreateGoal(request: request)
-                
-                goalName = ""
-                shouldAdd = false
-                selectedGoalId = newGoalId
+//                let request = CreateGoalRequest(title: goalName, description: "", priority: goal.priority, startDate: goal.startDate, endDate: goal.endDate, percentComplete: 0, image: goal.image, aspect: goal.aspect, parent: goal.id)
+//
+//                let newGoalId = vm.CreateGoal(request: request)
+//
+//                goalName = ""
+//                shouldAdd = false
+//                selectedGoalId = newGoalId
             }
 
         }

@@ -15,11 +15,16 @@ struct GanttMainDateColumn: View {
     var body: some View {
         VStack{
             ScrollPickerDateText(dateValue: dateValue, frameWidth: frameWidth - 20, filterTimeframe: timeframe, selectionDate: .constant(dateValue.date), isLight: false, showBubble: false)
+                .frame(height:SizeType.medium.ToSize() + 10)
+                
+            
             HStack{
                 Spacer()
                 Divider()
                 Spacer()
             }
+            .padding(.top,50)
+            .padding(.bottom,-100)
             .frame(alignment:.center)
         }
         .frame(alignment:.center)

@@ -29,8 +29,9 @@ struct Criteria {
     var valueId: UUID?
     var goalId: UUID?
     var superOnly: Bool?
+    var superId: UUID?
     
-    init(title: String? = nil, description: String?, timeframe: TimeframeType?, date: Date?, aspect: String?, priority: String?, progress: Int?, coreValue: String?, parentId: UUID?, chapterId: UUID?, includeCalendar: Bool?, archived: Bool, superOnly: Bool) {
+    init(title: String? = nil, description: String?, timeframe: TimeframeType?, date: Date?, aspect: String?, priority: String?, progress: Int?, coreValue: String?, parentId: UUID?, chapterId: UUID?, includeCalendar: Bool?, archived: Bool, superOnly: Bool, superId: UUID?) {
         self.title = title
         self.description = description
         self.timeframe = timeframe
@@ -44,6 +45,7 @@ struct Criteria {
         self.includeCalendar = includeCalendar
         self.archived = archived
         self.superOnly = superOnly
+        self.superId = superId
     }
     init(){
         self.title = nil

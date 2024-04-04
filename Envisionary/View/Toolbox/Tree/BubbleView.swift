@@ -23,7 +23,6 @@ struct BubbleView: View {
     var ignoreImageLoad = false
     var ignoreImageRefresh = false
     var body: some View {
-
         VStack{
             Button{
                 withAnimation{

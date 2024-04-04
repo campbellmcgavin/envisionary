@@ -24,8 +24,9 @@ struct UpdateGoalRequest{
     var reorderGoalId: UUID? = nil
     var reorderPlacement: PlacementType? = nil
     var position: String = ""
+    var superId: UUID?
 
-    init(title: String, description: String, priority: PriorityType, startDate: Date, endDate: Date, percentComplete: Int, image: UUID, aspect: String, parent: UUID, valuesDictionary: [String:Bool], archived: Bool, completedDate: Date?)
+    init(title: String, description: String, priority: PriorityType, startDate: Date, endDate: Date, percentComplete: Int, image: UUID, aspect: String, parent: UUID, valuesDictionary: [String:Bool], archived: Bool, completedDate: Date?, superId: UUID?)
     {
         self.title = title
         self.description = description
@@ -54,6 +55,7 @@ struct UpdateGoalRequest{
         self.archived = goal.archived
         self.position = goal.position
         self.completedDate = goal.completedDate
+        self.superId = goal.superId
     }
     
     init(properties: Properties){
@@ -69,5 +71,6 @@ struct UpdateGoalRequest{
         self.archived = properties.archived ?? false
         self.position = properties.position ?? ""
         self.completedDate = properties.completedDate
+        self.superId = properties.superId
     }
 }

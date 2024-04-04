@@ -26,55 +26,55 @@ enum ExampleGoalEnum: Int, CaseIterable {
     case year3 = 15
     
     
-    func toGoal(parentId: UUID?, imageId: UUID?, archetype: ArchetypeType) -> CreateGoalRequest {
+    func toGoal(parentId: UUID?, superId: UUID?, imageId: UUID?, archetype: ArchetypeType) -> CreateGoalRequest {
         switch self{
         case .decade:
-            return CreateGoalRequest(title: self.toTitle(archetype: archetype), description: self.toDescription(archetype: archetype), priority: .critical, startDate: Date(), endDate: self.toEndDate(date: Date()), percentComplete: 0, image: imageId, aspect: AspectType.academic.toString(), parent: parentId)
+            return CreateGoalRequest(title: self.toTitle(archetype: archetype), description: self.toDescription(archetype: archetype), priority: .critical, startDate: Date(), endDate: self.toEndDate(date: Date()), percentComplete: 0, image: imageId, aspect: AspectType.academic.toString(), parent: parentId, superId: superId)
             
         case .year0:
-            return CreateGoalRequest(title: self.toTitle(archetype: archetype), description: self.toDescription(archetype: archetype), priority: .critical, startDate: Date(), endDate: self.toEndDate(date: Date()), percentComplete: 0, image: imageId, aspect: AspectType.academic.toString(), parent: parentId)
+            return CreateGoalRequest(title: self.toTitle(archetype: archetype), description: self.toDescription(archetype: archetype), priority: .critical, startDate: Date(), endDate: self.toEndDate(date: Date()), percentComplete: 0, image: imageId, aspect: AspectType.academic.toString(), parent: parentId, superId: superId)
             
         case .year1:
-            return CreateGoalRequest(title: self.toTitle(archetype: archetype), description: self.toDescription(archetype: archetype), priority: .critical, startDate: Date().AdvanceYear(forward: true), endDate: self.toEndDate(date: Date().AdvanceYear(forward: true)), percentComplete: 0, image: imageId, aspect: AspectType.academic.toString(), parent: parentId)
+            return CreateGoalRequest(title: self.toTitle(archetype: archetype), description: self.toDescription(archetype: archetype), priority: .critical, startDate: Date().AdvanceYear(forward: true), endDate: self.toEndDate(date: Date().AdvanceYear(forward: true)), percentComplete: 0, image: imageId, aspect: AspectType.academic.toString(), parent: parentId, superId: superId)
         case .year1_month1:
             let date = Date().AdvanceYear(forward: true)
-            return CreateGoalRequest(title: self.toTitle(archetype: archetype), description: self.toDescription(archetype: archetype), priority: .critical, startDate: date, endDate: self.toEndDate(date: date), percentComplete: 0, image: imageId, aspect: AspectType.academic.toString(), parent: parentId)
+            return CreateGoalRequest(title: self.toTitle(archetype: archetype), description: self.toDescription(archetype: archetype), priority: .critical, startDate: date, endDate: self.toEndDate(date: date), percentComplete: 0, image: imageId, aspect: AspectType.academic.toString(), parent: parentId, superId: superId)
         case .year1_month1_week1:
             let date = Date().AdvanceYear(forward: true)
-            return CreateGoalRequest(title: self.toTitle(archetype: archetype), description: self.toDescription(archetype: archetype), priority: .critical, startDate: date, endDate: self.toEndDate(date: date), percentComplete: 0, image: imageId, aspect: AspectType.academic.toString(), parent: parentId)
+            return CreateGoalRequest(title: self.toTitle(archetype: archetype), description: self.toDescription(archetype: archetype), priority: .critical, startDate: date, endDate: self.toEndDate(date: date), percentComplete: 0, image: imageId, aspect: AspectType.academic.toString(), parent: parentId, superId: superId)
         case .year1_month1_week1_day1:
             let date = Date().AdvanceYear(forward: true)
-            return CreateGoalRequest(title: self.toTitle(archetype: archetype), description: self.toDescription(archetype: archetype), priority: .moderate, startDate: Date(), endDate: self.toEndDate(date: date), percentComplete: 0, image: imageId, aspect: AspectType.academic.toString(), parent: parentId)
+            return CreateGoalRequest(title: self.toTitle(archetype: archetype), description: self.toDescription(archetype: archetype), priority: .moderate, startDate: Date(), endDate: self.toEndDate(date: date), percentComplete: 0, image: imageId, aspect: AspectType.academic.toString(), parent: parentId, superId: superId)
         case .year1_month1_week1_day2:
             let date = Date().AdvanceYear(forward: true).AdvanceDay(forward: true)
-            return CreateGoalRequest(title: self.toTitle(archetype: archetype), description: self.toDescription(archetype: archetype), priority: .high, startDate: date, endDate: self.toEndDate(date: date), percentComplete: 0, image: imageId, aspect: AspectType.academic.toString(), parent: parentId)
+            return CreateGoalRequest(title: self.toTitle(archetype: archetype), description: self.toDescription(archetype: archetype), priority: .high, startDate: date, endDate: self.toEndDate(date: date), percentComplete: 0, image: imageId, aspect: AspectType.academic.toString(), parent: parentId, superId: superId)
         case .year1_month1_week1_day3:
             let date = Date().AdvanceYear(forward: true).AdvanceWeek(forward: true)
-            return CreateGoalRequest(title: self.toTitle(archetype: archetype), description: self.toDescription(archetype: archetype), priority: .low, startDate: date, endDate: self.toEndDate(date: date), percentComplete: 0, image: imageId, aspect: AspectType.academic.toString(), parent: parentId)
+            return CreateGoalRequest(title: self.toTitle(archetype: archetype), description: self.toDescription(archetype: archetype), priority: .low, startDate: date, endDate: self.toEndDate(date: date), percentComplete: 0, image: imageId, aspect: AspectType.academic.toString(), parent: parentId, superId: superId)
         case .year1_month1_week2:
             let date = Date().AdvanceYear(forward: true).AdvanceWeek(forward: true).AdvanceWeek(forward: true).AdvanceWeek(forward: true)
-            return CreateGoalRequest(title: self.toTitle(archetype: archetype), description: self.toDescription(archetype: archetype), priority: .critical, startDate: date, endDate: self.toEndDate(date: date), percentComplete: 0, image: imageId, aspect: AspectType.academic.toString(), parent: parentId)
+            return CreateGoalRequest(title: self.toTitle(archetype: archetype), description: self.toDescription(archetype: archetype), priority: .critical, startDate: date, endDate: self.toEndDate(date: date), percentComplete: 0, image: imageId, aspect: AspectType.academic.toString(), parent: parentId, superId: superId)
         case .year1_month1_week3:
             let date = Date().AdvanceYear(forward: true).AdvanceMonth(forward: true).AdvanceWeek(forward: true)
-            return CreateGoalRequest(title: self.toTitle(archetype: archetype), description: self.toDescription(archetype: archetype), priority: .critical, startDate: date, endDate: self.toEndDate(date: date), percentComplete: 0, image: imageId, aspect: AspectType.academic.toString(), parent: parentId)
+            return CreateGoalRequest(title: self.toTitle(archetype: archetype), description: self.toDescription(archetype: archetype), priority: .critical, startDate: date, endDate: self.toEndDate(date: date), percentComplete: 0, image: imageId, aspect: AspectType.academic.toString(), parent: parentId, superId: superId)
         case .year2:
             let date = Date().AdvanceDate(timeframe: .year, forward: true,count: 3)
-            return CreateGoalRequest(title: self.toTitle(archetype: archetype), description: self.toDescription(archetype: archetype), priority: .critical, startDate: date, endDate: self.toEndDate(date:date), percentComplete: 0, image: imageId, aspect: AspectType.academic.toString(), parent: parentId)
+            return CreateGoalRequest(title: self.toTitle(archetype: archetype), description: self.toDescription(archetype: archetype), priority: .critical, startDate: date, endDate: self.toEndDate(date:date), percentComplete: 0, image: imageId, aspect: AspectType.academic.toString(), parent: parentId, superId: superId)
         case .year2_month1:
             let date = Date().AdvanceDate(timeframe: .year, forward: true,count: 3).AdvanceMonth(forward: true)
-            return CreateGoalRequest(title: self.toTitle(archetype: archetype), description: self.toDescription(archetype: archetype), priority: .critical, startDate: date, endDate: self.toEndDate(date: date), percentComplete: 0, image: imageId, aspect: AspectType.academic.toString(), parent: parentId)
+            return CreateGoalRequest(title: self.toTitle(archetype: archetype), description: self.toDescription(archetype: archetype), priority: .critical, startDate: date, endDate: self.toEndDate(date: date), percentComplete: 0, image: imageId, aspect: AspectType.academic.toString(), parent: parentId, superId: superId)
         case .year2_month1_week1:
             let date = Date().AdvanceDate(timeframe: .year, forward: true,count: 3).AdvanceMonth(forward: true).AdvanceMonth(forward: true)
-            return CreateGoalRequest(title: self.toTitle(archetype: archetype), description: self.toDescription(archetype: archetype), priority: .critical, startDate: date, endDate: self.toEndDate(date:date), percentComplete: 0, image: imageId, aspect: AspectType.academic.toString(), parent: parentId)
+            return CreateGoalRequest(title: self.toTitle(archetype: archetype), description: self.toDescription(archetype: archetype), priority: .critical, startDate: date, endDate: self.toEndDate(date:date), percentComplete: 0, image: imageId, aspect: AspectType.academic.toString(), parent: parentId, superId: superId)
         case .year2_month1_week2:
             let date = Date().AdvanceDate(timeframe: .year, forward: true,count: 3).AdvanceMonth(forward: true).AdvanceMonth(forward: true).AdvanceWeek(forward: true)
-            return CreateGoalRequest(title: self.toTitle(archetype: archetype), description: self.toDescription(archetype: archetype), priority: .critical, startDate: date, endDate: self.toEndDate(date: date), percentComplete: 0, image: imageId, aspect: AspectType.academic.toString(), parent: parentId)
+            return CreateGoalRequest(title: self.toTitle(archetype: archetype), description: self.toDescription(archetype: archetype), priority: .critical, startDate: date, endDate: self.toEndDate(date: date), percentComplete: 0, image: imageId, aspect: AspectType.academic.toString(), parent: parentId, superId: superId)
         case .year2_month1_week3:
             let date = Date().AdvanceDate(timeframe: .year, forward: true,count: 3).AdvanceMonth(forward: true).AdvanceMonth(forward: true).AdvanceMonth(forward: true)
-            return CreateGoalRequest(title: self.toTitle(archetype: archetype), description: self.toDescription(archetype: archetype), priority: .critical, startDate: date, endDate: self.toEndDate(date: date), percentComplete: 0, image: imageId, aspect: AspectType.academic.toString(), parent: parentId)
+            return CreateGoalRequest(title: self.toTitle(archetype: archetype), description: self.toDescription(archetype: archetype), priority: .critical, startDate: date, endDate: self.toEndDate(date: date), percentComplete: 0, image: imageId, aspect: AspectType.academic.toString(), parent: parentId, superId: superId)
         case .year3:
             let date = Date().AdvanceDate(timeframe: .year, forward: true,count: 7)
-            return CreateGoalRequest(title: self.toTitle(archetype: archetype), description: self.toDescription(archetype: archetype), priority: .critical, startDate: date, endDate: self.toEndDate(date: date), percentComplete: 0, image: imageId, aspect: AspectType.academic.toString(), parent: parentId)
+            return CreateGoalRequest(title: self.toTitle(archetype: archetype), description: self.toDescription(archetype: archetype), priority: .critical, startDate: date, endDate: self.toEndDate(date: date), percentComplete: 0, image: imageId, aspect: AspectType.academic.toString(), parent: parentId, superId: superId)
         }
     }
     

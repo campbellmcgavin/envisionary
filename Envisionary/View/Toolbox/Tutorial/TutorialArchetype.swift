@@ -76,7 +76,8 @@ struct TutorialArchetype: View {
             ExampleGoalEnum.allCases.sorted(by: {$0.rawValue < $1.rawValue}).forEach{
                 
                 let parentId: UUID? = goalsAdded[$0.toParent()]
-                var request = $0.toGoal(parentId: parentId, imageId: imageId, archetype: selectedArchetype)
+                var request = $0.toGoal(parentId: parentId, superId: goalParentId, imageId: imageId, archetype: selectedArchetype)
+                
                 
                 goalsAdded[$0] = vm.CreateGoal(request: request)
                 

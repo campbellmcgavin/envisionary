@@ -112,6 +112,7 @@ class DataService: DataServiceProtocol {
         newGoal.parentId = request.parentId
         newGoal.archived = false
         newGoal.id = id
+        newGoal.superId = request.superId
         saveData()
         
         return newGoal.id!
@@ -288,6 +289,7 @@ class DataService: DataServiceProtocol {
             entityToUpdate.aspect = request.aspect
             entityToUpdate.archived = request.archived
             entityToUpdate.completedDate = request.completedDate
+            entityToUpdate.superId = request.superId
             saveData()
             return true
         }

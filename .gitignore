@@ -1,2 +1,8 @@
 
+<<<<<<< HEAD
 Envisionary.xcodeproj/project.xcworkspace/xcuserdata/campbellmcgavin.xcuserdatad/UserInterfaceState.xcuserstate
+=======
+*.xcuserstate
+>>>>>>> ENV-1000
+
+.DS_Store

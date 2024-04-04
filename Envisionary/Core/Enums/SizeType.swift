@@ -81,7 +81,7 @@ enum SizeType {
         case .headerCircle:
             return 200
         case .ganttColumnWidth:
-            return 100
+            return 60
         case .scrollPickerWidth:
             return 67
             

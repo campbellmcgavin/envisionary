@@ -19,9 +19,9 @@ struct CreateGoalRequest{
     var aspect: String = AspectType.academic.toString()
     var parentId: UUID? = nil
     var previousGoalId: UUID? = nil
-    
+    var superId: UUID? = nil
 
-    init(title: String, description: String, priority: PriorityType, startDate: Date, endDate: Date, percentComplete: Int, image: UUID?, aspect: String, parent: UUID?,  previousGoalId: UUID? = nil)
+    init(title: String, description: String, priority: PriorityType, startDate: Date, endDate: Date, percentComplete: Int, image: UUID?, aspect: String, parent: UUID?,  previousGoalId: UUID? = nil, superId: UUID?)
     {
         self.title = title
         self.description = description
@@ -33,6 +33,7 @@ struct CreateGoalRequest{
         self.aspect = aspect
         self.parentId = parent
         self.previousGoalId = previousGoalId
+        self.superId = superId
     }
     
     init(properties: Properties){
@@ -45,5 +46,6 @@ struct CreateGoalRequest{
         self.image = properties.image
         self.aspect = properties.aspect ?? AspectType.academic.toString()
         self.parentId = properties.parentGoalId
+        self.superId = properties.superId == nil ? self.parentId : self.superId
     }
 }

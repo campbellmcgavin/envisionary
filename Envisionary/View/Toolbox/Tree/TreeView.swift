@@ -8,10 +8,13 @@
 import SwiftUI
 
 struct TreeView<Value: Identifiable, V: View>: View where Value: Equatable {
+    let parentGoalId: UUID
     var goalId: UUID
     @Binding var focusGoal: UUID
-    @Binding var expandedGoals: [UUID]
-    let value: (Value) -> V
+    @Binding var filteredGoals: Int
+    @Binding var shouldShowAll: Bool
+    let leftPadding: CGFloat
+    let value: (Value, CGFloat) -> V
     let childCount: Int
     var isStatic: Bool = false
     var shouldScroll: Bool = true
@@ -35,29 +38,34 @@ struct TreeView<Value: Identifiable, V: View>: View where Value: Equatable {
     
     @ViewBuilder
     func BuildView() -> some View{
-        VStack(alignment: .leading, spacing:10) {
+        VStack(alignment: .leading, spacing:0) {
             
-            value(goalId as! Value)
+            value(goalId as! Value, leftPadding)
                 .anchorPreference(key: Key.self, value: .center, transform: {
                     [self.goalId: $0]
                 })
                 .padding([.top,.bottom],5)
             
-            if ( expandedGoals.contains(where:{$0 == goalId})){
+    
                 
                 ForEach(goals, content: { child in
-                    TreeView(goalId: child.id, focusGoal: $focusGoal, expandedGoals: $expandedGoals, value: self.value, childCount: childCount + 1, isStatic: isStatic, shouldScroll: shouldScroll)
+                    
+                    if ShouldShow(goal: child){
+                        TreeView(parentGoalId: parentGoalId, goalId: child.id, focusGoal: $focusGoal, filteredGoals: $filteredGoals, shouldShowAll: $shouldShowAll, leftPadding: leftPadding + 30, value: self.value, childCount: childCount + 1, isStatic: isStatic, shouldScroll: shouldScroll)
+                    }
                 })
                 .offset(x: isStatic ? 0 : 60)
                 .padding(.trailing, isStatic ? 0 : 60)
-            }
+            
         }
         .onChange(of: vm.updates.goal){
             _ in
-            goals = vm.ListChildGoals(id: goalId)
+            withAnimation{
+                goals = Goal.ComplexSort(predicates: Goal.predicatesOrderBased, goals: vm.ListChildGoals(id: goalId))
+            }
         }
         .onAppear(){
-            goals = vm.ListChildGoals(id: goalId)
+            goals = Goal.ComplexSort(predicates: Goal.predicatesOrderBased, goals: vm.ListChildGoals(id: goalId))
         }
         .backgroundPreferenceValue(Key.self, { (centers: [UUID: Anchor<CGPoint>]) in
             
@@ -83,6 +91,18 @@ struct TreeView<Value: Identifiable, V: View>: View where Value: Equatable {
                 })
             }
         })
+    }
+    func ShouldShow(goal: Goal) -> Bool{
+        
+        if shouldShowAll {
+            return true
+        }
+        
+        if goal.progress < 100{
+            return true
+        }
+        
+        return false
     }
 }
 

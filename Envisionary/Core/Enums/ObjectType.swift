@@ -466,6 +466,8 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
                 return true
             case .archived:
                 return true
+            case .superId:
+                return true
             default:
                 return false
             }

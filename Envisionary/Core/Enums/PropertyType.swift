@@ -23,6 +23,7 @@ enum PropertyType: String, CaseIterable, Identifiable{
     case priority = "priority"
     case progress = "progress"
     case parentId = "parentId"
+    case superId = "superId"
     
     // SESSIONS
     case leftAsIs = "leftAsIs"
@@ -114,6 +115,8 @@ enum PropertyType: String, CaseIterable, Identifiable{
             return .archived
         case .valueId:
             return .value
+        default:
+            return .favorite
         }
     }
     
@@ -175,6 +178,8 @@ enum PropertyType: String, CaseIterable, Identifiable{
             return "Archived"
         case .valueId:
             return "Value Id"
+        default:
+            return ""
         }
     }
     

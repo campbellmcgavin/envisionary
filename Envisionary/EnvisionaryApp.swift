@@ -17,9 +17,6 @@ struct EnvisionaryApp: App {
             ContentView()
                 .environmentObject(vm)
                 .environmentObject(keyInputSubject)
-                .onReceive(keyInputSubject) {
-                                    print("Key pressed: \($0)")
-                                }
             .environment(\.font, .specify(style: .h6))
         }
         

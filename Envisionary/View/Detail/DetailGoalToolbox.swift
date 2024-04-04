@@ -43,15 +43,15 @@ struct DetailGoalToolbox: View {
 //                        BubbleView(goalId: goalId, focusGoal: $focusGoal, shouldShowStatusLabel: true)
 //                    }, childCount: 0)
                 case .gantt:
-                    GanttView(goalId: goalId, focusGoal: $focusGoal, expandedGoals: $expandedGoals, timeframe: $currentTimeframe, didEditPrimaryGoal: $didEditPrimaryGoal)
+                    GanttView(goalId: goalId, focusGoal: $focusGoal, timeframe: $currentTimeframe, didEditPrimaryGoal: $didEditPrimaryGoal)
                         .padding(.top)
                 case .kanban:
                     KanbanView(isPresentingModal: $isPresentingModal, modalType: $modalType, focusGoal: $focusGoal, goalId: goalId)
                         .disabled(goal.archived)
                 case .checkOff:
-                    CheckoffView(shouldShowAll: $shouldShowAllCheckOff, focusGoal: $focusGoal, parentGoalId: goalId, goalId: goalId, leftPadding: -27, outerPadding: 17, canEdit: true, proxy: proxy, value: {
+                    CheckoffView(shouldShowAll: $shouldShowAllCheckOff, focusGoal: $focusGoal, parentGoalId: goalId, goalId: goalId, leftPadding: -27, outerPadding: 17, canEdit: true, proxy: proxy, shouldDismissInteractively: true, value: {
                         goalId, leftPadding, outerPadding in
-                        CheckoffCard(goalId: goalId, superId: self.goalId, canEdit: true, leftPadding: leftPadding, outerPadding: outerPadding, proxy: proxy, selectedGoalId: $focusGoal, isPresentingModal: $isPresentingModal, modalType: $modalType, newGoalId: $newGoalId, dropFields: $dropFields)
+                        CheckoffCard(goalId: goalId, superId: self.goalId, canEdit: true, leftPadding: leftPadding, outerPadding: outerPadding, proxy: proxy, shouldDismissInteractively: true, selectedGoalId: $focusGoal, isPresentingModal: $isPresentingModal, modalType: $modalType, newGoalId: $newGoalId, dropFields: $dropFields)
                             .padding(.leading,6)
                     })
                     .padding(.top,4)
