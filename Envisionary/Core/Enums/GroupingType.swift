@@ -118,7 +118,7 @@ enum GroupingType: CaseIterable {
             }
         case .home:
             return false
-        case .chapter:
+        case .journal:
             switch self {
             case .title:
                 return true

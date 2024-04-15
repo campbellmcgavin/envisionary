@@ -39,7 +39,7 @@ struct ModalMenu: View {
     func ShouldShowButton(iconType: IconType)-> Bool{
         switch iconType{
         case .cancel:
-            return modalType != .settings && modalType != .filter
+            return modalType != .settings
         case .help:
             switch modalType {
             case .add:
@@ -56,8 +56,6 @@ struct ModalMenu: View {
             case .search:
                 return false
             case .settings:
-                return true
-            case .filter:
                 return true
             case .notifications:
                 return false

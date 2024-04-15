@@ -44,6 +44,7 @@ enum PropertyType: String, CaseIterable, Identifiable{
     case promptType = "type"
     
     // HABITS
+    case isRecurring = "isRecurring"
     case scheduleType = "scheduleType"
     case unit = "unit"
     case amount = "amount"
@@ -108,9 +109,10 @@ enum PropertyType: String, CaseIterable, Identifiable{
             return .ruler
         case .isComplete:
             return .confirm
+        case .isRecurring:
+            return .habit
         case .habitId:
             return .habit
-            return .upDown
         case .archived:
             return .archived
         case .valueId:
@@ -178,6 +180,8 @@ enum PropertyType: String, CaseIterable, Identifiable{
             return "Archived"
         case .valueId:
             return "Value Id"
+        case .isRecurring:
+            return "Recurrence Schedule"
         default:
             return ""
         }

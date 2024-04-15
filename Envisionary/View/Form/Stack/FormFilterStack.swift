@@ -9,17 +9,22 @@ import SwiftUI
 
 struct FormFilterStack: View {
     let objectType: ObjectType
-    @Binding var date: Bool
+    @Binding var date: DateFilterType
     @Binding var archived: Bool
     @Binding var subGoals: Bool
     @Binding var aspect: String
     @Binding var priority: String
-    @Binding var progress: Int
+    @Binding var progress: StatusType
+    @Binding var creed: Bool
+    @Binding var entry: Bool
+    var isSearch = false
     
+    @State var dateFilter: String = ""
     @State var filters: [FilterType: Bool] = [FilterType:Bool]()
     @State var filterShouldChange: [FilterType: Int] = [FilterType:Int]()
     @State var aspects: [String] = [String]()
     @State var statuses: [String] = StatusType.allCases.map({$0.toString()})
+    @State var dateFilters: [String] = [DateFilterType.list.toString(), DateFilterType.gantt.toString()]
     @State var priorities: [String] = PriorityType.allCases.map({$0.toString()})
     @State var shouldClearAll: Bool = false
     
@@ -42,7 +47,7 @@ struct FormFilterStack: View {
                     return $0.value && !$1.value
                 }.map({$0.key}), id:\.self){ filter in
                     
-                    if objectType.hasFilter(filter: filter){
+                    if objectType.hasFilter(filter: filter) && ShouldDisplay(filter: filter){
                         BuildButton(filter: filter)
                     }
                 }
@@ -56,13 +61,17 @@ struct FormFilterStack: View {
             filters[.subGoals] = subGoals
             filters[.aspect] = aspect.count > 0
             filters[.priority] = priority.count > 0
-            filters[.completed] = progress == 100
+            filters[.progress] = progress != .none
+            filters[.creed] = creed
+            filters[.entry] = entry
             
             filterShouldChange[.archived] = archived ? 2 : 0
             filterShouldChange[.subGoals] = subGoals ? 2 : 0
             filterShouldChange[.aspect] = aspect.count > 0 ? 2 : 0
             filterShouldChange[.priority] = priority.count > 0 ? 2 : 0
-            filterShouldChange[.completed] = progress == 100 ? 2 : 0
+            filterShouldChange[.progress] = progress != .none ? 2 : 0
+            filterShouldChange[.creed] = creed ? 2 : 0
+            filterShouldChange[.entry] = entry ? 2 : 0
         }
         .onChange(of: shouldClearAll){ _ in
             FilterType.allCases.forEach({
@@ -73,8 +82,34 @@ struct FormFilterStack: View {
             subGoals = false
             aspect = ""
             priority = ""
-            progress = 0
-            date = false
+            progress = .none
+            dateFilter = ""
+            entry = false
+            creed = false
+        }
+        .onChange(of: dateFilter){ _ in
+            date = DateFilterType.fromString(from: dateFilter)
+        }
+    }
+    
+    func ShouldDisplay(filter: FilterType) -> Bool{
+        switch filter {
+        case .creed:
+            return !isSearch
+        case .entry:
+            return true
+        case .date:
+            return !isSearch
+        case .subGoals:
+            return date != .gantt
+        case .aspect:
+            return objectType != .journal || !entry
+        case .priority:
+            return true
+        case .progress:
+            return true
+        case .archived:
+            return true
         }
     }
     
@@ -95,9 +130,6 @@ struct FormFilterStack: View {
                             filterShouldChange[filter] = 2
                             filters[filter] = true
                             
-                            if filter == .completed {
-                                progress = 100
-                            }
                             if filter == .subGoals{
                                 subGoals = true
                             }
@@ -106,8 +138,12 @@ struct FormFilterStack: View {
                                 archived = true
                             }
                             
-                            if filter == .date{
-                                date = true
+                            if filter == .creed{
+                                creed = true
+                            }
+                            
+                            if filter == .entry{
+                                entry = true
                             }
                         }
                         
@@ -116,14 +152,15 @@ struct FormFilterStack: View {
                         filterShouldChange[filter] = 0
                         filters[filter] = false
                         
-                        
                         switch filter{
                         case .aspect: aspect = ""
                         case .priority: priority = ""
-                        case .completed: progress = 99
+                        case .progress: progress = .none
                         case .subGoals: subGoals = false
                         case .archived: archived = false
-                        case .date: date = false
+                        case .date: dateFilter = ""
+                        case .creed: creed = false
+                        case .entry: entry = false
                         }
                     }
                 }
@@ -149,9 +186,13 @@ struct FormFilterStack: View {
             return filter.toString() + (aspect.count > 0 ? ": " + aspect : "")
         case .priority:
             return filter.toString() + (priority.count > 0 ? ": " + priority : "")
-        case .completed:
-            return filter.toString()
+        case .progress:
+            return filter.toString() + (progress != .none ? ": " + progress.toString() : "")
         case .date:
+            return filter.toString() + (dateFilter.count > 0 ? ": " + dateFilter : "")
+        case .creed:
+            return filter.toString()
+        case .entry:
             return filter.toString()
         }
     }
@@ -192,6 +233,38 @@ struct FormFilterStack: View {
                 }
                 }
         }
+        
+        if filter == .date{
+            ForEach(Array(dateFilters), id:\.self){ dateFilter in
+                Button{
+                    withAnimation{
+                        self.dateFilter = dateFilter
+                        filters[filter] = true
+                        filterShouldChange[filter] = 2
+                    }
+                }
+            label:{
+                TextIconLabel(text: dateFilter, color: .grey6, backgroundColor: .darkPurple, fontSize: .caption, shouldFillWidth: false)
+                    .opacity(0.7)
+            }
+            }
+        }
+        
+        if filter == .progress{
+            ForEach(Array(arrayLiteral: StatusType.notStarted,StatusType.inProgress,StatusType.completed), id:\.self){ status in
+                Button{
+                    withAnimation{
+                        self.progress = status
+                        filters[filter] = true
+                        filterShouldChange[filter] = 2
+                    }
+                }
+            label:{
+                TextIconLabel(text: status.toString(), color: .grey6, backgroundColor: .darkPurple, fontSize: .caption, shouldFillWidth: false)
+                    .opacity(0.7)
+            }
+            }
+        }
     }
     
     func BindingFilter(for key: FilterType) -> Binding<Int>{
@@ -205,6 +278,6 @@ struct FormFilterStack: View {
 
 struct FormFilterStack_Previews: PreviewProvider {
     static var previews: some View {
-        FormFilterStack(objectType: .goal, date: .constant(true), archived: .constant(false), subGoals: .constant(true), aspect: .constant(""), priority: .constant(""), progress: .constant(0))
+        FormFilterStack(objectType: .goal, date: .constant(.none), archived: .constant(false), subGoals: .constant(true), aspect: .constant(""), priority: .constant(""), progress: .constant(.none), creed: .constant(false), entry: .constant(false))
     }
 }

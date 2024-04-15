@@ -142,13 +142,13 @@ struct TutorialPhases: View {
     
     func GetOffset(contentView: ContentViewType) -> Position {
         switch contentView {
-        case .envision:
+        case .values:
             return Position(x: 0, y: -distance)
-        case .plan:
+        case .goals:
             return Position(x: distance, y: 0)
         case .execute:
             return Position(x: 0, y: distance)
-        case .journal:
+        case .journals:
             return Position(x: -distance, y: 0)
 //        case .evaluate:
 //            return Position(x: -distance, y: -distance * 0.31)
@@ -169,6 +169,6 @@ struct TutorialPhases: View {
 
 struct TutorialPhases_Previews: PreviewProvider {
     static var previews: some View {
-        TutorialPhases(canProceed: .constant(true), selectedContent: .constant(.envision))
+        TutorialPhases(canProceed: .constant(true), selectedContent: .constant(.values))
     }
 }

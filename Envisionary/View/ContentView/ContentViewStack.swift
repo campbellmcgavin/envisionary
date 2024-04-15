@@ -39,20 +39,27 @@ struct ContentViewStack: View {
                 BuildUnlockCard()
             }
             else{
-                VStack{
+                VStack(alignment:.leading){
                     AlertsBuilder()
                     
                     let objectType = vm.filtering.filterObject
-                    ZStack{
+                    
+                    if vm.filtering.filterObject.hasFilter(){
+                    HStack(alignment:.center){
+                        FormFilterStack(objectType: vm.filtering.filterObject, date: $vm.filtering.filterIncludeCalendar, archived: $vm.filtering.filterArchived, subGoals: $vm.filtering.filterShowSubGoals, aspect: $vm.filtering.filterAspect, priority: $vm.filtering.filterPriority, progress: $vm.filtering.filterProgress, creed: $vm.filtering.filterCreed, entry: $vm.filtering.filterEntry)
+                        }
+                    .padding(.top, alerts.alerts.count > 0 ? 15 : 0)
+                    .padding(.bottom, -10)
+
+                    }
                         
-                        if objectType == .creed{
-                                CreedCard()
-                                .frame(maxWidth:.infinity)
-                                .padding(.top)
-                        }
-                        else{
-                            ContentBuilder()
-                        }
+                    if objectType == .value && vm.filtering.filterCreed{
+                            CreedCard()
+                            .frame(maxWidth:.infinity)
+                            .padding(.top)
+                    }
+                    else{
+                        ContentBuilder()
                     }
                 }
             }
@@ -70,13 +77,11 @@ struct ContentViewStack: View {
         }
         .onAppear(){
             withAnimation{
-                alerts.UpdateContentAlerts(content: vm.filtering.filterContent, shouldShow: vm.helpPrompts.content)
                 alerts.UpdateObjectAlerts(object: vm.filtering.filterObject, shouldShow: vm.helpPrompts.object)
             }
             UpdateData()
         }
         .onChange(of: vm.helpPrompts){ _ in
-            alerts.UpdateContentAlerts(content: vm.filtering.filterContent, shouldShow: vm.helpPrompts.content)
             alerts.UpdateObjectAlerts(object: vm.filtering.filterObject, shouldShow: vm.helpPrompts.object)
         }
         .onChange(of: vm.filtering){
@@ -91,18 +96,11 @@ struct ContentViewStack: View {
             _ in
             UpdateData()
         }
-        .onChange(of: vm.filtering.filterContent){
-            _ in
-            shouldExpandAll = true
-            withAnimation{
-                alerts.UpdateContentAlerts(content: vm.filtering.filterContent, shouldShow: vm.helpPrompts.content)
-            }
-        }
         .onChange(of: vm.filtering.filterObject){
             _ in
             withAnimation{
                 alerts.UpdateObjectAlerts(object: vm.filtering.filterObject, shouldShow: vm.helpPrompts.object)
-                vm.filtering.filterIncludeCalendar = false
+                vm.filtering.filterIncludeCalendar = .none
             }
         }
         .ignoresSafeArea(.keyboard,edges:.bottom)
@@ -179,12 +177,20 @@ struct ContentViewStack: View {
             case .aspect:
                 propertiesList = vm.ListAspects(criteria: vm.filtering.GetFilters()).sorted(by: {$0.title < $1.title}).map({Properties(aspect: $0)})
             case .goal:
-                propertiesDictionary = vm.GroupGoals(criteria: vm.filtering.GetFilters(), grouping: vm.grouping.goal).mapValues({$0.map({Properties(goal: $0)})})
-            case .chapter:
-                propertiesDictionary = vm.GroupChapters(criteria: vm.filtering.GetFilters(), grouping: vm.grouping.chapter).mapValues({$0.map({Properties(chapter: $0)})})
-            case .entry:
-                propertiesDictionary = vm.GroupEntries(criteria: vm.filtering.GetFilters(), grouping: vm.grouping.entry).mapValues({$0.map({Properties(entry: $0)})})
-                propertiesList = vm.ListEntries(criteria: vm.filtering.GetFilters()).sorted(by: {$0.startDate > $1.startDate}).map({Properties(entry: $0)})
+                if vm.filtering.filterIncludeCalendar == DateFilterType.gantt{
+                    propertiesList = vm.ListGoals(criteria: vm.filtering.GetFilters()).map({Properties(goal: $0)})
+                }
+                else{
+                    propertiesDictionary = vm.GroupGoals(criteria: vm.filtering.GetFilters(), grouping: vm.grouping.goal).mapValues({$0.map({Properties(goal: $0)})})
+                }
+            case .journal:
+                if vm.filtering.filterEntry {
+                    propertiesDictionary = vm.GroupEntries(criteria: vm.filtering.GetFilters(), grouping: vm.grouping.entry).mapValues({$0.map({Properties(entry: $0)})})
+                    propertiesList = vm.ListEntries(criteria: vm.filtering.GetFilters()).sorted(by: {$0.startDate > $1.startDate}).map({Properties(entry: $0)})
+                }
+                else{
+                    propertiesDictionary = vm.GroupChapters(criteria: vm.filtering.GetFilters(), grouping: vm.grouping.chapter).mapValues({$0.map({Properties(chapter: $0)})})
+                }
             case .session:
                 propertiesList = vm.ListSessions(criteria: vm.filtering.GetFilters()).sorted(by: {$0.dateCompleted > $1.dateCompleted}).map({Properties(session: $0)})
             case .favorite:
@@ -293,7 +299,7 @@ struct ContentViewStack: View {
                             CheckOff(goalId: properties.id, properties: properties, canEdit: false, proxy: proxy, isPresenting: $isPresenting, modalType: $modalType)
     //                        GoalTrackingCard(goalId: properties.id)
                         case .habit:
-                            RecurrenceCard(habitId:  properties.habitId ?? UUID(), recurrenceId: .constant(properties.id), date: .constant(Date()))
+                            RecurrenceCard(goalId:  properties.habitId ?? UUID(), recurrenceId: .constant(properties.id), date: .constant(Date()))
                         }
                         if propertyList.last != properties && homeObjectType != .goal{
                             StackDivider()
@@ -304,7 +310,6 @@ struct ContentViewStack: View {
                     view in
                     view.modifier(ModifierCard())
                 }
-                
             }
             else{
                 Text(GetHomeNoObjectCaption(homeObjectType: homeObjectType))
@@ -336,7 +341,7 @@ struct ContentViewStack: View {
         let count = GetResultCount()
         let shouldGroup = GetShouldGroup()
         let object = vm.filtering.filterObject
-        let includeCalendar = vm.filtering.filterIncludeCalendar
+        let includeCalendar = vm.filtering.filterIncludeCalendar == .list
         let showingString = "Showing " + String(count) +  (count == 1 ? " result, " : " results, ")
         let formatString = shouldGroup ? ("grouped by " + vm.grouping.fromObject(object: object).toString().lowercased() + ".") : "sorted by "
         var sortedString = ""
@@ -364,34 +369,35 @@ struct ContentViewStack: View {
             
             
             VStack{
-                
-                if vm.filtering.filterObject.hasCalendar(){
-                HStack(alignment:.center){
-                    FormFilterStack(objectType: vm.filtering.filterObject, date: $vm.filtering.filterIncludeCalendar, archived: $vm.filtering.filterArchived, subGoals: $vm.filtering.filterShowSubGoals, aspect: $vm.filtering.filterAspect, priority: $vm.filtering.filterPriority, progress: $vm.filtering.filterProgress)
-                    }
-                .padding(.top, alerts.alerts.count > 0 ? 15 : 0)
-                .padding(.bottom, -10)
-
-                }
-
-                
                 if GetHasContent(){
-                    VStack(spacing:0){
-                        if GetShouldGroup(){
-                            HStack{
-                                ParentHeaderButton(shouldExpandAll: $shouldExpandAll, color: .purple, header: "Expand All", headerCollapsed: "Collapse All")
-                                Spacer()
+                    if vm.filtering.filterIncludeCalendar == .gantt{
+                        MasterGanttView(properties: $propertiesList)
+                            .padding(.top)
+                            .padding(8)
+                            .frame(alignment:.leading)
+                            .modifier(ModifierForm(color:.grey05))
+                            .frame(maxWidth:.infinity)
+                            .padding(.top,20)
+                    }
+                    else{
+                        VStack(spacing:0){
+                            if GetShouldGroup(){
+                                HStack{
+                                    ParentHeaderButton(shouldExpandAll: $shouldExpandAll, color: .purple, header: "Expand All", headerCollapsed: "Collapse All")
+                                    Spacer()
+                                }
+                                GroupBuilder()
                             }
-                            GroupBuilder()
-                        }
-                        else{
-                            ListBuilder()
+                            else{
+                                ListBuilder()
+                            }
                         }
                     }
                 }
                 else{
                     LabelAstronaut(opacity: 1.0)
                         .offset(y:110)
+                        .frame(maxWidth:.infinity)
                 }
                 Spacer()
             }
@@ -406,7 +412,6 @@ struct ContentViewStack: View {
     func GroupBuilder() -> some View{
         
         let objectType = vm.filtering.filterObject
-        let shouldShowFlatStack = objectType == .goal && vm.filtering.filterIncludeCalendar && GetResultCount() < 10
         
 //        if shouldShowFlatStack{
 //            VStack(spacing:0){
@@ -470,7 +475,7 @@ struct ContentViewStack: View {
     func GetShouldGroup() -> Bool{
         
         let object = vm.filtering.filterObject
-        let calendarOn = vm.filtering.filterIncludeCalendar
+        let calendarOn = vm.filtering.filterIncludeCalendar != .none
         
         switch object {
         case .value:
@@ -482,14 +487,14 @@ struct ContentViewStack: View {
         case .aspect:
             return false
         case .goal:
-            return true
+            return vm.filtering.filterIncludeCalendar != .gantt
         case .habit:
             return true
         case .session:
             return false
         case .home:
             return true
-        case .chapter:
+        case .journal:
             return true
         case .entry:
             return calendarOn

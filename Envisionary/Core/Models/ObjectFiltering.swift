@@ -13,19 +13,21 @@ struct ObjectFiltering: Equatable {
     var filterAspect = ""
     var filterPriority = ""
     var filterChapter = ""
-    var filterProgress: Int = 99
+    var filterProgress: StatusType = .none
     var filterCoreValue = ""
     var filterCount = 0
     var filterDate = Date()
     var filterTimeframe = TimeframeType.day
-    var filterObject = ObjectType.home
-    var filterContent = ContentViewType.execute
-    var filterIncludeCalendar = false
+    var filterObject = ObjectType.goal
+    var filterContent = ContentViewType.goals
+    var filterIncludeCalendar: DateFilterType = .none
     var filterArchived = false
     var filterShowSubGoals = false
+    var filterCreed = false
+    var filterEntry = false
     
     func GetFilters() -> Criteria {
-        let criteria = Criteria(title: self.filterTitle, description: self.filterDescription, timeframe: self.filterTimeframe, date: self.filterDate, aspect: self.filterAspect, priority: self.filterPriority, progress: self.filterProgress, coreValue: self.filterCoreValue, parentId: nil, chapterId: nil, includeCalendar: self.filterIncludeCalendar, archived: self.filterArchived, superOnly: true, superId: nil)
+        let criteria = Criteria(title: self.filterTitle, description: self.filterDescription, timeframe: self.filterTimeframe, date: self.filterDate, aspect: self.filterAspect, priority: self.filterPriority, progress: self.filterProgress, coreValue: self.filterCoreValue, parentId: nil, chapterId: nil, includeCalendar: self.filterIncludeCalendar == .list, archived: self.filterArchived, superOnly: true, superId: nil)
         
         return criteria
     }
@@ -42,7 +44,7 @@ struct ObjectFiltering: Equatable {
         if !filterDescription.isEmpty && filterObject.hasProperty(property: .description) {
             _filterCount += 1
         }
-        if filterProgress != nil && filterProgress != 0 && filterObject.hasProperty(property: .progress) {
+        if filterProgress != .none && filterObject.hasProperty(property: .progress) {
             _filterCount += 1
         }
         return _filterCount
@@ -62,7 +64,9 @@ struct ObjectFiltering: Equatable {
                         lhs.filterObject == rhs.filterObject &&
                         lhs.filterContent == rhs.filterContent &&
                         lhs.filterIncludeCalendar == rhs.filterIncludeCalendar &&
-                        lhs.filterArchived == rhs.filterArchived
+                        lhs.filterArchived == rhs.filterArchived &&
+                        lhs.filterCreed == rhs.filterCreed &&
+                        lhs.filterEntry == rhs.filterEntry
         return isEqual
     }
 }

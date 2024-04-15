@@ -10,13 +10,26 @@ import SwiftUI
 struct LabelAstronaut: View {
     var opacity: CGFloat
     var body: some View {
-        ZStack{
-            "shape_astronaut_cable".ToImage(imageSize:110)
-                .offset(x:75,y:-75)
-                .opacity(0.8)
-            "shape_astronaut_lost".ToImage(imageSize: 150)
-                .expensiveWiggling()
+        VStack{
+            ZStack{
+                "shape_astronaut_cable".ToImage(imageSize:110)
+                    .offset(x:75,y:-75)
+                    .opacity(0.8)
+                "shape_astronaut_lost".ToImage(imageSize: 150)
+                    .expensiveWiggling()
+            }
+            Text("Nothing to see out here.")
+                .font(.specify(style: .h6))
+                .foregroundColor(.specify(color: .grey4))
+                .padding(.top,40)
+            
+            Text("Try removing a filter or creating something new.")
+                .font(.specify(style: .caption))
+                .foregroundColor(.specify(color: .grey3))
+                .padding(.top,-6)
+            
         }
+
         .opacity(opacity)
     }
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21513" systemVersion="21G725" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21513" systemVersion="21H1123" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="ActivityEntity" representedClassName="ActivityEntity" syncable="YES" codeGenerationType="class">
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="keyword" optional="YES" attributeType="String"/>
@@ -48,6 +48,7 @@
         <attribute name="title" optional="YES" attributeType="String"/>
     </entity>
     <entity name="GoalEntity" representedClassName="GoalEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="amount" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="archived" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="aspect" optional="YES" attributeType="String"/>
         <attribute name="completedDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
@@ -55,13 +56,17 @@
         <attribute name="endDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="image" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="isRecurring" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="parentId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="position" optional="YES" attributeType="String"/>
         <attribute name="priority" optional="YES" attributeType="String"/>
         <attribute name="progress" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="schedule" optional="YES" attributeType="String"/>
         <attribute name="startDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="superId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="timeframe" optional="YES" attributeType="String"/>
         <attribute name="title" optional="YES" attributeType="String"/>
+        <attribute name="unitOfMeasure" optional="YES" attributeType="String"/>
     </entity>
     <entity name="HabitEntity" representedClassName="HabitEntity" syncable="YES" codeGenerationType="class">
         <attribute name="amount" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
@@ -96,9 +101,9 @@
         <attribute name="amount" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="archived" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="endDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="habitId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="isComplete" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="parentId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="scheduleType" optional="YES" attributeType="String"/>
         <attribute name="startDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="timeOfDay" optional="YES" attributeType="String"/>

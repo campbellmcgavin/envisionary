@@ -20,7 +20,7 @@ struct GanttMainDateColumns: View {
         LazyHStack(alignment: .top, spacing:0){
             ForEach(dateValues){dateValue in
                 GanttMainDateColumn(dateValue: dateValue, frameWidth: columnWidth, timeframe: timeframeType)
-                    
+                    .id(dateValue.id)
             }
         }
         .padding(.trailing,200)

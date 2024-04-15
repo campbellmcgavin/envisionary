@@ -35,7 +35,7 @@ struct Habit: Identifiable, Codable, Equatable, Hashable{
         self.image = entity.image
         self.amount = Int(entity.amount)
         self.unitOfMeasure = UnitType.fromString(input: entity.unitOfMeasure ?? "")
-        self.schedule = ScheduleType.fromString(input: entity.schedule ?? "")
+        self.schedule = ScheduleType.fromString(input: entity.schedule ?? "") ?? .aCertainAmountOverTime
         self.archived = entity.archived
     }
     

@@ -23,7 +23,7 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
 //    case task = 7
     case home = 7
     case favorite = 8
-    case chapter = 9
+    case journal = 9
     case entry = 10
     case prompt = 11
     case recurrence = 12
@@ -47,7 +47,7 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             return true
         case .home:
             return false
-        case .chapter:
+        case .journal:
             return true
         case .entry:
             return false
@@ -75,7 +75,7 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             return true
         case .entry:
             return true
-        case .chapter:
+        case .journal:
             return true
         case .dream:
             return true
@@ -99,6 +99,15 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
         }
     }
     
+    func hasFilters() -> Bool{
+        switch self{
+        case .goal: return true
+        case .value: return true
+        case .journal: return true
+        default: return false
+        }
+    }
+    
     func toPluralString() -> String{
         switch self {
         case .value:
@@ -109,8 +118,8 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             return "Goals"
         case .habit:
             return "Habits"
-        case .chapter:
-            return "Chapters"
+        case .journal:
+            return "Journals"
         case .entry:
             return "Entries"
         case .session:
@@ -150,7 +159,7 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             return false
         case .home:
             return true
-        case .chapter:
+        case .journal:
             return true
         case .entry:
             return true
@@ -181,8 +190,8 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             return "Habit"
         case .home:
             return "Today"
-        case .chapter:
-            return "Chapter"
+        case .journal:
+            return "Journal"
         case .entry:
             return "Entry"
         case .dream:
@@ -216,7 +225,7 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             return .habit
         case .home:
             return .task
-        case .chapter:
+        case .journal:
             return .chapter
         case .entry:
             return .entry
@@ -254,7 +263,7 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             return "all " + self.toPluralString() + " in " + date.toString(timeframeType: timeframe)
         case .home:
             return "your most important items"
-        case .chapter:
+        case .journal:
             return "all " + self.toPluralString()
         case .entry:
             return "all " + self.toPluralString() + " in " + date.toString(timeframeType: timeframe)
@@ -291,7 +300,7 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             return "are actions that repeat themselves."
         case .home:
             return "is what you need to get done today."
-        case .chapter:
+        case .journal:
             return "are collections of journal entries."
         case .entry:
             return "are pages within a journal chapter."
@@ -311,27 +320,27 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
     func toContentType() -> ContentViewType{
         switch self {
         case .value:
-            return .envision
+            return .values
         case .creed:
-            return .envision
+            return .values
         case .dream:
-            return .envision
+            return .values
         case .aspect:
-            return .envision
+            return .values
         case .goal:
-            return .plan
+            return .goals
         case .session:
-            return .plan
+            return .goals
 //        case .task:
 //            return .plan
         case .habit:
-            return .plan
+            return .goals
         case .home:
             return .execute
-        case .chapter:
-            return .journal
+        case .journal:
+            return .journals
         case .entry:
-            return .journal
+            return .journals
 //        case .stats:
 //            return .evaluate
         case .prompt:
@@ -365,7 +374,7 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             return "Habits are tasks that repeat themselves over a specific schedule, with a start date and an end date."
         case .home:
             return ""
-        case .chapter:
+        case .journal:
             return "Chapters are collections of journal entries. A chapter typically encloses an a certain period or topic of your life."
         case .entry:
             return "Entries, or Journal Entries, are a page within a chapter."
@@ -396,7 +405,7 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             array.append("You'll be able to align everything with your values, and evaluate how to proceed with each goal. ❤️")
         case .home:
             array.append("You'll see the goals and habits that are happening now, as well as your favorites and reminders.")
-        case .chapter:
+        case .journal:
             array.append("Just like chapters in your book of life!")
         case .entry:
             array.append("Think... pages in a chapter... in your book of life. ☀️🐇")
@@ -468,6 +477,16 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
                 return true
             case .superId:
                 return true
+            case .isRecurring:
+                return false
+            case .amount:
+                return false
+            case .unit:
+                return false
+            case .timeframe:
+                return false
+            case .scheduleType:
+                return false
             default:
                 return false
             }
@@ -525,7 +544,7 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             return false
         case .favorite:
             return false
-        case .chapter:
+        case .journal:
             switch property {
             case .timeframe:
                 return false
@@ -741,7 +760,7 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             return false
         case .favorite:
             return false
-        case .chapter:
+        case .journal:
             switch button {
             case .delete:
                 return true
@@ -792,9 +811,13 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
                 return true
             case .priority:
                 return false
-            case .completed:
+            case .progress:
                 return false
             case .date:
+                return false
+            case .creed:
+                return false
+            case .entry:
                 return false
             }
         case .goal:
@@ -807,10 +830,14 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
                 return true
             case .priority:
                 return true
-            case .completed:
+            case .progress:
                 return true
             case .date:
                 return true
+            case .creed:
+                return false
+            case .entry:
+                return false
             }
         case .habit:
             switch filter {
@@ -822,12 +849,16 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
                 return true
             case .priority:
                 return true
-            case .completed:
+            case .progress:
                 return false
             case .date:
                 return true
+            case .creed:
+                return false
+            case .entry:
+                return false
             }
-        case .chapter:
+        case .journal:
             switch filter {
             case .archived:
                 return true
@@ -837,10 +868,14 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
                 return true
             case .priority:
                 return false
-            case .completed:
+            case .progress:
                 return false
             case .date:
                 return false
+            case .creed:
+                return false
+            case .entry:
+                return true
             }
         case .entry:
             switch filter {
@@ -852,10 +887,21 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
                 return true
             case .priority:
                 return false
-            case .completed:
+            case .progress:
                 return false
             case .date:
                 return true
+            case .creed:
+                return false
+            case .entry:
+                return false
+            }
+        case .value:
+            switch filter{
+            case .creed:
+                return true
+            default:
+                return false
             }
         default:
             return false
@@ -914,7 +960,7 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             return false
         case .favorite:
             return false
-        case .chapter:
+        case .journal:
             return detailStack == .children || detailStack == .images
         case .entry:
             return detailStack == .images

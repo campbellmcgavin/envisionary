@@ -25,7 +25,7 @@ struct DetailImages: View {
             if isExpanded {
                 VStack(alignment:.leading, spacing:0){
                     if images.count > 0 {
-                            if objectType == .chapter{
+                            if objectType == .journal{
                                     Text("The following are images associated with this chapter. To add additional images here, add entries with images.")
                                     .font(.specify(style: .caption))
                                     .foregroundColor(.specify(color: .grey4))
@@ -37,7 +37,7 @@ struct DetailImages: View {
 
                     }
                     else{
-                        Text(objectType == .chapter ? "Looks like you don't have any images yet. Add images in entries." : "Looks like you don't have any images yet. Edit this entry to add images.")
+                        Text(objectType == .journal ? "Looks like you don't have any images yet. Add images in entries." : "Looks like you don't have any images yet. Edit this entry to add images.")
                             .font(.specify(style:.h6))
                             .multilineTextAlignment(.center)
                             .foregroundColor(.specify(color: .grey3))
@@ -81,7 +81,7 @@ struct DetailImages: View {
                         }
                     }
                 }
-                else if objectType == .chapter{
+                else if objectType == .journal{
                     var criteria = Criteria()
                     criteria.chapterId = objectId
                     let entries = vm.ListEntries(criteria: criteria)

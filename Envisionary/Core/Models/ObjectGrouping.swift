@@ -38,7 +38,7 @@ struct ObjectGrouping: Equatable {
             return habit
         case .session:
             return session
-        case .chapter:
+        case .journal:
             return chapter
         case .entry:
             return entry

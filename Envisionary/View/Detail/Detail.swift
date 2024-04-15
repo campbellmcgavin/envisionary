@@ -123,7 +123,7 @@ struct Detail: View {
                     var request = UpdateHabitRequest(properties: properties)
                     request.archived = shouldMarkAsArchived
                     _ = vm.UpdateHabit(id: objectId, request: request)
-                case .chapter:
+                case .journal:
                     var request = UpdateChapterRequest(properties: properties)
                     request.archived = shouldMarkAsArchived
                     _ = vm.UpdateChapter(id: objectId, request: request)
@@ -207,7 +207,7 @@ struct Detail: View {
     }
     
     func GetObjectType() -> ObjectType {
-        if objectType == .chapter {
+        if objectType == .journal {
             if modalType == .add{
                 return .entry
             }
@@ -259,7 +259,7 @@ struct Detail: View {
 //            properties = Properties(task: vm.GetTask(id: objectId))
         case .habit:
             properties = Properties(habit: vm.GetHabit(id: objectId))
-        case .chapter:
+        case .journal:
             properties = Properties(chapter: vm.GetChapter(id: objectId))
         case .entry:
             properties = Properties(entry: vm.GetEntry(id: objectId))

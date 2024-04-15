@@ -9,7 +9,7 @@ import SwiftUI
 
 struct Recurrence: Identifiable, Codable, Equatable, Hashable{
     let id: UUID
-    let habitId: UUID
+    let parentId: UUID
     var isComplete: Bool
     let scheduleType: ScheduleType
     var amount: Int
@@ -20,9 +20,9 @@ struct Recurrence: Identifiable, Codable, Equatable, Hashable{
     
     init(from entity: RecurrenceEntity){
         self.id = entity.id ?? UUID()
-        self.habitId = entity.habitId ?? UUID()
+        self.parentId = entity.parentId ?? UUID()
         self.isComplete = entity.isComplete
-        self.scheduleType = ScheduleType.fromString(input: entity.scheduleType ?? "")
+        self.scheduleType = ScheduleType.fromString(input: entity.scheduleType ?? "") ?? .aCertainAmountOverTime
         self.amount = Int(entity.amount)
         self.timeOfDay = TimeOfDayType.fromString(input: entity.timeOfDay ?? "")
         self.startDate = entity.startDate ?? Date()
@@ -32,7 +32,7 @@ struct Recurrence: Identifiable, Codable, Equatable, Hashable{
     
     init(){
         id = UUID()
-        habitId = UUID()
+        parentId = UUID()
         isComplete = false
         scheduleType = .aCertainAmountOverTime
         amount = 0

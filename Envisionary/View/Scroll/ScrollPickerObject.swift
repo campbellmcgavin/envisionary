@@ -143,14 +143,14 @@ struct ScrollPickerObject: View {
     func ObjectShouldShow(object: ObjectType) -> Bool{
         
         switch vm.filtering.filterContent{
-        case .envision:
+        case .values:
             return object == .value || object == .creed || object == .dream || object == .aspect
-        case .plan:
+        case .goals:
             return object == .goal || object == .habit //|| object == .task
         case .execute:
             return object == .home || object == .favorite
-        case .journal:
-            return object == .chapter || object == .entry
+        case .journals:
+            return object == .journal || object == .entry
         }
     }
     
@@ -167,27 +167,27 @@ struct ScrollPickerObject: View {
         
         switch vm.filtering.filterObject {
         case .aspect:
-            return .envision
+            return .values
         case .value:
-            return .envision
+            return .values
         case .creed:
-            return .envision
+            return .values
         case .goal:
-            return .plan
+            return .goals
         case .session:
-            return .plan
+            return .goals
         case .habit:
-            return .plan
+            return .goals
         case .home:
             return .execute
         case .favorite:
             return .execute
-        case .chapter:
-            return .journal
+        case .journal:
+            return .journals
         case .entry:
-            return .journal
+            return .journals
         case .dream:
-            return .envision
+            return .values
         case .prompt:
             return .execute
         case .recurrence:

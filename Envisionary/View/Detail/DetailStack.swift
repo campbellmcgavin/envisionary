@@ -15,7 +15,7 @@ struct DetailStack: View {
     @Binding var isPresentingSourceType: Bool
     @Binding var shouldConvertToGoal: Bool
     @Binding var selectedImage: UIImage?
-    var properties: Properties
+    @State var properties: Properties
     let objectId: UUID
     let objectType: ObjectType
     let proxy: ScrollViewProxy
@@ -31,8 +31,9 @@ struct DetailStack: View {
         VStack(alignment:.center, spacing:0){
             ForEach(DetailStackType.allCases){
                 detailStack in
-                if objectType.hasDetailStack(detailStack: detailStack){
+                if objectType.hasDetailStack(detailStack: detailStack) && (properties.archived != true || detailStack == .archived){
                         BuildStack(detailStack: detailStack)
+                    
                 }
             }
         }
@@ -47,6 +48,22 @@ struct DetailStack: View {
                 }
             }
         }
+//        .onChange(of: vm.updates){
+//            _ in
+//            
+//            if objectType == .goal {
+//                properties = Properties(goal: (vm.GetGoal(id: objectId) ?? Goal()))
+//            }
+//            else if objectType == .value {
+//                properties = Properties(value: (vm.GetCoreValue(id: objectId) ?? CoreValue()))
+//            }
+//            else if objectType == .journal {
+//                properties = Properties(chapter: (vm.GetChapter(id: objectId) ?? Chapter()))
+//            }
+//            else if objectType == .entry {
+//                properties = Properties(entry: (vm.GetEntry(id: objectId) ?? Entry()))
+//            }
+//        }
     }
     
     func GetSuperGoal(superGoal: Goal) -> Goal{
@@ -113,7 +130,7 @@ struct DetailStack: View {
         case .images:
             DetailImages(shouldExpand: $shouldExpandAll, selectedImage: $selectedImage, objectId: objectId, objectType: objectType)
         case .children:
-            DetailChildren(shouldExpand: $shouldExpandAll, objectId: objectId, objectType: .chapter, shouldAllowNavigation: true)
+            DetailChildren(shouldExpand: $shouldExpandAll, objectId: objectId, objectType: .journal, shouldAllowNavigation: true)
         case .toolbox:
             if properties.parentGoalId == nil {
                 DetailGoalToolbox(shouldExpand: $shouldExpandAll, isPresentingModal: $isPresentingModal, isPresentingSourceType: $isPresentingSourceType, modalType: $modalType, focusGoal: $focusObjectId, goalId: objectId, proxy: proxy)
@@ -121,8 +138,11 @@ struct DetailStack: View {
         case .affectedGoals:
             DetailAffectedGoals(shouldExpand: $shouldExpandAll, sessionProperties: properties)
         case .habitProgress:
-            DetailHabitProgress(shouldExpand: $shouldExpandAll, habitId: objectId)
+            DetailHabitProgress(shouldExpand: $shouldExpandAll, goalId: objectId)
+        default:
+            EmptyView()
         }
+        
     }
 }
 

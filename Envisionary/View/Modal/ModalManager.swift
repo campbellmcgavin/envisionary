@@ -23,7 +23,6 @@ struct ModalManager: View {
     @State var isPresentingAdd = false
     @State var isPresentingSearch = false
     @State var isPresentingGrouping = false
-    @State var isPresentingFilter = false
     @State var isPresentingNotification = false
     @State var isPresentingHelp = false
     @State var isPresentingEdit = false
@@ -50,8 +49,6 @@ struct ModalManager: View {
                     isPresentingSearch = true
                 case .settings:
                     isPresentingGrouping = true
-                case .filter:
-                    isPresentingFilter = true
                 case .notifications:
                     isPresentingNotification = true
                 case .help:
@@ -81,11 +78,6 @@ struct ModalManager: View {
         }
         .onChange(of: isPresentingGrouping){ _ in
             if isPresentingGrouping == false {
-                isPresenting = false
-            }
-        }
-        .onChange(of: isPresentingFilter){ _ in
-            if isPresentingFilter == false {
                 isPresenting = false
             }
         }
@@ -130,8 +122,6 @@ struct ModalManager: View {
             ModalSearch(isPresenting: $isPresentingSearch, objectType: objectType ?? .goal)
         case .settings:
             ModalSettings(isPresenting: $isPresentingGrouping)
-        case .filter:
-            ModalFilter(isPresenting: $isPresentingFilter)
         case .edit:
             ModalAdd(isPresenting: $isPresentingEdit, convertDreamId: .constant(nil), objectId: GetObjectId(), parentGoalId: GetParentGoalId(), parentChapterId: GetParentChapterId(), objectType: GetObjectType(), modalType: .edit)
         case .delete:
@@ -205,7 +195,7 @@ struct ModalManager: View {
                         _ = vm.DeleteAspect(id: objectId)
                     case .dream:
                         _ = vm.DeleteDream(id: objectId)
-                    case .chapter:
+                    case .journal:
                         _ = vm.DeleteChapter(id: objectId)
                     case .session:
                         _ = vm.DeleteSession(id: objectId)
@@ -236,7 +226,7 @@ struct ModalManager: View {
                             request.archived = true
                             _ = vm.UpdateDream(id: objectId, request: request)
                         }
-                    case .chapter:
+                    case .journal:
                         if let object = vm.GetChapter(id: objectId){
                             var request = UpdateChapterRequest(chapter: object)
                             request.archived = true

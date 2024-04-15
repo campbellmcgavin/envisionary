@@ -94,8 +94,7 @@ class DataService: DataServiceProtocol {
         return nil
     }
     
-    // MARK: - GOALS
-    
+    // MARK: - GOALS    
     func CreateGoal(request: CreateGoalRequest) -> UUID{
         let id = UUID()
         let newGoal = GoalEntity(context: container.viewContext)
@@ -113,6 +112,7 @@ class DataService: DataServiceProtocol {
         newGoal.archived = false
         newGoal.id = id
         newGoal.superId = request.superId
+
         saveData()
         
         return newGoal.id!
@@ -299,6 +299,7 @@ class DataService: DataServiceProtocol {
     
     func DeleteGoal(id: UUID) -> Bool{
         if let goalToDelete = GetGoalEntity(id: id){
+            
             
             for goal in ListChildGoals(id: id){
                 _ = DeleteGoal(id: goal.id)
@@ -861,7 +862,7 @@ class DataService: DataServiceProtocol {
         do {
             let request = NSFetchRequest<ChapterEntity>(entityName: "ChapterEntity")
             
-            request.predicate = NSCompoundPredicate.PredicateBuilder(criteria: criteria, object:.chapter)
+            request.predicate = NSCompoundPredicate.PredicateBuilder(criteria: criteria, object:.journal)
             request.fetchLimit = limit
             
             let ChaptersEntityList = try container.viewContext.fetch(request)
@@ -1190,13 +1191,13 @@ class DataService: DataServiceProtocol {
     func CreateHabit(request: CreateHabitRequest) -> UUID{
         
         let habitId = CreateHabitHelper(request: request)
-        if let habit = GetHabit(id: habitId){
-            let recurrenceRequests = HabitHelper().CreateRecurrences(habit: habit)
-            
-            for recurrenceRequest in recurrenceRequests {
-                _ = CreateRecurrence(request: recurrenceRequest)
-            }
-        }
+//        if let habit = GetHabit(id: habitId){
+//            let recurrenceRequests = HabitHelper().CreateRecurrences(goal: habit)
+//
+//            for recurrenceRequest in recurrenceRequests {
+//                _ = CreateRecurrence(request: recurrenceRequest)
+//            }
+//        }
         return habitId
     }
     
@@ -1350,7 +1351,7 @@ class DataService: DataServiceProtocol {
     func CreateRecurrence(request: CreateRecurrenceRequest) -> UUID{
         
         let newRecurrence = RecurrenceEntity(context: container.viewContext)
-        newRecurrence.habitId = request.habitId
+        newRecurrence.parentId = request.goalId
         newRecurrence.isComplete = false
         newRecurrence.scheduleType = request.scheduleType.toString()
         newRecurrence.startDate = request.startDate
@@ -1359,7 +1360,6 @@ class DataService: DataServiceProtocol {
         newRecurrence.timeOfDay = request.timeOfDay.toString()
         newRecurrence.archived = false
         newRecurrence.id = UUID()
-        
         
         saveData()
         

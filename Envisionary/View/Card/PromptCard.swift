@@ -115,7 +115,7 @@ struct PromptCard: View {
                 else{
                     _ = vm.DeletePrompt(id: promptProperties.id)
                 }
-            case .chapter:
+            case .journal:
                 let object = vm.GetChapter(id: objectId)
                 if object != nil{
                     properties = Properties(chapter: object)

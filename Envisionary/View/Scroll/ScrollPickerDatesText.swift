@@ -56,7 +56,7 @@ struct ScrollPickerDateText: View {
         case .year:
             return dateValue.date.toYearAndMonth()[0]
         case .decade:
-            return dateValue.date.StartOfDecade().toYearAndMonth()[0] + "'s"
+            return dateValue.date.StartOfDecade().toYearAndMonth()[0]
         }
     }
     

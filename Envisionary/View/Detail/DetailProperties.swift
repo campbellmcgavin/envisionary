@@ -100,14 +100,14 @@ struct DetailProperties: View {
             if properties.progress != nil {
                 PropertyRow(propertyType: .progress, int:properties.progress)
             }
-        case .edited:
-            PropertyRow(propertyType: .edited, int: GetEvaluationDicitonaryItem(evaluation: .editDetails))
-        case .leftAsIs:
-            PropertyRow(propertyType: .leftAsIs, int: GetEvaluationDicitonaryItem(evaluation: .keepAsIs))
-        case .pushedOff:
-            PropertyRow(propertyType: .pushedOff, int: GetEvaluationDicitonaryItem(evaluation: .pushOffTillNext))
-        case .deleted:
-            PropertyRow(propertyType: .deleted, int: GetEvaluationDicitonaryItem(evaluation: .deleteIt))
+//        case .edited:
+//            PropertyRow(propertyType: .edited, int: GetEvaluationDicitonaryItem(evaluation: .editDetails))
+//        case .leftAsIs:
+//            PropertyRow(propertyType: .leftAsIs, int: GetEvaluationDicitonaryItem(evaluation: .keepAsIs))
+//        case .pushedOff:
+//            PropertyRow(propertyType: .pushedOff, int: GetEvaluationDicitonaryItem(evaluation: .pushOffTillNext))
+//        case .deleted:
+//            PropertyRow(propertyType: .deleted, int: GetEvaluationDicitonaryItem(evaluation: .deleteIt))
         case .start:
             if properties.start != nil {
                 PropertyRow(propertyType: .start, text:properties.start)
@@ -134,29 +134,20 @@ struct DetailProperties: View {
         case .promptType:
             let _ = "why"
         case .scheduleType:
-            if properties.scheduleType != nil {
-                PropertyRow(propertyType: .scheduleType, schedule: properties.scheduleType)
+            if properties.schedule != nil {
+                PropertyRow(propertyType: .scheduleType, schedule: properties.schedule)
             }
         case .amount:
-            if properties.amount != nil && properties.scheduleType != nil && properties.scheduleType!.shouldShowAmount() {
+            if properties.amount != nil && properties.schedule != nil && properties.schedule!.shouldShowAmount() {
                 PropertyRow(propertyType: .amount, int: properties.amount)
             }
         case .unit:
-            if properties.unitOfMeasure != nil && properties.scheduleType != nil && properties.scheduleType!.shouldShowAmount() {
+            if properties.unitOfMeasure != nil && properties.schedule != nil && properties.schedule!.shouldShowAmount() {
                 PropertyRow(propertyType: .unit, unit: properties.unitOfMeasure)
             }
         default:
             let _ = "why"
         }
-    }
-    
-    
-    
-    func GetEvaluationDicitonaryItem(evaluation: EvaluationType) -> Int{
-        if let evaluationDictionary = properties.evaluationDictionary{
-            return evaluationDictionary.values.filter({$0 == evaluation}).count
-        }
-        return 0
     }
 }
 

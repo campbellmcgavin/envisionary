@@ -24,7 +24,13 @@ struct Goal: Identifiable, Codable, Equatable, Hashable {
     var archived: Bool
     var position: String
     
-    init(id: UUID = UUID(), title: String, description: String, priority: PriorityType, startDate: Date, endDate: Date, percentComplete: Int, aspect: String, image: UUID?, parent: UUID?, position: String, superId: UUID?){
+//    var isRecurring: Bool
+//    var amount: Int?
+//    var unitOfMeasure: UnitType?
+//    var timeframe: TimeframeType?
+//    var schedule: ScheduleType?
+    
+    init(id: UUID = UUID(), title: String, description: String, priority: PriorityType, startDate: Date, endDate: Date, percentComplete: Int, aspect: String, image: UUID?, parent: UUID?, position: String, superId: UUID?){//}, isRecurring: Bool, amount: Int?, unitOfMeasure: UnitType?, timeframe: TimeframeType?, schedule: ScheduleType?){
         self.id = id
         self.title = title
         self.description = description
@@ -38,6 +44,12 @@ struct Goal: Identifiable, Codable, Equatable, Hashable {
         self.archived = false
         self.position = position
         self.superId = superId
+        
+//        self.isRecurring = isRecurring
+//        self.amount = amount
+//        self.unitOfMeasure = unitOfMeasure
+//        self.timeframe = timeframe
+//        self.schedule = schedule
     }
     
     init(emptyTitle: Bool = false){
@@ -52,6 +64,12 @@ struct Goal: Identifiable, Codable, Equatable, Hashable {
         self.archived = false
         self.position = "A"
         self.superId = nil
+        
+//        self.isRecurring = false
+//        self.amount = nil
+//        self.unitOfMeasure = nil
+//        self.timeframe = nil
+//        self.schedule = nil
     }
     
     init(from entity: GoalEntity){
@@ -69,6 +87,12 @@ struct Goal: Identifiable, Codable, Equatable, Hashable {
         self.position = entity.position ?? ""
         self.completedDate = entity.completedDate
         self.superId = entity.superId
+        
+//        self.isRecurring = entity.isRecurring
+//        self.amount = Int(entity.amount)
+//        self.unitOfMeasure = UnitType.fromString(input: entity.unitOfMeasure ?? "")
+//        self.timeframe = TimeframeType.fromString(input: entity.timeframe ?? "")
+//        self.schedule = ScheduleType.fromString(input: entity.schedule ?? "")
     }
     
     mutating func update(from request: UpdateGoalRequest) {
@@ -85,5 +109,11 @@ struct Goal: Identifiable, Codable, Equatable, Hashable {
         position = request.position
         completedDate = request.completedDate
         superId = request.superId
+        
+//        isRecurring = request.isRecurring
+//        amount = request.amount
+//        unitOfMeasure = request.unitOfMeasure
+//        timeframe = request.timeframe
+//        schedule = request.schedule
     }
 }

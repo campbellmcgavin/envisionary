@@ -30,11 +30,11 @@ struct Properties: Identifiable, Equatable, Hashable, Codable{
     var start: String?
     var end: String?
     
-    var scheduleType: ScheduleType?
+    var schedule: ScheduleType?
     var amount: Int?
     var unitOfMeasure: UnitType?
     var habitId: UUID?
-    
+    var isRecurring: Bool?
     
     //sessions
     var date: Date?
@@ -71,10 +71,10 @@ struct Properties: Identifiable, Equatable, Hashable, Codable{
     
     init(recurrence: Recurrence?){
         self.id = recurrence?.id ?? UUID()
-        self.parentGoalId = recurrence?.habitId ?? UUID()
-        self.scheduleType = recurrence?.scheduleType ?? .oncePerDay
+        self.parentGoalId = recurrence?.parentId ?? UUID()
+        self.schedule = recurrence?.scheduleType ?? .oncePerDay
         self.amount = recurrence?.amount ?? 0
-        self.habitId = recurrence?.habitId
+        self.habitId = recurrence?.parentId
         self.archived = recurrence?.archived
     }
     
@@ -92,6 +92,12 @@ struct Properties: Identifiable, Equatable, Hashable, Codable{
         self.archived = goal?.archived
         self.position = goal?.position
         self.superId = goal?.superId
+        
+//        self.isRecurring = goal?.isRecurring
+//        self.amount = goal?.amount
+//        self.unitOfMeasure = goal?.unitOfMeasure
+//        self.timeframe = goal?.timeframe
+//        self.schedule = goal?.schedule
     }
     
     init(dream: Dream?){
@@ -186,7 +192,7 @@ struct Properties: Identifiable, Equatable, Hashable, Codable{
         self.image = habit?.image
         self.amount = habit?.amount
         self.unitOfMeasure = habit?.unitOfMeasure
-        self.scheduleType = habit?.schedule
+        self.schedule = habit?.schedule
         self.archived = habit?.archived
     }
     
@@ -229,10 +235,19 @@ struct Properties: Identifiable, Equatable, Hashable, Codable{
         case .chapter:
             return .fieldCannotBeEmpty
         case .scheduleType:
+            if isRecurring != true{
+                return nil
+            }
             return .fieldCannotBeEmpty
         case .unit:
+            if isRecurring != true{
+                return nil
+            }
             return .fieldCannotBeEmpty
         case .amount:
+            if isRecurring != true{
+                return nil
+            }
             return .fieldCannotBeZero
         case .habitId:
             return .fieldCannotBeEmpty
@@ -259,6 +274,9 @@ struct Properties: Identifiable, Equatable, Hashable, Codable{
                 return false
             }
         case .timeframe:
+            if isRecurring != true{
+                return true
+            }
             return timeframe != nil
         case .date:
             return date != nil
@@ -273,10 +291,16 @@ struct Properties: Identifiable, Equatable, Hashable, Codable{
         case .chapter:
             return chapterId != nil
         case .scheduleType:
-            return scheduleType != nil
+            if isRecurring != true{
+                return true
+            }
+            return schedule != nil
         case .unit:
-            if let scheduleType{
-                if scheduleType.shouldShowAmount(){
+            if isRecurring != true{
+                return true
+            }
+            if let schedule{
+                if schedule.shouldShowAmount(){
                     if let _ = unitOfMeasure {
                         return true
                     }
@@ -287,8 +311,11 @@ struct Properties: Identifiable, Equatable, Hashable, Codable{
             }
             return false
         case .amount:
-            if let scheduleType{
-                if scheduleType.shouldShowAmount(){
+            if isRecurring != true{
+                return true
+            }
+            if let schedule{
+                if schedule.shouldShowAmount(){
                     if let amount {
                         return amount > 0
                     }

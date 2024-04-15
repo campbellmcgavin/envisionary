@@ -21,7 +21,7 @@ struct ContentView: View {
     @State var isPresentingSplashScreen = true
     @State var isPresentingCalendarView = false
     @State var shouldShowTopTitle = false
-    @State private var splashScreenTimer = Timer.publish(every: 1.75, on: .main, in: .common).autoconnect()
+    @State private var splashScreenTimer = Timer.publish(every: 1.5, on: .main, in: .common).autoconnect()
 
     @State var filterCount = 0
     @State var shouldDisableScrollView = false
@@ -74,6 +74,7 @@ struct ContentView: View {
                                
                             }
                             .coordinateSpace(name: coordinateSpaceName)
+                            .scrollDismissesKeyboard(ScrollDismissesKeyboardMode.interactively)
                             .disabled(shouldDisableScrollView)
                         }
                     }
@@ -89,7 +90,7 @@ struct ContentView: View {
                         FloatingActionButton(shouldAct: $isPresentingModal, modalType: $modalType)
                     }
 
-                    BottomNavigationBar(selectedContentView: $vm.filtering.filterContent)
+                    BottomNavigationBar(selectedContentView: $vm.filtering.filterContent, selectedObject: $vm.filtering.filterObject)
                 }
 
                 ModalManager(isPresenting: $isPresentingModal, modalType: $modalType, convertDreamId: .constant(nil), objectType: vm.filtering.filterObject, shouldDelete: .constant(false))
@@ -106,7 +107,10 @@ struct ContentView: View {
             .background(Color.specify(color: .grey0))
             .saveSize(in:$screenHeight)
             .onReceive(splashScreenTimer){ _ in
-                isPresentingSplashScreen = false
+                withAnimation(.easeInOut(duration:0.7)){
+                    isPresentingSplashScreen = false
+                }
+                
                 splashScreenTimer.upstream.connect().cancel()
             }
             .onChange(of: vm.triggers.shouldPresentModal){ _ in

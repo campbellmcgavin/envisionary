@@ -23,19 +23,22 @@ struct Header<Content: View>: View {
     
     var body: some View {
         
-        PositionObservingView(
-            coordinateSpace: .named(coordinateSpaceName),
-            position: Binding(
-                get: { offset },
-                set: { newOffset in
-                    offset = CGPoint(
-                        x: -newOffset.x,
-                        y: -newOffset.y
-                    )
-                }
-            ),
-            content: {BuildHeader()}
-        )
+        ZStack{
+            PositionObservingView(
+                coordinateSpace: .named(coordinateSpaceName),
+                position: Binding(
+                    get: { offset },
+                    set: { newOffset in
+                        offset = CGPoint(
+                            x: -newOffset.x,
+                            y: -newOffset.y
+                        )
+                    }
+                ),
+                content: {BuildHeader()}
+            )
+        }
+
     }
     
     @ViewBuilder
@@ -62,7 +65,7 @@ struct Header<Content: View>: View {
                     .offset(y:65)
                     .frame(maxHeight:.infinity)
                     .padding(.leading)
-                    .scaleEffect(offset.y > 0 ?  1.0 : 1.0 - 0.0015 * offset.y, anchor: .bottomLeading)
+                    .scaleEffect(GetScaleEffect(), anchor: .bottomLeading)
 
                 Spacer()
             }
@@ -83,16 +86,20 @@ struct Header<Content: View>: View {
                     .frame(maxHeight:.infinity)
                     .offset(y: objectType.ShouldShowImage() && (modalType != .search) ? 0 : 65))
             .frame(maxWidth:.infinity,maxHeight:.infinity)
-            
             if(ShouldShowImage()){
                 HeaderImage(offset: offset, headerFrame: headerFrame, modalType: modalType, image: image, isPresentingImageSheet: $isPresentingImageSheet)
             }
         }
         .offset(y:GetOffset())
     }
+
+    
+    func GetScaleEffect() -> CGFloat {
+        return modalType == nil ? (offset.y > 0 ?  1.0 : 1.0 - 0.0015 * offset.y) : 0
+    }
     
     func GetOffset() -> CGFloat {
-        return offset.y < 0 ? offset.y * 0.5 : 0
+        return modalType == nil ? (offset.y < 0 ? offset.y * 0.5 : 0) : 0
     }
     
     func ShouldShowImage() -> Bool{
@@ -100,7 +107,7 @@ struct Header<Content: View>: View {
     }
     
     func GetOpacity() -> CGFloat{
-            return  (1.0 - ((1.0 * offset.y/headerFrame.height*2)))
+        return  modalType == nil ? (1.0 - ((1.0 * offset.y/headerFrame.height*2))) : 1.0
     }
     
     func GetRadius() -> CGFloat{

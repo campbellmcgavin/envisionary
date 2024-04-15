@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct CreateRecurrenceRequest {
-    var habitId: UUID
+    var goalId: UUID
     var scheduleType: ScheduleType
     var startDate: Date
     var endDate: Date
     var timeOfDay: TimeOfDayType
     
-    init(habitId: UUID, scheduleType: ScheduleType, timeOfDay: TimeOfDayType, startDate: Date, endDate: Date){
-        self.habitId = habitId
+    init(goalId: UUID, scheduleType: ScheduleType, timeOfDay: TimeOfDayType, startDate: Date, endDate: Date){
+        self.goalId = goalId
         self.scheduleType = scheduleType
         self.startDate = startDate
         self.endDate = endDate

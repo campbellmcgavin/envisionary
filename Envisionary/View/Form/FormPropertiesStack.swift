@@ -24,19 +24,22 @@ struct FormPropertiesStack: View {
     @State var description = ""
     @State var aspectString = ""
     @State var priorityString = ""
-    @State var scheduleTimeframe = TimeframeType.day
-    @State var scheduleTimeframeString = ""
+
     @State var startDate = Date()
     @State var endDate = Date()
     @State var filteredValues = [ValueType]()
     @State var chapterString = ""
     @State var hasChapterId: Bool = false
+    
+    @State var scheduleTimeframe = TimeframeType.day
+    @State var scheduleTimeframeString = ""
     @State var scheduleString = ""
-    @State var schedule = ScheduleType.oncePerDay
+    @State var schedule: ScheduleType = ScheduleType.oncePerDay
     @State var scheduleOptions = [String]()
     @State var amount = 0
     @State var unit = UnitType.minutes
     @State var unitString = ""
+    @State var isRecurring = false
     
     @State private var titleDirtyTimer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
     @State private var setupTimer = Timer.publish(every: 1.0, on: .main, in: .common).autoconnect()
@@ -81,7 +84,7 @@ struct FormPropertiesStack: View {
                 properties.endDate = endDate
             }
             
-            scheduleString = properties.scheduleType?.toString() ?? schedule.toString()
+            scheduleString = properties.schedule?.toString() ?? schedule.toString()
             scheduleOptions = GetSchedules()
             unitString = unit.toString()
             
@@ -121,6 +124,7 @@ struct FormPropertiesStack: View {
             _ in
             scheduleTimeframe = TimeframeType.fromString(input: scheduleTimeframeString)
             scheduleOptions = GetSchedules()
+            properties.timeframe = scheduleTimeframe
         }
         .onChange(of: startDate){
             _ in
@@ -160,7 +164,7 @@ struct FormPropertiesStack: View {
         .onChange(of: scheduleString){
             _ in
             schedule = ScheduleType.fromString(input: scheduleString)
-            properties.scheduleType = schedule
+            properties.schedule = schedule
             validator.scheduleType.isDirty = true
         }
         .onChange(of: amount){ _ in
@@ -183,6 +187,14 @@ struct FormPropertiesStack: View {
         .onReceive(setupTimer){ _ in
             titleDirtyTimer.upstream.connect().cancel()
             isSettingUp = false
+        }
+        .onChange(of: isRecurring){
+            _ in
+            unitString = UnitType.minutes.toString()
+            scheduleTimeframeString = TimeframeType.day.toString()
+            amount = 0
+            scheduleOptions = GetSchedules()
+            properties.isRecurring = isRecurring
         }
     }
     
@@ -247,10 +259,8 @@ struct FormPropertiesStack: View {
         case .priority:
             FormStackPicker(fieldValue: $priorityString, fieldName: PropertyType.priority.toString(), options: .constant(PriorityType.allCases.map({$0.toString()})),iconType: .priority)
                 .modifier(ModifierFormValidator(fieldPropertyValidator: $validator.priority, isDirtyForm: $validator.isDirty, propertyType: .priority))
-//        case .coreValue:
 
         case .chapter:
-            
             if hasChapterId {
                 let chapter = vm.GetChapter(id: properties.chapterId!)
                 FormLabel(fieldValue: chapter?.title ?? "", fieldName: PropertyType.chapter.toString(), iconType: .chapter, shouldShowLock: true)
@@ -263,18 +273,21 @@ struct FormPropertiesStack: View {
         case .images:
             FormImages(fieldValue: $images, shouldPopImagesModal: $isPresentingPhotoSource, fieldName: PropertyType.images.toString(), iconType: .photo)
         case .scheduleType:
-            
-            if modalType == .add{
-                FormStackPicker(fieldValue: $scheduleTimeframeString, fieldName: "Schedule " + PropertyType.timeframe.toString(), options: .constant([TimeframeType.day.toString(), TimeframeType.week.toString()]),iconType: .timeframe)
-                FormStackPicker(fieldValue: $scheduleString, fieldName: PropertyType.scheduleType.toString(), options: $scheduleOptions, iconType: .dates, isSearchable: false)
-                    .modifier(ModifierFormValidator(fieldPropertyValidator: $validator.scheduleType, isDirtyForm: $validator.isDirty, propertyType: .scheduleType))
-            }
-            else{
-                FormLabel(fieldValue: scheduleTimeframeString, fieldName: "Schedule " + PropertyType.timeframe.toString(), iconType: .timeframe, shouldShowLock: true)
-                FormLabel(fieldValue: scheduleString, fieldName: PropertyType.scheduleType.toString(), iconType: .dates, shouldShowLock: true)
+            if isRecurring {
+                if modalType == .add{
+                    FormStackPicker(fieldValue: $scheduleTimeframeString, fieldName: "Schedule " + PropertyType.timeframe.toString(), options: .constant([TimeframeType.day.toString(), TimeframeType.week.toString()]),iconType: .timeframe)
+                        .modifier(ModifierFormValidator(fieldPropertyValidator: $validator.timeframe, isDirtyForm: $validator.isDirty, propertyType: .timeframe))
+                    
+                    FormStackPicker(fieldValue: $scheduleString, fieldName: PropertyType.scheduleType.toString(), options: $scheduleOptions, iconType: .dates, isSearchable: false)
+                        .modifier(ModifierFormValidator(fieldPropertyValidator: $validator.scheduleType, isDirtyForm: $validator.isDirty, propertyType: .scheduleType))
+                }
+                else{
+                    FormLabel(fieldValue: scheduleTimeframeString, fieldName: "Schedule " + PropertyType.timeframe.toString(), iconType: .timeframe, shouldShowLock: true)
+                    FormLabel(fieldValue: scheduleString, fieldName: PropertyType.scheduleType.toString(), iconType: .dates, shouldShowLock: true)
+                }
             }
         case .amount:
-            if schedule.shouldShowAmount(){
+            if schedule.shouldShowAmount() == true && isRecurring{
                 
                 if modalType == .add{
                     FormCounter(fieldValue: $amount, fieldName: GetAmountFieldName(), iconType: .dates, maxValue: ComputeMaxValue())
@@ -285,7 +298,7 @@ struct FormPropertiesStack: View {
                 }
             }
         case .unit:
-            if schedule.shouldShowAmount()  {
+            if schedule.shouldShowAmount() == true && isRecurring {
                 
                 if modalType == .add{
                     FormStackPicker(fieldValue: $unitString, fieldName: PropertyType.unit.toString(), options: .constant(UnitType.allCases.map({$0.toString()})), iconType: .ruler)
@@ -295,12 +308,15 @@ struct FormPropertiesStack: View {
                     FormLabel(fieldValue: unitString, fieldName: PropertyType.unit.toString(), iconType: .ruler, shouldShowLock: true)
                 }
             }
+        case .isRecurring:
+            FormRadioButton(fieldValue: $isRecurring, caption: "Track repetitive tasks", fieldName: PropertyType.isRecurring.toString(), iconType: .habit, selectedColor: .lightPurple)
         default:
             let _ = "why"
         }
     }
     
     func GetSchedules() -> [String]{
+        
         return ScheduleType.allCases.filter({$0.shouldShow(timeframe: scheduleTimeframe)}).map({$0.toString()})
     }
     

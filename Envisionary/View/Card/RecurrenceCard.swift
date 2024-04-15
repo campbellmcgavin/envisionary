@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RecurrenceCard: View {
-    let habitId: UUID
+    let goalId: UUID
     @Binding var recurrenceId: UUID?
     var showPhotoCard: Bool = true
     @Binding var date: Date
@@ -90,7 +90,7 @@ struct RecurrenceCard: View {
             recurrence = vm.GetRecurrence(id: recurrenceId) ?? recurrence
         }
 //        else{
-//            let request = CreateRecurrenceRequest(habitId: habitId, scheduleType: habit.schedule, timeOfDay: .notApplicable, startDate: date.StartOfDay(), endDate: date.EndOfDay())
+//            let request = CreateRecurrenceRequest(goalId: goalId, scheduleType: habit.schedule, timeOfDay: .notApplicable, startDate: date.StartOfDay(), endDate: date.EndOfDay())
 //            let id = vm.CreateRecurrence(request: request)
 //            let request2 = UpdateRecurrenceRequest(amount: amount, isComplete: GetIsCompleted())
 //            print(request2)
@@ -125,7 +125,7 @@ struct RecurrenceCard: View {
         
         recurrence = vm.GetRecurrence(id: recurrenceId ?? UUID()) ?? Recurrence()
         amount = recurrence.amount == 0 ? 100 : recurrence.amount
-        habit = vm.GetHabit(id: habitId) ?? Habit()
+        habit = vm.GetHabit(id: goalId) ?? Habit()
     }
     
     func GetIsCompleted() -> Bool{
@@ -139,7 +139,7 @@ struct RecurrenceCard: View {
 
 struct RecurrenceCard_Previews: PreviewProvider {
     static var previews: some View {
-        RecurrenceCard(habitId: UUID(), recurrenceId: .constant(UUID()), date: .constant(Date()))
+        RecurrenceCard(goalId: UUID(), recurrenceId: .constant(UUID()), date: .constant(Date()))
             .modifier(ModifierCard())
             .environmentObject(ViewModel())
     }

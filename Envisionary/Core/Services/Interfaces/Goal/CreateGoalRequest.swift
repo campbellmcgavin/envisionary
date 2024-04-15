@@ -20,8 +20,14 @@ struct CreateGoalRequest{
     var parentId: UUID? = nil
     var previousGoalId: UUID? = nil
     var superId: UUID? = nil
+    
+//    var isRecurring: Bool
+//    var amount: Int?
+//    var unitOfMeasure: UnitType?
+//    var timeframe: TimeframeType?
+//    var schedule: ScheduleType?
 
-    init(title: String, description: String, priority: PriorityType, startDate: Date, endDate: Date, percentComplete: Int, image: UUID?, aspect: String, parent: UUID?,  previousGoalId: UUID? = nil, superId: UUID?)
+    init(title: String, description: String, priority: PriorityType, startDate: Date, endDate: Date, percentComplete: Int, image: UUID?, aspect: String, parent: UUID?,  previousGoalId: UUID? = nil, superId: UUID?)//, isRecurring: Bool, amount: Int?, unitOfMeasure: UnitType?, timeframe: TimeframeType?, schedule: ScheduleType?)
     {
         self.title = title
         self.description = description
@@ -34,6 +40,12 @@ struct CreateGoalRequest{
         self.parentId = parent
         self.previousGoalId = previousGoalId
         self.superId = superId
+        
+//        self.isRecurring = isRecurring
+//        self.amount = amount
+//        self.unitOfMeasure = unitOfMeasure
+//        self.timeframe = timeframe
+//        self.schedule = schedule
     }
     
     init(properties: Properties){
@@ -47,5 +59,11 @@ struct CreateGoalRequest{
         self.aspect = properties.aspect ?? AspectType.academic.toString()
         self.parentId = properties.parentGoalId
         self.superId = properties.superId == nil ? self.parentId : self.superId
+        
+//        self.isRecurring = properties.isRecurring ?? false
+//        self.amount = properties.amount
+//        self.unitOfMeasure = properties.unitOfMeasure
+//        self.timeframe = properties.timeframe
+//        self.schedule = properties.schedule
     }
 }

@@ -72,12 +72,6 @@ public extension KeyInputSubjectWrapper {
 //    }
 //}
 
-extension EnvisionaryApp {
-    func keyInput(_ key: KeyEquivalent, modifiers: EventModifiers = .none) -> some View {
-        keyboardShortcut(key, sender: keyInputSubject, modifiers: modifiers)
-    }
-}
-
 public func keyboardShortcut<Sender, Label>(
     _ key: KeyEquivalent,
     sender: Sender,

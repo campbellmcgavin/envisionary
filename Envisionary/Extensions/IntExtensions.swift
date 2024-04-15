@@ -20,27 +20,4 @@ extension Int {
             return .completed
         }
     }
-    func updateProgress(isForward: Bool) -> Int{
-        
-        if isForward{
-            switch self.toStatusType(){
-            case .notStarted:
-                return 50
-            case .inProgress:
-                return 100
-            case .completed:
-                return 100
-            }
-        }
-        else{
-            switch self.toStatusType(){
-            case .notStarted:
-                return 0
-            case .inProgress:
-                return 0
-            case .completed:
-                return 50
-            }
-        }
-    }
 }

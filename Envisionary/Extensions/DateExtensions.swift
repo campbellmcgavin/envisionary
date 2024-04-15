@@ -220,7 +220,7 @@ extension Date{
         case .decade:
             formatter.dateFormat = "y"
             let decadeString =  formatter.string(from: self)
-            return String(decadeString.prefix(3)) + "0's"
+            return String(decadeString.prefix(3)) + "0"
         }
         return formatter.string(from: self)
     }

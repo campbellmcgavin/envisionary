@@ -15,11 +15,12 @@ struct ModalSearch: View {
     @State var searchString = ""
     @State var objectsFiltered = [Properties]()
     @State var shouldShowArchivedOnly = false
-    @State var shouldShowSuperOnly = false
+    @State var shouldShowSubgoals = false
     @State var shouldShowAspectOnly = ""
     @State var shouldShowPriorityOnly = ""
-    @State var shouldShowProgressOnly = 0
-    @State var shouldShowCalendar = false
+    @State var shouldShowStatusOnly = StatusType.none
+    @State var shouldShowCalendar: DateFilterType = .none
+    @State var shouldShowEntries: Bool = false
     @EnvironmentObject var vm: ViewModel
     var body: some View {
         
@@ -27,7 +28,7 @@ struct ModalSearch: View {
               betweenContent: {
             HStack{
                 
-                FormFilterStack(objectType: objectType, date: $shouldShowCalendar, archived: $shouldShowArchivedOnly, subGoals: $shouldShowSuperOnly, aspect: $shouldShowAspectOnly, priority: $shouldShowPriorityOnly, progress: $shouldShowProgressOnly)
+                FormFilterStack(objectType: objectType, date: $shouldShowCalendar, archived: $shouldShowArchivedOnly, subGoals: $shouldShowSubgoals, aspect: $shouldShowAspectOnly, priority: $shouldShowPriorityOnly, progress: $shouldShowStatusOnly, creed: .constant(false), entry: $shouldShowEntries, isSearch: true)
             }
         })
         .onChange(of:searchString){ _ in
@@ -41,7 +42,7 @@ struct ModalSearch: View {
             _ in
             GetFullList()
         }
-        .onChange(of: shouldShowProgressOnly){
+        .onChange(of: shouldShowStatusOnly){
             _ in
             GetFullList()
         }
@@ -54,8 +55,11 @@ struct ModalSearch: View {
             objectType = vm.filtering.filterObject
             GetFullList()
         }
-        .onChange(of: shouldShowSuperOnly){
+        .onChange(of: shouldShowSubgoals){
             _ in
+            GetFullList()
+        }
+        .onChange(of: shouldShowEntries){ _ in
             GetFullList()
         }
         .onAppear{
@@ -64,13 +68,12 @@ struct ModalSearch: View {
     }
     
     func GetFullList(){
-        var criteria = Criteria()
-        
+        var criteria = Criteria()        
         criteria.archived = shouldShowArchivedOnly
-        criteria.includeCalendar = !shouldShowSuperOnly
-        criteria.progress = shouldShowProgressOnly > 0 ? shouldShowProgressOnly : nil
+        criteria.progress = shouldShowStatusOnly
         criteria.priority = shouldShowPriorityOnly.count > 0 ? shouldShowPriorityOnly : nil
         criteria.aspect = shouldShowAspectOnly.count > 0 ? shouldShowAspectOnly : nil
+        criteria.superOnly = !shouldShowSubgoals
         
         if searchString.count > 0{
             criteria.title = searchString
@@ -83,8 +86,13 @@ struct ModalSearch: View {
             objectsFiltered = vm.ListGoals(criteria: criteria).map({Properties(goal: $0)})
         case .habit:
             objectsFiltered = vm.ListHabits(criteria: criteria).map({Properties(habit: $0)})
-        case .chapter:
-            objectsFiltered = vm.ListChapters(criteria: criteria).map({Properties(chapter: $0)})
+        case .journal:
+            if shouldShowEntries {
+                objectsFiltered = vm.ListEntries(criteria: criteria).map({Properties(entry: $0)})
+            }
+            else{
+                objectsFiltered = vm.ListChapters(criteria: criteria).map({Properties(chapter: $0)})
+            }
         case .entry:
             objectsFiltered = vm.ListEntries(criteria: criteria).map({Properties(entry: $0)})
         default:
@@ -103,7 +111,7 @@ struct ModalSearch: View {
             ScrollView(.vertical){
                 ForEach(objectsFiltered){
                     properties in
-                    PhotoCard(objectType: objectType, objectId: properties.id, properties: properties)
+                    PhotoCard(objectType: GetObjectType(), objectId: properties.id, properties: properties)
                 }
             }
             
@@ -113,6 +121,13 @@ struct ModalSearch: View {
                     .padding(.bottom,80)
             }
         }
+    }
+    
+    func GetObjectType() -> ObjectType {
+        if objectType == .journal {
+            return shouldShowEntries ? .entry : .journal
+        }
+        return objectType
     }
 }
 

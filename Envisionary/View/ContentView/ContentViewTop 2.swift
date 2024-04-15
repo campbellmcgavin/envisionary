@@ -25,6 +25,11 @@ struct ContentViewTop: View {
     let coordinateSpaceName: UUID
     var body: some View {
         ZStack(alignment:.top){
+            
+
+            
+
+            
             PositionObservingView(
                 coordinateSpace: .named(coordinateSpaceName),
                 position: Binding(
@@ -59,7 +64,7 @@ struct ContentViewTop: View {
                     offsetRate = CGPoint(x: newOffset.x - offset.x, y: newOffset.y - offset.y)
                 }
 
-                if offset.y < (objectFrame.height + gadgetFrame.height) + 60 && offset.y > 20 && abs(offset.y - (objectFrame.height + gadgetFrame.height - 45)) > 10 {
+                if offset.y < (objectFrame.height + gadgetFrame.height) + 100 && offset.y > 20 && abs(offset.y - (objectFrame.height + gadgetFrame.height - 45)) > 10 {
                     popHeaderTimer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
                 }
                 else{
@@ -67,7 +72,7 @@ struct ContentViewTop: View {
                 }
                 
                 withAnimation{
-                    if offset.y > 70 {
+                    if offset.y > 120 {
                         shouldShowTopTitle = true
                     }
                     else {shouldShowTopTitle = false}
@@ -77,7 +82,6 @@ struct ContentViewTop: View {
         .onReceive(popHeaderTimer){ _ in
             withAnimation{
                 
-                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
                 
                 popHeaderTimer.upstream.connect().cancel()
                 shouldDisableScrollViewTimer = Timer.publish(every: 0.05, on: .main, in: .common).autoconnect()
@@ -92,6 +96,23 @@ struct ContentViewTop: View {
         }
         .onReceive(shouldDisableScrollViewTimer){ _ in
             shouldDisableScrollView = false
+        }
+        .onChange(of: offset){ [offset] newOffset in
+                            
+            DispatchQueue.global(qos:.userInteractive).async{
+                
+                if abs(newOffset.y - offset.y) > 3{
+                    offsetRate = CGPoint(x: newOffset.x - offset.x, y: newOffset.y - offset.y)
+                }
+
+                
+                if offset.y < (objectFrame.height + gadgetFrame.height) + 100 && offset.y > 20 && abs(offset.y - (objectFrame.height + gadgetFrame.height - 45)) > 10 {
+                    popHeaderTimer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
+                }
+                else{
+                    popHeaderTimer.upstream.connect().cancel()
+                }
+            }
         }
     }
     

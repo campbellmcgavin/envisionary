@@ -8,17 +8,24 @@
 import SwiftUI
 
 enum FilterType: CaseIterable {
+    case creed
+    case entry
     case date
     case subGoals
     case aspect
     case priority
-    case completed
+    case progress
     case archived
  
+    
     func toIcon() -> IconType {
         switch self {
         case .date:
             return .filter
+        case .creed:
+            return .envisionFilled
+        case .entry:
+            return .envisionFilled
         case .subGoals:
             return .envisionFilled
         case .archived:
@@ -27,8 +34,9 @@ enum FilterType: CaseIterable {
             return .filter
         case .priority:
             return .filter
-        case .completed:
-            return .envisionFilled
+        case .progress:
+            return .filter
+
         }
     }
     
@@ -44,8 +52,12 @@ enum FilterType: CaseIterable {
             return 4
         case .priority:
             return 3
-        case .completed:
+        case .progress:
             return 2
+        case .creed:
+            return -1
+        case .entry:
+            return -2
         }
     }
     func toString() -> String{
@@ -58,10 +70,14 @@ enum FilterType: CaseIterable {
             return "Aspect"
         case .priority:
             return "Priority"
-        case .completed:
-            return "Completed"
+        case .progress:
+            return "Progress"
         case .date:
             return "Date"
+        case .creed:
+            return "Creed"
+        case .entry:
+            return "Entries"
         }
     }
     
@@ -75,9 +91,13 @@ enum FilterType: CaseIterable {
             return true
         case .priority:
             return true
-        case .completed:
-            return false
+        case .progress:
+            return true
         case .date:
+            return true
+        case .creed:
+            return false
+        case .entry:
             return false
         }
     }

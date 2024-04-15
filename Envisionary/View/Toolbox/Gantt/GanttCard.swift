@@ -10,12 +10,13 @@ import SwiftUI
 struct GanttCard: View {
     let goalId: UUID
     let leftPadding: CGFloat
+    
+    var isMini = false
+    
     @Binding var selectedGoalId: UUID
     @Binding var shouldShowPadding: Bool
     @State var shouldSelect: Bool = false
     @State var goal: Goal = Goal()
-    @State var dateText = ""
-    @State var emphasisText = ""
     @State var padding: CGFloat = .zero
     
     @EnvironmentObject var vm: ViewModel
@@ -31,20 +32,20 @@ struct GanttCard: View {
                 
                 if shouldShowPadding{
                     if IsSelected(){
-                        IconButton(isPressed: $shouldSelect, size: .small, iconType: .confirm, iconColor: .grey10, circleColor: GetIconColor(), opacity: IsCompleted() ? 1.0 : 0.3, hasAnimation: false)
+                        IconButton(isPressed: $shouldSelect, size: isMini ? .extraSmall : .small, iconType: .confirm, iconColor: .grey10, circleColor: GetIconColor(), opacity: IsCompleted() ? 1.0 : 0.3, hasAnimation: false)
                             .shadow(color: .specify(color: IsCompleted() ? .green : .lightPurple),radius: 5)
                             .padding(-3)
                             
                     }
                     else{
-                        IconButton(isPressed: $shouldSelect, size: .small, iconType: .confirm, iconColor: .grey10, circleColor: GetIconColor(), opacity: 1.0, hasAnimation: false)
+                        IconButton(isPressed: $shouldSelect, size: isMini ? .extraSmall : .small, iconType: .confirm, iconColor: .grey10, circleColor: GetIconColor(), opacity: 1.0, hasAnimation: false)
                             .padding(-3)
                     }
                 }
                 else if IsSelected(){
                     Rectangle()
                         .fill(Color.specify(color: GetIconColor()))
-                        .frame(width: 5, height: SizeType.small.ToSize())
+                        .frame(width: 5, height: isMini ? SizeType.extraSmall.ToSize() : SizeType.small.ToSize())
                         .shadow(color: Color.specify(color: IsCompleted() ? .green : .lightPurple),radius: 5)
                         .offset(x:4)
                 }
@@ -60,15 +61,11 @@ struct GanttCard: View {
                     
                     if IsSelected(){
                         HStack(alignment:.center){
-                            
-                                if emphasisText.count > 0 {
-                                    BuildEmphasisText()
-                                        .shadow(color: .black,radius: 10)
-                                }
-                                BuildDateText()
-                                    .shadow(color: .black,radius: 10)
-                            
+                            BuildEmphasisText()
+                            BuildDateText()
                         }
+                        .shadow(color: .black,radius: 10)
+                        .padding(.top,-5)
                         .lineLimit(1)
                         .padding(.top,-6)
                     }
@@ -90,22 +87,12 @@ struct GanttCard: View {
             }
             }
         .frame(width: IsSelected() ? 220 : 150)
-        .frame(height: SizeType.small.ToSize()+6)
-        .padding(.leading,shouldShowPadding ? leftPadding : 8)
+        .frame(height: (isMini ? SizeType.extraSmall.ToSize() : SizeType.small.ToSize())+6)
+        .padding(.leading,GetInlineButtonPadding(padding: padding))
         .onAppear{
             padding = leftPadding
             goal = vm.GetGoal(id: goalId) ?? Goal()
         }
-//        .onChange(of: shouldShowPadding){ _ in
-//            withAnimation{
-//                if shouldShowPadding{
-//                    padding = leftPadding
-//                }
-//                else{
-//                    padding = 0
-//                }
-//            }
-//        }
         .onChange(of: shouldSelect){
             _ in
             withAnimation{
@@ -138,6 +125,20 @@ struct GanttCard: View {
     }
     func IsSelected() -> Bool{
         return selectedGoalId == goalId
+    }
+    
+    func GetInlineButtonPadding(padding: CGFloat) -> CGFloat {
+        if shouldShowPadding {
+            if padding > UIScreen.screenWidth - 260 && goalId == selectedGoalId{
+                return UIScreen.screenWidth - 260
+            }
+            else{
+                return padding
+            }
+        }
+        else{
+            return 8
+        }
     }
     
     func GetIconColor() -> CustomColor {
@@ -175,48 +176,51 @@ struct GanttCard: View {
          Text(text)
             .font(.specify(style: .subCaption))
             .foregroundColor(.specify(color: .grey5))
-            .padding(.top,-5)
     }
     
-    func GetEmphasisText(){
-        DispatchQueue.global(qos: .userInteractive).async{
-            if IsCompleted(){
-                emphasisText = "Completed"
-
-            }
-            else if goal.endDate.isBefore(date: Date().StartOfDay()){
-                let daysBehind = goal.endDate.GetDateDifferenceAsDecimal(to: Date(), timeframeType: .day)
-                emphasisText = "Late (\(Int(abs(daysBehind))) days)"
-            }
-            else if ((goal.startDate.isInToday) || (goal.endDate.isInToday) || (goal.startDate.isInThePast && goal.endDate.isInTheFuture)){
-                emphasisText = "Now"
-            }
-            else{
-                emphasisText = ""
-            }
+    func GetEmphasisText() -> String{
+        if IsCompleted(){
+            return "Completed"
+        }
+        else if goal.endDate.isBefore(date: Date().StartOfDay()){
+            let daysBehind = goal.endDate.GetDateDifferenceAsDecimal(to: Date.now, timeframeType: .day)
+            return "Late (\(Int(abs(daysBehind))) days)"
+        }
+        else if ((goal.startDate.isInToday) || (goal.endDate.isInToday) || (goal.startDate.isInThePast && goal.endDate.isInTheFuture)){
+            return "Now"
+        }
+        else if goal.startDate.isInTheFuture{
+            return "Future"
+        }
+        else{
+            return ""
         }
     }
+    
     @ViewBuilder
     func BuildEmphasisText() -> some View{
-        Text(emphasisText)
-            .font(.specify(style: .subCaption))
-            .foregroundColor(.specify(color: GetEmphasisTextColor()))
+        let emphasisText = GetEmphasisText()
+        if emphasisText.count > 0 {
+            Text(emphasisText)
+                .font(.specify(style: .subCaption))
+                .foregroundColor(.specify(color: GetEmphasisTextColor(text: emphasisText)))
+        }
     }
     
-    func GetEmphasisTextColor() -> CustomColor{
+    func GetEmphasisTextColor(text: String) -> CustomColor{
         
-        if emphasisText == "" {
+        if text == "" {
             return .clear
         }
-        else if emphasisText.contains("Completed")
+        else if text.contains("Completed")
         {
             return .darkGreen
         }
-        else if emphasisText.contains("Date Match") || emphasisText.contains("Now")
+        else if text.contains("Date Match") || text.contains("Now") || text.contains("Future")
         {
             return .blue
         }
-        else if emphasisText.contains("Late"){
+        else if text.contains("Late"){
             return .red
         }
         return .clear

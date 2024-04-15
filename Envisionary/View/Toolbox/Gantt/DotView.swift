@@ -100,6 +100,8 @@ struct DotView: View {
             return .yellow
         case .completed:
             return .green
+        case .none:
+            return .grey5
         }
     }
 }

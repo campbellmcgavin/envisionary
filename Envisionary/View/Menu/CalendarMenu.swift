@@ -123,7 +123,7 @@ struct CalendarMenu: View {
             return true
         case .home:
             return false
-        case .chapter:
+        case .journal:
             return false
         case .entry:
             return true
@@ -155,7 +155,7 @@ struct CalendarMenu: View {
             return true
         case .home:
             return false
-        case .chapter:
+        case .journal:
             return false
         case .entry:
             return true

@@ -39,7 +39,6 @@ struct SplashScreen: View {
             
             }
         .ignoresSafeArea()
-        .animation(.easeInOut(duration:1.0))
     }
 }
 

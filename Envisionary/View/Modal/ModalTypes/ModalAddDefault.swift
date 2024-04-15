@@ -200,20 +200,20 @@ struct ModalAddDefault: View {
                     convertDreamId = vm.CreateGoal(request: CreateGoalRequest(properties: properties))
                 }
                 else{
+                    if properties.isRecurring != true{
+                        properties.timeframe = nil
+                        properties.amount = nil
+                        properties.unitOfMeasure = nil
+                        properties.timeframe = nil
+                        properties.schedule = nil
+                    }
                     _ = vm.CreateGoal(request: CreateGoalRequest(properties: properties))
                 }
             }
             if modalType == .edit && objectId != nil {
                 _ = vm.UpdateGoal(id: objectId!, request: UpdateGoalRequest(properties: properties))
             }
-//        case .task:
-//            if modalType == .add {
-//                _ = vm.CreateTask(request: CreateTaskRequest(properties: properties))
-//            }
-//            if modalType == .edit && objectId != nil {
-//                _ = vm.UpdateTask(id: objectId!, request: UpdateTaskRequest(properties: properties))
-//            }
-        case .chapter:
+        case .journal:
             if modalType == .add {
                 _ = vm.CreateChapter(request: CreateChapterRequest(properties: properties))
             }
@@ -281,7 +281,7 @@ struct ModalAddDefault: View {
                     if let dream = vm.GetDream(id: objectId!){
                         properties = Properties(dream: dream)
                     }
-                case .chapter:
+                case .journal:
                     if let chapter = vm.GetChapter(id: objectId!){
                         properties = Properties(chapter:chapter)
                     }

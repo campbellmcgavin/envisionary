@@ -69,7 +69,7 @@ struct UnlockedObjects: Equatable {
             return unlock_session
         case .home:
             return unlock_home
-        case .chapter:
+        case .journal:
             return unlock_chapter
         case .entry:
             return unlock_entry
@@ -106,7 +106,7 @@ struct UnlockedObjects: Equatable {
         case .home:
             unlock_home = true
             UserDefaults.standard.set(true, forKey: SettingsKeyType.unlock_home.toString())
-        case .chapter:
+        case .journal:
             unlock_chapter = true
             UserDefaults.standard.set(true, forKey: SettingsKeyType.unlock_chapter.toString())
         case .entry:

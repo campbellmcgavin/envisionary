@@ -54,7 +54,7 @@ struct DetailChildren: View {
                     }
                     
                     if childProperties.count == 0 {
-                        NoObjectsLabel(objectType: objectType == .chapter ? .entry : objectType, labelType: objectType == .session ? .session : .page)
+                        NoObjectsLabel(objectType: objectType == .journal ? .entry : objectType, labelType: objectType == .session ? .session : .page)
                     }
                 }
                 .frame(maxWidth:.infinity)
@@ -109,7 +109,7 @@ struct DetailChildren: View {
         case .goal:
             properties = Properties(goal: vm.GetGoal(id: objectId) ?? Goal())
             childProperties = vm.ListChildGoals(id: objectId).map({Properties(goal: $0)})
-        case .chapter:
+        case .journal:
             properties = Properties(chapter: vm.GetChapter(id: objectId) ?? Chapter())
             
             var criteria = Criteria()
@@ -125,7 +125,7 @@ struct DetailChildren: View {
         switch objectType{
         case .goal:
             return .goal
-        case .chapter:
+        case .journal:
             return .entry
         default:
             return.goal
@@ -138,7 +138,7 @@ struct DetailChildren: View {
         switch objectType{
         case .goal:
              return (properties.timeframe?.toString() ?? TimeframeType.day.toString()) + " " + ObjectType.goal.toPluralString()
-        case .chapter:
+        case .journal:
             return ObjectType.entry.toPluralString()
         default:
             return ""

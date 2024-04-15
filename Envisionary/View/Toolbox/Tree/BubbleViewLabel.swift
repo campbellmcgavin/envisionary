@@ -106,6 +106,8 @@ struct BubbleViewLabel: View {
                 return .yellow
             case .completed:
                 return .green
+            case .none:
+                return .grey5
             }
         }
         return .grey5

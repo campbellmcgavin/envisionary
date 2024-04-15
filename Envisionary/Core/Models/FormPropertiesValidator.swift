@@ -60,15 +60,15 @@ class FormPropertiesValidator: ObservableObject {
             timeframe.error = timeframe.isValid ? nil : properties.getFormError(propertyType: .timeframe)
         }
         
-        if objectType.hasProperty(property: .aspect){
-            aspect.isValid = properties.isValid(propertyType: .aspect, objectType: objectType)
-            aspect.error = aspect.isValid ? nil : properties.getFormError(propertyType: .aspect)
-        }
-        
-        if objectType.hasProperty(property: .priority){
-            priority.isValid = properties.isValid(propertyType: .priority, objectType: objectType)
-            priority.error = priority.isValid ? nil : properties.getFormError(propertyType: .priority)
-        }
+//        if objectType.hasProperty(property: .aspect){
+//            aspect.isValid = properties.isValid(propertyType: .aspect, objectType: objectType)
+//            aspect.error = aspect.isValid ? nil : properties.getFormError(propertyType: .aspect)
+//        }
+//
+//        if objectType.hasProperty(property: .priority){
+//            priority.isValid = properties.isValid(propertyType: .priority, objectType: objectType)
+//            priority.error = priority.isValid ? nil : properties.getFormError(propertyType: .priority)
+//        }
         
         if objectType.hasProperty(property: .startDate){
             startDate.isValid = properties.isValid(propertyType: .startDate, objectType: objectType)

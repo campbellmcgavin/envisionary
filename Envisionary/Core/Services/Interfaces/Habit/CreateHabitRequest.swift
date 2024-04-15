@@ -29,7 +29,7 @@ struct CreateHabitRequest {
         self.image = properties.image
         self.aspect = properties.aspect ?? AspectType.academic.toString()
         self.timeframe = properties.timeframe ?? .day
-        self.schedule = properties.scheduleType ?? .aCertainAmountOverTime
+        self.schedule = properties.schedule ?? .aCertainAmountOverTime
         self.unitOfMeasure = properties.unitOfMeasure ?? .minutes
         self.amount = properties.amount ?? 0
     }

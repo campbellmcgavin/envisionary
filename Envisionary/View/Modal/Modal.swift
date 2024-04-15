@@ -52,12 +52,12 @@ struct Modal<ModalContent: View, HeaderContent: View, BottomContent: View, Betwe
                                 VStack{
                                     modalContent
                                     
-                                    if GetIsMini(){
+                                    if modalType.GetIsMini(){
                                         Spacer()
                                     }
                                 }
                                 .frame(maxWidth: .infinity)
-                                .modifier(ModifierCard(color: GetIsMini() ? .clear : .grey1))
+                                .modifier(ModifierCard(color: modalType.GetIsMini() ? .clear : .grey1))
                                 .offset(y: GetOffset())
                                 .frame(alignment:.leading)
                                 .offset(y:100)
@@ -70,7 +70,7 @@ struct Modal<ModalContent: View, HeaderContent: View, BottomContent: View, Betwe
                             bottomContent
                         }
                     })
-                    .disabled(modalType == .delete)
+                    .disabled(modalType.GetIsMini())
                     .ignoresSafeArea()
                     
                     ModalMenu(modalType: modalType, objectType: objectType, color: GetHeaderColor(), shouldHelp: $shouldHelp, shouldClose: $isPresenting, shouldConfirm: $shouldConfirm, allowConfirm: allowConfirm, didAttemptToSave: didAttemptToSave)
@@ -90,12 +90,7 @@ struct Modal<ModalContent: View, HeaderContent: View, BottomContent: View, Betwe
     }
     
     func GetOffset() -> CGFloat{
-        if offset.y < 150 {
-            return -offset.y/1.5
-        }
-        else{
-            return -100
-        }
+        return -100
     }
     
     func GetBetweenOffset() -> CGFloat{
@@ -108,32 +103,7 @@ struct Modal<ModalContent: View, HeaderContent: View, BottomContent: View, Betwe
         }
     }
 
-    func GetIsMini() -> Bool {
-        switch modalType {
-        case .add:
-            return false
-        case .search:
-            return false
-        case .settings:
-            return false
-        case .filter:
-            return false
-        case .notifications:
-            return false
-        case .help:
-            return false
-        case .edit:
-            return false
-        case .delete:
-            return true
-        case .photoSource:
-            return true
-        case .photo:
-            return true
-        case .feedback:
-            return false
-        }
-    }
+
     
     func GetHeight() -> CGFloat {
         if modalType == .delete{
@@ -170,8 +140,6 @@ struct Modal<ModalContent: View, HeaderContent: View, BottomContent: View, Betwe
             return objectType.toPluralString()
         case .settings:
             return "Settings"
-        case .filter:
-            return "Filters"
         case .notifications:
             return "Notifications"
         case .help:
@@ -202,8 +170,6 @@ struct Modal<ModalContent: View, HeaderContent: View, BottomContent: View, Betwe
                 return "Search"
             case .settings:
                 return "View"
-            case .filter:
-                return "View"
             case .notifications:
                 return "View"
             case .help:
@@ -227,11 +193,6 @@ struct Modal<ModalContent: View, HeaderContent: View, BottomContent: View, Betwe
 struct Modal_Previews: PreviewProvider {
     static var previews: some View {
         Modal(modalType: .add, objectType: .goal, isPresenting: .constant(true), shouldConfirm: .constant(false),isPresentingImageSheet:.constant(false), allowConfirm: true, title: Properties(objectType: .goal).title!, modalContent: {
-//            HeaderButton(isExpanded: .constant(true), color: .grey10, header: "Hello")
-//            HeaderButton(isExpanded: .constant(true), color: .grey10, header: "Hello")
-//            HeaderButton(isExpanded: .constant(true), color: .grey10, header: "Hello")
-//            HeaderButton(isExpanded: .constant(true), color: .grey10, header: "Hello")
-//            HeaderButton(isExpanded: .constant(true), color: .grey10, header: "Hello")
             EmptyView()
         }, headerContent: {FormStackPicker(fieldValue: .constant("Goal"), fieldName: "Objects", options: .constant(ObjectType.allCases.map({$0.toString()})))}, bottomContent: {EmptyView()}, betweenContent: {EmptyView()})
     }

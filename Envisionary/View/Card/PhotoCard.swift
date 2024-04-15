@@ -22,13 +22,22 @@ struct PhotoCard: View {
     
     var body: some View {
         if shouldHaveLink{
-            NavigationLink(destination: Detail(objectType: objectType, objectId: objectId, properties: properties), label:{
+            NavigationLink(destination: Detail(objectType: GetObjectType(), objectId: objectId, properties: properties), label:{
                 BuildCard()
             })
         }
         else{
             BuildCard()
         }
+    }
+    
+    func GetObjectType() -> ObjectType{
+        if objectType == .journal {
+            if vm.filtering.filterEntry {
+                return .entry
+            }
+        }
+        return objectType
     }
     
     @ViewBuilder
@@ -100,11 +109,11 @@ struct PhotoCard: View {
     func GetSubheader() -> String{
         switch objectType {
         case .creed:
-            return "Your life's mission statement"
+            return "Your values, as a statement of purpose"
         case .session:
             return "Completed on " + (properties.completedDate?.toString(timeframeType: .day) ?? Date().toString(timeframeType: .day))
         case .habit:
-            if let schedule = properties.scheduleType{
+            if let schedule = properties.schedule{
                 switch schedule {
                 case .aCertainAmountOverTime:
                     return "\(properties.amount ?? 0) \(properties.unitOfMeasure ?? .hours) over time"

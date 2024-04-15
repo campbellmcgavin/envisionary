@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct PropertyRow: View {
-    
     let propertyType: PropertyType
     var date: Date?
     var timeframe: TimeframeType?
@@ -19,27 +18,11 @@ struct PropertyRow: View {
     var schedule: ScheduleType?
     var unit: UnitType?
     
-    @EnvironmentObject var vm: ViewModel
-    
     var body: some View {
         
-        
+//        EmptyView()
         BuildLabel()
     }
-    
-//    @ViewBuilder
-//    func BuildNavButton(aspect: Aspect) -> some View{
-//        NavigationLink(destination: {Detail(objectType: .aspect, objectId: aspect.id)}, label: {
-//            ZStack{
-//                BuildLabel()
-//                HStack{
-//                    Spacer()
-//                    IconLabel(size: .extraSmall, iconType: .right, iconColor: .grey3)
-//                }
-//            }
-//        })
-//        .id(UUID())
-//    }
     
     @ViewBuilder
     func BuildLabel() -> some View{
@@ -55,7 +38,8 @@ struct PropertyRow: View {
                     Text(propertyType.toString())
                         .font(.specify(style: .caption))
                         .foregroundColor(.specify(color: .grey4))
-                    Text(String(describing: GetPropertyAsString()))
+                    
+                    Text(GetPropertyAsString())
                         .font(.specify(style: .body1))
                         .foregroundColor(.specify(color: .grey10))
                         .fixedSize(horizontal: false, vertical: true)
@@ -64,9 +48,6 @@ struct PropertyRow: View {
                 .frame(alignment:.leading)
                 .padding(.trailing)
                 Spacer()
-                
-
-
             }
             .frame(alignment:.leading)
             .frame(maxWidth:.infinity)

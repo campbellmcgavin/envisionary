@@ -25,7 +25,6 @@ enum ExampleGoalEnum: Int, CaseIterable {
     case year2_month1_week3 = 14
     case year3 = 15
     
-    
     func toGoal(parentId: UUID?, superId: UUID?, imageId: UUID?, archetype: ArchetypeType) -> CreateGoalRequest {
         switch self{
         case .decade:

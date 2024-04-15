@@ -25,8 +25,14 @@ struct UpdateGoalRequest{
     var reorderPlacement: PlacementType? = nil
     var position: String = ""
     var superId: UUID?
+    
+//    var isRecurring: Bool
+//    var amount: Int?
+//    var unitOfMeasure: UnitType?
+//    var timeframe: TimeframeType?
+//    var schedule: ScheduleType?
 
-    init(title: String, description: String, priority: PriorityType, startDate: Date, endDate: Date, percentComplete: Int, image: UUID, aspect: String, parent: UUID, valuesDictionary: [String:Bool], archived: Bool, completedDate: Date?, superId: UUID?)
+    init(title: String, description: String, priority: PriorityType, startDate: Date, endDate: Date, percentComplete: Int, image: UUID, aspect: String, parent: UUID, valuesDictionary: [String:Bool], archived: Bool, completedDate: Date?, superId: UUID?)//, isRecurring: Bool, amount: Int?, unitOfMeasure: UnitType?, timeframe: TimeframeType?, schedule: ScheduleType?)
     {
         self.title = title
         self.description = description
@@ -40,6 +46,12 @@ struct UpdateGoalRequest{
         self.valuesDictionary = valuesDictionary
         self.archived = archived
         self.completedDate = completedDate
+        
+//        self.isRecurring = isRecurring
+//        self.amount = amount
+//        self.unitOfMeasure = unitOfMeasure
+//        self.timeframe = timeframe
+//        self.schedule = schedule
     }
     
     init(goal: Goal){
@@ -56,6 +68,12 @@ struct UpdateGoalRequest{
         self.position = goal.position
         self.completedDate = goal.completedDate
         self.superId = goal.superId
+        
+//        self.isRecurring = goal.isRecurring
+//        self.amount = goal.amount
+//        self.unitOfMeasure = goal.unitOfMeasure
+//        self.timeframe = goal.timeframe
+//        self.schedule = goal.schedule
     }
     
     init(properties: Properties){
@@ -72,5 +90,11 @@ struct UpdateGoalRequest{
         self.position = properties.position ?? ""
         self.completedDate = properties.completedDate
         self.superId = properties.superId
+        
+//        self.isRecurring = properties.isRecurring ?? false
+//        self.amount = properties.amount
+//        self.unitOfMeasure = properties.unitOfMeasure
+//        self.timeframe = properties.timeframe
+//        self.schedule = properties.schedule
     }
 }

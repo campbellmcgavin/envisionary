@@ -9,13 +9,13 @@ import SwiftUI
 
 struct DetailHabitProgress: View {
     @Binding var shouldExpand: Bool
-    let habitId: UUID
+    let goalId: UUID
 
     @State var isExpanded: Bool = true
     @EnvironmentObject var vm: ViewModel
     @State var recurrences: [Recurrence] = [Recurrence]()
     @State var dateStatuses: [DateValue] = [DateValue]()
-    @State var habit: Habit = Habit()
+    @State var goal: Goal = Goal()
     
     @State var date: Date = Date()
     @State var recurrenceId: UUID? = nil
@@ -28,12 +28,11 @@ struct DetailHabitProgress: View {
             if isExpanded {
                 
                 VStack{
-                    
                     CalendarPicker(date: $date, timeframeType: .constant(.day), dateStatuses: $dateStatuses, localized: true)
                         .padding()
                         .modifier(ModifierCard())
                     
-                    if !habit.archived{
+                    if !goal.archived{
                         if recurrenceId == nil {
                             VStack{
                                 Text("The selected date has no associated records to track. You can add a record below.")
@@ -60,7 +59,7 @@ struct DetailHabitProgress: View {
                             .modifier(ModifierCard())
                         }
                         else{
-                            RecurrenceCard(habitId: habitId, recurrenceId: $recurrenceId, showPhotoCard: false, date: $date)
+                            RecurrenceCard(goalId: goalId, recurrenceId: $recurrenceId, showPhotoCard: false, date: $date)
                                 .padding(.top)
                                 .modifier(ModifierCard())
                         }
@@ -100,19 +99,22 @@ struct DetailHabitProgress: View {
         .onAppear{
             LoadRecurrences()
             UpdateRecurrence()
-            habit = vm.GetHabit(id: habitId) ?? Habit()
+            goal = vm.GetGoal(id: goalId) ?? Goal()
         }
     }
     
     func AddRecurrence(){
-        let request = CreateRecurrenceRequest(habitId: habitId, scheduleType: habit.schedule, timeOfDay: .notApplicable, startDate: date.StartOfDay(), endDate: date.EndOfDay())
-        _ = vm.CreateRecurrence(request: request)
+        
+//        if let schedule = goal.schedule{
+//            let request = CreateRecurrenceRequest(goalId: goalId, scheduleType: schedule, timeOfDay: .notApplicable, startDate: date.StartOfDay(), endDate: date.EndOfDay())
+//            _ = vm.CreateRecurrence(request: request)
+//        }
     }
     
     func LoadRecurrences(){
         withAnimation{
             var criteria = Criteria()
-            criteria.habitId = habitId
+            criteria.goalId = goalId
             recurrences = vm.ListRecurrences(criteria: criteria, limit:360)
             let datesStatuses1 = recurrences.map({DateValue(day: GetDateStatus(recurrence: $0), date: $0.startDate)})
             dateStatuses = datesStatuses1
@@ -158,6 +160,6 @@ struct DetailHabitProgress: View {
 
 struct DetailHabitProgress_Previews: PreviewProvider {
     static var previews: some View {
-        DetailHabitProgress(shouldExpand: .constant(true), habitId: UUID())
+        DetailHabitProgress(shouldExpand: .constant(true), goalId: UUID())
     }
 }

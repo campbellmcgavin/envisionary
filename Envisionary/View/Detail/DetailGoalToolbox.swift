@@ -38,21 +38,15 @@ struct DetailGoalToolbox: View {
             
             VStack{
                 switch viewType {
-//                case .tree:
-//                    TreeView(goalId: goalId, focusGoal: $focusGoal, expandedGoals: $expandedGoals, value: { goalId in
-//                        BubbleView(goalId: goalId, focusGoal: $focusGoal, shouldShowStatusLabel: true)
-//                    }, childCount: 0)
                 case .gantt:
                     GanttView(goalId: goalId, focusGoal: $focusGoal, timeframe: $currentTimeframe, didEditPrimaryGoal: $didEditPrimaryGoal)
                         .padding(.top)
                 case .kanban:
                     KanbanView(isPresentingModal: $isPresentingModal, modalType: $modalType, focusGoal: $focusGoal, goalId: goalId)
-                        .disabled(goal.archived)
                 case .checkOff:
-                    CheckoffView(shouldShowAll: $shouldShowAllCheckOff, focusGoal: $focusGoal, parentGoalId: goalId, goalId: goalId, leftPadding: -27, outerPadding: 17, canEdit: true, proxy: proxy, shouldDismissInteractively: true, value: {
+                    CheckoffView(shouldShowAll: $shouldShowAllCheckOff, focusGoal: $focusGoal, parentGoalId: goalId, goalId: goalId, leftPadding: -27, outerPadding: 17, canEdit: true, proxy: proxy, shouldDismissInteractively: true, isLocal: true, value: {
                         goalId, leftPadding, outerPadding in
-                        CheckoffCard(goalId: goalId, superId: self.goalId, canEdit: true, leftPadding: leftPadding, outerPadding: outerPadding, proxy: proxy, shouldDismissInteractively: true, selectedGoalId: $focusGoal, isPresentingModal: $isPresentingModal, modalType: $modalType, newGoalId: $newGoalId, dropFields: $dropFields)
-                            .padding(.leading,6)
+                        CheckoffCard(goalId: goalId, superId: self.goalId, canEdit: true, leftPadding: leftPadding, outerPadding: outerPadding, proxy: proxy, shouldDismissInteractively: true, isLocal: true, selectedGoalId: $focusGoal, isPresentingModal: $isPresentingModal, modalType: $modalType, newGoalId: $newGoalId, dropFields: $dropFields)
                     })
                     .padding(.top,4)
                     .onChange(of: dropFields.dropPerformed){

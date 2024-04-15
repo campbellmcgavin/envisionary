@@ -50,8 +50,6 @@ struct GanttView: View {
                 ZStack(alignment:.topLeading){
                     ScrollViewDirectionReader(axis: .horizontal, sensitivity: 2,  startingPoint: CGPoint(x: -200, y: 0), isPositive: $shouldShowPadding)
                     
-                    
-                    
                     GanttMainDateColumns(dateValues: dateValues, columnWidth: columnWidth, timeframeType: timeframe)
                     HStack(spacing:0){
                         
@@ -59,9 +57,6 @@ struct GanttView: View {
                             
                             BubbleView(goalId: localGoalId, focusGoal: $focusGoal, width: GetWidth(localGoalId: localGoalId), height: SizeType.small.ToSize(), offset: 0, shouldShowDetails: false, ignoreImageLoad: true, ignoreImageRefresh: true)
                                 .frame(height:SizeType.small.ToSize()+6)
-//                                .overlay(
-//                                    BuildInlineButtons(localGoalId: localGoalId)
-//                                )
                                 .offset(x: GetOffset(localGoalId: localGoalId))
                                 .if(localGoalId == focusGoal, transform: { view in
                                     VStack(alignment:.leading, spacing:0){
@@ -106,7 +101,7 @@ struct GanttView: View {
                                 Spacer()
                             }
                             BuildInlineButtons(localGoalId: goalId)
-                                 .offset(x: shouldShowPadding ? leftPadding + 10 + SizeType.small.ToSize() : 9)
+                                 .offset(x: GetInlineButtonPadding(padding: leftPadding))
                                  .frame(height:SizeType.small.ToSize())
                              Spacer()
                                  .frame(height:10)
@@ -117,11 +112,6 @@ struct GanttView: View {
                     
                 }, childCount: 0, isStatic: true, shouldScroll: false)
                 .offset(x:0, y:columnWidth * 3/4 + 50)
-                
-            
-            
-                
-
            
         HStack{
             Text("Filtering \(filteredGoals)")
@@ -198,9 +188,9 @@ struct GanttView: View {
             goal = vm.GetGoal(id: goalId) ?? Goal()
             
             if didEditPrimaryGoal{
-                DispatchQueue.global(qos: .userInteractive).async{
+//                DispatchQueue.global(qos: .userInteractive).async{
                         GetDateValues()
-                }
+//                }
             }
             didEditPrimaryGoal = false
         }
@@ -209,6 +199,20 @@ struct GanttView: View {
             timeframe = Date.toBestTimeframe(start: goal.startDate, end: goal.endDate)
             GetDateValues()
             didFinishLoading = true
+        }
+    }
+    
+    func GetInlineButtonPadding(padding: CGFloat) -> CGFloat {
+        if shouldShowPadding {
+            if padding > UIScreen.screenWidth - 260 {
+                return UIScreen.screenWidth - 260 + 10 + SizeType.small.ToSize()
+            }
+            else{
+                return padding + 10 + SizeType.small.ToSize()
+            }
+        }
+        else{
+            return 9
         }
     }
     

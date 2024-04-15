@@ -10,7 +10,6 @@ enum ModalType{
     case add
     case search
     case settings
-    case filter
     case notifications
     case help
     case edit
@@ -19,7 +18,6 @@ enum ModalType{
     case photo
     case feedback
     
-    
     func ShouldShowImage(objectType: ObjectType) -> Bool {
         switch self {
         case .add:
@@ -27,8 +25,6 @@ enum ModalType{
         case .search:
             return false
         case .settings:
-            return false
-        case .filter:
             return false
         case .notifications:
             return false
@@ -44,8 +40,31 @@ enum ModalType{
             return objectType.ShouldShowImage()
         case .feedback:
             return false
-//        case .setup:
-//            return false
+        }
+    }
+    
+    func GetIsMini() -> Bool {
+        switch self {
+        case .add:
+            return false
+        case .search:
+            return false
+        case .settings:
+            return false
+        case .notifications:
+            return false
+        case .help:
+            return false
+        case .edit:
+            return false
+        case .delete:
+            return true
+        case .photoSource:
+            return true
+        case .photo:
+            return true
+        case .feedback:
+            return false
         }
     }
 }

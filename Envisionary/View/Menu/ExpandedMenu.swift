@@ -20,34 +20,13 @@ struct ExpandedMenu: View {
     var body: some View {
         
         VStack(alignment:.leading, spacing:0){
-            
-            VStack(alignment:.leading,spacing:0){
-                Text(vm.filtering.filterContent.toString())
-                    .textCase(.uppercase)
-                    .font(.specify(style: .caption))
-                    .opacity(0.5)
-                    .padding(.bottom,-10)
-                HStack{
-                    Text(vm.filtering.filterObject.toPluralString())
-                        .font(.specify(style: .h0))
-                        .padding(.bottom,-5)
-                    
-//                    if !vm.unlockedObjects.fromObject(object: vm.filtering.filterObject){
-//                        Text("Ready to unlock")
-//                    }
-                }
+            HStack{
+                Text(vm.filtering.filterObject.toPluralString())
+                    .font(.specify(style: .h0))
+                    .padding(.bottom,-5)
             }
             .scaleEffect(offset > 0 ?  1.0 : 1.0 - 0.001 * offset, anchor: .bottomLeading)
-
-            
-            
-            VStack(alignment:.center){
-                ScrollPickerObject(objectType: $vm.filtering.filterObject, isSearch: false)
-//                        .padding(.top,5)
-                
-            }
             .padding(.bottom, ShouldShowCalendar() ? 5 : 17)
-//            .padding(.bottom,10)
             
             if(ShouldShowCalendar()){
                 HStack(spacing:0){
@@ -169,7 +148,7 @@ struct ExpandedMenu: View {
     
     func ShouldShowCalendar() -> Bool{
 
-        if !vm.unlockedObjects.fromObject(object: vm.filtering.filterObject) || !vm.filtering.filterIncludeCalendar{
+        if !vm.unlockedObjects.fromObject(object: vm.filtering.filterObject) || vm.filtering.filterIncludeCalendar != .list{
             return false
         }
         
@@ -190,7 +169,7 @@ struct ExpandedMenu: View {
             return true
         case .home:
             return false
-        case .chapter:
+        case .journal:
             return false
         case .entry:
             return true
@@ -222,7 +201,7 @@ struct ExpandedMenu: View {
             return true
         case .home:
             return false
-        case .chapter:
+        case .journal:
             return false
         case .entry:
             return true

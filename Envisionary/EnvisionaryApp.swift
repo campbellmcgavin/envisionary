@@ -10,27 +10,13 @@ import SwiftUI
 @main
 struct EnvisionaryApp: App {
     @StateObject private var vm = ViewModel()
-    let keyInputSubject = KeyInputSubjectWrapper()
     
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environmentObject(vm)
-                .environmentObject(keyInputSubject)
-            .environment(\.font, .specify(style: .h6))
         }
-        
-        .commands {
-            CommandMenu("Input") {
-                keyInput(.leftArrow)
-                keyInput(.rightArrow)
-                keyInput(.upArrow)
-                keyInput(.downArrow)
-                keyInput(.space)
-                keyInput(.delete)
-                keyInput(.return)
-            }
-        }
+    
         
     }
     

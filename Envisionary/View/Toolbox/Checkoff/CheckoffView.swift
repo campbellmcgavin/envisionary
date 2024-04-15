@@ -17,6 +17,7 @@ struct CheckoffView<Value: Identifiable, V: View>: View where Value: Equatable {
     let canEdit: Bool
     let proxy: ScrollViewProxy?
     let shouldDismissInteractively: Bool
+    let isLocal: Bool
     let value: (Value, CGFloat, CGFloat) -> V
     @State var goals = [Goal]()
     @State var shouldAdd = false
@@ -26,23 +27,6 @@ struct CheckoffView<Value: Identifiable, V: View>: View where Value: Equatable {
     @State var visibleChildGoals = 0
     @State var visibleAffectedGoals = 0
     @State var allGoalsCompleted: Bool = false
-    
-//    private typealias AreInIncreasingOrder = (Goal, Goal) -> Bool
-//    private let predicates: [AreInIncreasingOrder] = [
-//        {($0.progress >= 100 ? 1 : 0) < (($1.progress >= 100) ? 1 : 0)},
-//        {(($0.endDate < Date() && $0.progress < 100) ? 1 : 0) > (($1.endDate < Date() && $1.progress < 100) ? 1 : 0)},
-//        {(Date.isHappeningNow(start: $0.startDate, end: $0.endDate) ? 1 : 0) > ((Date.isHappeningNow(start: $1.startDate, end: $1.endDate)) ? 1 : 0)},
-//        {$0.startDate < $1.startDate}
-//    ]
-//
-//    private let predicatesOrderBased: [AreInIncreasingOrder] = [
-//        {($0.progress >= 100 ? 1 : 0) < (($1.progress >= 100) ? 1 : 0)},
-//        {
-//            ($0.completedDate != nil && $1.completedDate != nil) ?
-//            ($0.completedDate! < $1.completedDate!) :
-//            ($0.position) < ($1.position)
-//        }
-//    ]
     
     @EnvironmentObject var vm: ViewModel
     
@@ -87,7 +71,7 @@ struct CheckoffView<Value: Identifiable, V: View>: View where Value: Equatable {
                         // can't see any goals
                         // or all goals completed
                         if visibleChildGoals == 0 || allGoalsCompleted {
-                            CheckoffCard(goalId: nil, superId: parentGoalId, canEdit: true, leftPadding: leftPadding + 30 + 8, outerPadding: outerPadding, proxy: proxy, shouldDismissInteractively: shouldDismissInteractively, selectedGoalId: $focusGoal, isPresentingModal: .constant(false), modalType: .constant(.add),  newGoalId: .constant(nil), dropFields: .constant(CheckOffDropDelegateField()))
+                            CheckoffCard(goalId: nil, superId: parentGoalId, canEdit: true, leftPadding: leftPadding + 30 + 8, outerPadding: outerPadding, proxy: proxy, shouldDismissInteractively: shouldDismissInteractively, isLocal: isLocal, selectedGoalId: $focusGoal, isPresentingModal: .constant(false), modalType: .constant(.add),  newGoalId: .constant(nil), dropFields: .constant(CheckOffDropDelegateField()))
                                 .padding(.top,-9)
                         }
                     }
@@ -96,13 +80,13 @@ struct CheckoffView<Value: Identifiable, V: View>: View where Value: Equatable {
             
             ForEach(goals, content: { child in
                     if (ShouldShow(goal: child)){
-                        CheckoffView(shouldShowAll: $shouldShowAll, focusGoal: $focusGoal, parentGoalId: parentGoalId, goalId: child.id, leftPadding: leftPadding + 30, outerPadding: outerPadding, canEdit: canEdit, proxy: proxy, shouldDismissInteractively: shouldDismissInteractively, value: self.value)
+                        CheckoffView(shouldShowAll: $shouldShowAll, focusGoal: $focusGoal, parentGoalId: parentGoalId, goalId: child.id, leftPadding: leftPadding + 30, outerPadding: outerPadding, canEdit: canEdit, proxy: proxy, shouldDismissInteractively: shouldDismissInteractively, isLocal: isLocal, value: self.value)
                     }
                 })
             
             if parentGoalId == goalId{
                 if visibleChildGoals != 0 && goals.last?.progress ?? 100 < 100 {
-                    CheckoffCard(goalId: nil, superId: parentGoalId, canEdit: true, leftPadding: leftPadding + 30 + 8, outerPadding: outerPadding, proxy: proxy, shouldDismissInteractively: shouldDismissInteractively, selectedGoalId: $focusGoal, isPresentingModal: .constant(false), modalType: .constant(.add),  newGoalId: .constant(nil), dropFields: .constant(CheckOffDropDelegateField()))
+                    CheckoffCard(goalId: nil, superId: parentGoalId, canEdit: true, leftPadding: leftPadding + 30 + 8, outerPadding: outerPadding, proxy: proxy, shouldDismissInteractively: shouldDismissInteractively, isLocal: isLocal, selectedGoalId: $focusGoal, isPresentingModal: .constant(false), modalType: .constant(.add),  newGoalId: .constant(nil), dropFields: .constant(CheckOffDropDelegateField()))
                         .offset(x:-2)
                 }
                 

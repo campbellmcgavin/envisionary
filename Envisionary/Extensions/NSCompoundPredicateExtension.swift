@@ -163,8 +163,19 @@ extension NSCompoundPredicate {
             predicates.append(NSPredicate(format: "priority == %@", criteria.priority!))
         }
         
-        if criteria.archived == nil && criteria.progress != nil && object.hasProperty(property: .progress){
-            predicates.append(NSPredicate(format: "progress <= %i", criteria.progress!))
+        if criteria.progress != nil && object.hasProperty(property: .progress){
+            
+            switch criteria.progress! {
+            case .none:
+                let _ = "nothing"
+            case .notStarted:
+                predicates.append(NSPredicate(format: "progress <= 1"))
+            case .inProgress:
+                predicates.append(NSPredicate(format: "progress > 0 && progress < 100"))
+            case .completed:
+                predicates.append(NSPredicate(format: "progress > 99"))
+            }
+            
         }
         
         if criteria.promptType != nil && object.hasProperty(property: .promptType){

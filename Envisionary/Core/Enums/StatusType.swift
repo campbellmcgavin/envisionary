@@ -9,6 +9,7 @@ import Foundation
 
 enum StatusType: Int, CaseIterable {
     
+    case none = -1
     case notStarted = 0
     case inProgress = 50
     case completed = 100
@@ -22,6 +23,8 @@ enum StatusType: Int, CaseIterable {
             return "In Progress"
         case .completed:
             return "Completed"
+        case .none:
+            return "None"
         }
     }
     
@@ -33,6 +36,8 @@ enum StatusType: Int, CaseIterable {
             return 50
         case .completed:
             return 100
+        case .none:
+            return -1
         }
     }
     
@@ -44,6 +49,8 @@ enum StatusType: Int, CaseIterable {
             return 1
         case .completed:
             return 100
+        case .none:
+            return -1
         }
     }
     
@@ -55,6 +62,8 @@ enum StatusType: Int, CaseIterable {
             return progress > 1 && progress <= 99
         case .completed:
             return progress > 99
+        case .none:
+            return true
         }
     }
     
@@ -68,9 +77,10 @@ enum StatusType: Int, CaseIterable {
         else {
             return .completed
         }
+        return .none
     }
     
     static func fromString(from string: String) -> Self{
-        return Self.allCases.first(where: {$0.toString() == string}) ?? .notStarted
+        return Self.allCases.first(where: {$0.toString() == string}) ?? .none
     }
 }

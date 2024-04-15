@@ -14,7 +14,7 @@ struct Setup: View {
     @State var canProceedStep: [SetupStepType: Bool] = [SetupStepType: Bool]()
     @State var canProceedMessages: [SetupStepType: Bool] = [SetupStepType: Bool]()
     @State var bumpScrollView: Bool = false
-    @State var contentView: ContentViewType = .envision
+    @State var contentView: ContentViewType = .values
     @State var shouldGoBack: Bool = false
     @State var archetype: ArchetypeType? = nil
     @State var didUsePreviousData: Bool = false

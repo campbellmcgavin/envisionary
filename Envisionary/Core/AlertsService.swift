@@ -18,14 +18,6 @@ class AlertsService: ObservableObject {
         }
     }
     
-    func UpdateContentAlerts(content: ContentViewType, shouldShow: Bool){
-        alerts.removeAll(where: {$0.alertType == .info_content})
-        
-        if shouldShow{
-            alerts.append(Alert(alertType: .info_content, keyword: content.toString(), description: content.toDescription(), timeAmount: 45, isPersistent: false))
-        }
-    }
-    
     func AddSetupUnlockAlert(object: ObjectType){
         alerts.removeAll(where: {$0.alertType == .confirm})
             var message = "has been unlocked!"
