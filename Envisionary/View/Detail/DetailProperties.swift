@@ -20,8 +20,14 @@ struct DetailProperties: View {
             HeaderButton(isExpanded: $isExpanded, color: .grey10, header: "Details")
             
             if isExpanded {
-                    
-                BuildView()
+                VStack(alignment:.leading){
+                    ForEach(PropertyType.allCases.filter({objectType.hasProperty(property: $0)})){
+                        property in
+                            BuildPropertyRow(property: property)
+                    }
+                }
+                .frame(alignment:.leading)
+                .padding([.top,.bottom],25)
                 .frame(maxWidth:.infinity)
                 .frame(alignment:.leading)
                 .modifier(ModifierCard())
@@ -40,21 +46,6 @@ struct DetailProperties: View {
                 }
             }
         }
-    }
-    
-    @ViewBuilder
-    func BuildView() -> some View {
-        VStack(alignment:.leading){
-
-            ForEach(PropertyType.allCases, id:\.self){
-                property in
-                if objectType.hasProperty(property: property){
-                    BuildPropertyRow(property: property)
-                }
-            }
-        }
-        .frame(alignment:.leading)
-        .padding([.top,.bottom],25)
     }
     
     @ViewBuilder
@@ -100,14 +91,6 @@ struct DetailProperties: View {
             if properties.progress != nil {
                 PropertyRow(propertyType: .progress, int:properties.progress)
             }
-//        case .edited:
-//            PropertyRow(propertyType: .edited, int: GetEvaluationDicitonaryItem(evaluation: .editDetails))
-//        case .leftAsIs:
-//            PropertyRow(propertyType: .leftAsIs, int: GetEvaluationDicitonaryItem(evaluation: .keepAsIs))
-//        case .pushedOff:
-//            PropertyRow(propertyType: .pushedOff, int: GetEvaluationDicitonaryItem(evaluation: .pushOffTillNext))
-//        case .deleted:
-//            PropertyRow(propertyType: .deleted, int: GetEvaluationDicitonaryItem(evaluation: .deleteIt))
         case .start:
             if properties.start != nil {
                 PropertyRow(propertyType: .start, text:properties.start)

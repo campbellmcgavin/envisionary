@@ -28,12 +28,11 @@ struct DetailStack: View {
     
 
     var body: some View {
-        VStack(alignment:.center, spacing:0){
+        LazyVStack(alignment:.center, spacing:0){
             ForEach(DetailStackType.allCases){
                 detailStack in
                 if objectType.hasDetailStack(detailStack: detailStack) && (properties.archived != true || detailStack == .archived){
                         BuildStack(detailStack: detailStack)
-                    
                 }
             }
         }

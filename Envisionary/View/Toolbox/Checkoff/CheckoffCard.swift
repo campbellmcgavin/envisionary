@@ -623,7 +623,6 @@ struct CheckOffCardEditor: View{
     @Binding var isSelected: Int
     @FocusState var isFocused: Bool
     @State private var timer = Timer.publish(every: 3.0, on: .main, in: .common).autoconnect()
-    @EnvironmentObject var keyInputSubject: KeyInputSubjectWrapper
     @EnvironmentObject var vm: ViewModel
     
     var body: some View{
@@ -637,9 +636,6 @@ struct CheckOffCardEditor: View{
             .foregroundColor(.specify(color: .grey10))
             .multilineTextAlignment(.leading)
             .frame(minHeight:17)
-            .onReceive(keyInputSubject) {
-                print("Key pressed: \($0)")
-            }
             .onTapGesture{
                 isSelected = 2
                 isFocused = true

@@ -20,8 +20,9 @@ struct PropertyRow: View {
     
     var body: some View {
         
-//        EmptyView()
+        
         BuildLabel()
+            .id(propertyType.id)
     }
     
     @ViewBuilder
