@@ -53,11 +53,12 @@ struct GanttView: View {
                     GanttMainDateColumns(dateValues: dateValues, columnWidth: columnWidth, timeframeType: timeframe)
                     HStack(spacing:0){
                         
-                        GanttMainDiagram(parentGoalId: goalId, goalId: goalId, focusGoal: $focusGoal, filteredGoals: $filteredGoals, shouldShowAll: $shouldShowAll, value: { localGoalId in
+                        let offset = GetOffset(localGoalId: goalId)
+                        GanttMainDiagram(parentGoalId: goalId, goalId: goalId, offset: offset, focusGoal: $focusGoal, filteredGoals: $filteredGoals, shouldShowAll: $shouldShowAll, value: { localGoalId in
                             
                             BubbleView(goalId: localGoalId, focusGoal: $focusGoal, width: GetWidth(localGoalId: localGoalId), height: SizeType.small.ToSize(), offset: 0, shouldShowDetails: false, ignoreImageLoad: true, ignoreImageRefresh: true)
                                 .frame(height:SizeType.small.ToSize()+6)
-                                .offset(x: GetOffset(localGoalId: localGoalId))
+                                .offset(x:GetOffset(localGoalId: localGoalId))
                                 .if(localGoalId == focusGoal, transform: { view in
                                     VStack(alignment:.leading, spacing:0){
                                         Spacer()
@@ -75,7 +76,7 @@ struct GanttView: View {
                                         
                                 })
 //                                .padding(.bottom,6)
-                        }, childCount: 0,  currentTimeframeType: $timeframe)
+                        }, childCount: 0,  currentTimeframeType: $timeframe, shouldShowPadding: shouldShowPadding)
                     }
                     .offset(x: columnWidth/2 + 30, y:columnWidth * 3/4 + 17 + 50)
                 }

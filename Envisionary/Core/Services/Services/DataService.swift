@@ -248,6 +248,35 @@ class DataService: DataServiceProtocol {
     
     func UpdateGoal(id: UUID, request: UpdateGoalRequest) -> Bool {
         
+        _ = UpdateGoalHelper(id: id, request: request)
+        
+        return true
+    }
+    
+    func UpdateGoalParentsHelper(id: UUID) -> Bool{
+        if var goal = GetGoal(id: id){
+            let parentGoals = ListParentGoals(id: id)
+            
+            parentGoals.forEach{
+                parentGoal in
+                if var parentGoalEntity = self.GetGoalEntity(id: parentGoal.id){
+                    
+                    if  parentGoal.startDate > goal.startDate {
+                        parentGoalEntity.startDate = goal.startDate
+                    }
+                    if parentGoal.endDate < goal.endDate {
+                        parentGoalEntity.endDate = goal.endDate
+                    }
+                    
+                    saveData()
+                }
+            }
+        }
+        
+        return true
+    }
+    
+    func UpdateGoalHelper(id: UUID, request: UpdateGoalRequest) -> Bool{
         if var entityToUpdate = GetGoalEntity(id: id) {
             
             if request.reorderGoalId != nil && request.reorderPlacement != nil{
@@ -278,6 +307,7 @@ class DataService: DataServiceProtocol {
                 entityToUpdate.parentId = request.parent
             }
             
+            var shouldUpdateParentDates = entityToUpdate.startDate != request.startDate || entityToUpdate.endDate != request.endDate
             
             entityToUpdate.title = request.title
             entityToUpdate.desc = request.description
@@ -291,10 +321,14 @@ class DataService: DataServiceProtocol {
             entityToUpdate.completedDate = request.completedDate
             entityToUpdate.superId = request.superId
             saveData()
-            return true
+            
+            if shouldUpdateParentDates {
+                _ = UpdateGoalParentsHelper(id: id)
+            }
+            
+            
         }
-        
-        return false
+        return true
     }
     
     func DeleteGoal(id: UUID) -> Bool{

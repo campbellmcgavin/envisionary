@@ -50,7 +50,6 @@ struct FormStackMultiPicker: View {
                         }
                         .padding([.leading,.trailing],8)
                         .padding([.top,.bottom],5)
-                        .animation(.easeInOut)
                         
                         if isActivityPicker && searchString.count > 3 {
                             
@@ -80,14 +79,12 @@ struct FormStackMultiPicker: View {
                 searchString = ""
             }
         }
-        .transition(.move(edge:.bottom))
         .onChange(of: fieldValues){
             _ in
             
             fieldValue = fieldValues.filter({$0.value}).map({$0.key}).toCsvString()
         }
         .modifier(ModifierForm(color:.grey15))
-        .animation(.easeInOut)
     }
     
     func UpdateOptions(){

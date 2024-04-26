@@ -13,6 +13,7 @@ struct FormStackPicker: View {
     @Binding var options: [String]
     var iconType: IconType?
     var isSearchable: Bool = false
+    @State var shouldExpand: Bool = false
     @State var isExpanded: Bool = false
     @State var optionsList = [String]()
     @State var isRestrictingOptions = false
@@ -22,10 +23,10 @@ struct FormStackPicker: View {
             
         VStack{
             if isSearchable {
-                FormSearchableDropdown(fieldValue: $fieldValue, isExpanded: $isExpanded, fieldName: fieldName, isSearchable: true, iconType: iconType)
+                FormSearchableDropdown(fieldValue: $fieldValue, isExpanded: $shouldExpand, fieldName: fieldName, isSearchable: true, iconType: iconType)
             }
             else{
-                FormDropdown(fieldValue: $fieldValue, isExpanded: $isExpanded, fieldName: fieldName, iconType: iconType)
+                FormDropdown(fieldValue: $fieldValue, isExpanded: $shouldExpand, fieldName: fieldName, iconType: iconType)
             }
             
             if isExpanded{
@@ -36,21 +37,26 @@ struct FormStackPicker: View {
         .onAppear{
             UpdateOptions()
         }
+        .onChange(of: shouldExpand){
+            _ in
+            
+            withAnimation(.spring){
+                isExpanded = shouldExpand
+            }
+        }
         .onChange(of: options){
             _ in
             UpdateOptions()
         }
-        .transition(.move(edge:.bottom))
         .onChange(of: fieldValue){
             _ in
             UpdateOptions()
             
             if options.contains(where:{$0 == fieldValue}){
-                isExpanded = false
+                shouldExpand = false
             }
         }
         .modifier(ModifierForm(color:.grey15))
-        .animation(.easeInOut)
     }
     
     func UpdateOptions(){

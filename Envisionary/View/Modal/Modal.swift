@@ -51,7 +51,6 @@ struct Modal<ModalContent: View, HeaderContent: View, BottomContent: View, Betwe
                                 
                                 VStack{
                                     modalContent
-                                    
                                     if modalType.GetIsMini(){
                                         Spacer()
                                     }
@@ -86,10 +85,13 @@ struct Modal<ModalContent: View, HeaderContent: View, BottomContent: View, Betwe
             }
         .frame(maxWidth: .infinity, maxHeight:.infinity,alignment:.bottom)
         .ignoresSafeArea()
-        .animation(.easeInOut)
     }
     
     func GetOffset() -> CGFloat{
+        
+        if modalType.ShouldShowImage(objectType: objectType){
+            return (offset.y < 0 ? -offset.y * 0.5 : 0)
+        }
         return -100
     }
     

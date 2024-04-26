@@ -95,11 +95,14 @@ struct Header<Content: View>: View {
 
     
     func GetScaleEffect() -> CGFloat {
-        return modalType == nil ? (offset.y > 0 ?  1.0 : 1.0 - 0.0015 * offset.y) : 0
+//        let scale = modalType == nil ? (offset.y > 0 ?  1.0 : 1.0 - 0.0015 * offset.y) : 1
+        let scale = (offset.y > 0 ?  1.0 : 1.0 - 0.0015 * offset.y)
+        return scale
     }
     
     func GetOffset() -> CGFloat {
-        return modalType == nil ? (offset.y < 0 ? offset.y * 0.5 : 0) : 0
+        let offset = modalType == nil ? (offset.y < 0 ? offset.y * 0.5 : 0) : 0
+        return offset
     }
     
     func ShouldShowImage() -> Bool{
@@ -107,7 +110,8 @@ struct Header<Content: View>: View {
     }
     
     func GetOpacity() -> CGFloat{
-        return  modalType == nil ? (1.0 - ((1.0 * offset.y/headerFrame.height*2))) : 1.0
+        let opacity = modalType == nil ? (1.0 - ((1.0 * offset.y/headerFrame.height*2))) : 1.0
+        return opacity
     }
     
     func GetRadius() -> CGFloat{

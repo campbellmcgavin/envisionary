@@ -71,7 +71,8 @@ struct MasterGanttView: View {
                                 property in
                                 HStack(spacing:0){
                                     
-                                    GanttMainDiagram(parentGoalId: property.id, goalId: property.id, focusGoal: $focusGoal, filteredGoals: $filteredGoals, shouldShowAll: $shouldShowAll, value: { localGoalId in
+                                    let offset = GetOffset(localGoalId: property.id)
+                                    GanttMainDiagram(parentGoalId: property.id, goalId: property.id, offset: offset, focusGoal: $focusGoal, filteredGoals: $filteredGoals, shouldShowAll: $shouldShowAll, value: { localGoalId in
                                         
                                         BubbleView(goalId: localGoalId, focusGoal: $focusGoal, width: GetWidth(localGoalId: localGoalId), height: SizeType.small.ToSize(), offset: 0, shouldShowDetails: false, ignoreImageLoad: true, ignoreImageRefresh: true)
                                             .frame(height:SizeType.small.ToSize()+6)
@@ -93,7 +94,7 @@ struct MasterGanttView: View {
                                                     
                                             })
             //                                .padding(.bottom,6)
-                                    }, childCount: 0,  currentTimeframeType: $timeframe)
+                                    }, childCount: 0,  currentTimeframeType: $timeframe, shouldShowPadding: shouldShowPadding)
                                 }
                                 .offset(x: columnWidth/2 + 30, y:columnWidth * 3/4 + 17 + 50)
                             }
