@@ -25,6 +25,7 @@ struct PhotoCard: View {
             NavigationLink(destination: Detail(objectType: GetObjectType(), objectId: objectId, properties: properties), label:{
                 BuildCard()
             })
+            .id("NavigationLink_Photocard"+objectId.uuidString)
         }
         else{
             BuildCard()

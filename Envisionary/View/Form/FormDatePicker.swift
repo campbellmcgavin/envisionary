@@ -13,6 +13,7 @@ struct FormCalendarPicker: View {
     @State var timeframeType: TimeframeType = .day
     @State var shouldShowCalendarPicker: Bool = false
     var iconType: IconType?
+    @State var shouldExpand: Bool = false
     @State var isExpanded: Bool = false
     @State var fieldValueString = ""
     @State
@@ -21,7 +22,7 @@ struct FormCalendarPicker: View {
         ZStack(alignment:.topLeading){
             
             VStack{
-                FormDropdown(fieldValue: $fieldValueString, isExpanded: $isExpanded, fieldName: fieldName, iconType: iconType)
+                FormDropdown(fieldValue: $fieldValueString, isExpanded: $shouldExpand, fieldName: fieldName, iconType: iconType)
                 if isExpanded{
                     
                     HStack{
@@ -40,9 +41,15 @@ struct FormCalendarPicker: View {
 
                 }
             }
-            .transition(.move(edge:.bottom))
             .modifier(ModifierForm(color:.grey15))
+
+        }
+        .onChange(of: shouldExpand){
+            _ in
             
+            withAnimation(.spring){
+                isExpanded = shouldExpand
+            }
         }
         .onAppear{
             fieldValueString = fieldValue.toString(timeframeType: .day, isStartDate: isStartDate)
@@ -55,22 +62,22 @@ struct FormCalendarPicker: View {
             _ in
             fieldValueString = fieldValue.toString(timeframeType: .day, isStartDate: isStartDate)
         }
-        .animation(.easeInOut, value: isExpanded)
+
     }
     
     @ViewBuilder
     func DateComponentButton(date: Date, timeframe: TimeframeType) -> some View{
         
         Button{
-            
-            if self.timeframeType == timeframe && shouldShowCalendarPicker {
-                self.shouldShowCalendarPicker = false
+            withAnimation(.spring){
+                if self.timeframeType == timeframe && shouldShowCalendarPicker {
+                    self.shouldShowCalendarPicker = false
+                }
+                else{
+                    self.shouldShowCalendarPicker = true
+                }
+                self.timeframeType = timeframe
             }
-            else{
-                self.shouldShowCalendarPicker = true
-            }
-            self.timeframeType = timeframe
-            
         }
         label:{
             Text(GetTitle(timeframe: timeframe))

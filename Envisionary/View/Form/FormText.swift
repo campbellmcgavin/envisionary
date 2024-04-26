@@ -45,7 +45,6 @@ struct FormText: View {
                         .font(.specify(style: .body1))
                         .foregroundColor(.specify(color: .grey10))
                         .offset(y: isMini ? 3 : fieldValue.isEmpty ? 0 : 6)
-                        .animation(.default)
                 }
                 .onChange(of: shouldErase){ _ in
                     fieldValue = ""
@@ -66,6 +65,7 @@ struct FormText: View {
                 
             }
         }
+        .transition(.slide)
         .modifier(ModifierForm(color: color, radius: isMini ? .cornerRadiusSmall : .cornerRadiusForm))
             .onTapGesture {
                 isFocused = true

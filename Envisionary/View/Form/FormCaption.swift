@@ -19,7 +19,7 @@ struct FormCaption: View {
             .foregroundColor(.specify(color: .grey5))
             .frame(maxWidth: .infinity, alignment:.leading)
             .padding(.leading)
-            .animation(.default)
+            .animation(.default, value: fieldValue)
     }
 }
 

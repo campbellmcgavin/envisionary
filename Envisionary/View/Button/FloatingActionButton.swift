@@ -20,11 +20,11 @@ struct FloatingActionButton: View {
         GeometryReader{
             geometry in
             
-            IconButton(isPressed: $isPressed, size: .large, iconType: .add, iconColor: .grey10, circleColor: .purple)
+            IconButton(isPressed: $shouldAct, size: .large, iconType: .add, iconColor: .grey10, circleColor: .purple, hasAnimation: true)
                 .offset(x:-xOffset+geometry.size.width, y:-yOffset + geometry.size.height)
                 .onChange(of: isPressed){
                     _ in
-                    shouldAct.toggle()
+
                     modalType = .add
                 }
         }

@@ -252,6 +252,7 @@
 		61B4754B2A2EAD1900736C30 /* ShapeLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61B4754A2A2EAD1900736C30 /* ShapeLabel.swift */; };
 		61B4754D2A2ECB3E00736C30 /* TutorialEnvisionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61B4754C2A2ECB3E00736C30 /* TutorialEnvisionary.swift */; };
 		61BEA08C29EAFAB40097D53D /* ImageCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BEA08B29EAFAB40097D53D /* ImageCircle.swift */; };
+		61C1B64C2BDC0D7800710A29 /* HeaderText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C1B64B2BDC0D7800710A29 /* HeaderText.swift */; };
 		61CF632A2A5D28A700BA1A85 /* TutorialThePoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61CF63292A5D28A700BA1A85 /* TutorialThePoint.swift */; };
 		61D0589F2A09A6E200F1631E /* ModalAddDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61D0589E2A09A6E200F1631E /* ModalAddDefault.swift */; };
 		61D058A12A09D2C800F1631E /* FormTextTrueFalse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61D058A02A09D2C800F1631E /* FormTextTrueFalse.swift */; };
@@ -570,6 +571,7 @@
 		61B4754C2A2ECB3E00736C30 /* TutorialEnvisionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialEnvisionary.swift; sourceTree = "<group>"; };
 		61BEA08B29EAFAB40097D53D /* ImageCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCircle.swift; sourceTree = "<group>"; };
 		61BEA08D29EB4B510097D53D /* Envisionary.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Envisionary.entitlements; sourceTree = "<group>"; };
+		61C1B64B2BDC0D7800710A29 /* HeaderText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderText.swift; sourceTree = "<group>"; };
 		61CF63292A5D28A700BA1A85 /* TutorialThePoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialThePoint.swift; sourceTree = "<group>"; };
 		61D0589E2A09A6E200F1631E /* ModalAddDefault.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalAddDefault.swift; sourceTree = "<group>"; };
 		61D058A02A09D2C800F1631E /* FormTextTrueFalse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormTextTrueFalse.swift; sourceTree = "<group>"; };
@@ -836,6 +838,7 @@
 				61A3B87F2A7EF25400B92EE0 /* DetailArchived.swift */,
 				615396762A83756C0028F914 /* DetailGoalToolbox.swift */,
 				616D7C0D2A8717D20022B6D2 /* DetailValueGoalAlignmentView.swift */,
+				61C1B64B2BDC0D7800710A29 /* HeaderText.swift */,
 			);
 			path = Detail;
 			sourceTree = "<group>";
@@ -1463,7 +1466,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1420;
-				LastUpgradeCheck = 1420;
+				LastUpgradeCheck = 1530;
 				TargetAttributes = {
 					37FE65DC29B853BE0013109C = {
 						CreatedOnToolsVersion = 14.2;
@@ -1539,6 +1542,7 @@
 				61DAC58029E22B5C006CACC3 /* CreedCard.swift in Sources */,
 				61B475452A2EA10200736C30 /* Tutorial.swift in Sources */,
 				61DAC56229DB8D6D006CACC3 /* IntExtensions.swift in Sources */,
+				61C1B64C2BDC0D7800710A29 /* HeaderText.swift in Sources */,
 				61213B9729C29FE200CBB6FA /* DetailPropertiesLabel.swift in Sources */,
 				617E260B29D66EAA0051DC88 /* Line.swift in Sources */,
 				618A1AFA2BC631B600F4F2A6 /* DateFilterType.swift in Sources */,
@@ -1825,6 +1829,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -1857,6 +1862,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -1871,7 +1877,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1885,6 +1891,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -1917,6 +1924,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -1925,7 +1933,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

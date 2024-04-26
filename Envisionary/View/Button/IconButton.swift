@@ -20,7 +20,7 @@ struct IconButton: View {
     var body: some View {
         Button(action: {
             if hasAnimation{
-                withAnimation{
+                withAnimation(.spring){
                     isPressed.toggle()
                 }
             }

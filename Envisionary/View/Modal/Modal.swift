@@ -24,7 +24,6 @@ struct Modal<ModalContent: View, HeaderContent: View, BottomContent: View, Betwe
     @ViewBuilder var bottomContent: BottomContent
     @ViewBuilder var betweenContent: BetweenContent
     @State var shouldHelp: Bool = false
-    @State var headerFrame: CGSize = .zero
     @State var offset: CGPoint = .zero
     
     var body: some View {
@@ -43,7 +42,7 @@ struct Modal<ModalContent: View, HeaderContent: View, BottomContent: View, Betwe
                     ObservableScrollView(offset: $offset, content: {
                             
                         VStack(spacing:0){
-                                Header(title: GetTitle(), subtitle: GetSubtitle(), objectType: objectType, color: GetHeaderColor(), headerFrame: $headerFrame, isPresentingImageSheet: $isPresentingImageSheet, modalType: modalType, image: image, content: {headerContent})
+                                Header(title: GetTitle(), subtitle: GetSubtitle(), objectType: objectType, color: GetHeaderColor(), isPresentingImageSheet: $isPresentingImageSheet, modalType: modalType, image: image, content: {headerContent})
                                 .padding(.bottom, objectType.ShouldShowImage() ? 10 : 0)
                                 
                                 betweenContent
@@ -51,7 +50,6 @@ struct Modal<ModalContent: View, HeaderContent: View, BottomContent: View, Betwe
                                 
                                 VStack{
                                     modalContent
-                                    
                                     if modalType.GetIsMini(){
                                         Spacer()
                                     }
@@ -60,8 +58,8 @@ struct Modal<ModalContent: View, HeaderContent: View, BottomContent: View, Betwe
                                 .modifier(ModifierCard(color: modalType.GetIsMini() ? .clear : .grey1))
                                 .offset(y: GetOffset())
                                 .frame(alignment:.leading)
-                                .offset(y:100)
-                                .padding(.bottom,500)
+                                .offset(y:modalType == .photoSource ? 250 : 100)
+                                .padding(.bottom,modalType.GetIsMini() ? 0 : 500)
                             }
                             .frame(alignment:.top)
                     })
@@ -70,7 +68,7 @@ struct Modal<ModalContent: View, HeaderContent: View, BottomContent: View, Betwe
                             bottomContent
                         }
                     })
-                    .disabled(modalType.GetIsMini())
+                    .scrollDisabled(modalType.GetIsMini())
                     .ignoresSafeArea()
                     
                     ModalMenu(modalType: modalType, objectType: objectType, color: GetHeaderColor(), shouldHelp: $shouldHelp, shouldClose: $isPresenting, shouldConfirm: $shouldConfirm, allowConfirm: allowConfirm, didAttemptToSave: didAttemptToSave)
@@ -86,10 +84,14 @@ struct Modal<ModalContent: View, HeaderContent: View, BottomContent: View, Betwe
             }
         .frame(maxWidth: .infinity, maxHeight:.infinity,alignment:.bottom)
         .ignoresSafeArea()
-        .animation(.easeInOut)
+        .animation(.spring,value:isPresenting)
     }
     
     func GetOffset() -> CGFloat{
+        
+        if modalType.ShouldShowImage(objectType: objectType){
+            return (offset.y < 0 ? -offset.y * 0.5 : 0)
+        }
         return -100
     }
     

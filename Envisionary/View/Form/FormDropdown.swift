@@ -34,28 +34,27 @@ struct FormDropdown: View {
                     .font(.specify(style: .body1))
                     .foregroundColor(.specify(color: .grey10))
                     .offset(y: fieldValue.isEmpty ? 0 : 6)
-                    .animation(.default)
+                    .animation(.default, value: fieldValue)
 
                 HStack{
                     Spacer()
-                    IconButton(isPressed: $isExpanded, size: .small, iconType: .down, iconColor: .grey6)
+                    IconButton(isPressed: $isExpanded, size: .small, iconType: .down, iconColor: .grey6, hasAnimation:false)
                         .rotationEffect(Angle(degrees: isExpanded ? 0.0 : -90.0))
                         .offset(y:10)
                         .shadow(color: Color.specify(color: .grey2), radius: 9)
                         .padding(.trailing,10)
                         .padding(.leading,-15)
-                        .animation(.default)
                 }
-
-                
             }
         }
-
             .modifier(ModifierForm(color: color))
             .onTapGesture {
                 isExpanded.toggle()
             }
+            .transition(.move(edge:.bottom))
     }
+    
+    
 }
 
 struct FormDropdown_Previews: PreviewProvider {
