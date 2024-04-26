@@ -20,15 +20,14 @@ struct DetailStack: View {
     let objectType: ObjectType
     let proxy: ScrollViewProxy
     
-    @State var superGoal: Goal = Goal()
+    @State var superGoal: Goal? = nil
     @State var shouldExpandAll: Bool = true
     
     let navLinkId = UUID()
     @EnvironmentObject var vm: ViewModel
-    
 
     var body: some View {
-        LazyVStack(alignment:.center, spacing:0){
+        VStack(alignment:.center, spacing:0){
             ForEach(DetailStackType.allCases){
                 detailStack in
                 if objectType.hasDetailStack(detailStack: detailStack) && (properties.archived != true || detailStack == .archived){
@@ -41,37 +40,26 @@ struct DetailStack: View {
         .onAppear(){
             if objectType == .goal {
                 if let goal = vm.GetGoal(id: objectId){
-                    superGoal = GetSuperGoal(superGoal: goal)
-                    superGoal.description = "Super Goal"
-                    superGoal.image = nil
+                    superGoal = GetSuperGoal(superGoal: goal, goalId: goal.id)
+                    superGoal?.description = "Super Goal"
+                    superGoal?.image = nil
                 }
             }
         }
-//        .onChange(of: vm.updates){
-//            _ in
-//            
-//            if objectType == .goal {
-//                properties = Properties(goal: (vm.GetGoal(id: objectId) ?? Goal()))
-//            }
-//            else if objectType == .value {
-//                properties = Properties(value: (vm.GetCoreValue(id: objectId) ?? CoreValue()))
-//            }
-//            else if objectType == .journal {
-//                properties = Properties(chapter: (vm.GetChapter(id: objectId) ?? Chapter()))
-//            }
-//            else if objectType == .entry {
-//                properties = Properties(entry: (vm.GetEntry(id: objectId) ?? Entry()))
-//            }
-//        }
+        
     }
     
-    func GetSuperGoal(superGoal: Goal) -> Goal{
+    func GetSuperGoal(superGoal: Goal, goalId: UUID) -> Goal?{
+        if(superGoal.id == goalId && superGoal.parentId == nil){
+            return nil
+        }
+        
         if(superGoal.parentId == nil){
             return superGoal
         }
         else{
             if let candidateGoal = vm.GetGoal(id: superGoal.parentId!){
-                return GetSuperGoal(superGoal: candidateGoal)
+                return GetSuperGoal(superGoal: candidateGoal, goalId: goalId)
             }
         }
         return superGoal
@@ -80,26 +68,25 @@ struct DetailStack: View {
     @ViewBuilder
     func BuildSuperCard() -> some View{
 
-        NavigationLink(
-            destination:
-                Detail(objectType: .goal, objectId: superGoal.id),
-                       label: {
-                           PhotoCard(objectType: .goal, objectId: objectId, properties: Properties(goal: superGoal), shouldHaveLink: false)
-                               .frame(maxWidth:.infinity)
-                               .modifier(ModifierCard())
-//                               .padding([.top,.bottom])
-        })
-        .id(navLinkId)
+        if let superGoal {
+            NavigationLink(
+                destination:
+                    Detail(objectType: .goal, objectId: superGoal.id),
+                           label: {
+                               PhotoCard(objectType: .goal, objectId: objectId, properties: Properties(goal: superGoal), shouldHaveLink: false)
+                                   .frame(maxWidth:.infinity)
+                                   .modifier(ModifierCard())
+            })
+            .id(navLinkId)
+        }
     }
     
     @ViewBuilder
     func BuildStack(detailStack: DetailStackType) -> some View{
         switch detailStack {
         case .superCard:
-            if properties.parentGoalId != nil{
-                BuildSuperCard()
-                    .padding(.top)
-            }
+            BuildSuperCard()
+                .padding(.top)            
         case .finishUp:
             if properties.archived != true {
                 DetailFinishUp(objectId: objectId)
@@ -116,12 +103,13 @@ struct DetailStack: View {
         case .parentHeader:
             ParentHeaderButton(shouldExpandAll: $shouldExpandAll, color: .purple, header: "Expand All", headerCollapsed: "Collapse All")
         case .properties:
-            DetailProperties(shouldExpand: $shouldExpandAll, objectType: objectType, properties: properties)
-                .frame(maxWidth:.infinity)
+//            EmptyView()
+            
+            DetailProperties(shouldExpand: $shouldExpandAll, objectType: objectType, objectId: objectId)
         case .creed:
             DetailCreed(shouldExpand: $shouldExpandAll, isPresentingModal: $isPresentingModal, modalType: $modalType, focusValue: $focusObjectId)
         case .goalValueAlignment:
-            if properties.parentGoalId == nil {
+            if superGoal == nil {
                 DetailGoalValueAlignmentView(shouldExpand: $shouldExpandAll, goalId: objectId)
             }
         case .valueGoalAlignment:
@@ -131,7 +119,7 @@ struct DetailStack: View {
         case .children:
             DetailChildren(shouldExpand: $shouldExpandAll, objectId: objectId, objectType: .journal, shouldAllowNavigation: true)
         case .toolbox:
-            if properties.parentGoalId == nil {
+            if superGoal == nil {
                 DetailGoalToolbox(shouldExpand: $shouldExpandAll, isPresentingModal: $isPresentingModal, isPresentingSourceType: $isPresentingSourceType, modalType: $modalType, focusGoal: $focusObjectId, goalId: objectId, proxy: proxy)
             }
         case .affectedGoals:

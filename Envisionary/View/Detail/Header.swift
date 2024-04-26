@@ -13,81 +13,25 @@ struct Header<Content: View>: View {
     var subtitle: String
     var objectType: ObjectType
     let color: CustomColor
-    @Binding var headerFrame: CGSize
     @Binding var isPresentingImageSheet: Bool
     var modalType: ModalType?
     var image: UIImage?
-    
+    var headerFrame: CGFloat = 150
     @ViewBuilder var content: Content
     private let coordinateSpaceName = UUID()
     
     var body: some View {
-        
-        ZStack{
-            PositionObservingView(
-                coordinateSpace: .named(coordinateSpaceName),
-                position: Binding(
-                    get: { offset },
-                    set: { newOffset in
-                        offset = CGPoint(
-                            x: -newOffset.x,
-                            y: -newOffset.y
-                        )
-                    }
-                ),
-                content: {BuildHeader()}
-            )
-        }
+        BuildHeader()
+    
 
     }
     
     @ViewBuilder
     func BuildHeader() -> some View{
         ZStack{
-            VStack(alignment:.leading, spacing:0){
-                HStack(alignment:.top, spacing:0){
-                    VStack(alignment:.leading, spacing:0){
-                        Text(subtitle)
-                        .textCase(.uppercase)
-                        .font(.specify(style: .caption))
-                        .foregroundColor(.specify(color: .grey10))
-                        .opacity(0.5)
-                        .padding(.bottom,-6)
-
-                    Text(title)
-                        .font(.specify(style: .h2))
-                        .lineLimit(1)
-                        .foregroundColor(.specify(color: .grey10))
-                        .padding(.bottom,10)
-                        
-                }
-                    .opacity(GetOpacity())
-                    .offset(y:65)
-                    .frame(maxHeight:.infinity)
-                    .padding(.leading)
-                    .scaleEffect(GetScaleEffect(), anchor: .bottomLeading)
-
-                Spacer()
-            }
-
-                content
-                    .frame(alignment:.center)
-                    .opacity(GetOpacity())
-            }
-            .padding(.bottom, objectType.ShouldShowImage() && (modalType != .search) ? 100 : 15)
-            .saveSize(in: $headerFrame)
-            .padding(.top, 85)
-            .padding(.bottom, objectType.ShouldShowImage() && (modalType != .search) ? 70 : 0)
-            .background(
-                Color.specify(color: color)
-                    .modifier(ModifierRoundedCorners(radius: GetRadius()))
-                    .edgesIgnoringSafeArea(.all)
-                    .padding(.top,-1000)
-                    .frame(maxHeight:.infinity)
-                    .offset(y: objectType.ShouldShowImage() && (modalType != .search) ? 0 : 65))
-            .frame(maxWidth:.infinity,maxHeight:.infinity)
+            HeaderText(title: title, subtitle: subtitle, color: color, modalType: modalType, objectType: objectType, content: {content})
             if(ShouldShowImage()){
-                HeaderImage(offset: offset, headerFrame: headerFrame, modalType: modalType, image: image, isPresentingImageSheet: $isPresentingImageSheet)
+                HeaderImage(offset: offset, modalType: modalType, image: image, isPresentingImageSheet: $isPresentingImageSheet)
             }
         }
         .offset(y:GetOffset())
@@ -110,13 +54,13 @@ struct Header<Content: View>: View {
     }
     
     func GetOpacity() -> CGFloat{
-        let opacity = modalType == nil ? (1.0 - ((1.0 * offset.y/headerFrame.height*2))) : 1.0
+        let opacity = modalType == nil ? (1.0 - ((1.0 * offset.y/headerFrame*2))) : 1.0
         return opacity
     }
     
     func GetRadius() -> CGFloat{
         if offset.y > 0 {
-            return abs( 36 - ((36 * offset.y/(headerFrame.height + (ShouldShowImage() ? 0 : 24)))))
+            return abs( 36 - ((36 * offset.y/(headerFrame + (ShouldShowImage() ? 0 : 24)))))
         }
         return 36
     }

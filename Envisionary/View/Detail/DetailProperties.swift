@@ -10,13 +10,14 @@ import SwiftUI
 struct DetailProperties: View {
     @Binding var shouldExpand: Bool
     let objectType: ObjectType
-    var properties: Properties
+    let objectId: UUID
+    @State var properties: Properties = Properties()
     
     @State var isExpanded: Bool = true
     @EnvironmentObject var vm: ViewModel
     var body: some View {
         
-        VStack(spacing:0){
+        LazyVStack(spacing:0){
             HeaderButton(isExpanded: $isExpanded, color: .grey10, header: "Details")
             
             if isExpanded {
@@ -35,6 +36,14 @@ struct DetailProperties: View {
 
             }
         }
+        .onAppear(){
+            RefreshProperties()
+        }
+        .onChange(of: vm.updates.goal){
+            _ in
+            
+            RefreshProperties()
+        }
         .onChange(of:shouldExpand){
             _ in
             withAnimation{
@@ -48,86 +57,111 @@ struct DetailProperties: View {
         }
     }
     
+    func RefreshProperties(){
+        switch objectType {
+        case .value:
+            properties = Properties(value: vm.GetCoreValue(id: objectId))
+        case .dream:
+            properties = Properties(dream: vm.GetDream(id: objectId))
+        case .aspect:
+            properties = Properties(aspect: vm.GetAspect(id: objectId))
+        case .goal:
+            properties = Properties(goal: vm.GetGoal(id: objectId))
+        case .session:
+            properties = Properties(session: vm.GetSession(id: objectId))
+        case .habit:
+            properties = Properties(habit: vm.GetHabit(id: objectId))
+        case .journal:
+            properties = Properties(chapter: vm.GetChapter(id: objectId))
+        case .entry:
+            properties = Properties(entry: vm.GetEntry(id: objectId))
+        default:
+            let _ = ""
+        }
+    }
+    
     @ViewBuilder
     func BuildPropertyRow(property: PropertyType) -> some View {
         switch property {
         case .title:
-            if properties.title != nil {
-                PropertyRow(propertyType: .title, text:properties.title)
+            if let title = properties.title {
+                PropertyRow(propertyType: .title, value: title)
             }
         case .description:
-            if properties.description != nil {
-                PropertyRow(propertyType: .description, text:properties.description)
+            if let desc = properties.description {
+                PropertyRow(propertyType: .description, value:desc)
             }
         case .timeframe:
-            if properties.timeframe != nil {
-                PropertyRow(propertyType: .timeframe, timeframe:properties.timeframe)
+            if let timeframe = properties.timeframe {
+                PropertyRow(propertyType: .timeframe, value:timeframe.toString())
             }
         case .startDate:
-            if properties.startDate != nil {
-                PropertyRow(propertyType: .startDate, date:properties.startDate)
+            if let startDate = properties.startDate {
+                PropertyRow(propertyType: .startDate, value:startDate.toString(timeframeType: .day))
             }
         case .endDate:
-            if properties.endDate != nil {
-                PropertyRow(propertyType: .endDate, date:properties.endDate)
+            if let endDate = properties.endDate {
+                PropertyRow(propertyType: .endDate, value:endDate.toString(timeframeType: .day))
             }
         case .date:
-            if properties.date != nil {
-                PropertyRow(propertyType: .date, date:properties.date, timeframe: properties.timeframe)
+            if let date = properties.date {
+                PropertyRow(propertyType: .date, value: date.toString(timeframeType: .day))
             }
         case .dateCompleted:
-            if properties.completedDate != nil {
-                PropertyRow(propertyType: .dateCompleted, date:properties.completedDate)
+            if let completedDate = properties.completedDate {
+                PropertyRow(propertyType: .dateCompleted, value:completedDate.toString(timeframeType: .day))
             }
         case .aspect:
-            if properties.aspect != nil {
-                PropertyRow(propertyType: .aspect, text:properties.aspect)
+            if let aspect = properties.aspect {
+                PropertyRow(propertyType: .aspect, value:aspect)
             }
         case .priority:
-            if properties.priority != nil {
-                PropertyRow(propertyType: .priority, priority:properties.priority)
+            if let priority = properties.priority {
+                PropertyRow(propertyType: .priority, value:priority.toString())
             }
         case .progress:
-            if properties.progress != nil {
-                PropertyRow(propertyType: .progress, int:properties.progress)
+            if let progress = properties.progress {
+                PropertyRow(propertyType: .progress, value: String(progress))
             }
-        case .start:
-            if properties.start != nil {
-                PropertyRow(propertyType: .start, text:properties.start)
-            }
-        case .end:
-            if properties.end != nil {
-                PropertyRow(propertyType: .end, text:properties.end)
-            }
-        case .parentId:
-            if properties.parentGoalId != nil {
-                PropertyRow(propertyType: .parentId, text: vm.GetGoal(id: properties.parentGoalId!)?.title ?? "")
-            }
-        
+//        case .start:
+//            if properties.start != nil {
+//                PropertyRow(propertyType: .start, value:properties.start)
+//            }
+//        case .end:
+//            if properties.end != nil {
+//                PropertyRow(propertyType: .end, value:properties.end)
+//            }
+//        case .parentId:
+//            if properties.parentGoalId != nil {
+//                PropertyRow(propertyType: .parentId, value: vm.GetGoal(id: properties.parentGoalId!)?.title ?? "")
+//            }
+//        
         case .chapter:
-            if properties.chapterId != nil {
-                PropertyRow(propertyType: .chapter, text: vm.GetChapter(id: properties.chapterId!)?.title ?? "")
+            if let chapter = properties.chapterId {
+                PropertyRow(propertyType: .chapter, value: vm.GetChapter(id: properties.chapterId!)?.title ?? "")
             }
         case .images:
-            if properties.parentGoalId != nil {
-                PropertyRow(propertyType: .images, int: properties.images!.count)
+            if let parentGoalId = properties.parentGoalId {
+                if let imageCount = properties.images?.count {
+                    PropertyRow(propertyType: .images, value: String(imageCount))
+                }
             }
-        case .image:
-            let _ = "why"
-        case .promptType:
-            let _ = "why"
-        case .scheduleType:
-            if properties.schedule != nil {
-                PropertyRow(propertyType: .scheduleType, schedule: properties.schedule)
-            }
-        case .amount:
-            if properties.amount != nil && properties.schedule != nil && properties.schedule!.shouldShowAmount() {
-                PropertyRow(propertyType: .amount, int: properties.amount)
-            }
-        case .unit:
-            if properties.unitOfMeasure != nil && properties.schedule != nil && properties.schedule!.shouldShowAmount() {
-                PropertyRow(propertyType: .unit, unit: properties.unitOfMeasure)
-            }
+//        case .image:
+//            let _ = "why"
+//        case .promptType:
+//            let _ = "why"
+//        case .scheduleType:
+//            if properties.schedule != nil {
+//                PropertyRow(propertyType: .scheduleType, value: properties.schedule)
+//            }
+//        case .amount:
+//            if properties.amount != nil && properties.schedule != nil && properties.schedule!.shouldShowAmount() {
+//                PropertyRow(propertyType: .amount, value: properties.amount)
+//            }
+//        case .unit:
+//            if properties.unitOfMeasure != nil && properties.schedule != nil && properties.schedule!.shouldShowAmount() {
+//                PropertyRow(propertyType: .unit, unit: properties.unitOfMeasure)
+//            }
         default:
             let _ = "why"
         }
@@ -136,7 +170,7 @@ struct DetailProperties: View {
 
 struct DetailProperties_Previews: PreviewProvider {
     static var previews: some View {
-        DetailProperties(shouldExpand: .constant(true), objectType: .goal, properties: Properties(objectType: .goal))
+        DetailProperties(shouldExpand: .constant(true), objectType: .goal, objectId: UUID())
             .modifier(ModifierCard())
     }
 }

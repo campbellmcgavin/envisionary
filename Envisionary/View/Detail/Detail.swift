@@ -15,7 +15,6 @@ struct Detail: View {
     @State var sourceType: UIImagePickerController.SourceType? = nil
     @State var properties: Properties = Properties()
     @State var shouldDelete: Bool = false
-    @State var headerFrame: CGSize = .zero
     @State var isPresentingModal: Bool = false
     @State var modalType: ModalType = .add
     @State var statusToAdd: StatusType = .notStarted
@@ -46,7 +45,7 @@ struct Detail: View {
                 ScrollView(.vertical){
                     VStack(alignment:.center){
                         
-                        Header(title: properties.title ?? "", subtitle: "View " + objectType.toString(), objectType: objectType, color: .purple, headerFrame: $headerFrame, isPresentingImageSheet: .constant(false), image: image, content: {EmptyView()})
+                        Header(title: properties.title ?? "", subtitle: "View " + objectType.toString(), objectType: objectType, color: .purple, isPresentingImageSheet: .constant(false), image: image, content: {EmptyView()})
                             .id(0)
                         
                         DetailStack(focusObjectId: $focusObjectid, isPresentingModal: $isPresentingModal, modalType: $modalType, statusToAdd: $statusToAdd, isPresentingSourceType: $isPresentingPhotoSource, shouldConvertToGoal: $shouldConvertToGoal, selectedImage: $selectedImage, properties: properties, objectId: objectId, objectType: objectType, proxy: proxy)

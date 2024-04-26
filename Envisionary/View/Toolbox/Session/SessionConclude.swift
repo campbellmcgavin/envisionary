@@ -16,7 +16,7 @@ struct SessionConclude: View {
         
         VStack{
             ParentHeaderButton(shouldExpandAll: $shouldExpandAll, color: .purple, header: "Expand All", headerCollapsed:  "Collapse All")
-            DetailProperties(shouldExpand: $shouldExpandAll, objectType: .session, properties: properties)
+            DetailProperties(shouldExpand: $shouldExpandAll,  objectType: .session, objectId: UUID())
                 .onAppear(){
                     properties = Properties(session: (vm.GetSession(id: sessionId) ?? Session()))
                 }
