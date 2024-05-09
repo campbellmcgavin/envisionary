@@ -52,7 +52,7 @@ struct ModalMenu: View {
         case .confirm:
             switch modalType {
             case .add:
-                return objectType != .session
+                return true
             case .search:
                 return false
             case .settings:

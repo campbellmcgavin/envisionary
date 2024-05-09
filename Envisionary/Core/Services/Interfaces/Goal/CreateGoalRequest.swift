@@ -12,22 +12,17 @@ struct CreateGoalRequest{
     var title: String = ""
     var description: String = ""
     var priority: PriorityType = .moderate
-    var startDate: Date = Date()
-    var endDate: Date = Date()
+    var startDate: Date?
+    var endDate: Date?
     var progress: Int = 0
     var image: UUID? = nil
     var aspect: String = AspectType.academic.toString()
     var parentId: UUID? = nil
     var previousGoalId: UUID? = nil
     var superId: UUID? = nil
-    
-//    var isRecurring: Bool
-//    var amount: Int?
-//    var unitOfMeasure: UnitType?
-//    var timeframe: TimeframeType?
-//    var schedule: ScheduleType?
+    var imageUrl: String? = nil
 
-    init(title: String, description: String, priority: PriorityType, startDate: Date, endDate: Date, percentComplete: Int, image: UUID?, aspect: String, parent: UUID?,  previousGoalId: UUID? = nil, superId: UUID?)//, isRecurring: Bool, amount: Int?, unitOfMeasure: UnitType?, timeframe: TimeframeType?, schedule: ScheduleType?)
+    init(title: String, description: String, priority: PriorityType, startDate: Date?, endDate: Date?, percentComplete: Int, image: UUID?, aspect: String, parent: UUID?,  previousGoalId: UUID? = nil, superId: UUID? = nil, imageUrl: String? = nil)//, isRecurring: Bool, amount: Int?, unitOfMeasure: UnitType?, timeframe: TimeframeType?, schedule: ScheduleType?)
     {
         self.title = title
         self.description = description
@@ -46,6 +41,10 @@ struct CreateGoalRequest{
 //        self.unitOfMeasure = unitOfMeasure
 //        self.timeframe = timeframe
 //        self.schedule = schedule
+    }
+    
+    func hasDates() -> Bool{
+        return self.startDate != nil && self.endDate != nil
     }
     
     init(properties: Properties){

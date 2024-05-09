@@ -54,7 +54,8 @@ struct DetailChildren: View {
                     }
                     
                     if childProperties.count == 0 {
-                        NoObjectsLabel(objectType: objectType == .journal ? .entry : objectType, labelType: objectType == .session ? .session : .page)
+                        LabelAstronaut(opacity: 0.85)
+                            .frame(height:400)
                     }
                 }
                 .frame(maxWidth:.infinity)

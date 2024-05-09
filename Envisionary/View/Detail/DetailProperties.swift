@@ -32,7 +32,6 @@ struct DetailProperties: View {
                 .frame(maxWidth:.infinity)
                 .frame(alignment:.leading)
                 .modifier(ModifierCard())
-                
 
             }
         }
@@ -61,16 +60,13 @@ struct DetailProperties: View {
         switch objectType {
         case .value:
             properties = Properties(value: vm.GetCoreValue(id: objectId))
-        case .dream:
-            properties = Properties(dream: vm.GetDream(id: objectId))
+        case .creed:
+            let values = vm.ListCoreValues()
+            properties = Properties(creed: true, valueCount: values.count)
         case .aspect:
             properties = Properties(aspect: vm.GetAspect(id: objectId))
         case .goal:
             properties = Properties(goal: vm.GetGoal(id: objectId))
-        case .session:
-            properties = Properties(session: vm.GetSession(id: objectId))
-        case .habit:
-            properties = Properties(habit: vm.GetHabit(id: objectId))
         case .journal:
             properties = Properties(chapter: vm.GetChapter(id: objectId))
         case .entry:

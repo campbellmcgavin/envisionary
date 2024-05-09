@@ -10,13 +10,31 @@ import SwiftUI
 @main
 struct EnvisionaryApp: App {
     @StateObject private var vm = ViewModel()
+    @State var didStartup = false
     
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environmentObject(vm)
+                .onAppear{
+                    if !didStartup {
+                        vm.CleanupDuplicates()
+                        didStartup = true
+                    }
+                    
+                }
+                .onAppear(){
+                    ArchetypeType.allCases.forEach({
+                        
+                        type in
+                        
+                        print( ExampleGoalEnum.toTitleArray(archetype: type))
+                    })
+                    
+                }
         }
-    
+
+
         
     }
     

@@ -10,8 +10,8 @@ import SwiftUI
 struct FloatingActionButton: View {
     @Binding var shouldAct: Bool
     @Binding var modalType: ModalType
+    @State var shouldActFirst: Bool = false
     
-    @State var isPressed = false
     let xOffset: CGFloat = 70+16
     let yOffset: CGFloat = 70+16
     
@@ -20,12 +20,12 @@ struct FloatingActionButton: View {
         GeometryReader{
             geometry in
             
-            IconButton(isPressed: $shouldAct, size: .large, iconType: .add, iconColor: .grey10, circleColor: .purple, hasAnimation: true)
+            IconButton(isPressed: $shouldActFirst, size: .large, iconType: .add, iconColor: .grey10, circleColor: .purple, hasAnimation: true)
                 .offset(x:-xOffset+geometry.size.width, y:-yOffset + geometry.size.height)
-                .onChange(of: isPressed){
+                .onChange(of: shouldActFirst){
                     _ in
-
                     modalType = .add
+                    shouldAct.toggle()
                 }
         }
         

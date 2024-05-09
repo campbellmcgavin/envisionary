@@ -178,10 +178,6 @@ extension NSCompoundPredicate {
             
         }
         
-        if criteria.promptType != nil && object.hasProperty(property: .promptType){
-            predicates.append(NSPredicate(format: "type == %@", criteria.promptType!.toString()))
-        }
-        
         if criteria.scheduleType != nil && object.hasProperty(property: .scheduleType){
             predicates.append(NSPredicate(format: "scheduleType == %@", criteria.scheduleType!.toString()))
         }

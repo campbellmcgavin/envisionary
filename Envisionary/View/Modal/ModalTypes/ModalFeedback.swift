@@ -18,15 +18,15 @@ struct ModalFeedback: View {
     
     @StateObject var alerts = AlertsService()
     var body: some View {
-        Modal(modalType: .feedback, objectType: .home, isPresenting: $isPresenting, shouldConfirm: .constant(false), isPresentingImageSheet: .constant(false), allowConfirm: false, didAttemptToSave: false,  title: "Submit Feedback", image: nil, modalContent: {
+        Modal(modalType: .feedback, objectType: .na, isPresenting: $isPresenting, shouldConfirm: .constant(false), isPresentingImageSheet: .constant(false), allowConfirm: false, didAttemptToSave: false,  title: "Submit Feedback", image: nil, modalContent: {
             
             if !shouldPresentClose{
                 VStack{
                     
-                    FormStackPicker(fieldValue: $feedbackProperties.feedbackType, fieldName: "What type of feedback?", options: .constant(FeedbackType.allCases.map({$0.toString()})),iconType: .help)
+                    FormStackPicker(fieldValue: $feedbackProperties.feedbackType, fieldName: "What type of feedback?", options: .constant(FeedbackType.allCases.map({$0.toString()})), deleteMe: .constant(""), addMe: .constant(""),iconType: .help)
                     
                     if feedbackProperties.feedbackType == FeedbackType.bug.toString(){
-                        FormStackPicker(fieldValue: $feedbackProperties.bugType, fieldName: "What type of bug?", options: .constant(FeedbackPropertyBugType.allCases.map({$0.toString()})),iconType: .help)
+                        FormStackPicker(fieldValue: $feedbackProperties.bugType, fieldName: "What type of bug?", options: .constant(FeedbackPropertyBugType.allCases.map({$0.toString()})), deleteMe: .constant(""), addMe: .constant(""),iconType: .help)
                         
                         if feedbackProperties.bugType == FeedbackPropertyBugType.userInterface.toString(){
                             FormViewPicker(fieldValue: $feedbackProperties.mainScreen, fieldName: "What screen is having the bug?", options: GetOptions(), iconType: .help)

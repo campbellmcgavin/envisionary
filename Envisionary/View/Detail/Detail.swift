@@ -23,13 +23,13 @@ struct Detail: View {
     @State var image: UIImage? = nil
     @State var isPresentingImagePicker: Bool = false
     @State var newImage: UIImage? = nil
-    @State var shouldMarkAsFavorite = true
     @State var shouldMarkAsArchived = false
     @State var finishedLoading = false
     @State var shouldAllowDelete = true
     @State var shouldConvertToGoal = false
     @State var convertDreamId: UUID? = nil
     @State var selectedImage: UIImage? = nil
+    
     @EnvironmentObject var vm: ViewModel
     
     @Environment(\.presentationMode) private var dismiss
@@ -45,7 +45,7 @@ struct Detail: View {
                 ScrollView(.vertical){
                     VStack(alignment:.center){
                         
-                        Header(title: properties.title ?? "", subtitle: "View " + objectType.toString(), objectType: objectType, color: .purple, isPresentingImageSheet: .constant(false), image: image, content: {EmptyView()})
+                        Header(title: properties.title ?? "", subtitle: "View " + objectType.toString(), objectType: objectType, color: .purple, isPresentingImageSheet: .constant(false), selectedImage: $selectedImage, image: image, content: {EmptyView()})
                             .id(0)
                         
                         DetailStack(focusObjectId: $focusObjectid, isPresentingModal: $isPresentingModal, modalType: $modalType, statusToAdd: $statusToAdd, isPresentingSourceType: $isPresentingPhotoSource, shouldConvertToGoal: $shouldConvertToGoal, selectedImage: $selectedImage, properties: properties, objectId: objectId, objectType: objectType, proxy: proxy)
@@ -65,7 +65,7 @@ struct Detail: View {
                 
             }
             
-            DetailMenu(objectType: objectType, dismiss: dismiss, isPresentingModal: $isPresentingModal, modalType: $modalType, objectId: objectId, selectedObjectID: $focusObjectid, shouldMarkAsFavorite: $shouldMarkAsFavorite, shouldMarkAsArchived: $shouldMarkAsArchived, finishedLoading: $finishedLoading, shouldAllowDelete: shouldAllowDelete)
+            DetailMenu(objectType: objectType, dismiss: dismiss, isPresentingModal: $isPresentingModal, modalType: $modalType, objectId: objectId, selectedObjectID: $focusObjectid, shouldMarkAsArchived: $shouldMarkAsArchived, finishedLoading: $finishedLoading, shouldAllowDelete: shouldAllowDelete)
                 .frame(alignment:.top)
             
             ModalManager(isPresenting: $isPresentingModal, modalType: $modalType, convertDreamId: $convertDreamId, objectType: GetObjectType(), objectId: focusObjectid, properties: properties, statusToAdd: statusToAdd, shouldDelete: $shouldDelete)
@@ -83,7 +83,6 @@ struct Detail: View {
             focusObjectid = objectId
             focusObjectType = objectType
             RefreshImage()
-            RefreshFavorite()
             RefreshArchive()
             ShouldAllowDelete()
             
@@ -91,37 +90,13 @@ struct Detail: View {
                 finishedLoading = true
             }
         }
-        .onChange(of: shouldMarkAsFavorite){
-            _ in
-            
-            if finishedLoading{
-                if shouldMarkAsFavorite {
-                    let request = CreatePromptRequest(type: .favorite, title: "", description: "", date: Date(), objectType: objectType, objectId: objectId)
-                    _ = vm.CreatePrompt(request: request)
-                }
-                else{
-                    if let prompt = vm.ListPrompts(criteria: Criteria(type: .favorite)).first(where: {$0.objectId == objectId}){
-                        _ = vm.DeletePrompt(id: prompt.id)
-                    }
-
-                }
-            }
-        }
         .onChange(of: shouldMarkAsArchived){
             _ in
             
             if finishedLoading{
                 switch objectType {
-                case .dream:
-                    var request = UpdateDreamRequest(properties: properties)
-                    request.archived = shouldMarkAsArchived
-                    _ = vm.UpdateDream(id: objectId, request: request)
                 case .goal:
                     _ = vm.ArchiveGoal(id: objectId, shouldArchive: shouldMarkAsArchived)
-                case .habit:
-                    var request = UpdateHabitRequest(properties: properties)
-                    request.archived = shouldMarkAsArchived
-                    _ = vm.UpdateHabit(id: objectId, request: request)
                 case .journal:
                     var request = UpdateChapterRequest(properties: properties)
                     request.archived = shouldMarkAsArchived
@@ -135,14 +110,30 @@ struct Detail: View {
                 }
             }
         }
-        .onChange(of: vm.updates){ _ in
-            if let convertDreamId{
-                self.objectId = convertDreamId
-                self.convertDreamId = nil
-                self.objectType = .goal
+        .onChange(of: vm.updates){ [oldUpdates = vm.updates] newUpdates in
+            
+            if (objectType == .goal && oldUpdates.goal != newUpdates.goal){
+                if let convertDreamId{
+                    self.objectId = convertDreamId
+                    self.convertDreamId = nil
+                    self.objectType = .goal
+                }
+                RefreshProperties()
+                RefreshImage()
             }
-            RefreshProperties()
-            RefreshImage()
+            else if (objectType == .value && oldUpdates.value != newUpdates.value)
+            {
+                RefreshProperties()
+                RefreshImage()
+            }
+            else if (objectType == .journal && oldUpdates.chapter != newUpdates.chapter){
+                RefreshProperties()
+                RefreshImage()
+            }
+            else if (objectType == .entry && oldUpdates.entry != newUpdates.entry){
+                RefreshProperties()
+                RefreshImage()
+            }
         }
         .onChange(of: shouldDelete){ _ in
 
@@ -211,14 +202,7 @@ struct Detail: View {
                 return .entry
             }
         }
-        else if objectType == .dream && shouldConvertToGoal{
-            return .goal
-        }
         return objectType
-    }
-    
-    func RefreshFavorite(){
-        shouldMarkAsFavorite = vm.ListPrompts(criteria: Criteria(type: .favorite)).contains(where:{$0.objectId != nil && $0.objectId == objectId})
     }
     
     func RefreshArchive(){
@@ -246,18 +230,10 @@ struct Detail: View {
         switch objectType {
         case .value:
             properties = Properties(value: vm.GetCoreValue(id: objectId))
-        case .dream:
-            properties = Properties(dream: vm.GetDream(id: objectId))
         case .aspect:
             properties = Properties(aspect: vm.GetAspect(id: objectId))
         case .goal:
             properties = Properties(goal: vm.GetGoal(id: objectId))
-        case .session:
-            properties = Properties(session: vm.GetSession(id: objectId))
-//        case .task:
-//            properties = Properties(task: vm.GetTask(id: objectId))
-        case .habit:
-            properties = Properties(habit: vm.GetHabit(id: objectId))
         case .journal:
             properties = Properties(chapter: vm.GetChapter(id: objectId))
         case .entry:

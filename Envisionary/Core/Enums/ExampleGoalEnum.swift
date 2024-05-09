@@ -8,78 +8,86 @@
 import SwiftUI
 
 enum ExampleGoalEnum: Int, CaseIterable {
-    case decade = 0
-    case year0 = 1
-    case year1 = 2
-    case year1_month1 = 3
-    case year1_month1_week1 = 4
-    case year1_month1_week1_day1 = 5
-    case year1_month1_week1_day2 = 6
-    case year1_month1_week1_day3 = 7
-    case year1_month1_week2 = 8
-    case year1_month1_week3 = 9
-    case year2 = 10
-    case year2_month1 = 11
-    case year2_month1_week1 = 12
-    case year2_month1_week2 = 13
-    case year2_month1_week3 = 14
-    case year3 = 15
+    case _0 = 0
+    case _1 = 1
+    case _2 = 2
+    case _3 = 3
+    case _4 = 4
+    case _5 = 5
+    case _6 = 6
+    case _7 = 7
+    case _8 = 8
+    case _9 = 9
+    case _10 = 10
+    case _11 = 11
+    case _12 = 12
+    case _13 = 13
+    case _14 = 14
+    case _15 = 15
     
     func toGoal(parentId: UUID?, superId: UUID?, imageId: UUID?, archetype: ArchetypeType) -> CreateGoalRequest {
         switch self{
-        case .decade:
+        case ._0:
             return CreateGoalRequest(title: self.toTitle(archetype: archetype), description: self.toDescription(archetype: archetype), priority: .critical, startDate: Date(), endDate: self.toEndDate(date: Date()), percentComplete: 0, image: imageId, aspect: AspectType.academic.toString(), parent: parentId, superId: superId)
             
-        case .year0:
+        case ._1:
             return CreateGoalRequest(title: self.toTitle(archetype: archetype), description: self.toDescription(archetype: archetype), priority: .critical, startDate: Date(), endDate: self.toEndDate(date: Date()), percentComplete: 0, image: imageId, aspect: AspectType.academic.toString(), parent: parentId, superId: superId)
             
-        case .year1:
+        case ._2:
             return CreateGoalRequest(title: self.toTitle(archetype: archetype), description: self.toDescription(archetype: archetype), priority: .critical, startDate: Date().AdvanceYear(forward: true), endDate: self.toEndDate(date: Date().AdvanceYear(forward: true)), percentComplete: 0, image: imageId, aspect: AspectType.academic.toString(), parent: parentId, superId: superId)
-        case .year1_month1:
+        case ._3:
             let date = Date().AdvanceYear(forward: true)
             return CreateGoalRequest(title: self.toTitle(archetype: archetype), description: self.toDescription(archetype: archetype), priority: .critical, startDate: date, endDate: self.toEndDate(date: date), percentComplete: 0, image: imageId, aspect: AspectType.academic.toString(), parent: parentId, superId: superId)
-        case .year1_month1_week1:
+        case ._4:
             let date = Date().AdvanceYear(forward: true)
             return CreateGoalRequest(title: self.toTitle(archetype: archetype), description: self.toDescription(archetype: archetype), priority: .critical, startDate: date, endDate: self.toEndDate(date: date), percentComplete: 0, image: imageId, aspect: AspectType.academic.toString(), parent: parentId, superId: superId)
-        case .year1_month1_week1_day1:
+        case ._5:
             let date = Date().AdvanceYear(forward: true)
             return CreateGoalRequest(title: self.toTitle(archetype: archetype), description: self.toDescription(archetype: archetype), priority: .moderate, startDate: Date(), endDate: self.toEndDate(date: date), percentComplete: 0, image: imageId, aspect: AspectType.academic.toString(), parent: parentId, superId: superId)
-        case .year1_month1_week1_day2:
+        case ._6:
             let date = Date().AdvanceYear(forward: true).AdvanceDay(forward: true)
             return CreateGoalRequest(title: self.toTitle(archetype: archetype), description: self.toDescription(archetype: archetype), priority: .high, startDate: date, endDate: self.toEndDate(date: date), percentComplete: 0, image: imageId, aspect: AspectType.academic.toString(), parent: parentId, superId: superId)
-        case .year1_month1_week1_day3:
+        case ._7:
             let date = Date().AdvanceYear(forward: true).AdvanceWeek(forward: true)
             return CreateGoalRequest(title: self.toTitle(archetype: archetype), description: self.toDescription(archetype: archetype), priority: .low, startDate: date, endDate: self.toEndDate(date: date), percentComplete: 0, image: imageId, aspect: AspectType.academic.toString(), parent: parentId, superId: superId)
-        case .year1_month1_week2:
+        case ._8:
             let date = Date().AdvanceYear(forward: true).AdvanceWeek(forward: true).AdvanceWeek(forward: true).AdvanceWeek(forward: true)
             return CreateGoalRequest(title: self.toTitle(archetype: archetype), description: self.toDescription(archetype: archetype), priority: .critical, startDate: date, endDate: self.toEndDate(date: date), percentComplete: 0, image: imageId, aspect: AspectType.academic.toString(), parent: parentId, superId: superId)
-        case .year1_month1_week3:
+        case ._9:
             let date = Date().AdvanceYear(forward: true).AdvanceMonth(forward: true).AdvanceWeek(forward: true)
             return CreateGoalRequest(title: self.toTitle(archetype: archetype), description: self.toDescription(archetype: archetype), priority: .critical, startDate: date, endDate: self.toEndDate(date: date), percentComplete: 0, image: imageId, aspect: AspectType.academic.toString(), parent: parentId, superId: superId)
-        case .year2:
+        case ._10:
             let date = Date().AdvanceDate(timeframe: .year, forward: true,count: 3)
             return CreateGoalRequest(title: self.toTitle(archetype: archetype), description: self.toDescription(archetype: archetype), priority: .critical, startDate: date, endDate: self.toEndDate(date:date), percentComplete: 0, image: imageId, aspect: AspectType.academic.toString(), parent: parentId, superId: superId)
-        case .year2_month1:
+        case ._11:
             let date = Date().AdvanceDate(timeframe: .year, forward: true,count: 3).AdvanceMonth(forward: true)
             return CreateGoalRequest(title: self.toTitle(archetype: archetype), description: self.toDescription(archetype: archetype), priority: .critical, startDate: date, endDate: self.toEndDate(date: date), percentComplete: 0, image: imageId, aspect: AspectType.academic.toString(), parent: parentId, superId: superId)
-        case .year2_month1_week1:
+        case ._12:
             let date = Date().AdvanceDate(timeframe: .year, forward: true,count: 3).AdvanceMonth(forward: true).AdvanceMonth(forward: true)
             return CreateGoalRequest(title: self.toTitle(archetype: archetype), description: self.toDescription(archetype: archetype), priority: .critical, startDate: date, endDate: self.toEndDate(date:date), percentComplete: 0, image: imageId, aspect: AspectType.academic.toString(), parent: parentId, superId: superId)
-        case .year2_month1_week2:
+        case ._13:
             let date = Date().AdvanceDate(timeframe: .year, forward: true,count: 3).AdvanceMonth(forward: true).AdvanceMonth(forward: true).AdvanceWeek(forward: true)
             return CreateGoalRequest(title: self.toTitle(archetype: archetype), description: self.toDescription(archetype: archetype), priority: .critical, startDate: date, endDate: self.toEndDate(date: date), percentComplete: 0, image: imageId, aspect: AspectType.academic.toString(), parent: parentId, superId: superId)
-        case .year2_month1_week3:
+        case ._14:
             let date = Date().AdvanceDate(timeframe: .year, forward: true,count: 3).AdvanceMonth(forward: true).AdvanceMonth(forward: true).AdvanceMonth(forward: true)
             return CreateGoalRequest(title: self.toTitle(archetype: archetype), description: self.toDescription(archetype: archetype), priority: .critical, startDate: date, endDate: self.toEndDate(date: date), percentComplete: 0, image: imageId, aspect: AspectType.academic.toString(), parent: parentId, superId: superId)
-        case .year3:
+        case ._15:
             let date = Date().AdvanceDate(timeframe: .year, forward: true,count: 7)
             return CreateGoalRequest(title: self.toTitle(archetype: archetype), description: self.toDescription(archetype: archetype), priority: .critical, startDate: date, endDate: self.toEndDate(date: date), percentComplete: 0, image: imageId, aspect: AspectType.academic.toString(), parent: parentId, superId: superId)
         }
     }
     
+    static func toTitleArray(archetype: ArchetypeType) -> [String]{
+        var returnvals = [String]()
+        
+        Self.allCases.forEach({ returnvals.append($0.toTitle(archetype: archetype))})
+        
+        return returnvals
+    }
+    
     func toTitle(archetype: ArchetypeType) -> String{
         switch self {
-        case .decade:
+        case ._0:
             switch archetype {
             case .Achiever: return "Get a Harvard MBA"
             case .Activist: return "Found a human rights Org."
@@ -92,10 +100,10 @@ enum ExampleGoalEnum: Int, CaseIterable {
             case .Artist: return "Get artwork into dream gallery"
             case .Philanthropist: return "Start international charity org"
             case .Politician: return "Become a congressperson"
-            case .Student: return "Go to Harvard for my Masters"
+            case .Student: return "Go to Stanford for my Masters"
             }
             
-        case .year0:
+        case ._1:
             switch archetype {
             case .Achiever: return "Determine resume weaknesses"
             case .Activist: return "Mission statement and purpose"
@@ -110,7 +118,7 @@ enum ExampleGoalEnum: Int, CaseIterable {
             case .Politician: return "Determine my platform"
             case .Student: return "Determine the weak points on my resume and CV"
             }
-        case .year1:
+        case ._2:
             switch archetype{
             case .Achiever: return "Study and take GMAT"
             case .Activist: return "Find partner and layout leadership team."
@@ -125,7 +133,7 @@ enum ExampleGoalEnum: Int, CaseIterable {
             case .Politician: return "Run for mayor"
             case .Student: return "Study and take GMAT"
             }
-        case .year1_month1:
+        case ._3:
             switch archetype{
             case .Achiever: return "Take GMAT prep course"
             case .Activist: return "Branding and product/service declaration"
@@ -140,7 +148,7 @@ enum ExampleGoalEnum: Int, CaseIterable {
             case .Politician: return "Run the campaign"
             case .Student: return "Take GMAT prep course"
             }
-        case .year1_month1_week1:
+        case ._4:
             switch archetype{
             case .Achiever: return "Study for the quant segment"
             case .Activist: return "Determine brand and audience"
@@ -155,7 +163,7 @@ enum ExampleGoalEnum: Int, CaseIterable {
             case .Politician: return "Find campaign manager and committee"
             case .Student: return "Study for the quant segment"
             }
-        case .year1_month1_week1_day1:
+        case ._5:
             switch archetype{
             case .Achiever: return "Practice Test 1"
             case .Activist: return "Branding"
@@ -170,7 +178,7 @@ enum ExampleGoalEnum: Int, CaseIterable {
             case .Politician: return "Sign on campaign manager"
             case .Student: return "Practice Test 1"
             }
-        case .year1_month1_week1_day2:
+        case ._6:
             switch archetype{
             case .Achiever: return "Practice Test 2"
             case .Activist: return "Geographic region selection"
@@ -185,7 +193,7 @@ enum ExampleGoalEnum: Int, CaseIterable {
             case .Politician: return "Get volunteers set up on phones"
             case .Student: return "Practice Test 2"
             }
-        case .year1_month1_week1_day3:
+        case ._7:
             switch archetype{
             case .Achiever: return "Practice Test 3"
             case .Activist: return "Recap and iterations if necessary"
@@ -200,7 +208,7 @@ enum ExampleGoalEnum: Int, CaseIterable {
             case .Politician: return "Print signs and materials"
             case .Student: return "Practice Test 3"
             }
-        case .year1_month1_week2:
+        case ._8:
             switch archetype{
             case .Achiever: return "Study for Verbal Reasoning segment"
             case .Activist: return "Contract out website"
@@ -215,7 +223,7 @@ enum ExampleGoalEnum: Int, CaseIterable {
             case .Politician: return "Locally-televised debated"
             case .Student: return "Study for Verbal Reasoning segment"
             }
-        case .year1_month1_week3:
+        case ._9:
             switch archetype{
             case .Achiever: return "Study for integrated reasoning segment"
             case .Activist: return "End of year evaluation of purpose"
@@ -230,7 +238,7 @@ enum ExampleGoalEnum: Int, CaseIterable {
             case .Politician: return "Host fundraising event"
             case .Student: return "Study for integrated reasoning segment"
             }
-        case .year2:
+        case ._10:
             switch archetype{
             case .Achiever: return "Build up a small revenue producing startup"
             case .Activist: return "Build out the program"
@@ -245,7 +253,7 @@ enum ExampleGoalEnum: Int, CaseIterable {
             case .Politician: return "Campaign for congress"
             case .Student: return "Build up a small revenue producing startup"
             }
-        case .year2_month1:
+        case ._11:
             switch archetype{
             case .Achiever: return "Conception and marketing"
             case .Activist: return "Organize and host first event"
@@ -260,7 +268,7 @@ enum ExampleGoalEnum: Int, CaseIterable {
             case .Politician: return "Raise awareness"
             case .Student: return "Conception and marketing"
             }
-        case .year2_month1_week1:
+        case ._12:
             switch archetype{
             case .Achiever: return "Determine brand"
             case .Activist: return "Publicity and outreach"
@@ -275,7 +283,7 @@ enum ExampleGoalEnum: Int, CaseIterable {
             case .Politician: return "Fundraising within region"
             case .Student: return "Determine brand"
             }
-        case .year2_month1_week2:
+        case ._13:
             switch archetype{
             case .Achiever: return "Market research"
             case .Activist: return "Supply and volunteer recruiting"
@@ -290,7 +298,7 @@ enum ExampleGoalEnum: Int, CaseIterable {
             case .Politician: return "Attend convention"
             case .Student: return "Market research"
             }
-        case .year2_month1_week3:
+        case ._14:
             switch archetype{
             case .Achiever: return "Product launch"
             case .Activist: return "Host event. Min attendance 1800"
@@ -305,7 +313,7 @@ enum ExampleGoalEnum: Int, CaseIterable {
             case .Politician: return "Campaign across the region"
             case .Student: return "Product launch"
             }
-        case .year3:
+        case ._15:
             switch archetype{
             case .Achiever: return "Invest time into local service organization."
             case .Activist: return "Expand region"
@@ -344,113 +352,113 @@ enum ExampleGoalEnum: Int, CaseIterable {
     
     func toEndDate(date: Date) -> Date{
         switch self {
-        case .decade:
+        case ._0:
             return date.AdvanceDate(timeframe: .decade, forward: true, count: 1)
-        case .year0:
+        case ._1:
             return date.AdvanceDate(timeframe: .year, forward: true, count: 1)
-        case .year1:
+        case ._2:
             return date.AdvanceDate(timeframe: .year, forward: true, count: 4)
-        case .year1_month1:
+        case ._3:
             return date.AdvanceDate(timeframe: .month, forward: true, count: 4)
-        case .year1_month1_week1:
+        case ._4:
             return date.AdvanceDate(timeframe: .week, forward: true, count: 3)
-        case .year1_month1_week1_day1:
+        case ._5:
             return date.AdvanceDate(timeframe: .day, forward: true, count:6)
-        case .year1_month1_week1_day2:
+        case ._6:
             return date.AdvanceDate(timeframe: .day, forward: true, count:6)
-        case .year1_month1_week1_day3:
+        case ._7:
             return date.AdvanceDate(timeframe: .day, forward: true, count:6)
-        case .year1_month1_week2:
+        case ._8:
             return date.AdvanceDate(timeframe: .week, forward: true, count: 3)
-        case .year1_month1_week3:
+        case ._9:
             return date.AdvanceDate(timeframe: .week, forward: true, count: 3)
-        case .year2:
+        case ._10:
             return date.AdvanceDate(timeframe: .year, forward: true, count: 3)
-        case .year2_month1:
+        case ._11:
             return date.AdvanceDate(timeframe: .month, forward: true, count: 4)
-        case .year2_month1_week1:
+        case ._12:
             return date.AdvanceDate(timeframe: .week, forward: true, count: 3)
-        case .year2_month1_week2:
+        case ._13:
             return date.AdvanceDate(timeframe: .week, forward: true, count: 2)
-        case .year2_month1_week3:
+        case ._14:
             return date.AdvanceDate(timeframe: .week, forward: true, count: 2)
-        case .year3:
+        case ._15:
             return date.AdvanceDate(timeframe: .year, forward: true, count: 4)
         }
     }
     
     func toParent() -> Self{
         switch self {
-        case .decade:
-            return .decade
-        case .year0:
-            return .decade
-        case .year1:
-            return .decade
-        case .year1_month1:
-            return .year1
-        case .year1_month1_week1:
-            return .year1_month1
-        case .year1_month1_week1_day1:
-            return .year1_month1_week1
-        case .year1_month1_week1_day2:
-            return .year1_month1_week1
-        case .year1_month1_week1_day3:
-            return .year1_month1_week1
-        case .year1_month1_week2:
-            return .year1_month1
-        case .year1_month1_week3:
-            return .year1_month1
-        case .year2:
-            return .decade
-        case .year2_month1:
-            return .year2
-        case .year2_month1_week1:
-            return .year2_month1
-        case .year2_month1_week2:
-            return .year2_month1
-        case .year2_month1_week3:
-            return .year2_month1
-        case .year3:
-            return .decade
+        case ._0:
+            return ._0
+        case ._1:
+            return ._0
+        case ._2:
+            return ._0
+        case ._3:
+            return ._2
+        case ._4:
+            return ._3
+        case ._5:
+            return ._4
+        case ._6:
+            return ._4
+        case ._7:
+            return ._4
+        case ._8:
+            return ._3
+        case ._9:
+            return ._3
+        case ._10:
+            return ._0
+        case ._11:
+            return ._10
+        case ._12:
+            return ._11
+        case ._13:
+            return ._11
+        case ._14:
+            return ._11
+        case ._15:
+            return ._0
 
         }
     }
     
     func getNext() -> Self{
         switch self {
-        case .decade:
-            return .year0
-        case .year0:
-            return .year1
-        case .year1:
-            return .year1_month1
-        case .year1_month1:
-            return .year1_month1_week1
-        case .year1_month1_week1:
-            return .year1_month1_week1_day1
-        case .year1_month1_week1_day1:
-            return .year1_month1_week1_day2
-        case .year1_month1_week1_day2:
-            return .year1_month1_week1_day3
-        case .year1_month1_week1_day3:
-            return .year1_month1_week2
-        case .year1_month1_week2:
-            return .year1_month1_week3
-        case .year1_month1_week3:
-            return .year2
-        case .year2:
-            return .year2_month1
-        case .year2_month1:
-            return .year2_month1_week1
-        case .year2_month1_week1:
-            return .year2_month1_week2
-        case .year2_month1_week2:
-            return .year2_month1_week3
-        case .year2_month1_week3:
-            return .year3
-        case .year3:
-            return .year3
+        case ._0:
+            return ._1
+        case ._1:
+            return ._2
+        case ._2:
+            return ._3
+        case ._3:
+            return ._4
+        case ._4:
+            return ._5
+        case ._5:
+            return ._6
+        case ._6:
+            return ._7
+        case ._7:
+            return ._8
+        case ._8:
+            return ._9
+        case ._9:
+            return ._10
+        case ._10:
+            return ._11
+        case ._11:
+            return ._12
+        case ._12:
+            return ._13
+        case ._13:
+            return ._14
+        case ._14:
+            return ._15
+        case ._15:
+            return ._15
         }
     }
 }

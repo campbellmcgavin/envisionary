@@ -14,6 +14,7 @@ struct FormText: View {
     var iconType: IconType?
     var color: CustomColor?
     var isMini: Bool = false
+    var shouldShowErase = true
     @FocusState private var isFocused: Bool
     @State var shouldErase: Bool = false
     
@@ -52,7 +53,7 @@ struct FormText: View {
 
                 HStack{
                     Spacer()
-                    if(fieldValue.count > 0 && isFocused){
+                    if(fieldValue.count > 0 && isFocused && shouldShowErase){
                         IconButton(isPressed: $shouldErase, size: .extraSmall, iconType: .cancel, iconColor: .grey6, circleColor:.grey3)
                             .offset(y: isMini ? 0 : 10)
                             .shadow(color: Color.specify(color: .grey2), radius: 9)

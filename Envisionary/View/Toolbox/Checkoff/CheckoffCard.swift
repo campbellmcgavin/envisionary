@@ -38,25 +38,53 @@ struct CheckoffCard: View {
     
     var body: some View {
         VStack(alignment:.leading, spacing:0){
-            if !dropFields.isDragging{
-                BuildCard()
-            }
-            else{
-                BuildDraggingCard()
-            }
+            
+//            if goalId != nil {
+                
+                VStack(alignment:.leading, spacing:0){
+                    if !dropFields.isDragging{
+                        BuildCard()
+                    }
+                    else{
+                        BuildDraggingCard()
+                    }
+                    
+                    StackDivider(shouldIndent: false, color: .grey35)
+                        .offset(x: leftPadding + SizeType.mediumLarge.ToSize())
+                }
+                .onDrag{
+                    withAnimation{
+                        self.dropFields.currentItem = IdItem(id: (goalId ?? UUID()))
+                        self.dropFields.isDragging = true
+                    }
+                    return NSItemProvider()
+                }
+                .id(goalId)
+//            }
+//            else{
+//                    
+//                    Button{
+//                        shouldAdd.toggle()
+//                    }
+//                label:{
+//                    HStack{
+//                        IconLabel(size: .small, iconType: .add, iconColor: .grey1, circleColor: .grey10)
+//                            .padding(.leading,5)
+//                            .padding(.trailing, 4)
+//                            .offset(y:-1)
+//                        Text("Add new goal")
+//                            .font(.specify(style: .body3))
+//                            .foregroundColor(.specify(color: .grey6))
+//                        Spacer()
+//                    }
+//                }
+//                StackDivider(shouldIndent: false, color: .grey35)
+//                    .offset(x: SizeType.mediumLarge.ToSize() + 4)
+//            }
 
-            StackDivider(shouldIndent: false, color: .grey35)
-                .offset(x: leftPadding + SizeType.mediumLarge.ToSize())
+
+            
         }
-        .onDrag{
-            withAnimation{
-                self.dropFields.currentItem = IdItem(id: (goalId ?? UUID()))
-                self.dropFields.isDragging = true
-            }
-            return NSItemProvider()
-        }
-        
-        .id(goalId)
         .onChange(of: dropFields.currentDropTarget){
             _ in
             DropZoneValidity()
@@ -283,14 +311,14 @@ struct CheckoffCard: View {
                         if goalId != nil{
                             BuildEditMenu()
                         }
-                        else if goal.title.count > 0{
-                            IconButton(isPressed: $shouldAdd, size: .moderatelySmall, iconType: .confirm, iconColor: .grey5)
-                                .opacity(isSelected != 0 ? 1.0 : 0.0)
-                                .disabled(isSelected == 0)
-                                .padding(.leading,-5)
-                                .offset(y:-3)
-                                .padding(.trailing,-10)
-                        }
+//                        else if goal.title.count > 0{
+//                            IconButton(isPressed: $shouldAdd, size: .moderatelySmall, iconType: .confirm, iconColor: .grey5)
+//                                .opacity(isSelected != 0 ? 1.0 : 0.0)
+//                                .disabled(isSelected == 0)
+//                                .padding(.leading,-5)
+//                                .offset(y:-3)
+//                                .padding(.trailing,-10)
+//                        }
                     }
                     else{
                         if goal.progress > 0 && !IsCompleted() && isSelected == 0{
@@ -467,30 +495,41 @@ struct CheckoffCard: View {
         DispatchQueue.global(qos: .userInteractive).async{
 
             if vm.filtering.filterObject == .goal && !isLocal{
-                
-                if goal.startDate.isInSameDay(as: vm.filtering.filterDate) || goal.endDate.isInSameDay(as: vm.filtering.filterDate) || vm.filtering.filterDate.isBetween(datePair: DatePair(date1: goal.startDate, date2: goal.endDate)) && vm.filtering.filterIncludeCalendar == .list{
-                    
-                    emphasisText = "Date Match"
+                if let startDate = goal.startDate{
+                    if let endDate = goal.endDate{
+                        if startDate.isInSameDay(as: vm.filtering.filterDate) || endDate.isInSameDay(as: vm.filtering.filterDate) || vm.filtering.filterDate.isBetween(datePair: DatePair(date1: startDate, date2: endDate)) && vm.filtering.filterIncludeCalendar == .list{
+                            
+                            emphasisText = "Date Match"
+                        }
+                        else if endDate.isBefore(date: vm.filtering.filterDate) && !IsCompleted() && !(vm.filtering.filterIncludeCalendar == .list){
+                            let daysBehind = endDate.GetDateDifferenceAsDecimal(to: Date(), timeframeType: .day)
+                            emphasisText = "Late (\(Int(abs(daysBehind))) days)"
+                        }
+                        else{
+                            emphasisText = ""
+                        }
+                    }
                 }
                 
-                else if goal.endDate.isBefore(date: vm.filtering.filterDate) && !IsCompleted() && !(vm.filtering.filterIncludeCalendar == .list){
-                    let daysBehind = goal.endDate.GetDateDifferenceAsDecimal(to: Date(), timeframeType: .day)
-                    emphasisText = "Late (\(Int(abs(daysBehind))) days)"
-                }
-                else{
-                    emphasisText = ""
-                }
+                
+
             }
             else {
+                
                 if IsCompleted(){
                     emphasisText = "Completed"
                 }
-                else if goal.endDate.isBefore(date: Date().StartOfDay()){
-                    let daysBehind = goal.endDate.GetDateDifferenceAsDecimal(to: Date(), timeframeType: .day)
-                    emphasisText = "Late (\(Int(abs(daysBehind))) days)"
-                }
-                else if ((goal.startDate.isInToday) || (goal.endDate.isInToday) || (goal.startDate.isInThePast && goal.endDate.isInTheFuture)){
-                    emphasisText = "Now"
+                else if let endDate = goal.endDate{
+                    if endDate.isBefore(date: Date().StartOfDay()){
+                        let daysBehind = endDate.GetDateDifferenceAsDecimal(to: Date(), timeframeType: .day)
+                        emphasisText = "Late (\(Int(abs(daysBehind))) days)"
+                    }
+                    else if goal.startDate != nil && ((endDate.isInToday) || (endDate.isInToday) || (goal.startDate!.isInThePast && endDate.isInTheFuture)){
+                        emphasisText = "Now"
+                    }
+                    else{
+                        emphasisText = ""
+                    }
                 }
                 else{
                     emphasisText = ""
@@ -559,13 +598,16 @@ struct CheckoffCard: View {
     @ViewBuilder
     func BuildDateText() -> some View{
         
-        let text = goal.completedDate == nil ?
-        "\(goal.startDate.toString(timeframeType: .day)) - \(goal.endDate.toString(timeframeType: .day))" :
-        goal.completedDate!.toString(timeframeType: .day)
-        
-         Text(text)
-            .font(.specify(style: .subCaption))
-            .foregroundColor(.specify(color: IsCompleted() ? .grey3 : .grey4))
+        if goal.startDate != nil && goal.endDate != nil{
+            let text = goal.completedDate == nil ?
+            "\(goal.startDate!.toString(timeframeType: .day)) - \(goal.endDate!.toString(timeframeType: .day))" :
+            goal.completedDate!.toString(timeframeType: .day)
+            
+             Text(text)
+                .font(.specify(style: .subCaption))
+                .foregroundColor(.specify(color: IsCompleted() ? .grey3 : .grey4))
+        }
+
     }
     
     func UpdateGoal(){
@@ -586,7 +628,7 @@ struct CheckoffCard: View {
                 if let parentGoal = vm.GetGoal(id: parentId) {
                     
                     // add new goal
-                    let request = CreateGoalRequest(title: "", description: "", priority: parentGoal.priority, startDate: parentGoal.startDate, endDate: parentGoal.endDate, percentComplete: 0, image: parentGoal.image, aspect: parentGoal.aspect, parent: parentGoal.id, previousGoalId: selectedGoalId, superId: parentGoal.superId)//, isRecurring: false, amount: nil, unitOfMeasure: nil, timeframe: nil, schedule: nil)
+                    let request = CreateGoalRequest(title: "", description: "", priority: parentGoal.priority, startDate: nil, endDate: nil, percentComplete: 0, image: parentGoal.image, aspect: parentGoal.aspect, parent: parentGoal.id, previousGoalId: selectedGoalId, superId: parentGoal.superId)//, isRecurring: false, amount: nil, unitOfMeasure: nil, timeframe: nil, schedule: nil)
                     let createdId = vm.CreateGoal(request: request, silenceUpdates: true)
                     selectedGoalId = createdId
                     newGoalId = createdId
@@ -602,8 +644,12 @@ struct CheckoffCard: View {
         }
         else{
             if let parentGoal = vm.GetGoal(id: superId){
-                let request = CreateGoalRequest(title: goal.title, description: "", priority: parentGoal.priority, startDate: parentGoal.startDate, endDate: parentGoal.endDate, percentComplete: 0, image: parentGoal.image, aspect: parentGoal.aspect, parent: parentGoal.id, previousGoalId: selectedGoalId, superId: parentGoal.superId)//, isRecurring: false, amount: nil, unitOfMeasure: nil, timeframe: nil, schedule: nil)
-                let createdId = vm.CreateGoal(request: request, silenceUpdates: false)
+                let request = CreateGoalRequest(title: goal.title, description: "", priority: parentGoal.priority, startDate: nil, endDate: nil, percentComplete: 0, image: parentGoal.image, aspect: parentGoal.aspect, parent: parentGoal.id, previousGoalId: selectedGoalId, superId: parentGoal.superId)//, isRecurring: false, amount: nil, unitOfMeasure: nil, timeframe: nil, schedule: nil)
+                let createdId = vm.CreateGoal(request: request, silenceUpdates: true)
+                selectedGoalId = createdId
+                newGoalId = createdId
+                vm.GoalsDidChange()
+                goal.title = ""
             }
         }
     }
@@ -644,11 +690,10 @@ struct CheckOffCardEditor: View{
             .onChange(of: goal.title){
                 _ in
                 
-                if goalId != nil{
+                if goal.title.count > 0{
                     TakeAction()
                 }
             }
-        
             .onAppear{
                 
                 if newGoalId == goal.id {
@@ -668,16 +713,23 @@ struct CheckOffCardEditor: View{
     
     func TakeAction(){
 
-        timer.upstream.connect().cancel()
-        let title = goal.title
-        
-        goal.title = goal.title.replacingOccurrences(of: "^\\s*", with: "", options: .regularExpression)
-        goal.title = goal.title.replacingOccurrences(of: "\n", with: "", options: .regularExpression)
-        _ = vm.UpdateGoal(id: goal.id, request: UpdateGoalRequest(goal: goal), notify: false)
-        
-        if(title.contains { $0.isNewline } || (goalId == nil)){
+        if goalId == nil {
             shouldAdd.toggle()
+            
         }
+        else{
+            timer.upstream.connect().cancel()
+            let title = goal.title
+            
+            goal.title = goal.title.replacingOccurrences(of: "^\\s*", with: "", options: .regularExpression)
+            goal.title = goal.title.replacingOccurrences(of: "\n", with: "", options: .regularExpression)
+            _ = vm.UpdateGoal(id: goal.id, request: UpdateGoalRequest(goal: goal), notify: false)
+            
+            if(title.contains { $0.isNewline } || (goalId == nil)){
+                shouldAdd.toggle()
+            }
+        }
+
     }
 }
 

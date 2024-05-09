@@ -22,7 +22,7 @@ struct TopNavigationBar: View {
                 if shouldShowTopTitle {
                     HStack{
                         
-                        if vm.filtering.filterObject == .home || vm.filtering.filterObject == .favorite || vm.filtering.filterObject == .aspect || vm.filtering.filterObject == .value || vm.filtering.filterObject == .creed || vm.filtering.filterObject == .journal || vm.filtering.filterObject == .dream || vm.filtering.filterIncludeCalendar != .list{
+                        if vm.filtering.filterObject == .value || vm.filtering.filterObject == .creed || vm.filtering.filterObject == .journal || vm.filtering.filterIncludeCalendar != .list{
                             Text(vm.filtering.filterObject.toPluralString())
                                 .font(.specify(style: .h4))
                         }

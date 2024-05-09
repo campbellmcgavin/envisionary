@@ -111,22 +111,6 @@ struct PhotoCard: View {
         switch objectType {
         case .creed:
             return "Your values, as a statement of purpose"
-        case .session:
-            return "Completed on " + (properties.completedDate?.toString(timeframeType: .day) ?? Date().toString(timeframeType: .day))
-        case .habit:
-            if let schedule = properties.schedule{
-                switch schedule {
-                case .aCertainAmountOverTime:
-                    return "\(properties.amount ?? 0) \(properties.unitOfMeasure ?? .hours) over time"
-                case .aCertainAmountPerDay:
-                    return "\(properties.amount ?? 0) \(properties.unitOfMeasure ?? .hours) per day"
-                case .aCertainAmountPerWeek:
-                    return "\(properties.amount ?? 0) \(properties.unitOfMeasure ?? .hours) per week"
-                default:
-                    return schedule.toString()
-                }
-            }
-            return properties.description ?? ""
         default:
             return properties.description ?? ""
         }
@@ -137,11 +121,6 @@ struct PhotoCard: View {
         
         case .goal:
             return properties.progress?.toStatusType().toString() ?? "Not started"
-        case .habit:
-            if let habit = vm.GetHabit(id: properties.habitId ?? UUID()){
-                return "\(habit.startDate.toString(timeframeType: .day)) - \(habit.endDate.toString(timeframeType: .day))"
-            }
-            return nil
         case .entry:
             return properties.startDate?.toString(timeframeType: .day)
         default:

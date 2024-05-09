@@ -25,6 +25,10 @@ class ViewModel: ObservableObject, DataServiceProtocol
     // DATES
     @Published var pushToToday = false
     
+    // MARK: - CLEANUP
+    func CleanupDuplicates() {
+        dataService.CleanupDuplicates()
+    }
     
     // MARK: - KEYS
     
@@ -35,6 +39,15 @@ class ViewModel: ObservableObject, DataServiceProtocol
     func UpdateArchetype(archetype: ArchetypeType){
         self.archetype = archetype
         UserDefaults.standard.set(self.archetype.toString(), forKey: SettingsKeyType.archetype_type.toString())
+    }
+    
+    // MARK: - PROGRESS POINT
+    func CreateProgressPoint(request: CreateProgressPointRequest) -> UUID {
+        return dataService.CreateProgressPoint(request: request)
+    }
+    
+    func ListProgressPoints(parentId: UUID) -> [ProgressPoint] {
+        return dataService.ListProgressPoints(parentId: parentId)
     }
     
     // MARK: - IMAGE
@@ -56,6 +69,9 @@ class ViewModel: ObservableObject, DataServiceProtocol
     private func ImagesDidChange(){ updates.image.toggle() }
     
     // MARK: - GOALS
+    func CreateGoalKit(request: GoalKit, startDate: Date = Date()) -> UUID {
+        return dataService.CreateGoalKit(request: request, startDate: startDate)
+    }
     
     func CreateGoal(request: CreateGoalRequest, silenceUpdates: Bool) -> UUID{
         if !silenceUpdates{
@@ -214,9 +230,22 @@ class ViewModel: ObservableObject, DataServiceProtocol
                 }
             }
         }
+        let goalInQuestion = dataService.GetGoal(id: id)
+        
+        if let goalInQuestion{
+            let parentId = goalInQuestion.superId ?? goalInQuestion.id
+            _ = UpdateGoalProgressPoint(id: parentId)
+        }
         
         GoalsDidChange()
         return true
+    }
+    
+    func UpdateGoalProgressPoint(id: UUID) -> UUID{
+        var childGoalCount = dataService.ListAffectedGoals(id: id).count
+        var goal = dataService.GetGoal(id: id)
+        var request = CreateProgressPointRequest(parentId: id, date: Date(), amount: childGoalCount, progress: goal?.progress ?? 0)
+        return self.CreateProgressPoint(request: request)
     }
     
     func ListGoalDescendency(id: UUID) -> [Goal]{
@@ -256,8 +285,10 @@ class ViewModel: ObservableObject, DataServiceProtocol
     }
     
     func DeleteGoal(id: UUID) -> Bool{
+        let didDelete = dataService.DeleteGoal(id: id)
+        
         GoalsDidChange()
-        return dataService.DeleteGoal(id: id)
+        return didDelete
     }
     
     func GoalsDidChange(){
@@ -265,26 +296,16 @@ class ViewModel: ObservableObject, DataServiceProtocol
     }
     
     // MARK: - OBJECT WIDE OPERATIONS
-    func WipeDate() -> Bool{
+    func WipeData() -> Bool{
         
         let values = ListCoreValues()
         values.forEach({
             _ = DeleteCoreValue(id: $0.id)
         })
         
-        let dreams = ListDreams()
-        dreams.forEach({
-            _ = DeleteDream(id: $0.id)
-        })
-        
         let aspects = ListAspects()
         aspects.forEach({
             _ = DeleteAspect(id: $0.id)
-        })
-        
-        let habits = ListHabits()
-        habits.forEach({
-            _ = DeleteHabit(id: $0.id)
         })
         
         let goals = ListGoals()
@@ -302,17 +323,12 @@ class ViewModel: ObservableObject, DataServiceProtocol
             _ = DeleteEntry(id: $0.id)
         })
         
-        let prompts = ListPrompts()
-        prompts.forEach({
-            _ = DeletePrompt(id: $0.id)
-        })
-        
         return true
     }
     
     func CheckDataModelHasContent() -> Bool{
         
-        if ListCoreValues().count > 0 || ListDreams().count > 0 || ListAspects().count > 0 || ListGoals().count > 0 || ListHabits().count > 0 || ListChapters().count > 0 || ListEntries().count > 0 {
+        if ListCoreValues().count > 0 || ListAspects().count > 0 || ListGoals().count > 0 || ListChapters().count > 0 || ListEntries().count > 0 {
             return true
         }
         
@@ -346,38 +362,6 @@ class ViewModel: ObservableObject, DataServiceProtocol
     }
     
     private func AspectsDidChange(){ updates.aspect.toggle() }
-    
-    
-    // MARK: - DREAM
-    
-    func CreateDream(request: CreateDreamRequest) -> UUID{
-        DreamsDidChange()
-        return dataService.CreateDream(request: request)
-    }
-    
-    func GetDream(id: UUID) -> Dream?{
-        return dataService.GetDream(id: id)
-    }
-    
-    func ListDreams(criteria: Criteria = Criteria(), limit: Int = 50) -> [Dream] {
-        return dataService.ListDreams(criteria: criteria)
-    }
-    
-    func GroupDreams(criteria: Criteria = Criteria(), grouping: GroupingType) -> [String : [Dream]] {
-        return dataService.GroupDreams(criteria: criteria, grouping: grouping)
-    }
-    
-    func UpdateDream(id: UUID, request: UpdateDreamRequest) -> Bool {
-        DreamsDidChange()
-        return dataService.UpdateDream(id: id, request: request)
-    }
-    
-    func DeleteDream(id: UUID) -> Bool {
-        DreamsDidChange()
-        return dataService.DeleteDream(id: id)
-    }
-    
-    private func DreamsDidChange(){ updates.dream.toggle() }
     
     
     // MARK: - CORE VALUE
@@ -473,50 +457,7 @@ class ViewModel: ObservableObject, DataServiceProtocol
     
     private func EntriesDidChange(){ updates.entry.toggle() }
     
-    // MARK: - SESSION
-    
-    func CreateSession(request: CreateSessionRequest) -> UUID{
-        SessionsDidChange()
-        return dataService.CreateSession(request: request)
-    }
-    
-    func GetSession(id: UUID) -> Session?{
-        return dataService.GetSession(id: id)
-    }
-    
-    func ListSessions(criteria: Criteria = Criteria(), limit: Int = 50) -> [Session] {
-        return dataService.ListSessions(criteria: criteria)
-    }
-    
-    func DeleteSession(id: UUID) -> Bool {
-        SessionsDidChange()
-        return dataService.DeleteSession(id: id)
-    }
-    
-    private func SessionsDidChange(){ updates.session.toggle() }
-    
-    // MARK: - PROMPT
-    
-    func CreatePrompt(request: CreatePromptRequest) -> UUID{
-        PromptsDidChange()
-        return dataService.CreatePrompt(request: request)
-    }
-    
-    func GetPrompt(id: UUID) -> Prompt?{
-        return dataService.GetPrompt(id: id)
-    }
-    
-    func ListPrompts(criteria: Criteria = Criteria(), limit: Int = 50) -> [Prompt] {
-        return dataService.ListPrompts(criteria: criteria)
-    }
-    
-    func DeletePrompt(id: UUID) -> Bool {
-        PromptsDidChange()
-        return dataService.DeletePrompt(id: id)
-    }
-    
-    private func PromptsDidChange(){ updates.prompt.toggle() }
-    
+
     // MARK: - NOTIFICATIONS
     func CreateNotifications() -> Bool{
         UNUserNotificationCenter.current().removeAllDeliveredNotifications() // For removing all delivered notification
@@ -585,102 +526,6 @@ class ViewModel: ObservableObject, DataServiceProtocol
         
         return true
     }
-    
-    // MARK: - HABITS
-    
-    func CreateHabit(request: CreateHabitRequest) -> UUID{
-        HabitsDidChange()
-        return dataService.CreateHabit(request: request)
-    }
-    
-    func GetHabit(id: UUID) -> Habit?{
-        
-        return dataService.GetHabit(id: id)
-    }
-    
-    func ListHabits(criteria: Criteria = Criteria(), limit: Int = 50) -> [Habit] {
-        
-        return dataService.ListHabits(criteria: criteria, limit: limit)
-    }
-    
-    func GroupHabits(criteria: Criteria = Criteria(), grouping: GroupingType) -> [String:[Habit]]{
-        
-        return dataService.GroupHabits(criteria: criteria, grouping: grouping)
-    }
-    
-    func UpdateHabit(id: UUID, request: UpdateHabitRequest) -> Bool {
-        let response = dataService.UpdateHabit(id: id, request: request)
-        HabitsDidChange()
-        return response
-    }
-    
-    func DeleteHabit(id: UUID) -> Bool{
-        HabitsDidChange()
-        return dataService.DeleteHabit(id: id)
-    }
-    
-    private func HabitsDidChange(){
-        updates.habit.toggle() }
-    
-    // MARK: - RECURRENCE
-    
-    func CreateRecurrence(request: CreateRecurrenceRequest) -> UUID{
-        
-        let response = dataService.CreateRecurrence(request: request)
-        RecurrencesDidChange()
-        return response
-    }
-    
-    func GetRecurrence(id: UUID) -> Recurrence?{
-        
-        return dataService.GetRecurrence(id: id)
-    }
-    
-    func ListRecurrences(criteria: Criteria = Criteria(), limit: Int = 50) -> [Recurrence] {
-        
-        return dataService.ListRecurrences(criteria: criteria, limit: limit)
-    }
-    
-    func GroupRecurrences(criteria: Criteria = Criteria(), grouping: GroupingType) -> [String:[Recurrence]]{
-        
-        return dataService.GroupRecurrences(criteria: criteria, grouping: grouping)
-    }
-    
-    func UpdateRecurrence(id: UUID, request: UpdateRecurrenceRequest) -> Bool {
-        let response = dataService.UpdateRecurrence(id: id, request: request)
-        RecurrencesDidChange()
-        return response
-    }
-    
-    func DeleteRecurrence(id: UUID) -> Bool{
-        RecurrencesDidChange()
-        return dataService.DeleteRecurrence(id: id)
-    }
-    
-    private func RecurrencesDidChange(){
-        updates.recurrence.toggle() }
-    
-    // MARK: - ACTIVITY
-    
-    func CreateActivity(request: CreateActivityRequest) -> UUID{
-        ActivitiesDidChange()
-        return dataService.CreateActivity(request: request)
-    }
-    
-    func GetActivity(id: UUID) -> Activity?{
-        return dataService.GetActivity(id: id)
-    }
-    
-    func ListActivities(limit: Int = 50) -> [Activity] {
-        return dataService.ListActivities(limit: limit)
-    }
-    
-    func DeleteActivity(id: UUID) -> Bool {
-        ActivitiesDidChange()
-        return dataService.DeleteActivity(id: id)
-    }
-    
-    private func ActivitiesDidChange(){ updates.activity.toggle() }
     
     // MARK: - CORE VALUE RATING
     

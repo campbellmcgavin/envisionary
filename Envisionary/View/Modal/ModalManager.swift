@@ -30,7 +30,7 @@ struct ModalManager: View {
     @State var isPresentingPhotoSource = false
     @State var isPresentingFeedback = false
     @State var sourceType: UIImagePickerController.SourceType? = nil
-    
+    @StateObject var validator = FormPropertiesValidator()
     
     @EnvironmentObject var vm: ViewModel
     
@@ -117,13 +117,15 @@ struct ModalManager: View {
     func BuildModal() -> some View{
         switch modalType {
         case .add:
-            ModalAdd(isPresenting: $isPresentingAdd, convertDreamId: $convertDreamId, objectId: nil, parentGoalId: GetParentGoalId(), parentChapterId: GetParentChapterId(), objectType: GetObjectType(), modalType: .add, status: statusToAdd)
+            ModalAddDefault(isPresenting: $isPresenting, convertDreamId: $convertDreamId, objectId: objectId, parentGoalId: GetParentGoalId(), parentChapterId: GetParentChapterId(), objectType: GetObjectType(), modalType: modalType)
+                .environmentObject(validator)
         case .search:
             ModalSearch(isPresenting: $isPresentingSearch, objectType: objectType ?? .goal)
         case .settings:
             ModalSettings(isPresenting: $isPresentingGrouping)
         case .edit:
-            ModalAdd(isPresenting: $isPresentingEdit, convertDreamId: .constant(nil), objectId: GetObjectId(), parentGoalId: GetParentGoalId(), parentChapterId: GetParentChapterId(), objectType: GetObjectType(), modalType: .edit)
+            ModalAddDefault(isPresenting: $isPresentingEdit, convertDreamId: $convertDreamId, objectId: GetObjectId(), parentGoalId: GetParentGoalId(), parentChapterId: GetParentChapterId(), objectType: GetObjectType(), modalType: .edit)
+                .environmentObject(validator)
         case .delete:
             Modal(modalType: .delete, objectType: objectType ?? .goal, isPresenting: $isPresentingDelete, shouldConfirm: $shouldDelete, isPresentingImageSheet: .constant(false), allowConfirm: true, modalContent: {EmptyView()}, headerContent: {EmptyView()}, bottomContent: {EmptyView()}, betweenContent: {EmptyView()})
         case .photoSource:
@@ -193,14 +195,8 @@ struct ModalManager: View {
                         _ = vm.DeleteCoreValue(id: objectId)
                     case .aspect:
                         _ = vm.DeleteAspect(id: objectId)
-                    case .dream:
-                        _ = vm.DeleteDream(id: objectId)
                     case .journal:
                         _ = vm.DeleteChapter(id: objectId)
-                    case .session:
-                        _ = vm.DeleteSession(id: objectId)
-                    case .habit:
-                        _ = vm.DeleteHabit(id: objectId)
                     default:
                         let _ = "why" //do nothing
                     }
@@ -220,12 +216,6 @@ struct ModalManager: View {
                             request.archived = true
                             _ = vm.UpdateGoal(id: objectId, request: request)
                         }
-                    case .dream:
-                        if let object = vm.GetDream(id: objectId){
-                            var request = UpdateDreamRequest(dream: object)
-                            request.archived = true
-                            _ = vm.UpdateDream(id: objectId, request: request)
-                        }
                     case .journal:
                         if let object = vm.GetChapter(id: objectId){
                             var request = UpdateChapterRequest(chapter: object)
@@ -240,14 +230,6 @@ struct ModalManager: View {
                                 entryRequest.archived = true
                                 _ = vm.UpdateEntry(id: $0.id, request: entryRequest)
                             })
-                        }
-                    case .session:
-                        _ = vm.DeleteSession(id: objectId)
-                    case .habit:
-                        if let object = vm.GetHabit(id: objectId){
-                            var request = UpdateHabitRequest(habit: object)
-                            request.archived = true
-                            _ = vm.UpdateHabit(id: objectId, request: request)
                         }
                     default:
                         let _ = "why" //do nothing

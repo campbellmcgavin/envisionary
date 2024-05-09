@@ -20,6 +20,7 @@ struct ValueGoalAlignmentView: View {
             
             ForEach(goals.sorted(by: {$0.title < $1.title})){ goal in
                 CoreValuesViewRow(properties: Properties(goal: goal), objectType: .value, valueRating: BindingValueRating(for: goal))
+                    .padding(.bottom,5)
             }
             .padding(.trailing,-7)
         }
@@ -29,16 +30,14 @@ struct ValueGoalAlignmentView: View {
             let redCount = valueRatings.filter({$0.amount == 0}).count > 0
             let yellowCount = valueRatings.filter({$0.amount == 1}).count > 0
             let notFinishedCount = valueRatings.filter({$0.amount == -1}).count > 0
-            withAnimation{
-                errorLevel = redCount ? 0 : yellowCount ? 1 : notFinishedCount ? -1 : 2
-            }
+            errorLevel = redCount ? 0 : yellowCount ? 1 : notFinishedCount ? -1 : 2
         }
         .frame(maxWidth:.infinity)
         .onAppear{
             var criteria1 = Criteria()
             criteria1.archived = false
+            criteria1.superOnly = true
             goals = vm.ListGoals(criteria: criteria1)
-            goals = goals.filter({$0.parentId == nil})
             
             var criteria2 = Criteria()
             criteria2.valueId = valueId
@@ -166,35 +165,12 @@ struct ValueGoalAlignmentView: View {
                     }
                     Spacer()
                 }
-                HStack{
-                    if errorLevel == 0{
-                        Text("After all, what's the point of achieving anything if you hurt yourself in the process?")
-                            .foregroundColor(.specify(color: .grey5))
-                            .font(.specify(style: .caption))
-                            .multilineTextAlignment(.leading)
-                            .lineLimit(3)
-                            .padding(.top,4)
-                            .padding(.bottom,8)
-                            .fixedSize(horizontal: false, vertical: true)
-                    }
-                    else if errorLevel == 1{
-                        Text("After all, what's the point of achieving anything if it's not helping you become the best you can be?")
-                            .foregroundColor(.specify(color: .grey5))
-                            .font(.specify(style: .caption))
-                            .multilineTextAlignment(.leading)
-                            .lineLimit(3)
-                            .padding(.bottom,8)
-                            .padding(.top,4)
-                            .fixedSize(horizontal: false, vertical: true)
-                    }
-                    Spacer()
-                }
             }
             .padding(.leading,47)
 
         }
         .padding(8)
-        .modifier(ModifierForm(color: .grey2, radius: .cornerRadiusSmall))
+        .modifier(ModifierForm(color: .grey2, radius: .cornerRadiusForm))
         .padding(.bottom)
     }
 }

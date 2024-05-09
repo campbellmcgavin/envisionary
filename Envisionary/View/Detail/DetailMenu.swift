@@ -14,7 +14,6 @@ struct DetailMenu: View {
     @Binding var modalType: ModalType
     var objectId: UUID
     @Binding var selectedObjectID: UUID
-    @Binding var shouldMarkAsFavorite: Bool
     @Binding var shouldMarkAsArchived: Bool
     @Binding var finishedLoading: Bool
     var shouldAllowDelete: Bool
@@ -43,10 +42,6 @@ struct DetailMenu: View {
             if objectType.hasDetailMenuButton(button: .archive){
                 IconButton(isPressed: $shouldMarkAsArchived, size: .medium, iconType: .archived_filled, iconColor: .purple, circleColor: .grey10)
                 
-            }
-            if objectType.hasDetailMenuButton(button: .favorite) && !shouldMarkAsArchived{
-                IconButton(isPressed: $shouldMarkAsFavorite, size: .medium, iconType: .favorite, iconColor: shouldMarkAsFavorite ? .lightYellow : .purple, circleColor: shouldMarkAsFavorite ? .yellow : .grey10)
-                    .disabled(!finishedLoading)
             }
             if objectType.hasDetailMenuButton(button: .edit) && !shouldMarkAsArchived{
                 IconButton(isPressed: $shouldPresentEdit, size: .medium, iconType: .edit, iconColor: .purple, circleColor: .grey10)

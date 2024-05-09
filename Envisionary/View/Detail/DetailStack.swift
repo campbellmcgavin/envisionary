@@ -15,7 +15,7 @@ struct DetailStack: View {
     @Binding var isPresentingSourceType: Bool
     @Binding var shouldConvertToGoal: Bool
     @Binding var selectedImage: UIImage?
-    @State var properties: Properties
+    var properties: Properties
     let objectId: UUID
     let objectType: ObjectType
     let proxy: ScrollViewProxy
@@ -27,7 +27,7 @@ struct DetailStack: View {
     @EnvironmentObject var vm: ViewModel
 
     var body: some View {
-        VStack(alignment:.center, spacing:0){
+        LazyVStack(alignment:.center, spacing:0){
             ForEach(DetailStackType.allCases){
                 detailStack in
                 if objectType.hasDetailStack(detailStack: detailStack) && (properties.archived != true || detailStack == .archived){
@@ -46,7 +46,10 @@ struct DetailStack: View {
                 }
             }
         }
-        
+        .onChange(of: properties){
+            _ in
+            let _ = "why"
+        }
     }
     
     func GetSuperGoal(superGoal: Goal, goalId: UUID) -> Goal?{
@@ -103,8 +106,6 @@ struct DetailStack: View {
         case .parentHeader:
             ParentHeaderButton(shouldExpandAll: $shouldExpandAll, color: .purple, header: "Expand All", headerCollapsed: "Collapse All")
         case .properties:
-//            EmptyView()
-            
             DetailProperties(shouldExpand: $shouldExpandAll, objectType: objectType, objectId: objectId)
         case .creed:
             DetailCreed(shouldExpand: $shouldExpandAll, isPresentingModal: $isPresentingModal, modalType: $modalType, focusValue: $focusObjectId)
@@ -122,10 +123,6 @@ struct DetailStack: View {
             if superGoal == nil {
                 DetailGoalToolbox(shouldExpand: $shouldExpandAll, isPresentingModal: $isPresentingModal, isPresentingSourceType: $isPresentingSourceType, modalType: $modalType, focusGoal: $focusObjectId, goalId: objectId, proxy: proxy)
             }
-        case .affectedGoals:
-            DetailAffectedGoals(shouldExpand: $shouldExpandAll, sessionProperties: properties)
-        case .habitProgress:
-            DetailHabitProgress(shouldExpand: $shouldExpandAll, goalId: objectId)
         default:
             EmptyView()
         }
@@ -137,7 +134,7 @@ struct DetailStack_Previews: PreviewProvider {
     static var previews: some View {
         ScrollViewReader{
             proxy in
-            DetailStack(focusObjectId: .constant(UUID()), isPresentingModal: .constant(false) , modalType: .constant(.add), statusToAdd: .constant(.notStarted), isPresentingSourceType: .constant(false), shouldConvertToGoal: .constant(false), selectedImage: .constant(nil) , properties: Properties() , objectId: UUID() ,objectType: .goal, proxy: proxy)
+            DetailStack(focusObjectId: .constant(UUID()), isPresentingModal: .constant(false) , modalType: .constant(.add), statusToAdd: .constant(.notStarted), isPresentingSourceType: .constant(false), shouldConvertToGoal: .constant(false), selectedImage: .constant(nil), properties: Properties() , objectId: UUID() ,objectType: .goal, proxy: proxy)
                 .environmentObject(ViewModel())
         }
 

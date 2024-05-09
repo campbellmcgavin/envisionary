@@ -20,10 +20,9 @@ struct BottomNavigationBar: View {
                 ForEach(ContentViewType.allCases,id:\.self){
                     contentView in
                     
-                    if contentView != .execute {
-                        ContentButton(selectedContentView: $selectedContentView, contentView: contentView)
-                            .frame(maxWidth:.infinity)
-                    }
+                    ContentButton(selectedContentView: $selectedContentView, contentView: contentView)
+                        .frame(maxWidth:.infinity)
+                    
                 }
             }
             .frame(height:50)
@@ -36,8 +35,6 @@ struct BottomNavigationBar: View {
                 selectedObject = .value
             case .goals:
                 selectedObject = .goal
-            case .execute:
-                selectedObject = .home
             case .journals:
                 selectedObject = .journal
             }

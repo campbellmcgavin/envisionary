@@ -26,6 +26,8 @@ struct PhotoCardSimple: View {
                 Text(properties.title ?? "")
                     .font(.specify(style: .h4))
                     .foregroundColor(.specify(color: .grey10))
+                    .frame(alignment:.leading)
+                    .multilineTextAlignment(.leading)
                 if let desc = properties.description{
                     if desc.count > 0 {
                         Text(desc)
@@ -43,7 +45,7 @@ struct PhotoCardSimple: View {
         .frame(height:55)
         .onAppear{
             
-            if properties.image != nil {
+            if properties.image != nil && image == nil{
                 DispatchQueue.global(qos:.userInitiated).async{
                     image = vm.GetImage(id: properties.image!)
                 }

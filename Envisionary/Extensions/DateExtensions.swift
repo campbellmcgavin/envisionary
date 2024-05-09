@@ -329,12 +329,8 @@ extension Date{
         let startDate = calendar.date(from: Calendar(identifier: .gregorian).dateComponents([.year], from: self))!
         
         let startYear = calendar.date(byAdding: .year, value: -calendar.dateComponents([.year], from: startDate).year! % 10,  to: startDate)!
-//        let endYear = calendar.date(byAdding: .year, value: 10, to: startYear)!
         
         var years = [Date]()
-        
-        //concern with leap year.
-//        let yearDurationInSeconds: TimeInterval = 60*60*24*365
         var tempYear = startYear
         
         for _ in 0...9{
@@ -405,7 +401,7 @@ extension Date{
         case .decade:
             filterDateStart = calendar.date(byAdding: .year, value: -calendar.dateComponents([.year], from: self).year! % 10,  to: self)!
             filterDateEnd = calendar.date(byAdding: .year, value: 10,  to: self)!
-        default: // day
+        default:
             filterDateStart = minDate!
             filterDateEnd = maxDate!
         }

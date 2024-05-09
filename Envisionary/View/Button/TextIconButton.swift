@@ -83,6 +83,7 @@ struct TextIconLabel: View {
     let fontSize: CustomFont
     let shouldFillWidth: Bool
     var iconType: IconType? = nil
+    var iconColor: CustomColor?
     var addHeight: CGFloat = 0
     var iconPositionRight: Bool = true
     var iconOpacity: CGFloat = 1.0
@@ -134,7 +135,7 @@ struct TextIconLabel: View {
                     .frame(alignment:.trailing)
                     .opacity(iconOpacity)
                 iconType.ToIconString().ToImage(imageSize: height)
-                    .foregroundColor(.specify(color: backgroundColor))
+                    .foregroundColor(.specify(color: iconColor != nil ? iconColor! : backgroundColor))
                     .frame(alignment:.trailing)
             }
             .frame(alignment:.trailing)

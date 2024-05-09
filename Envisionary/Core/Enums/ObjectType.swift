@@ -15,19 +15,13 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
     
     case value = 0
     case creed = 1
-    case dream = 2
     case aspect = 3
     case goal = 4
-    case habit = 5
-    case session = 6
-//    case task = 7
-    case home = 7
-    case favorite = 8
     case journal = 9
     case entry = 10
-    case prompt = 11
-    case recurrence = 12
     case valueRating = 13
+    case progressPoint = 14
+    case na = 15
     
     func ShouldShowImage() -> Bool{
         switch self {
@@ -39,29 +33,15 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             return true
         case .goal:
             return true
-        case .session:
-            return false
-//        case .task:
-//            return false
-        case .habit:
-            return true
-        case .home:
-            return false
         case .journal:
             return true
         case .entry:
             return false
-//        case .stats:
-//            return false
-        case .dream:
-            return true
-        case .prompt:
-            return false
-        case .recurrence:
-            return false
         case .valueRating:
             return false
-        case .favorite:
+        case .progressPoint:
+            return false
+        case .na:
             return false
         }
     }
@@ -71,13 +51,9 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             
         case .goal:
             return true
-        case .habit:
-            return true
         case .entry:
             return true
         case .journal:
-            return true
-        case .dream:
             return true
         default:
             return false
@@ -85,15 +61,13 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
     }
     
     func hasFilter() -> Bool{
-        return self != .home && self != .favorite
+        return true
     }
     
     func hasCalendar() -> Bool{
         
         switch self{
         case .goal: return true
-        case .habit: return true
-        case .session: return true
         case .entry: return true
         default: return false
         }
@@ -116,28 +90,18 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             return "Aspects"
         case .goal:
             return "Goals"
-        case .habit:
-            return "Habits"
         case .journal:
             return "Journals"
         case .entry:
             return "Entries"
-        case .session:
-            return "Sessions"
         case .creed:
             return "Creed"
-        case .home:
-            return "Today"
-        case .dream:
-            return "Dreams"
-        case .prompt:
-            return "Prompts"
-        case .recurrence:
-            return "Recurrences"
         case .valueRating:
             return "Core Value Rating"
-        case .favorite:
-            return "Faves"
+        case .progressPoint:
+            return ""
+        default:
+            return ""
         }
     }
     
@@ -147,29 +111,19 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             return false
         case .creed:
             return false
-        case .dream:
-            return true
         case .aspect:
             return false
         case .goal:
-            return true
-        case .habit:
-            return true
-        case .session:
-            return false
-        case .home:
             return true
         case .journal:
             return true
         case .entry:
             return true
-        case .prompt:
-            return false
-        case .recurrence:
-            return false
         case .valueRating:
             return false
-        case .favorite:
+        case .progressPoint:
+            return false
+        case .na:
             return false
         }
     }
@@ -184,26 +138,16 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             return "Creed"
         case .goal:
             return "Goal"
-        case .session:
-            return "Session"
-        case .habit:
-            return "Habit"
-        case .home:
-            return "Today"
         case .journal:
             return "Journal"
         case .entry:
             return "Entry"
-        case .dream:
-            return "Dream"
-        case .prompt:
-            return "Prompt"
-        case .recurrence:
-            return "Recurrence"
         case .valueRating:
             return "Value Rating"
-        case .favorite:
-            return "Fave"
+        case .progressPoint:
+            return ""
+        case .na:
+            return ""
         }
     }
     
@@ -217,28 +161,12 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             return .aspect
         case .goal:
             return .goal
-        case .session:
-            return .session
-//        case .task:
-//            return .task
-        case .habit:
-            return .habit
-        case .home:
-            return .task
         case .journal:
             return .chapter
         case .entry:
             return .entry
-        case .dream:
-            return .dream
-        case .prompt:
-            return .favorite
-        case .recurrence:
-            return .habit
-        case .valueRating:
-            return .amount
-        case .favorite:
-            return .favorite
+        default:
+            return .alert
         }
     }
     
@@ -249,34 +177,16 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             return "all " + self.toPluralString()
         case .creed:
             return "your entire life's " + self.toPluralString()
-        case .dream:
-            return "all " + self.toPluralString()
         case .aspect:
             return "all " + self.toPluralString()
         case .goal:
             return "only " + timeframe.toString() + " " + self.toPluralString() + " in " + date.toString(timeframeType: timeframe)
-        case .session:
-            return "only " + timeframe.toString() + " " + self.toPluralString()
-//        case .task:
-//            return "all " + self.toPluralString() + " in " + date.toString(timeframeType: timeframe)
-        case .habit:
-            return "all " + self.toPluralString() + " in " + date.toString(timeframeType: timeframe)
-        case .home:
-            return "your most important items"
         case .journal:
             return "all " + self.toPluralString()
         case .entry:
             return "all " + self.toPluralString() + " in " + date.toString(timeframeType: timeframe)
-//        case .stats:
-//            return "all " + self.toPluralString() + " in " + date.toString(timeframeType: timeframe)
-        case .prompt:
+        default:
             return ""
-        case .recurrence:
-            return ""
-        case .valueRating:
-            return ""
-        case .favorite:
-            return "all " + self.toPluralString()
         }
     }
     
@@ -286,71 +196,16 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             return "are the most core parts of an individual."
         case .creed:
             return "combines values into a moral compass."
-        case .dream:
-            return "are ideas without limitations."
         case .aspect:
             return "are different boxes you organize life with."
         case .goal:
             return "are the base unit to accomplish everything."
-        case .session:
-            return "are the mechanism for changing the plan."
-//        case .task:
-//            return "are the smallest, most bite-sized action."
-        case .habit:
-            return "are actions that repeat themselves."
-        case .home:
-            return "is what you need to get done today."
         case .journal:
             return "are collections of journal entries."
         case .entry:
             return "are pages within a journal chapter."
-//        case .stats:
-//            return "are performance insights."
-        case .prompt:
+        default:
             return ""
-        case .recurrence:
-            return ""
-        case .valueRating:
-            return ""
-        case .favorite:
-            return "are anything you mark with a star."
-        }
-    }
-    
-    func toContentType() -> ContentViewType{
-        switch self {
-        case .value:
-            return .values
-        case .creed:
-            return .values
-        case .dream:
-            return .values
-        case .aspect:
-            return .values
-        case .goal:
-            return .goals
-        case .session:
-            return .goals
-//        case .task:
-//            return .plan
-        case .habit:
-            return .goals
-        case .home:
-            return .execute
-        case .journal:
-            return .journals
-        case .entry:
-            return .journals
-//        case .stats:
-//            return .evaluate
-        case .prompt:
-            return .execute
-        case .recurrence:
-            return .execute
-        case .valueRating:
-            return .execute
-        case .favorite:
-            return .execute
         }
     }
     
@@ -360,64 +215,32 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             return "Values, or core values, are the most core part of an individual. Take away you social network, career, and accomplishments and you're left with that which you hold most important."
         case .creed:
             return "Your creed combines the descriptions of all values into a descriptive moral compass."
-        case .dream:
-            return "Your dreams are without bounds and without limitations. No rules, no walls, just imagination."
         case .aspect:
             return "Aspects help compartmentalize your life. By having different boxes for different parts of you, it makes it easier to keep things clean and organized."
         case .goal:
             return "Goals are the base unit for accomplishing everything. A goal has a clear explanation of what needs to happen to complete the goal, as well as a start date and end date."
-        case .session:
-            return "Sessions, or Planning Sessions, are the mechanism for constantly evaluating and re-evaluating your plans. Sessions allow you to choose a timeframe and date, view the currently planned goals, and then walk through and make revisions and additions to the affected goals."
-//        case .task:
-//            return "Tasks are at the bottom of the execution pyramid and are the smallest, most bite-sized action."
-        case .habit:
-            return "Habits are tasks that repeat themselves over a specific schedule, with a start date and an end date."
-        case .home:
-            return ""
         case .journal:
             return "Chapters are collections of journal entries. A chapter typically encloses an a certain period or topic of your life."
         case .entry:
             return "Entries, or Journal Entries, are a page within a chapter."
-//        case .stats:
-//            return "Stats, or statistics, offer performance insight into various areas of your life."
-        case .prompt:
-            return ""
-        case .recurrence:
-            return ""
-        case .valueRating:
-            return ""
-        case .favorite:
-            return "Favorites are anything you mark with a star."
-        }
-    }
-    
-    func toTextArray() -> [String]{
-        
-        var array = [String]()
-        
-        array.append(self.toPluralString() + " " + self.toDescription())
-        
-        switch self {
-        case .goal:
-            array.append("You can break big goals down into smaller goals 🌷. Each goal is locked to a timeframe (decades, years, months, weeks and days ☀️).")
-        case .session:
-            array.append("Pick a date, and then sessions automatically gathers everything you have planned for that period. 🦄")
-            array.append("You'll be able to align everything with your values, and evaluate how to proceed with each goal. ❤️")
-        case .home:
-            array.append("You'll see the goals and habits that are happening now, as well as your favorites and reminders.")
-        case .journal:
-            array.append("Just like chapters in your book of life!")
-        case .entry:
-            array.append("Think... pages in a chapter... in your book of life. ☀️🐇")
         default:
-            let _ = "why"
+            return ""
         }
-                         
-         return array
     }
     
     func hasProperty(property:PropertyType) -> Bool{
         switch self {
+        case .progressPoint:
+            switch property{
+            case .date:
+                return true
+            case .amount:
+                return true
+            case .parentId:
+                return true
+            default:
+                return false
+            }
         case .value:
             switch property {
             case .description:
@@ -490,60 +313,6 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             default:
                 return false
             }
-        case .session:
-            switch property {
-            case .timeframe:
-                return true
-            case .date:
-                return true
-            case .dateCompleted:
-                return true
-            case .edited:
-                return true
-            case .leftAsIs:
-                return true
-            case .pushedOff:
-                return true
-            case .deleted:
-                return true
-            case .title:
-                return true
-            default:
-                return false
-            }
-        case .habit:
-            switch property {
-            case .title:
-                return true
-            case .description:
-                return true
-            case .timeframe:
-                return false
-            case .startDate:
-                return true
-            case .endDate:
-                return true
-            case .aspect:
-                return true
-            case .priority:
-                return true
-            case .parentId:
-                return true
-            case .scheduleType:
-                return true
-            case .amount:
-                return true
-            case .unit:
-                return true
-            case .archived:
-                return true
-            default:
-                return false
-            }
-        case .home:
-            return false
-        case .favorite:
-            return false
         case .journal:
             switch property {
             case .timeframe:
@@ -594,47 +363,6 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             default:
                 return false
             }
-//        case .stats:
-//            return false
-        case .dream:
-            switch property {
-            case .title:
-                return true
-            case .description:
-                return true
-            case .aspect:
-                return true
-            case .archived:
-                return true
-            case .image:
-                return true
-            default:
-                return false
-            }
-        case .prompt:
-            if property == .promptType{
-                return true
-            }
-            return false
-        case .recurrence:
-            switch property {
-            case .startDate:
-                return true
-            case .endDate:
-                return true
-            case .scheduleType:
-                return true
-            case .unit:
-                return true
-            case .amount:
-                return true
-            case .habitId:
-                return true
-            case .archived:
-                return true
-            default:
-                return false
-            }
         case .valueRating:
             switch property {
             case .valueId:
@@ -646,6 +374,8 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             default:
                 return false
             }
+        default:
+            return false
         }
     }
     
@@ -681,21 +411,6 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             case .archive:
                 return false
             }
-        case .dream:
-            switch button {
-            case .delete:
-                return true
-            case .help:
-                return true
-            case .edit:
-                return true
-            case .add:
-                return false
-            case .favorite:
-                return true
-            case .archive:
-                return true
-            }
         case .aspect:
             switch button {
             case .delete:
@@ -726,40 +441,6 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             case .archive:
                 return true
             }
-        case .session:
-            switch button {
-            case .delete:
-                return true
-            case .help:
-                return true
-            case .edit:
-                return false
-            case .add:
-                return false
-            case .favorite:
-                return false
-            case .archive:
-                return false
-            }
-        case .habit:
-            switch button {
-            case .delete:
-                return true
-            case .help:
-                return true
-            case .edit:
-                return true
-            case .add:
-                return false
-            case .favorite:
-                return true
-            case .archive:
-                return true
-            }
-        case .home:
-            return false
-        case .favorite:
-            return false
         case .journal:
             switch button {
             case .delete:
@@ -790,36 +471,14 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             case .archive:
                 return true
             }
-        case .prompt:
-            return false
-        case .recurrence:
-            return false
         case .valueRating:
             return false
+        default:return false
         }
     }
     
     func hasFilter(filter: FilterType) -> Bool{
         switch self {
-        case .dream:
-            switch filter {
-            case .archived:
-                return true
-            case .subGoals:
-                return false
-            case .aspect:
-                return true
-            case .priority:
-                return false
-            case .progress:
-                return false
-            case .date:
-                return false
-            case .creed:
-                return false
-            case .entry:
-                return false
-            }
         case .goal:
             switch filter {
             case .archived:
@@ -832,25 +491,6 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
                 return true
             case .progress:
                 return true
-            case .date:
-                return true
-            case .creed:
-                return false
-            case .entry:
-                return false
-            }
-        case .habit:
-            switch filter {
-            case .archived:
-                return true
-            case .subGoals:
-                return false
-            case .aspect:
-                return true
-            case .priority:
-                return true
-            case .progress:
-                return false
             case .date:
                 return true
             case .creed:
@@ -914,10 +554,6 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             return PromptHelper.valuePrompts.randomElement()!
         case .creed:
             return PromptHelper.valuePrompts.randomElement()!
-        case .dream:
-            return PromptHelper.dreamPrompts.randomElement()!
-        case .session:
-            return PromptHelper.sessionPrompts.randomElement()!
         case .entry:
             return PromptHelper.entryPrompts.randomElement()!
         default:
@@ -935,8 +571,6 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             return detailStack == .valueGoalAlignment
         case .creed:
             return detailStack == .creed
-        case .dream:
-            return detailStack == .convertToGoal
         case .aspect:
             return false
         case .goal:
@@ -952,23 +586,11 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
             default:
                 return false
             }
-        case .habit:
-            return detailStack == .habitProgress
-        case .session:
-            return detailStack == .affectedGoals
-        case .home:
-            return false
-        case .favorite:
-            return false
         case .journal:
             return detailStack == .children || detailStack == .images
         case .entry:
             return detailStack == .images
-        case .prompt:
-            return false
-        case .recurrence:
-            return false
-        case .valueRating:
+        default:
             return false
         }
     }

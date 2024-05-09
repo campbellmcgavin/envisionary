@@ -8,18 +8,19 @@
 import SwiftUI
 
 struct Header<Content: View>: View {
-    @State var offset: CGPoint = .zero
+    
     var title: String
     var subtitle: String
     var objectType: ObjectType
     let color: CustomColor
     @Binding var isPresentingImageSheet: Bool
+    @Binding var selectedImage: UIImage?
     var modalType: ModalType?
     var image: UIImage?
     var headerFrame: CGFloat = 150
     @ViewBuilder var content: Content
     private let coordinateSpaceName = UUID()
-    
+    @State var offset: CGPoint = .zero
     var body: some View {
         BuildHeader()
     
@@ -29,9 +30,12 @@ struct Header<Content: View>: View {
     @ViewBuilder
     func BuildHeader() -> some View{
         ZStack{
-            HeaderText(title: title, subtitle: subtitle, color: color, modalType: modalType, objectType: objectType, content: {content})
+            DetailHeaderText(title: title, subtitle: subtitle, color: color, modalType: modalType, objectType: objectType, content: {content})
             if(ShouldShowImage()){
                 HeaderImage(offset: offset, modalType: modalType, image: image, isPresentingImageSheet: $isPresentingImageSheet)
+                    .onTapGesture {
+                        selectedImage = image
+                    }
             }
         }
         .offset(y:GetOffset())

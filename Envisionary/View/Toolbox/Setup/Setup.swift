@@ -9,16 +9,14 @@ import SwiftUI
 
 struct Setup: View {
     @Binding var shouldClose: Bool
-    @State var setupStep: SetupStepType = .archetype
+    @State var setupStep: SetupStepType = .welcome
     @State var shouldAct: Bool = false
     @State var canProceedStep: [SetupStepType: Bool] = [SetupStepType: Bool]()
     @State var canProceedMessages: [SetupStepType: Bool] = [SetupStepType: Bool]()
     @State var bumpScrollView: Bool = false
     @State var contentView: ContentViewType = .values
     @State var shouldGoBack: Bool = false
-    @State var archetype: ArchetypeType? = nil
     @State var didUsePreviousData: Bool = false
-    
     let counterTime: Double = 20
 //    @State var shouldBlock = false
     
@@ -38,7 +36,7 @@ struct Setup: View {
                                 .foregroundColor(.specify(color: .grey8))
                                 .font(.specify(style: .h5))
                                 .frame(maxWidth:.infinity, alignment:.leading)
-                            Text(setupStep.GetHeader(archetype: archetype))
+                            Text(setupStep.GetHeader())
                                 .foregroundColor(.specify(color: .grey10))
                                 .font(.specify(style: .h1))
                                 .padding(.bottom,20)
@@ -143,11 +141,6 @@ struct Setup: View {
         .background(Color.specify(color: .grey0))
         .onAppear(){
             setupStep = vm.tutorialStep
-            
-            if let archetype = UserDefaults.standard.string(forKey: SettingsKeyType.archetype_type.toString())
-            {
-                self.archetype = ArchetypeType.fromString(from: archetype)
-            }
         }
     }
 
@@ -159,14 +152,10 @@ struct Setup: View {
             SetupTemplate(canProceed: BindingCanProceedMessages(for: .welcome), bumpScrollView: $bumpScrollView, textArray: SetupStepType.welcome.toTextArray(), content: {TutorialWelcome(canProceed: BindingCanProceedStep(for: .welcome))})
         case .envisionary:
             SetupTemplate(canProceed: BindingCanProceedMessages(for: .envisionary), bumpScrollView: $bumpScrollView, textArray: SetupStepType.envisionary.toTextArray(), content: {TutorialEnvisionary(canProceed: BindingCanProceedStep(for: .envisionary))})
-        case .phases:
-            SetupTemplate(canProceed: BindingCanProceedMessages(for: .phases), bumpScrollView: $bumpScrollView, textArray: SetupStepType.phases.toTextArray(), content: {TutorialPhases(canProceed: BindingCanProceedStep(for: .phases), selectedContent: $contentView, isOverview: true)})
-        case .archetype:
-            SetupTemplate(canProceed: BindingCanProceedMessages(for: .archetype), bumpScrollView: $bumpScrollView, textArray: SetupStepType.archetype.toTextArray(), content: {TutorialArchetype(canProceed: BindingCanProceedStep(for: .archetype), selectedArchetype: $archetype)})
         case .getStarted:
             SetupTemplate(canProceed: BindingCanProceedMessages(for: .getStarted), bumpScrollView: $bumpScrollView, textArray: SetupStepType.getStarted.toTextArray(), content: {TutorialGetStarted(canProceed: BindingCanProceedStep(for: .getStarted))})
         case .thePoint:
-            SetupTemplate(canProceed: BindingCanProceedMessages(for: .thePoint), bumpScrollView: $bumpScrollView, textArray: SetupStepType.thePoint.toTextArray(), content: {TutorialThePoint(canProceed: BindingCanProceedStep(for: .thePoint))})
+            SetupTemplate(canProceed: BindingCanProceedMessages(for: .thePoint), bumpScrollView: $bumpScrollView, textArray: SetupStepType.thePoint.toTextArray(), content: {TutorialArchetype(canProceed: BindingCanProceedStep(for: .thePoint))})
         case .loadPreviousData:
             SetupTemplate(canProceed: BindingCanProceedMessages(for: .loadPreviousData), bumpScrollView: $bumpScrollView, textArray: SetupStepType.loadPreviousData.toTextArray(), content: {TutorialLoadPreviousData(canProceed: BindingCanProceedStep(for: .loadPreviousData), didUsePreviousData: $didUsePreviousData)})
         case .oneMoreThing:

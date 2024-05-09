@@ -56,7 +56,8 @@ struct BubbleViewLabel: View {
         .opacity(shouldShowDetails ? 1.0 : 0.0)
         .modifier(ModifierCard(color: focusGoal == goalId ? highlightColor : color))
 
-        .frame(width:width < 50 ? 50 : width, height:height)
+        .frame(width:width < 30 ? 30 : width, height:height)
+        .opacity(width == 0 ? 0 : 1.0)
         .onAppear{
             if shouldShowDetails{
                 LoadGoal()
@@ -93,7 +94,7 @@ struct BubbleViewLabel: View {
     func GetColor() -> CustomColor{
         if let goal{
             
-            if goal.startDate > Date(){
+            if goal.startDate != nil && goal.startDate! > Date(){
                 
                 if goal.progress.toStatusType() == .notStarted{
                     return .grey5

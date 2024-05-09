@@ -12,8 +12,8 @@ struct UpdateGoalRequest{
     var title: String = ""
     var description: String = ""
     var priority: PriorityType = .moderate
-    var startDate: Date = Date()
-    var endDate: Date = Date()
+    var startDate: Date?
+    var endDate: Date?
     var progress: Int = 0
     var image: UUID? = nil
     var aspect: String = AspectType.academic.toString()
@@ -32,7 +32,7 @@ struct UpdateGoalRequest{
 //    var timeframe: TimeframeType?
 //    var schedule: ScheduleType?
 
-    init(title: String, description: String, priority: PriorityType, startDate: Date, endDate: Date, percentComplete: Int, image: UUID, aspect: String, parent: UUID, valuesDictionary: [String:Bool], archived: Bool, completedDate: Date?, superId: UUID?)//, isRecurring: Bool, amount: Int?, unitOfMeasure: UnitType?, timeframe: TimeframeType?, schedule: ScheduleType?)
+    init(title: String, description: String, priority: PriorityType, startDate: Date?, endDate: Date?, percentComplete: Int, image: UUID, aspect: String, parent: UUID, valuesDictionary: [String:Bool], archived: Bool, completedDate: Date?, superId: UUID?)//, isRecurring: Bool, amount: Int?, unitOfMeasure: UnitType?, timeframe: TimeframeType?, schedule: ScheduleType?)
     {
         self.title = title
         self.description = description
@@ -76,12 +76,16 @@ struct UpdateGoalRequest{
 //        self.schedule = goal.schedule
     }
     
+    func hasDates() -> Bool{
+        return self.startDate != nil && self.endDate != nil
+    }
+    
     init(properties: Properties){
         self.title = properties.title ?? ""
         self.description = properties.description ?? ""
         self.priority = properties.priority ?? .critical
-        self.startDate = properties.startDate ?? Date()
-        self.endDate = properties.endDate ?? Date()
+        self.startDate = properties.startDate
+        self.endDate = properties.endDate
         self.progress = properties.progress ?? 0
         self.image = properties.image
         self.aspect = properties.aspect ?? AspectType.academic.toString()

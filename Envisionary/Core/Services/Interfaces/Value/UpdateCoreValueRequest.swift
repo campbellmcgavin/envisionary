@@ -11,11 +11,13 @@ struct UpdateCoreValueRequest{
     
     var description: String = ""
     var image: UUID?
+    var reorderCoreValueId: UUID? = nil
 
-    init(description: String, image: UUID?)
+    init(description: String, image: UUID?, reorderCoreValueId: UUID?)
     {
         self.description = description
         self.image = image
+        self.reorderCoreValueId = reorderCoreValueId
     }
     
     init(properties: Properties){

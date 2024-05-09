@@ -103,7 +103,7 @@ struct PinchToZoom: ViewModifier {
     func body(content: Content) -> some View {
         content
             .scaleEffect(scale, anchor: anchor)
-            .animation(.spring(), value: isPinching)
+            .animation(.smooth, value: isPinching)
             .overlay(PinchZoom(minScale: minScale, maxScale: maxScale, scale: $scale, isPinching: $isPinching))
     }
 }

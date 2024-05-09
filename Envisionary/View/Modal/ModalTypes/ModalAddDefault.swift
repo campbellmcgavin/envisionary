@@ -179,13 +179,6 @@ struct ModalAddDefault: View {
             if modalType == .edit  && objectId != nil {
                 _ = vm.UpdateCoreValue(id: objectId!, request: UpdateCoreValueRequest(properties: properties))
             }
-        case .dream:
-            if modalType == .add {
-                _ = vm.CreateDream(request: CreateDreamRequest(properties: properties))
-            }
-            if modalType == .edit  && objectId != nil {
-                _ = vm.UpdateDream(id: objectId!, request: UpdateDreamRequest(properties: properties))
-            }
         case .aspect:
             if modalType == .add {
                 _ = vm.CreateAspect(request: CreateAspectRequest(properties: properties))
@@ -195,20 +188,14 @@ struct ModalAddDefault: View {
             }
         case .goal:
             if modalType == .add {
-                if convertDreamId != nil {
-                    _ = vm.DeleteDream(id: convertDreamId!)
-                    convertDreamId = vm.CreateGoal(request: CreateGoalRequest(properties: properties))
+                if properties.isRecurring != true{
+                    properties.timeframe = nil
+                    properties.amount = nil
+                    properties.unitOfMeasure = nil
+                    properties.timeframe = nil
+                    properties.schedule = nil
                 }
-                else{
-                    if properties.isRecurring != true{
-                        properties.timeframe = nil
-                        properties.amount = nil
-                        properties.unitOfMeasure = nil
-                        properties.timeframe = nil
-                        properties.schedule = nil
-                    }
-                    _ = vm.CreateGoal(request: CreateGoalRequest(properties: properties))
-                }
+                _ = vm.CreateGoal(request: CreateGoalRequest(properties: properties))
             }
             if modalType == .edit && objectId != nil {
                 _ = vm.UpdateGoal(id: objectId!, request: UpdateGoalRequest(properties: properties))
@@ -227,13 +214,6 @@ struct ModalAddDefault: View {
             if modalType == .edit && objectId != nil {
                 _ = vm.UpdateEntry(id: objectId!, request: UpdateEntryRequest(properties: properties))
             }
-        case .habit:
-            if modalType == .add {
-                _ = vm.CreateHabit(request: CreateHabitRequest(properties: properties))
-            }
-            if modalType == .edit && objectId != nil {
-                _ = vm.UpdateHabit(id: objectId!, request: UpdateHabitRequest(properties: properties))
-            }
         default:
             let _ = ""
         }
@@ -249,12 +229,7 @@ struct ModalAddDefault: View {
             properties = Properties()
             
             if objectType == .goal{
-                if convertDreamId != nil{
-                    GetValuesFromDream()
-                }
-                else{
-                    GetValuesFromParentGoalId()
-                }
+                GetValuesFromParentGoalId()
             }
             else if objectType == .entry{
                 properties.chapterId = parentChapterId
@@ -277,10 +252,6 @@ struct ModalAddDefault: View {
                         properties = Properties(goal: goal)
                     }
                     GetValuesFromParentGoalId()
-                case .dream:
-                    if let dream = vm.GetDream(id: objectId!){
-                        properties = Properties(dream: dream)
-                    }
                 case .journal:
                     if let chapter = vm.GetChapter(id: objectId!){
                         properties = Properties(chapter:chapter)
@@ -288,10 +259,6 @@ struct ModalAddDefault: View {
                 case .entry:
                     if let entry = vm.GetEntry(id: objectId!){
                         properties = Properties(entry: entry)
-                    }
-                case .habit:
-                    if let habit = vm.GetHabit(id: objectId!){
-                        properties = Properties(habit: habit)
                     }
                 default:
                     properties = Properties()
@@ -342,20 +309,6 @@ struct ModalAddDefault: View {
             }
         }
     }
-    
-    func GetValuesFromDream(){
-        if let dream =  vm.GetDream(id: convertDreamId ?? UUID()){
-            properties.title = dream.title
-            properties.description = dream.description
-            properties.startDate = Date()
-            properties.endDate =  properties.startDate?.AdvanceDate(timeframe: .decade, forward: true)
-            properties.timeframe = .decade
-            properties.aspect = dream.aspect
-            properties.image = dream.image
-            properties.priority = .high
-        }
-    }
-    
 }
 
 struct ModalAddDefault_Previews: PreviewProvider {

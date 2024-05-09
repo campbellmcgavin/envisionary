@@ -37,8 +37,6 @@ struct ArchetypeCard: View {
                     .foregroundColor(.specify(color: IsSelected() ? .grey9 : .grey7))
                     .multilineTextAlignment(.leading)
                     .padding(.bottom,3)
-//                    .padding(.top,3)
-//                    .lineLimit(1)
             }
             .padding(.leading)
             .padding(.trailing,20)

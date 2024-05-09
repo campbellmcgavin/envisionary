@@ -13,18 +13,21 @@ struct CoreValue: Codable, Equatable, Hashable, Identifiable, Comparable {
     var title: String
     var description: String
     var image: UUID?
+    var position: String
     
-    init(id: UUID = UUID(), coreValue: String, description: String, image: UUID?) {
+    init(id: UUID = UUID(), coreValue: String, description: String, image: UUID?, position: String) {
         self.id = id
         self.title = coreValue
         self.description = description
         self.image = image
+        self.position = position
     }
     
     init(title: String){
         self.id = UUID()
         self.title = title
         self.description = ""
+        self.position = ""
     }
     
     init(){
@@ -32,13 +35,7 @@ struct CoreValue: Codable, Equatable, Hashable, Identifiable, Comparable {
         self.title = ValueType.Kindness.toString()
         self.description = "I am kind in all of my deeds."
         self.image = nil
-    }
-    
-    init(request: CreateCoreValueRequest){
-        self.id = UUID()
-        self.title = request.title
-        self.description = request.description
-        self.image = request.image
+        self.position = ""
     }
     
     init(from coreValueEntity: CoreValueEntity){
@@ -46,6 +43,7 @@ struct CoreValue: Codable, Equatable, Hashable, Identifiable, Comparable {
         self.title = coreValueEntity.title ?? ""
         self.description = coreValueEntity.desc ?? ""
         self.image = coreValueEntity.image
+        self.position = coreValueEntity.position ?? ""
     }
     
     static func <(lhs: CoreValue, rhs: CoreValue) -> Bool {

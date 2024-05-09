@@ -664,6 +664,16 @@ enum ValueType: CaseIterable, Codable, Hashable {
             return "I believe " + self.toString() + " is an important core value and I invest everyday to making it more a core part of my life."
         }
     }
+    
+    static func GetDemoValues() -> [Self]{
+        return [.Accountability,
+            .Achievement,
+            .Balance,
+            .Creativity,
+            .Humility,
+            .Innovation,
+            .SelfDiscipline]
+    }
     static func fromString(input: String) -> Self{
         return Self.allCases.first(where: {$0.toString() == input}) ?? .Kindness
     }

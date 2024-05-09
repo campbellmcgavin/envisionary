@@ -12,6 +12,7 @@ struct ScrollViewDirectionReader: View {
     let sensitivity: CGFloat
     let startingPoint: CGPoint
     @Binding var isPositive: Bool
+    var shouldAnimate: Bool = true
     @State var offset: CGPoint = .zero
     private let id = UUID()
     var body: some View {
@@ -30,8 +31,34 @@ struct ScrollViewDirectionReader: View {
             content: {Text("here").opacity(0.001)}
         )
         .onChange(of: offset){ [offset] newOffset in
-            withAnimation{
-                
+            if shouldAnimate{
+                withAnimation{
+                    
+                    if axis == .horizontal{
+                        if abs(offset.x - newOffset.x) > sensitivity  && newOffset.x > startingPoint.x{
+                            if newOffset.x - offset.x < 0 {
+                                isPositive = true
+                            }
+                            else{
+                                isPositive = false
+                            }
+                        }
+
+                    }
+                    else{
+                        if abs(offset.y - newOffset.y) > sensitivity && newOffset.y > startingPoint.y {
+                            if newOffset.y - offset.y > 0 {
+                                isPositive = true
+                            }
+                            else{
+                                isPositive = false
+                            }
+                        }
+
+                    }
+                }
+            }
+            else{
                 if axis == .horizontal{
                     if abs(offset.x - newOffset.x) > sensitivity  && newOffset.x > startingPoint.x{
                         if newOffset.x - offset.x < 0 {
@@ -52,16 +79,9 @@ struct ScrollViewDirectionReader: View {
                             isPositive = false
                         }
                     }
-
                 }
             }
             
         }
     }
 }
-
-//struct ScrollViewDirectionReader_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ScrollViewDirectionReader()
-//    }
-//}

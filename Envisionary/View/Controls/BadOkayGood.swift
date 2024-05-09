@@ -12,7 +12,7 @@ struct BadOkayGood: View {
     
     let options = [0,1,2]
     var body: some View {
-        HStack{
+        HStack(spacing:0){
             ForEach(options, id:\.self){
                 state in
                 
@@ -20,21 +20,25 @@ struct BadOkayGood: View {
                     fieldValue = state
                 }
             label:{
-                ZStack{
+                ZStack(alignment:.center){
                     Circle()
-                        .frame(width:SizeType.medium.ToSize(), height:SizeType.medium.ToSize())
-                        .foregroundColor(.specify(color: fieldValue == state ? .grey3 : .grey2))
+                        .stroke(Color.specify(color: GetColor(option: state)), lineWidth: 3)
+                        .frame(width:SizeType.small.ToSize(), height:SizeType.small.ToSize())
+                        .opacity(0.18)                    
                     
                     Circle()
-                        .frame(width:SizeType.medium.ToSize() - 10, height:SizeType.medium.ToSize() - 10)
-                        .foregroundColor(.specify(color: fieldValue == state ? GetColor(option: state) : .clear))
+                        .frame(width:SizeType.small.ToSize()-5, height:SizeType.small.ToSize()-5)
+                        .foregroundColor(.specify(color: GetColor(option: state)))
+                        .opacity(fieldValue == state ? 1.0 : 0.0001)
                 }
                 .frame(maxWidth:.infinity)
             }
+
             .buttonStyle(.plain)
             }
         }
-        .padding(8)
+        .animationsDisabled()
+        .padding([.top,.bottom],4)
     }
     
     func GetColor(option: Int) -> CustomColor{

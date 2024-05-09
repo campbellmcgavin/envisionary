@@ -34,14 +34,11 @@ struct ContentViewStack: View {
     var body: some View {
         
         VStack{
-            let _ = Self._printChanges()
             if !vm.unlockedObjects.fromObject(object: vm.filtering.filterObject){
                 BuildUnlockCard()
             }
             else{
-                VStack(alignment:.leading){
-                    AlertsBuilder()
-                    
+                VStack(alignment:.leading){                    
                     let objectType = vm.filtering.filterObject
                     
                     if vm.filtering.filterObject.hasFilter(){
@@ -90,6 +87,8 @@ struct ContentViewStack: View {
         }
         .onChange(of: vm.updates){
             _ in
+            
+            
             UpdateData()
         }
         .onChange(of: vm.grouping){
@@ -124,9 +123,7 @@ struct ContentViewStack: View {
         VStack{
             VStack(alignment:.leading){
                 
-                ForEach(vm.filtering.filterObject.toTextArray(), id:\.self){
-                    text in
-                    Text(text)
+                Text(vm.filtering.filterObject.toPluralString() + " " + vm.filtering.filterObject.toDescription())
                         .multilineTextAlignment(.leading)
                         .frame(alignment:.leading)
                         .font(.specify(style: .h5))
@@ -135,13 +132,9 @@ struct ContentViewStack: View {
                         .padding()
                         .modifier(ModifierForm(color:.grey2))
                         .padding([.leading,.trailing], 8)
-                }
                 
-                let object = vm.filtering.filterObject
-                let noCustomizeArray: [ObjectType] = [.session, .home, .favorite, .entry]
-                if !noCustomizeArray.contains(object){
+                let text = vm.filtering.filterObject == .goal ? "The goals here the ones you chose during setup. You can delete or modify anything you see." : "We've provided some " + vm.filtering.filterObject.toPluralString() + " to get you started. Everything can be changed or removed."
                     
-                    let text = vm.filtering.filterObject == .creed ? "We built out your " + vm.filtering.filterObject.toPluralString().lowercased() + " based on the values for your archetype, the " + vm.archetype.toString() : "We built out your " + vm.filtering.filterObject.toPluralString() + " based on your archetype, the " + vm.archetype.toString()
                     Text(text)
                         .multilineTextAlignment(.leading)
                         .frame(alignment:.leading)
@@ -151,9 +144,6 @@ struct ContentViewStack: View {
                         .padding()
                         .modifier(ModifierForm(color:.grey2))
                         .padding([.leading,.trailing], 8)
-                }
-                
-                
                 
             }
             .padding([.top, .bottom],8)
@@ -169,13 +159,9 @@ struct ContentViewStack: View {
         withAnimation{
             switch vm.filtering.filterObject {
             case .value:
-                propertiesList = vm.ListCoreValues(criteria: vm.filtering.GetFilters()).sorted(by: {$0.title < $1.title}).map({Properties(value: $0)})
+                propertiesList = vm.ListCoreValues(criteria: vm.filtering.GetFilters()).map({Properties(value: $0)})
             case .creed:
-                propertiesList = vm.ListCoreValues(criteria: vm.filtering.GetFilters()).sorted(by: {$0.title < $1.title}).filter({$0.title != ValueType.Introduction.toString() && $0.title != ValueType.Conclusion.toString()}).map({Properties(value: $0)})
-            case .dream:
-                propertiesDictionary = vm.GroupDreams(criteria: vm.filtering.GetFilters(), grouping: vm.grouping.dream).mapValues({$0.map({Properties(dream: $0)})})
-            case .aspect:
-                propertiesList = vm.ListAspects(criteria: vm.filtering.GetFilters()).sorted(by: {$0.title < $1.title}).map({Properties(aspect: $0)})
+                propertiesList = vm.ListCoreValues(criteria: vm.filtering.GetFilters()).map({Properties(value: $0)})
             case .goal:
                 if vm.filtering.filterIncludeCalendar == DateFilterType.gantt{
                     propertiesList = vm.ListGoals(criteria: vm.filtering.GetFilters()).map({Properties(goal: $0)})
@@ -191,32 +177,6 @@ struct ContentViewStack: View {
                 else{
                     propertiesDictionary = vm.GroupChapters(criteria: vm.filtering.GetFilters(), grouping: vm.grouping.chapter).mapValues({$0.map({Properties(chapter: $0)})})
                 }
-            case .session:
-                propertiesList = vm.ListSessions(criteria: vm.filtering.GetFilters()).sorted(by: {$0.dateCompleted > $1.dateCompleted}).map({Properties(session: $0)})
-            case .favorite:
-                propertiesList = vm.ListPrompts(criteria: Criteria(type: .favorite)).map({Properties(prompt: $0)})
-            case .home:
-                propertiesDictionary.removeAll()
-                let recurrences = vm.ListRecurrences(criteria: GetRecurrenceCriteria()).sorted(by: {!$0.isComplete && $1.isComplete}).map({Properties(recurrence: $0)})
-//                let hints = vm.ListPrompts(criteria: Criteria(type: .suggestion)).map({Properties(prompt: $0)})
-                let goals = vm.ListGoals(criteria: GetGoalCriteria()).sorted(by: {
-//                    if $0.progress != $1.progress{
-//                        return $0.progress < $1.progress
-//                    }
-                    return $0.title < $1.title
-                })
-                    
-                if recurrences.count > 0 {
-                    propertiesDictionary[HomeObjectType.habit.toPluralString()] = recurrences
-                }
-//                if hints.count > 0{
-//                    propertiesDictionary[HomeObjectType.hint.toPluralString()] = hints
-//                }
-                if goals.count > 0{
-                    propertiesDictionary[HomeObjectType.goal.toPluralString()] = goals.map({Properties(goal: $0)})
-                }
-            case .habit:
-                propertiesDictionary = vm.GroupHabits(criteria: vm.filtering.GetFilters(), grouping: vm.grouping.habit).mapValues({$0.map({Properties(habit: $0)})})
             default:
                 let _ = "why"
             }
@@ -253,14 +213,10 @@ struct ContentViewStack: View {
                         PhotoCard(objectType: objectType, objectId: properties.id, properties: properties)
                     }
                 }
-                else{
-                    if objectType == .favorite {
-                        PromptCard(promptProperties: properties)
-                    }
-                    else if properties.title != ValueType.Introduction.toString() && properties.title != ValueType.Conclusion.toString(){
-                        PhotoCard(objectType: objectType, objectId: properties.id, properties: properties)
-                    }
+                else if properties.title != ValueType.Introduction.toString() && properties.title != ValueType.Conclusion.toString(){
+                    PhotoCard(objectType: objectType, objectId: properties.id, properties: properties)
                 }
+                
 
                 if propertiesList.last != properties{
                     StackDivider()
@@ -277,63 +233,6 @@ struct ContentViewStack: View {
         }
         else{
             return propertiesList.count > 0
-        }
-    }
-    
-    @ViewBuilder
-    func HomeBuilder(header: String) -> some View{
-        
-        if let propertyList = propertiesDictionary[header]{
-            
-            let homeObjectType = HomeObjectType.fromString(from: header)
-            if propertyList.count > 0{
-                
-                LazyVStack{
-                    ForEach(propertyList){properties in
-                        switch homeObjectType{
-                        case .hint:
-                            let _ = "why"
-                        case .favorite:
-                            PromptCard(promptProperties: properties)
-                        case .goal:
-                            CheckOff(goalId: properties.id, properties: properties, canEdit: false, proxy: proxy, isPresenting: $isPresenting, modalType: $modalType)
-    //                        GoalTrackingCard(goalId: properties.id)
-                        case .habit:
-                            RecurrenceCard(goalId:  properties.habitId ?? UUID(), recurrenceId: .constant(properties.id), date: .constant(Date()))
-                        }
-                        if propertyList.last != properties && homeObjectType != .goal{
-                            StackDivider()
-                        }
-                    }
-                }
-                .if(homeObjectType != .goal){
-                    view in
-                    view.modifier(ModifierCard())
-                }
-            }
-            else{
-                Text(GetHomeNoObjectCaption(homeObjectType: homeObjectType))
-                    .font(.specify(style: .caption))
-                    .foregroundColor(.specify(color: .grey3))
-                    .multilineTextAlignment(.leading)
-                    .frame(alignment:.leading)
-                    .padding(.leading)
-                    .frame(maxWidth:.infinity)
-                    .frame(minHeight: 55)
-            }
-        }
-    }
-    
-    func GetHomeNoObjectCaption(homeObjectType: HomeObjectType) -> String{
-        switch homeObjectType {
-        case .habit:
-            return "Looks like you don't have any habits scheduled for today."
-        case .goal:
-            return "Looks like you don't have any goals scheduled for today."
-        case .favorite:
-            return "Looks like you don't have any favorites. Mark any object as a favorite by tapping on the ★ button."
-        case .hint:
-            return "Looks like you wrapped up all your hints for today."
         }
     }
     
@@ -371,7 +270,7 @@ struct ContentViewStack: View {
             VStack{
                 if GetHasContent(){
                     if vm.filtering.filterIncludeCalendar == .gantt{
-                        MasterGanttView(properties: $propertiesList)
+                        MasterGanttView(properties: $propertiesList, isLocal: false)
                             .padding(.top)
                             .padding(8)
                             .frame(alignment:.leading)
@@ -436,37 +335,30 @@ struct ContentViewStack: View {
                 HeaderWithContent(shouldExpand: $shouldExpandAll, headerColor: .grey10, header: header, isExpanded: shouldExpandAll, content: {
 
                     let shouldShowElements = !(vm.filtering.filterObject == ObjectType.goal) || ( vm.filtering.filterObject == .goal && !vm.filtering.filterShowSubGoals)
-                        
-                            if objectType == .home{
-                                HomeBuilder(header: header)
-                            }
-                            else{
-                                VStack(alignment:.leading,spacing:0){
-                                if let propertyList = propertiesDictionary[header]{
-                                        ForEach(propertyList){ properties in
-                                            VStack{
-                                                if vm.filtering.filterShowSubGoals && vm.filtering.filterObject == .goal{
-                                                    CheckOff(goalId: properties.id, properties: properties, canEdit: false, proxy: proxy, isPresenting: $isPresenting, modalType: $modalType)
-                                                }
-                                                else{
-                                                    PhotoCard(objectType: objectType, objectId: properties.id, properties: properties)
-                                                }
-                                                
-                                            }
-                                            
-                                            if propertyList.last != properties && shouldShowElements{
-                                                StackDivider()
-                                            }
-                                        }
-//                                    }
+                    
+                    VStack(alignment:.leading,spacing:0){
+                    if let propertyList = propertiesDictionary[header]{
+                            ForEach(propertyList){ properties in
+                                VStack{
+                                    if vm.filtering.filterShowSubGoals && vm.filtering.filterObject == .goal{
+                                        CheckOff(goalId: properties.id, properties: properties, canEdit: false, proxy: proxy, isPresenting: $isPresenting, modalType: $modalType)
+                                    }
+                                    else{
+                                        PhotoCard(objectType: objectType, objectId: properties.id, properties: properties)
+                                    }
+                                    
+                                }
+                                
+                                if propertyList.last != properties && shouldShowElements{
+                                    StackDivider()
                                 }
                             }
-                            .if(shouldShowElements){
-                                view in
-                                view.modifier(ModifierCard())
-                            }
-                            }
-
+                    }
+                }
+                .if(shouldShowElements){
+                    view in
+                    view.modifier(ModifierCard())
+                }
                 })
             }
         }
@@ -482,40 +374,21 @@ struct ContentViewStack: View {
             return false
         case .creed:
             return false
-        case .dream:
-            return true
         case .aspect:
             return false
         case .goal:
             return vm.filtering.filterIncludeCalendar != .gantt
-        case .habit:
-            return true
-        case .session:
-            return false
-        case .home:
-            return true
         case .journal:
             return true
         case .entry:
             return calendarOn
-        case .prompt:
-            return false
-        case .recurrence:
-            return false
         default:
             return false
         }
     }
     
     func GetHeaders(){
-        
-        headers = [String]()
-        switch vm.filtering.filterObject{
-        case .home:
-            headers = Array(HomeObjectType.allCases.sorted(by: {$0.toInt() < $1.toInt()})).filter({self.propertiesDictionary.keys.contains($0.toPluralString())}).map({$0.toPluralString()})
-        default:
-            headers = Array(propertiesDictionary.keys.map({String($0)}).sorted(by: {$0 < $1}))
-        }
+        headers = Array(propertiesDictionary.keys.map({String($0)}).sorted(by: {$0 < $1}))
     }
     
     func GetResultCount() -> Int{

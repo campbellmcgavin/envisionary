@@ -82,3 +82,17 @@ enum PromptType: CaseIterable, Hashable, Codable {
         return Self.allCases.first(where: {$0.toString() == string}) ?? .favorite
     }
 }
+
+enum HelpPromptType {
+    case object
+    case content
+    
+    func toString() -> String{
+        switch self {
+        case .object:
+            return "Object"
+        case .content:
+            return "Content"
+        }
+    }
+}

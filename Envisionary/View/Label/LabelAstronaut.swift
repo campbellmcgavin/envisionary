@@ -16,7 +16,7 @@ struct LabelAstronaut: View {
                     .offset(x:75,y:-75)
                     .opacity(0.8)
                 "shape_astronaut_lost".ToImage(imageSize: 150)
-                    .expensiveWiggling()
+                    .wiggling(intensity:3.0)
             }
             Text("Nothing to see out here.")
                 .font(.specify(style: .h6))

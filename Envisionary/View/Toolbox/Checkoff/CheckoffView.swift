@@ -10,6 +10,7 @@ import SwiftUI
 struct CheckoffView<Value: Identifiable, V: View>: View where Value: Equatable {
     @Binding var shouldShowAll: Bool
     @Binding var focusGoal: UUID
+    @Binding var newGoalId: UUID?
     let parentGoalId: UUID
     let goalId: UUID
     let leftPadding: CGFloat
@@ -68,27 +69,25 @@ struct CheckoffView<Value: Identifiable, V: View>: View where Value: Equatable {
                         
                         StackDivider(shouldIndent: false, color: .grey3)
                         
-                        // can't see any goals
-                        // or all goals completed
-                        if visibleChildGoals == 0 || allGoalsCompleted {
-                            CheckoffCard(goalId: nil, superId: parentGoalId, canEdit: true, leftPadding: leftPadding + 30 + 8, outerPadding: outerPadding, proxy: proxy, shouldDismissInteractively: shouldDismissInteractively, isLocal: isLocal, selectedGoalId: $focusGoal, isPresentingModal: .constant(false), modalType: .constant(.add),  newGoalId: .constant(nil), dropFields: .constant(CheckOffDropDelegateField()))
-                                .padding(.top,-9)
-                        }
+//                        if visibleChildGoals == 0 || allGoalsCompleted {
+//                            CheckoffCard(goalId: nil, superId: parentGoalId, canEdit: true, leftPadding: leftPadding + 30 + 8, outerPadding: outerPadding, proxy: proxy, shouldDismissInteractively: shouldDismissInteractively, isLocal: isLocal, selectedGoalId: $focusGoal, isPresentingModal: .constant(false), modalType: .constant(.add),  newGoalId: $newGoalId, dropFields: .constant(CheckOffDropDelegateField()))
+//                                .padding(.top,-9)
+//                        }
                     }
                     
                 }
             
             ForEach(goals, content: { child in
                     if (ShouldShow(goal: child)){
-                        CheckoffView(shouldShowAll: $shouldShowAll, focusGoal: $focusGoal, parentGoalId: parentGoalId, goalId: child.id, leftPadding: leftPadding + 30, outerPadding: outerPadding, canEdit: canEdit, proxy: proxy, shouldDismissInteractively: shouldDismissInteractively, isLocal: isLocal, value: self.value)
+                        CheckoffView(shouldShowAll: $shouldShowAll, focusGoal: $focusGoal, newGoalId: $newGoalId, parentGoalId: parentGoalId, goalId: child.id, leftPadding: leftPadding + 30, outerPadding: outerPadding, canEdit: canEdit, proxy: proxy, shouldDismissInteractively: shouldDismissInteractively, isLocal: isLocal, value: self.value)
                     }
                 })
             
             if parentGoalId == goalId{
-                if visibleChildGoals != 0 && goals.last?.progress ?? 100 < 100 {
-                    CheckoffCard(goalId: nil, superId: parentGoalId, canEdit: true, leftPadding: leftPadding + 30 + 8, outerPadding: outerPadding, proxy: proxy, shouldDismissInteractively: shouldDismissInteractively, isLocal: isLocal, selectedGoalId: $focusGoal, isPresentingModal: .constant(false), modalType: .constant(.add),  newGoalId: .constant(nil), dropFields: .constant(CheckOffDropDelegateField()))
-                        .offset(x:-2)
-                }
+//                if visibleChildGoals != 0 && goals.last?.progress ?? 100 < 100 {
+                    CheckoffCard(goalId: nil, superId: parentGoalId, canEdit: true, leftPadding: leftPadding + 30 + 8, outerPadding: outerPadding, proxy: proxy, shouldDismissInteractively: shouldDismissInteractively, isLocal: isLocal, selectedGoalId: $focusGoal, isPresentingModal: .constant(false), modalType: .constant(.add),  newGoalId: $newGoalId, dropFields: .constant(CheckOffDropDelegateField()))
+                        .offset(x:-8)
+//                }
                 
                 Spacer()
             }

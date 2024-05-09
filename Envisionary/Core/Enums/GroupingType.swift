@@ -61,23 +61,6 @@ enum GroupingType: CaseIterable {
             return false
         case .creed:
             return false
-        case .dream:
-            switch self {
-            case .title:
-                return true
-            case .aspect:
-                return true
-            case .priority:
-                return false
-            case .progress:
-                return false
-            case .schedule:
-                return false
-            case .chapter:
-                return false
-            case .hasImages:
-                return false
-            }
         case .aspect:
             return false
         case .goal:
@@ -97,27 +80,6 @@ enum GroupingType: CaseIterable {
             case .hasImages:
                 return false
             }
-        case .session:
-            return false
-        case .habit:
-            switch self {
-            case .title:
-                return true
-            case .aspect:
-                return true
-            case .priority:
-                return true
-            case .progress:
-                return false
-            case .schedule:
-                return true
-            case .chapter:
-                return false
-            case .hasImages:
-                return false
-            }
-        case .home:
-            return false
         case .journal:
             switch self {
             case .title:
@@ -152,14 +114,7 @@ enum GroupingType: CaseIterable {
             case .hasImages:
                 return true
             }
-        case .prompt:
-            return false
-        case .recurrence:
-            return false
-        case .valueRating:
-            return false
-        case .favorite:
-            return false
+        default:return false
         }
     }
     
