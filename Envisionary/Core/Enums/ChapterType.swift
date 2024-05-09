@@ -186,6 +186,10 @@ enum ChapterType: CaseIterable {
         }
     }
     
+    static func GetDemoValues() -> [Self]{
+        return [.myInsecurities,.inspirationalQuotes,.onePercentBetterEveryday,.businessIdeas,.privateDoNotRead,.cookingAndWine]
+    }
+    
     func toRequest() -> CreateChapterRequest{
         switch self {
         case .backpackingEurope:

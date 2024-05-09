@@ -1,3 +1,5 @@
+// expanded menu
+
 //
 //  ExpandedMenu.swift
 //  Envisionary
@@ -43,26 +45,22 @@ struct ExpandedMenu: View {
                             Text(!ShouldShowDates() ? "Timeframe" : vm.filtering.filterDate.toString(timeframeType: vm.filtering.filterTimeframe))
                                 .font(.specify(style: .h3))
                             
-//                            if vm.filtering.filterObject != .session{
                                 DateResetButton()
                                 .opacity(!ShouldShowDates() ? 0.0 : 1.0)
                                 .disabled(!ShouldShowDates())
-//                            }
                         }
    
                     }
 
                     Spacer()
-                    if ShouldShowDates() && vm.filtering.filterObject != .session{
                         IconButton(isPressed: $shouldMoveDateBackward, size: .small, iconType: .left, iconColor: .grey10)
                         IconButton(isPressed: $shouldMoveDateForward, size: .small, iconType: .right, iconColor: .grey10)
-                    }
                 }
                 .padding(.trailing,-12)
                 .padding(.top,10)
+                
                 VStack(alignment:.center, spacing:0){
                     ScrollPickerTimeframe()
-//                        .padding(.top,10)
                         .padding(.bottom,ShouldShowDates() ? 0 : 20)
                     if(ShouldShowDates()){
 
@@ -77,18 +75,8 @@ struct ExpandedMenu: View {
                         }
 
                         HStack{
-//                            IconButton(isPressed: .constant(false), size: .small, iconType: .down, iconColor: .grey10)
-//                                .disabled(true)
-//                                .opacity(0)
-//                            Spacer()
                             IconButton(isPressed: $isPresentingExpandedCalendar, size: .small, iconType: .down, iconColor: .grey10)
                                 .rotationEffect(Angle(degrees: isPresentingExpandedCalendar ? 180 : 0))
-                            
-//                            Spacer()
-                            
-
-                            
-                            
                         }
 
                     }
@@ -161,22 +149,10 @@ struct ExpandedMenu: View {
             return false
         case .goal:
             return true
-        case .session:
-            return true
-//        case .task:
-//            return true
-        case .habit:
-            return true
-        case .home:
-            return false
         case .journal:
             return false
         case .entry:
             return true
-        case .dream:
-            return false
-        case .prompt:
-            return false
         default:
             return false
         }
@@ -193,22 +169,10 @@ struct ExpandedMenu: View {
             return false
         case .goal:
             return true
-        case .session:
-            return false
-//        case .task:
-//            return true
-        case .habit:
-            return true
-        case .home:
-            return false
         case .journal:
             return false
         case .entry:
             return true
-        case .dream:
-            return false
-        case .prompt:
-            return false
         default:
             return false
         }
@@ -221,3 +185,5 @@ struct ExpandedMenu_Previews: PreviewProvider {
             .environmentObject(ViewModel())
     }
 }
+
+

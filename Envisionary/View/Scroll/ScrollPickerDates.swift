@@ -223,25 +223,6 @@ struct ScrollPickerDates: View {
         }
     }
     
-//    func FilterDictionaryToTimeframe(contentViewType: ContentViewType, timeframeType: TimeframeType){
-//
-//        switch contentViewType {
-//        case .envision:
-//            let _ = "why"
-//        case .plan:
-//            datesWithContent  = vm.GetDatesWithContent(objectType: .goal, filterTimeframe: vm.filterTimeframe, viewMenu: viewMenu)
-//        case .execute:
-//            datesWithContent  = vm.GetDatesWithContent(objectType: .goal, filterTimeframe: vm.filterTimeframe, viewMenu: viewMenu)
-//        case .journal:
-//            datesWithContent  = vm.GetDatesWithContent(objectType: .journalEntry, filterTimeframe: vm.filterTimeframe, viewMenu: viewMenu)
-//        case .evaluate:
-//            datesWithContent  = vm.GetDatesWithContent(objectType: .session, filterTimeframe: vm.filterTimeframe, viewMenu: viewMenu)
-//
-//        }
-//    }
-    
-    
-    
     func GetIsSelected(value: DateValue) -> Bool{
         switch vm.filtering.filterTimeframe{
         case .decade:
@@ -262,7 +243,7 @@ struct ScrollPickerDates: View {
 
 struct ScrollPickerDates_Previews: PreviewProvider {
     static var previews: some View {
-        ScrollPickerTimeframe()
+        ScrollPickerDates()
             .environmentObject(ViewModel())
     }
 }

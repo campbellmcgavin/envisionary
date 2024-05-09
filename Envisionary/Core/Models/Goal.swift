@@ -13,8 +13,8 @@ struct Goal: Identifiable, Codable, Equatable, Hashable {
     var title: String
     var description: String
     var priority: PriorityType
-    var startDate: Date
-    var endDate: Date
+    var startDate: Date?
+    var endDate: Date?
     var completedDate: Date?
     var progress: Int
     var aspect: String
@@ -30,7 +30,7 @@ struct Goal: Identifiable, Codable, Equatable, Hashable {
 //    var timeframe: TimeframeType?
 //    var schedule: ScheduleType?
     
-    init(id: UUID = UUID(), title: String, description: String, priority: PriorityType, startDate: Date, endDate: Date, percentComplete: Int, aspect: String, image: UUID?, parent: UUID?, position: String, superId: UUID?){//}, isRecurring: Bool, amount: Int?, unitOfMeasure: UnitType?, timeframe: TimeframeType?, schedule: ScheduleType?){
+    init(id: UUID = UUID(), title: String, description: String, priority: PriorityType, startDate: Date?, endDate: Date?, percentComplete: Int, aspect: String, image: UUID?, parent: UUID?, position: String, superId: UUID?){//}, isRecurring: Bool, amount: Int?, unitOfMeasure: UnitType?, timeframe: TimeframeType?, schedule: ScheduleType?){
         self.id = id
         self.title = title
         self.description = description
@@ -57,19 +57,11 @@ struct Goal: Identifiable, Codable, Equatable, Hashable {
         self.title = emptyTitle ? "" : "New Goal with a long name"
         self.description = ""
         self.priority = .moderate
-        self.startDate = Date()
-        self.endDate = Date()
         self.progress = 0
         self.aspect = AspectType.academic.toString()
         self.archived = false
         self.position = "A"
         self.superId = nil
-        
-//        self.isRecurring = false
-//        self.amount = nil
-//        self.unitOfMeasure = nil
-//        self.timeframe = nil
-//        self.schedule = nil
     }
     
     init(from entity: GoalEntity){
@@ -77,8 +69,8 @@ struct Goal: Identifiable, Codable, Equatable, Hashable {
         self.title = entity.title ?? ""
         self.description = entity.desc ?? ""
         self.priority = PriorityType.allCases.first(where: {$0.toString() == entity.priority ?? ""}) ?? .low
-        self.startDate = entity.startDate ?? Date()
-        self.endDate = entity.endDate ?? Date()
+        self.startDate = entity.startDate
+        self.endDate = entity.endDate
         self.progress = Int(entity.progress)
         self.aspect = entity.aspect ?? ""
         self.image = entity.image
@@ -93,6 +85,10 @@ struct Goal: Identifiable, Codable, Equatable, Hashable {
 //        self.unitOfMeasure = UnitType.fromString(input: entity.unitOfMeasure ?? "")
 //        self.timeframe = TimeframeType.fromString(input: entity.timeframe ?? "")
 //        self.schedule = ScheduleType.fromString(input: entity.schedule ?? "")
+    }
+    
+    func hasDates() -> Bool{
+        return self.startDate != nil && self.endDate != nil
     }
     
     mutating func update(from request: UpdateGoalRequest) {

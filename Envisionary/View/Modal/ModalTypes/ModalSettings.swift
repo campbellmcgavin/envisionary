@@ -27,12 +27,12 @@ struct ModalSettings: View {
     
     @EnvironmentObject var vm: ViewModel
     var body: some View {
-        Modal(modalType: .settings, objectType: .home, isPresenting: $isPresenting, shouldConfirm: $isPresenting, isPresentingImageSheet: .constant(false), allowConfirm: true, modalContent: {
+        Modal(modalType: .settings, objectType: .na, isPresenting: $isPresenting, shouldConfirm: $isPresenting, isPresentingImageSheet: .constant(false), allowConfirm: true, modalContent: {
             
             VStack(spacing:0){
                 ParentHeaderButton(shouldExpandAll: $shouldExpandAll, color: .purple, header: "Expand All", headerCollapsed: "Collapse All")
 //                GetContent()
-                GetContentPrompts()
+//                GetContentPrompts()
                 GetNotificationsPrompt()
                 Spacer()
             }
@@ -42,12 +42,6 @@ struct ModalSettings: View {
         }, headerContent:{EmptyView()}, bottomContent: {EmptyView()}, betweenContent: {EmptyView()})
         
             .onAppear{
-//                groupingDream = vm.grouping.dream.toPluralString()
-//                groupingGoal = vm.grouping.goal.toPluralString()
-//                groupingTask = vm.grouping.task.toPluralString()
-//                groupingHabit = vm.grouping.habit.toPluralString()
-//                groupingChapter = vm.grouping.chapter.toPluralString()
-//                groupingEntry = vm.grouping.entry.toPluralString()
                 promptObject = vm.helpPrompts.object
                 promptContent = vm.helpPrompts.content
                 promptShowing = vm.helpPrompts.showing
@@ -55,36 +49,7 @@ struct ModalSettings: View {
                 reminderDigest = vm.notifications.digest
                 reminderValue = vm.notifications.valueAlignment
             }
-//            .onChange(of: groupingDream){
-//                _ in
-//                vm.grouping.dream = GroupingType.allCases.first(where:{$0.toPluralString() == groupingDream}) ?? .title
-//                UserDefaults.standard.set(groupingDream, forKey: SettingsKeyType.group_dream.toString())
-//            }
-//            .onChange(of: groupingGoal){
-//                _ in
-//                vm.grouping.goal = GroupingType.allCases.first(where:{$0.toPluralString() == groupingGoal}) ?? .title
-//                UserDefaults.standard.set(groupingGoal, forKey: SettingsKeyType.group_goal.toString())
-//            }
-//            .onChange(of: groupingTask){
-//                _ in
-//                vm.grouping.task = GroupingType.allCases.first(where:{$0.toPluralString() == groupingTask}) ?? .title
-//                UserDefaults.standard.set(groupingTask, forKey: SettingsKeyType.group_task.toString())
-//            }
-//            .onChange(of: groupingHabit){
-//                _ in
-//                vm.grouping.habit = GroupingType.allCases.first(where:{$0.toPluralString() == groupingHabit}) ?? .title
-//                UserDefaults.standard.set(groupingHabit, forKey: SettingsKeyType.group_habit.toString())
-//            }
-//            .onChange(of: groupingChapter){
-//                _ in
-//                vm.grouping.chapter = GroupingType.allCases.first(where:{$0.toPluralString() == groupingChapter}) ?? .title
-//                UserDefaults.standard.set(groupingChapter, forKey: SettingsKeyType.group_chapter.toString())
-//            }
-//            .onChange(of: groupingEntry){
-//                _ in
-//                vm.grouping.entry = GroupingType.allCases.first(where:{$0.toPluralString() == groupingEntry}) ?? .title
-//                UserDefaults.standard.set(groupingEntry, forKey: SettingsKeyType.group_entry.toString())
-//            }
+
             .onChange(of: promptObject){
                 _ in
                 vm.helpPrompts.object = promptObject
@@ -121,17 +86,17 @@ struct ModalSettings: View {
             }
     }
     
-    @ViewBuilder
-    func GetContentPrompts() -> some View {
-        HeaderWithContent(shouldExpand: $shouldExpandAll, headerColor: .grey10, header: "Help", content: {
-            VStack(spacing:10){
-                FormRadioButton(fieldValue: $promptContent, caption: "Help", fieldName: HelpPromptType.content.toString() + " Prompts", iconType: .help)
-                FormRadioButton(fieldValue: $promptObject, caption: "Help", fieldName: HelpPromptType.object.toString() + " Prompts", iconType: .help)
-            }
-            .padding([.leading,.trailing],8)
-            .padding([.top])
-        })
-    }
+//    @ViewBuilder
+//    func GetContentPrompts() -> some View {
+//        HeaderWithContent(shouldExpand: $shouldExpandAll, headerColor: .grey10, header: "Help", content: {
+//            VStack(spacing:10){
+//                FormRadioButton(fieldValue: $promptContent, caption: "Help", fieldName: HelpPromptType.content.toString() + " Prompts", iconType: .help)
+//                FormRadioButton(fieldValue: $promptObject, caption: "Help", fieldName: HelpPromptType.object.toString() + " Prompts", iconType: .help)
+//            }
+//            .padding([.leading,.trailing],8)
+//            .padding([.top])
+//        })
+//    }
     
     @ViewBuilder
     func GetNotificationsPrompt() -> some View {

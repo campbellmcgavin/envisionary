@@ -45,7 +45,6 @@ struct Properties: Identifiable, Equatable, Hashable, Codable{
     var childrenAddedDictionary: [UUID: [UUID]]?
     
     //prompt
-    var promptType: PromptType?
     var objectType: ObjectType?
     var objectId: UUID?
     
@@ -69,15 +68,6 @@ struct Properties: Identifiable, Equatable, Hashable, Codable{
         id = UUID()
     }
     
-    init(recurrence: Recurrence?){
-        self.id = recurrence?.id ?? UUID()
-        self.parentGoalId = recurrence?.parentId ?? UUID()
-        self.schedule = recurrence?.scheduleType ?? .oncePerDay
-        self.amount = recurrence?.amount ?? 0
-        self.habitId = recurrence?.parentId
-        self.archived = recurrence?.archived
-    }
-    
     init(goal: Goal?){
         self.id = goal?.id ?? UUID()
         self.title = goal?.title ?? "Empty Goal"
@@ -92,22 +82,8 @@ struct Properties: Identifiable, Equatable, Hashable, Codable{
         self.archived = goal?.archived
         self.position = goal?.position
         self.superId = goal?.superId
-        
-//        self.isRecurring = goal?.isRecurring
-//        self.amount = goal?.amount
-//        self.unitOfMeasure = goal?.unitOfMeasure
-//        self.timeframe = goal?.timeframe
-//        self.schedule = goal?.schedule
     }
-    
-    init(dream: Dream?){
-        self.id = dream?.id ?? UUID()
-        self.title = dream?.title ?? "Empty Dream"
-        self.description = dream?.description ?? "Empty Description"
-        self.aspect = dream?.aspect
-        self.image = dream?.image
-        self.archived = dream?.archived
-    }
+
     
     init(value: CoreValue?){
         self.id = value?.id ?? UUID()
@@ -155,45 +131,6 @@ struct Properties: Identifiable, Equatable, Hashable, Codable{
         self.chapterId = entry?.chapterId
         self.startDate = entry?.startDate
         self.archived = entry?.archived
-    }
-    
-    init(prompt: Prompt?){
-        self.id = prompt?.id ?? UUID()
-        self.title = prompt?.title ?? ""
-        self.promptType = prompt?.type ?? .favorite
-        self.date = prompt?.date ?? Date()
-        self.objectType = prompt?.objectType ?? .goal
-        self.objectId = prompt?.objectId ?? UUID()
-        self.timeframe = prompt?.timeframe ?? .day
-    }
-    
-    init(session: Session?){
-        self.id = session?.id ?? UUID()
-        self.title = session?.title ?? ""
-        self.date = session?.date ?? Date()
-        self.completedDate = session?.dateCompleted ?? Date()
-        self.timeframe = session?.timeframe ?? .week
-        self.goalProperties = session?.goalProperties
-        self.evaluationDictionary = session?.evaluationDictionary
-        self.alignmentDictionary = session?.alignmentDictionary
-        self.childrenAddedDictionary = session?.childrenAddedDictionary
-    }
-    
-    init(habit: Habit?){
-        self.id = habit?.id ?? UUID()
-        self.title = habit?.title ?? "Empty Goal"
-        self.description = habit?.description ?? "Empty Description"
-        self.timeframe = habit?.timeframe
-        self.startDate = habit?.startDate
-        self.endDate = habit?.endDate
-        self.aspect = habit?.aspect
-        self.priority = habit?.priority
-        self.parentGoalId = habit?.goalId
-        self.image = habit?.image
-        self.amount = habit?.amount
-        self.unitOfMeasure = habit?.unitOfMeasure
-        self.schedule = habit?.schedule
-        self.archived = habit?.archived
     }
     
     func getFormError(propertyType: PropertyType) -> FormErrorType?{

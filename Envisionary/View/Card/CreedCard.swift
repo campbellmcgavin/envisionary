@@ -39,7 +39,7 @@ struct CreedCardList: View{
     @EnvironmentObject var vm: ViewModel
     
     var body: some View{
-        VStack(alignment:.leading){
+        LazyVStack(alignment:.leading){
             Item(caption: "Introduction", body: vm.GetCoreValue(coreValue: .Introduction)?.description ?? "")
 //                .padding(.top)
             let coreValues = vm.ListCoreValues()

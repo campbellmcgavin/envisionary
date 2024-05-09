@@ -50,7 +50,6 @@ struct CheckOffCardNew: View {
                     .padding(.leading,-5)
                     .padding(.trailing,7)
             }
-
         }
         .onTapGesture {
             isSelected = true

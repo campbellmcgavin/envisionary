@@ -11,13 +11,18 @@ struct FormStackPicker: View {
     @Binding var fieldValue: String
     let fieldName: String
     @Binding var options: [String]
+    @Binding var deleteMe: String
+    @Binding var addMe: String
     var iconType: IconType?
     var isSearchable: Bool = false
+    var canEdit: Bool = false
     @State var shouldExpand: Bool = false
     @State var isExpanded: Bool = false
     @State var optionsList = [String]()
     @State var isRestrictingOptions = false
-    
+    @State var isEditing = false
+    @State var addMeText: String = ""
+    @State var shouldAdd: Bool = false
     let maxOptionsListCount = 30
     var body: some View {
             
@@ -30,17 +35,43 @@ struct FormStackPicker: View {
             }
             
             if isExpanded{
-                WrappingHStack(fieldValue: $fieldValue, fieldValues: .constant([String:Bool]()), options: $optionsList, isRestrictingOptions: isRestrictingOptions)
+                WrappingHStack(fieldValue: $fieldValue, fieldValues: .constant([String:Bool]()), options: $optionsList, isEditing: $isEditing, deleteMe: $deleteMe, isRestrictingOptions: isRestrictingOptions)
                     .padding()
+                if canEdit{
+                    HStack{
+                        if isEditing {
+                            //add
+                            
+                            FormText(fieldValue: $addMeText, fieldName: "Add", axis: .horizontal, isMini: true, shouldShowErase: false)
+                            
+                            if addMeText.count > 0 {
+                                IconButton(isPressed: $shouldAdd, size: .small, iconType: .confirm, iconColor: .grey0, circleColor: .grey10)
+                            }
+                        }
+                        Spacer()
+                        // edit
+                        IconButton(isPressed: $isEditing, size: .small, iconType: isEditing ? ( addMeText.count > 0 ? .cancel : .confirm) : .edit, iconColor: .grey10, circleColor: .grey4, hasAnimation: true)
+                    }
+                    .padding([.leading,.trailing,.bottom])
+                }
             }
+
         }
         .onAppear{
             UpdateOptions()
         }
+        .onChange(of: shouldAdd){
+            _ in
+            addMe = addMeText
+            addMeText = ""
+        }
+        .onChange(of: isEditing){ _ in
+            addMeText = ""
+        }
         .onChange(of: shouldExpand){
             _ in
             
-            withAnimation(.spring){
+            withAnimation(.smooth){
                 isExpanded = shouldExpand
             }
         }

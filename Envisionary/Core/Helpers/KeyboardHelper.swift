@@ -39,38 +39,6 @@ public extension KeyInputSubjectWrapper {
         objectWillChange.receive(subscriber: subscriber)
     }
 }
-    
-
-//@main
-//struct ItsRainingPolygonsApp: App {
-//
-//    private let keyInputSubject = KeyInputSubjectWrapper()
-//
-//    var body: some Scene {
-//        WindowGroup {
-//
-//            #if os(macOS)
-//            ContentView()
-//                .frame(idealWidth: .infinity, idealHeight: .infinity)
-//                .onReceive(keyInputSubject) {
-//                    print("Key pressed: \($0)")
-//                }
-//                .environmentObject(keyInputSubject)
-//            #else
-//            ContentView()
-//            #endif
-//        }
-//        .commands {
-//            CommandMenu("Input") {
-//                keyInput(.leftArrow)
-//                keyInput(.rightArrow)
-//                keyInput(.upArrow)
-//                keyInput(.downArrow)
-//                keyInput(.space)
-//            }
-//        }
-//    }
-//}
 
 public func keyboardShortcut<Sender, Label>(
     _ key: KeyEquivalent,

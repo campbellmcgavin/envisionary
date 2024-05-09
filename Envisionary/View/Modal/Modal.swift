@@ -42,7 +42,7 @@ struct Modal<ModalContent: View, HeaderContent: View, BottomContent: View, Betwe
                     ObservableScrollView(offset: $offset, content: {
                             
                         VStack(spacing:0){
-                                Header(title: GetTitle(), subtitle: GetSubtitle(), objectType: objectType, color: GetHeaderColor(), isPresentingImageSheet: $isPresentingImageSheet, modalType: modalType, image: image, content: {headerContent})
+                            Header(title: GetTitle(), subtitle: GetSubtitle(), objectType: objectType, color: GetHeaderColor(), isPresentingImageSheet: $isPresentingImageSheet, selectedImage: .constant(nil), modalType: modalType, image: image, content: {headerContent})
                                 .padding(.bottom, objectType.ShouldShowImage() ? 10 : 0)
                                 
                                 betweenContent
@@ -58,7 +58,6 @@ struct Modal<ModalContent: View, HeaderContent: View, BottomContent: View, Betwe
                                 .modifier(ModifierCard(color: modalType.GetIsMini() ? .clear : .grey1))
                                 .offset(y: GetOffset())
                                 .frame(alignment:.leading)
-                                .offset(y:modalType == .photoSource ? 250 : 100)
                                 .padding(.bottom,modalType.GetIsMini() ? 0 : 500)
                             }
                             .frame(alignment:.top)
@@ -84,15 +83,20 @@ struct Modal<ModalContent: View, HeaderContent: View, BottomContent: View, Betwe
             }
         .frame(maxWidth: .infinity, maxHeight:.infinity,alignment:.bottom)
         .ignoresSafeArea()
-        .animation(.spring,value:isPresenting)
+        .animation(.smooth,value:isPresenting)
     }
     
     func GetOffset() -> CGFloat{
         
-        if modalType.ShouldShowImage(objectType: objectType){
-            return (offset.y < 0 ? -offset.y * 0.5 : 0)
+        if  modalType == .photoSource {
+            return 150
         }
-        return -100
+        
+        if modalType.ShouldShowImage(objectType: objectType){
+            return (offset.y < 0 ? -offset.y * 0.5 : 0) + 100
+        }
+        
+        return 100
     }
     
     func GetBetweenOffset() -> CGFloat{
@@ -196,6 +200,6 @@ struct Modal_Previews: PreviewProvider {
     static var previews: some View {
         Modal(modalType: .add, objectType: .goal, isPresenting: .constant(true), shouldConfirm: .constant(false),isPresentingImageSheet:.constant(false), allowConfirm: true, title: Properties(objectType: .goal).title!, modalContent: {
             EmptyView()
-        }, headerContent: {FormStackPicker(fieldValue: .constant("Goal"), fieldName: "Objects", options: .constant(ObjectType.allCases.map({$0.toString()})))}, bottomContent: {EmptyView()}, betweenContent: {EmptyView()})
+        }, headerContent: {FormStackPicker(fieldValue: .constant("Goal"), fieldName: "Objects", options: .constant(ObjectType.allCases.map({$0.toString()})), deleteMe: .constant(""), addMe: .constant(""))}, bottomContent: {EmptyView()}, betweenContent: {EmptyView()})
     }
 }

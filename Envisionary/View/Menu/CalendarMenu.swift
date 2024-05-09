@@ -115,22 +115,10 @@ struct CalendarMenu: View {
             return false
         case .goal:
             return true
-        case .session:
-            return true
-//        case .task:
-//            return true
-        case .habit:
-            return true
-        case .home:
-            return false
         case .journal:
             return false
         case .entry:
             return true
-        case .dream:
-            return false
-        case .prompt:
-            return false
         default:
             return false
         }
@@ -147,22 +135,10 @@ struct CalendarMenu: View {
             return false
         case .goal:
             return true
-        case .session:
-            return false
-//        case .task:
-//            return true
-        case .habit:
-            return true
-        case .home:
-            return false
         case .journal:
             return false
         case .entry:
             return true
-        case .dream:
-            return false
-        case .prompt:
-            return false
         default:
             return false
         }

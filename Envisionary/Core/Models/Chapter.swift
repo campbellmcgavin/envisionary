@@ -33,15 +33,6 @@ struct Chapter: Identifiable, Codable, Equatable, Hashable  {
         self.archived = false
     }
     
-    init(request: CreateDreamRequest){
-        self.id = UUID()
-        self.title = request.title
-        self.description = request.description
-        self.aspect = request.aspect
-        self.image = nil
-        self.archived = false
-    }
-    
     init(from chapterEntity: ChapterEntity){
         self.id = chapterEntity.id ?? UUID()
         self.title = chapterEntity.title ?? ""
@@ -49,13 +40,5 @@ struct Chapter: Identifiable, Codable, Equatable, Hashable  {
         self.aspect = chapterEntity.aspect ?? ""
         self.image = chapterEntity.image
         self.archived = chapterEntity.archived
-    }
-    
-    mutating func update(from request: UpdateDreamRequest) {
-        title = request.title
-        description = request.description
-        aspect = request.aspect
-        image = request.image
-        archived = request.archived
     }
 }

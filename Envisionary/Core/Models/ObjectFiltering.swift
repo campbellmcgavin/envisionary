@@ -13,7 +13,7 @@ struct ObjectFiltering: Equatable {
     var filterAspect = ""
     var filterPriority = ""
     var filterChapter = ""
-    var filterProgress: StatusType = .none
+
     var filterCoreValue = ""
     var filterCount = 0
     var filterDate = Date()
@@ -21,10 +21,12 @@ struct ObjectFiltering: Equatable {
     var filterObject = ObjectType.goal
     var filterContent = ContentViewType.goals
     var filterIncludeCalendar: DateFilterType = .none
+    
     var filterArchived = false
     var filterShowSubGoals = false
     var filterCreed = false
     var filterEntry = false
+    var filterProgress: StatusType = .none
     
     func GetFilters() -> Criteria {
         let criteria = Criteria(title: self.filterTitle, description: self.filterDescription, timeframe: self.filterTimeframe, date: self.filterDate, aspect: self.filterAspect, priority: self.filterPriority, progress: self.filterProgress, coreValue: self.filterCoreValue, parentId: nil, chapterId: nil, includeCalendar: self.filterIncludeCalendar == .list, archived: self.filterArchived, superOnly: true, superId: nil)

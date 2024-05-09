@@ -79,13 +79,11 @@ struct ModalSearch: View {
             criteria.title = searchString
         }
         
+        objectsFiltered.removeAll()
+        
         switch objectType {
-        case .dream:
-            objectsFiltered = vm.ListDreams(criteria: criteria).map({Properties(dream: $0)})
         case .goal:
             objectsFiltered = vm.ListGoals(criteria: criteria).map({Properties(goal: $0)})
-        case .habit:
-            objectsFiltered = vm.ListHabits(criteria: criteria).map({Properties(habit: $0)})
         case .journal:
             if shouldShowEntries {
                 objectsFiltered = vm.ListEntries(criteria: criteria).map({Properties(entry: $0)})

@@ -38,6 +38,10 @@ enum AspectType: CaseIterable, Codable{
         return .aspect
     }
     
+    static func GetDemoValues() -> [Self]{
+        return [.academic,.career,.emotional,.environment,.family,.mental,.physical,.romantic,.travel]
+    }
+    
     func toString() -> String{
         switch self {
         case .academic: return "Academic"

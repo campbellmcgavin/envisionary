@@ -55,23 +55,12 @@ struct FormFilterStack: View {
         }
         .animation(.easeInOut)
         .onAppear{
-            FilterType.allCases.forEach({filters[$0] = false})
-            aspects = vm.ListAspects().map({$0.title})
-            filters[.archived] = archived
-            filters[.subGoals] = subGoals
-            filters[.aspect] = aspect.count > 0
-            filters[.priority] = priority.count > 0
-            filters[.progress] = progress != .none
-            filters[.creed] = creed
-            filters[.entry] = entry
-            
-            filterShouldChange[.archived] = archived ? 2 : 0
-            filterShouldChange[.subGoals] = subGoals ? 2 : 0
-            filterShouldChange[.aspect] = aspect.count > 0 ? 2 : 0
-            filterShouldChange[.priority] = priority.count > 0 ? 2 : 0
-            filterShouldChange[.progress] = progress != .none ? 2 : 0
-            filterShouldChange[.creed] = creed ? 2 : 0
-            filterShouldChange[.entry] = entry ? 2 : 0
+            ResetFilters()
+        }
+        .onChange(of: vm.filtering.filterObject){
+            _ in
+            ResetFilters()
+            vm.filtering.filterDate
         }
         .onChange(of: shouldClearAll){ _ in
             FilterType.allCases.forEach({
@@ -90,6 +79,26 @@ struct FormFilterStack: View {
         .onChange(of: dateFilter){ _ in
             date = DateFilterType.fromString(from: dateFilter)
         }
+    }
+    
+    func ResetFilters(){
+        FilterType.allCases.forEach({filters[$0] = false})
+        aspects = vm.ListAspects().map({$0.title})
+        filters[.archived] = archived
+        filters[.subGoals] = subGoals
+        filters[.aspect] = aspect.count > 0
+        filters[.priority] = priority.count > 0
+        filters[.progress] = progress != .none
+        filters[.creed] = creed
+        filters[.entry] = entry
+        
+        filterShouldChange[.archived] = archived ? 2 : 0
+        filterShouldChange[.subGoals] = subGoals ? 2 : 0
+        filterShouldChange[.aspect] = aspect.count > 0 ? 2 : 0
+        filterShouldChange[.priority] = priority.count > 0 ? 2 : 0
+        filterShouldChange[.progress] = progress != .none ? 2 : 0
+        filterShouldChange[.creed] = creed ? 2 : 0
+        filterShouldChange[.entry] = entry ? 2 : 0
     }
     
     func ShouldDisplay(filter: FilterType) -> Bool{

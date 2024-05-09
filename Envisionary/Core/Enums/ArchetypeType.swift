@@ -509,15 +509,6 @@ enum ArchetypeType: CaseIterable {
         }
     }
     
-    func hasHabit(habit: HabitType) -> Bool{
-        switch habit{
-        case .dailyExercise: return true
-        case .getUp6am: return true
-        case .eatHealthy: return true
-        default: return false
-        }
-    }
-    
     func hasChapter(chapter: ChapterType) -> Bool{
         switch self {
         case .Achiever:

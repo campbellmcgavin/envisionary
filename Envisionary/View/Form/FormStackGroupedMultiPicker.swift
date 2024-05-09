@@ -46,7 +46,7 @@ struct FormStackGroupedMultiPicker: View {
                                     Spacer()
                                 }
                                 .padding(.leading)
-                                WrappingHStack(fieldValue: .constant(""), fieldValues: $fieldValues, options: .constant(optionsList), isMultiSelector: true, isRestrictingOptions: isRestrictingOptions)
+                                WrappingHStack(fieldValue: .constant(""), fieldValues: $fieldValues, options: .constant(optionsList), isEditing: .constant(false), deleteMe: .constant(""), isMultiSelector: true, isRestrictingOptions: isRestrictingOptions)
                                     .padding()
                             }
                         }
@@ -54,7 +54,7 @@ struct FormStackGroupedMultiPicker: View {
                     .padding(.top)
                 }
                 else{
-                    WrappingHStack(fieldValue: .constant(""), fieldValues: $fieldValues, options: $optionsList, isMultiSelector: true, isRestrictingOptions: isRestrictingOptions)
+                    WrappingHStack(fieldValue: .constant(""), fieldValues: $fieldValues, options: $optionsList, isEditing: .constant(false), deleteMe: .constant(""), isMultiSelector: true, isRestrictingOptions: isRestrictingOptions)
                         .padding()
                 }
                 

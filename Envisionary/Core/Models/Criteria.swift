@@ -19,7 +19,6 @@ struct Criteria {
     var coreValue: String?
     var parentId: UUID?
     var chapterId: UUID?
-    var promptType: PromptType?
     var scheduleType: ScheduleType?
     var isComplete: Bool?
     var amount: Int?
@@ -70,9 +69,7 @@ struct Criteria {
         self.coreValue = nil
         self.parentId = nil
     }
-    init(type: PromptType){
-        self.promptType = type
-    }
+    
     init(valueId: UUID, parentGoalId: UUID){
         self.valueId = valueId
         self.parentId = parentGoalId

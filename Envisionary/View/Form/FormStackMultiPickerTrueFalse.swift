@@ -28,13 +28,13 @@ struct FormStackMultiPickerTrueFalse: View {
                 .frame(height:90)
             
             if !isTrue{
-                WrappingHStack(fieldValue: .constant("nada"), fieldValues: $fieldValues, options: .constant(options), isMultiSelector: true, isRestrictingOptions: isRestrictingOptions)
+                WrappingHStack(fieldValue: .constant("nada"), fieldValues: $fieldValues, options: .constant(options), isEditing: .constant(false), deleteMe: .constant(""), isMultiSelector: true, isRestrictingOptions: isRestrictingOptions)
                     .padding()
             }
         }
         .transition(.move(edge:.bottom))
         .modifier(ModifierForm(color:.grey2))
-        .animation(.easeInOut)
+//        .animation(.easeInOut)
         .onChange(of: isTrue){ _ in
             if isTrue{
                 for fieldValue in fieldValues.keys{

@@ -32,7 +32,7 @@ struct GoalValueAlignmentView: View {
                        .foregroundColor(.specify(color: .grey8))
                 }
                 .padding(8)
-                .modifier(ModifierForm(color: .grey2, radius: .cornerRadiusSmall))
+                .modifier(ModifierForm(color: .grey2, radius: .cornerRadiusForm))
 
                 
                 
@@ -150,9 +150,9 @@ struct GoalValueAlignmentView: View {
         let redCount = valueRatings.filter({$0.amount == 0}).count > 0
         let yellowCount = valueRatings.filter({$0.amount == 1}).count > 0
         let notFinishedCount = valueRatings.filter({$0.amount == -1}).count > 0
-        withAnimation{
+//        withAnimation{
             errorLevel =  notFinishedCount ? -1 : redCount ? 0 : yellowCount ? 1 : 2
-        }
+//        }
     }
     
     func BindingValueRating(for key: CoreValue) -> Binding<CoreValueRating>{
@@ -258,35 +258,35 @@ struct GoalValueAlignmentView: View {
                     }
                     Spacer()
                 }
-                HStack{
-                    if errorLevel == 0{
-                        Text("After all, what's the point of achieving anything if you hurt yourself in the process?")
-                            .foregroundColor(.specify(color: .grey5))
-                            .font(.specify(style: .caption))
-                            .multilineTextAlignment(.leading)
-                            .lineLimit(3)
-                            .padding(.top,4)
-                            .padding(.bottom,8)
-                            .fixedSize(horizontal: false, vertical: true)
-                    }
-                    else if errorLevel == 1{
-                        Text("After all, what's the point of achieving anything if it's not helping you become the best you can be?")
-                            .foregroundColor(.specify(color: .grey5))
-                            .font(.specify(style: .caption))
-                            .multilineTextAlignment(.leading)
-                            .lineLimit(3)
-                            .padding(.bottom,8)
-                            .padding(.top,4)
-                            .fixedSize(horizontal: false, vertical: true)
-                    }
-                    Spacer()
-                }
+//                HStack{
+//                    if errorLevel == 0{
+//                        Text("After all, what's the point of achieving anything if you hurt yourself in the process?")
+//                            .foregroundColor(.specify(color: .grey5))
+//                            .font(.specify(style: .caption))
+//                            .multilineTextAlignment(.leading)
+//                            .lineLimit(3)
+//                            .padding(.top,4)
+//                            .padding(.bottom,8)
+//                            .fixedSize(horizontal: false, vertical: true)
+//                    }
+//                    else if errorLevel == 1{
+//                        Text("After all, what's the point of achieving anything if it's not helping you become the best you can be?")
+//                            .foregroundColor(.specify(color: .grey5))
+//                            .font(.specify(style: .caption))
+//                            .multilineTextAlignment(.leading)
+//                            .lineLimit(3)
+//                            .padding(.bottom,8)
+//                            .padding(.top,4)
+//                            .fixedSize(horizontal: false, vertical: true)
+//                    }
+//                    Spacer()
+//                }
             }
             .padding(.leading,47)
 
         }
         .padding(8)
-        .modifier(ModifierForm(color: .grey2, radius: .cornerRadiusSmall))
+        .modifier(ModifierForm(color: .grey2, radius: .cornerRadiusForm))
     }
 }
 
@@ -310,12 +310,13 @@ struct CoreValuesViewRow: View {
             
             NavigationLink(destination: Detail(objectType: objectType == .goal ? .value : .goal, objectId: properties.id), label: {
                 ZStack{
-                    TextIconLabel(text: properties.title ?? "", color: .grey10, backgroundColor: .grey2, fontSize: .h6, shouldFillWidth: true, iconType: objectType == .goal ? .value : .goal, iconPositionRight: false, iconOpacity: 0.35)
-                    HStack{
-                        Spacer()
-                        IconLabel(size: .extraSmall, iconType: .right, iconColor: .grey35)
-                    }
+                    TextIconLabel(text: properties.title ?? "", color: .grey10, backgroundColor: .clear, fontSize: .h6, shouldFillWidth: true, iconType: .right, iconColor: .grey35, iconPositionRight: true, iconOpacity: 0.0)
+//                    HStack{
+//                        Spacer()
+//                        IconLabel(size: .extraSmall, iconType: .right, iconColor: .grey35)
+//                    }
                 }
+                
             })
             .id(UUID())
             

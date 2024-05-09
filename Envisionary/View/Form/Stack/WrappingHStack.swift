@@ -10,6 +10,8 @@ struct WrappingHStack: View {
     @Binding var fieldValue: String
     @Binding var fieldValues: [String: Bool]
     @Binding var options: [String]
+    @Binding var isEditing: Bool
+    @Binding var deleteMe: String
     var isMultiSelector = false
     var isRestrictingOptions = false
     var maxCount = 20
@@ -92,12 +94,30 @@ struct WrappingHStack: View {
                 }
             }
             else{
-                fieldValue = ""
-                fieldValue = text
+
+                
+                if isEditing{
+                    deleteMe = text
+                }
+                else{
+                    fieldValue = ""
+                    fieldValue = text
+                }
             }
         }
         label:{
             TextIconLabel(text: text, color: .grey10, backgroundColor: GetColor(text:text), fontSize: .caption, shouldFillWidth: false)
+                .if(isEditing){
+                    view in
+                    view
+                        .overlay(alignment:.topTrailing){
+                            
+                            IconLabel(size: .extraSmall, iconType: .cancel, iconColor: .grey10, circleColor: .grey4)
+                                .offset(x:15,y:-15)
+                            .wiggling(intensity:0.5)}
+                        
+                    
+                }
         }
     }
     
@@ -136,7 +156,7 @@ struct WrappingHStack_Previews : PreviewProvider {
     static var previews: some View {
         VStack {
 //            Text("Header").font(.largeTitle)
-            WrappingHStack(fieldValue: .constant("Children"), fieldValues: .constant([String:Bool]()), options: .constant(AspectType.allCases.map({$0.toString()})))
+            WrappingHStack(fieldValue: .constant("Children"), fieldValues: .constant([String:Bool]()), options: .constant(AspectType.allCases.map({$0.toString()})), isEditing: .constant(true), deleteMe: .constant(""))
 
         }
         .frame(maxWidth:.infinity,maxHeight:.infinity)

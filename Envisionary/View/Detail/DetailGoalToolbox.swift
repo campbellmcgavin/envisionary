@@ -13,6 +13,7 @@ struct DetailGoalToolbox: View {
     @Binding var isPresentingSourceType: Bool
     @Binding var modalType: ModalType
     @Binding var focusGoal: UUID
+    @State var viewType: ViewType = .checkOff
     var goalId: UUID
     let proxy: ScrollViewProxy
     let isStatic = false
@@ -21,7 +22,6 @@ struct DetailGoalToolbox: View {
     @State var expandedGoals = [UUID]()
     @State var isExpanded: Bool = true
     @State var currentTimeframe: TimeframeType = .year
-    @State var viewType: ViewType = .tree
     @State var shouldSelectTree = false
     @State var shouldSelectGantt = false
     @State var shouldSelectKanban = false
@@ -31,7 +31,10 @@ struct DetailGoalToolbox: View {
     @State var shouldShowAllCheckOff = false
     @State var viewOptions: [String] = [String]()
     @State var dropFields: CheckOffDropDelegateField = CheckOffDropDelegateField()
+    @State var properties: [Properties] = [Properties]()
+    
     @EnvironmentObject var vm: ViewModel
+    
     
     var body: some View {
         DetailView(viewType: viewType, objectId: goalId, selectedObjectId: $focusGoal, selectedObjectType: .constant(.goal), shouldExpandAll: $shouldExpand, expandedObjects: $expandedGoals, isPresentingModal: $isPresentingModal, modalType: $modalType, isPresentingSourceType: $isPresentingSourceType, didEditPrimaryGoal: $didEditPrimaryGoal, currentTimeframe: currentTimeframe, alternativeTitle: "Toolbox", content: {
@@ -39,12 +42,12 @@ struct DetailGoalToolbox: View {
             VStack{
                 switch viewType {
                 case .gantt:
-                    GanttView(goalId: goalId, focusGoal: $focusGoal, timeframe: $currentTimeframe, didEditPrimaryGoal: $didEditPrimaryGoal)
+                    MasterGanttView(properties: $properties, isLocal: true)
                         .padding(.top)
-                case .kanban:
-                    KanbanView(isPresentingModal: $isPresentingModal, modalType: $modalType, focusGoal: $focusGoal, goalId: goalId)
+                case .progress:                    
+                    ProgressView(id: goalId, objectType: .goal)
                 case .checkOff:
-                    CheckoffView(shouldShowAll: $shouldShowAllCheckOff, focusGoal: $focusGoal, parentGoalId: goalId, goalId: goalId, leftPadding: -27, outerPadding: 17, canEdit: true, proxy: proxy, shouldDismissInteractively: true, isLocal: true, value: {
+                    CheckoffView(shouldShowAll: $shouldShowAllCheckOff, focusGoal: $focusGoal, newGoalId: $newGoalId, parentGoalId: goalId, goalId: goalId, leftPadding: -27, outerPadding: 17, canEdit: true, proxy: proxy, shouldDismissInteractively: true, isLocal: true, value: {
                         goalId, leftPadding, outerPadding in
                         CheckoffCard(goalId: goalId, superId: self.goalId, canEdit: true, leftPadding: leftPadding, outerPadding: outerPadding, proxy: proxy, shouldDismissInteractively: true, isLocal: true, selectedGoalId: $focusGoal, isPresentingModal: $isPresentingModal, modalType: $modalType, newGoalId: $newGoalId, dropFields: $dropFields)
                     })
@@ -75,19 +78,26 @@ struct DetailGoalToolbox: View {
                     }
                 }
                 goal = vm.GetGoal(id: goalId) ?? Goal()
+                properties.removeAll()
+                properties.append(Properties(goal: goal))
+                
                 viewOptions.removeAll()
                 
                 viewOptions.append(ViewType.checkOff.toString())
-//                viewOptions.append(ViewType.tree.toString())
                 viewOptions.append(ViewType.gantt.toString())
-                viewOptions.append(ViewType.kanban.toString())
+//                viewOptions.append(ViewType.kanban.toString())
+                viewOptions.append(ViewType.progress.toString())
                 
-                
-                selectedView = viewOptions.first!
+                selectedView = viewType.toString()
             }
             .onChange(of: vm.updates.goal){
                 _ in
                 goal = vm.GetGoal(id: goalId) ?? Goal()
+                
+                if properties.first != nil {
+                    properties = [Properties(goal: goal)]
+                }
+                
             }
         }, aboveContent: {
             SelectableHStack(fieldValue: $selectedView, options: $viewOptions, fontSize: .h6)

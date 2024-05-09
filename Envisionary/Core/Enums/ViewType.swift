@@ -15,6 +15,7 @@ enum ViewType: CaseIterable {
     case creed
     case valueGoalAlignment
     case checkOff
+    case progress
     
     func toString() -> String{
         switch self {
@@ -32,6 +33,8 @@ enum ViewType: CaseIterable {
             return "Alignment"
         case .checkOff:
             return "Todo"
+        case .progress:
+            return "Progress"
         }
     }
         
@@ -51,6 +54,8 @@ enum ViewType: CaseIterable {
             return "Ensure that your goals are in-line with your core values, and who you want to become."
         case .checkOff:
             return "Throttle the power of hierarchy and execution with a pyramid-style todo list."
+        case .progress:
+            return "Dive into graphs and metrics to see your performance."
         }
     }
     
@@ -62,125 +67,6 @@ enum ViewType: CaseIterable {
             return "FYI, you only need to align your values on super goals. You won't see this on your sub goals."
         default:
             return nil
-        }
-    }
-    
-    func shouldHaveButton(button: ViewMenuButtonType) -> Bool {
-        switch self {
-        case .goalValueAlignment:
-            return false
-        case .tree:
-            switch button {
-            case .delete:
-                return true
-            case .timeBack:
-                return false
-            case .timeForward:
-                return false
-            case .expand:
-                return true
-            case .photo:
-                return true
-            case .edit:
-                return true
-            case .add:
-                return true
-            case .goTo:
-                return true
-            case .forward:
-                return false
-            case .backward:
-                return false
-            case .expand_all:
-                return true
-            case .timeAdd:
-                return false
-            case .timeSubtract:
-                return false
-            }
-        case .gantt:
-            switch button {
-            case .delete:
-                return false
-            case .timeBack:
-                return true
-            case .timeForward:
-                return true
-            case .expand:
-                return true
-            case .photo:
-                return false
-            case .edit:
-                return false
-            case .add:
-                return false
-            case .goTo:
-                return true
-            case .forward:
-                return false
-            case .backward:
-                return false
-            case .expand_all:
-                return true
-            case .timeAdd:
-                return true
-            case .timeSubtract:
-                return true
-            }
-        case .kanban:
-            switch button {
-            case .delete:
-                return true
-            case .timeBack:
-                return false
-            case .timeForward:
-                return false
-            case .expand:
-                return false
-            case .photo:
-                return false
-            case .edit:
-                return false
-            case .add:
-                return false
-            case .goTo:
-                return true
-            case .forward:
-                return true
-            case .backward:
-                return true
-            default:
-                return false
-            }
-        case .creed:
-            switch button {
-            case .delete:
-                return true
-            case .forward:
-                return false
-            case .backward:
-                return false
-            case .timeBack:
-                return false
-            case .timeForward:
-                return false
-            case .expand:
-                return false
-            case .photo:
-                return false
-            case .edit:
-                return true
-            case .add:
-                return false
-            case .goTo:
-                return true
-            default:
-                return false
-            }
-        case .valueGoalAlignment:
-            return false
-        case .checkOff:
-            return false
         }
     }
     
