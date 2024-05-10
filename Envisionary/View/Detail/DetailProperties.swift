@@ -17,11 +17,30 @@ struct DetailProperties: View {
     @EnvironmentObject var vm: ViewModel
     var body: some View {
         
-        LazyVStack(spacing:0){
+//        LazyVStack(spacing:0){
             HeaderButton(isExpanded: $isExpanded, color: .grey10, header: "Details")
+            .onAppear(){
+                RefreshProperties()
+            }
+            .onChange(of: vm.updates.goal){
+                _ in
+                
+                RefreshProperties()
+            }
+            .onChange(of:shouldExpand){
+                _ in
+                withAnimation{
+                    if shouldExpand{
+                        isExpanded = true
+                    }
+                    else{
+                        isExpanded = false
+                    }
+                }
+            }
             
             if isExpanded {
-                VStack(alignment:.leading){
+                LazyVStack(alignment:.leading){
                     ForEach(PropertyType.allCases.filter({objectType.hasProperty(property: $0)})){
                         property in
                             BuildPropertyRow(property: property)
@@ -34,26 +53,8 @@ struct DetailProperties: View {
                 .modifier(ModifierCard())
 
             }
-        }
-        .onAppear(){
-            RefreshProperties()
-        }
-        .onChange(of: vm.updates.goal){
-            _ in
-            
-            RefreshProperties()
-        }
-        .onChange(of:shouldExpand){
-            _ in
-            withAnimation{
-                if shouldExpand{
-                    isExpanded = true
-                }
-                else{
-                    isExpanded = false
-                }
-            }
-        }
+//        }
+        
     }
     
     func RefreshProperties(){

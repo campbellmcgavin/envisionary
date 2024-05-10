@@ -19,7 +19,7 @@ struct ModalSearch: View {
     @State var shouldShowAspectOnly = ""
     @State var shouldShowPriorityOnly = ""
     @State var shouldShowStatusOnly = StatusType.none
-    @State var shouldShowCalendar: DateFilterType = .none
+    @State var shouldShowCalendar: ViewFilterType = .none
     @State var shouldShowEntries: Bool = false
     @EnvironmentObject var vm: ViewModel
     var body: some View {
@@ -28,7 +28,7 @@ struct ModalSearch: View {
               betweenContent: {
             HStack{
                 
-                FormFilterStack(objectType: objectType, date: $shouldShowCalendar, archived: $shouldShowArchivedOnly, subGoals: $shouldShowSubgoals, aspect: $shouldShowAspectOnly, priority: $shouldShowPriorityOnly, progress: $shouldShowStatusOnly, creed: .constant(false), entry: $shouldShowEntries, isSearch: true)
+                FormFilterStack(objectType: objectType, viewType: $shouldShowCalendar, date: .constant(false), archived: $shouldShowArchivedOnly, subGoals: $shouldShowSubgoals, aspect: $shouldShowAspectOnly, priority: $shouldShowPriorityOnly, progress: $shouldShowStatusOnly, creed: .constant(false), entry: $shouldShowEntries, isSearch: true)
             }
         })
         .onChange(of:searchString){ _ in

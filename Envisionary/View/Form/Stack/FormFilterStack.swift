@@ -9,7 +9,8 @@ import SwiftUI
 
 struct FormFilterStack: View {
     let objectType: ObjectType
-    @Binding var date: DateFilterType
+    @Binding var viewType: ViewFilterType
+    @Binding var date: Bool
     @Binding var archived: Bool
     @Binding var subGoals: Bool
     @Binding var aspect: String
@@ -19,12 +20,12 @@ struct FormFilterStack: View {
     @Binding var entry: Bool
     var isSearch = false
     
-    @State var dateFilter: String = ""
+    @State var viewFilter: String = ""
     @State var filters: [FilterType: Bool] = [FilterType:Bool]()
     @State var filterShouldChange: [FilterType: Int] = [FilterType:Int]()
     @State var aspects: [String] = [String]()
     @State var statuses: [String] = StatusType.allCases.map({$0.toString()})
-    @State var dateFilters: [String] = [DateFilterType.list.toString(), DateFilterType.gantt.toString()]
+    @State var viewFilters: [String] = [ViewFilterType.todo.toString(), ViewFilterType.gantt.toString(), ViewFilterType.progress.toString()]
     @State var priorities: [String] = PriorityType.allCases.map({$0.toString()})
     @State var shouldClearAll: Bool = false
     
@@ -40,12 +41,15 @@ struct FormFilterStack: View {
                 TextIconButton(isPressed: $shouldClearAll, text: "Clear all", color: hasFilters ? .grey10 : .grey3, backgroundColor: hasFilters ? .red : .grey1, fontSize: .subCaption, shouldFillWidth: false, iconType: .cancel)
                     .disabled(!hasFilters)
                 
-                ForEach(filters.sorted{
+                let filters = filters.sorted{
                     if $0.value == $1.value {
                         return $0.key.toInt() < $1.key.toInt()
                     }
                     return $0.value && !$1.value
-                }.map({$0.key}), id:\.self){ filter in
+                }.map({$0.key})
+                
+                
+                ForEach(filters, id:\.self){ filter in
                     
                     if objectType.hasFilter(filter: filter) && ShouldDisplay(filter: filter){
                         BuildButton(filter: filter)
@@ -68,22 +72,25 @@ struct FormFilterStack: View {
                 filterShouldChange[$0] = 0
             })
             archived = false
+            date =  false
             subGoals = false
             aspect = ""
             priority = ""
             progress = .none
-            dateFilter = ""
+            viewFilter = ""
             entry = false
             creed = false
         }
-        .onChange(of: dateFilter){ _ in
-            date = DateFilterType.fromString(from: dateFilter)
+        .onChange(of: viewFilter){ _ in
+            viewType = ViewFilterType.fromString(from: viewFilter)
         }
     }
     
     func ResetFilters(){
         FilterType.allCases.forEach({filters[$0] = false})
+        
         aspects = vm.ListAspects().map({$0.title})
+        filters[.date] = date
         filters[.archived] = archived
         filters[.subGoals] = subGoals
         filters[.aspect] = aspect.count > 0
@@ -91,6 +98,7 @@ struct FormFilterStack: View {
         filters[.progress] = progress != .none
         filters[.creed] = creed
         filters[.entry] = entry
+        filters[.view] = viewType != .none
         
         filterShouldChange[.archived] = archived ? 2 : 0
         filterShouldChange[.subGoals] = subGoals ? 2 : 0
@@ -99,6 +107,8 @@ struct FormFilterStack: View {
         filterShouldChange[.progress] = progress != .none ? 2 : 0
         filterShouldChange[.creed] = creed ? 2 : 0
         filterShouldChange[.entry] = entry ? 2 : 0
+        filterShouldChange[.view] = viewType != .none ? 2 : 0
+        filterShouldChange[.date] = date ? 2 : 0
     }
     
     func ShouldDisplay(filter: FilterType) -> Bool{
@@ -107,10 +117,10 @@ struct FormFilterStack: View {
             return !isSearch
         case .entry:
             return true
-        case .date:
+        case .view:
             return !isSearch
         case .subGoals:
-            return date != .gantt
+            return isSearch
         case .aspect:
             return objectType != .journal || !entry
         case .priority:
@@ -119,6 +129,17 @@ struct FormFilterStack: View {
             return true
         case .archived:
             return true
+        case .date:
+            if isSearch{
+                return false
+            }
+            if objectType == .goal && vm.filtering.filterView != .gantt{
+                return true
+            }
+            if objectType == .journal && vm.filtering.filterEntry {
+                return true
+            }
+            return false
         }
     }
     
@@ -154,6 +175,10 @@ struct FormFilterStack: View {
                             if filter == .entry{
                                 entry = true
                             }
+                            
+                            if filter == .date{
+                                date = true
+                            }
                         }
                         
                     }
@@ -167,9 +192,10 @@ struct FormFilterStack: View {
                         case .progress: progress = .none
                         case .subGoals: subGoals = false
                         case .archived: archived = false
-                        case .date: dateFilter = ""
+                        case .view: viewFilter = ""
                         case .creed: creed = false
                         case .entry: entry = false
+                        case .date: date = false
                         }
                     }
                 }
@@ -197,11 +223,13 @@ struct FormFilterStack: View {
             return filter.toString() + (priority.count > 0 ? ": " + priority : "")
         case .progress:
             return filter.toString() + (progress != .none ? ": " + progress.toString() : "")
-        case .date:
-            return filter.toString() + (dateFilter.count > 0 ? ": " + dateFilter : "")
+        case .view:
+            return filter.toString() + (viewFilter.count > 0 ? ": " + viewFilter : "")
         case .creed:
             return filter.toString()
         case .entry:
+            return filter.toString()
+        case .date:
             return filter.toString()
         }
     }
@@ -220,8 +248,8 @@ struct FormFilterStack: View {
                         
                     }
                 label:{
-                    TextIconLabel(text: aspect, color: .grey6, backgroundColor: .darkPurple, fontSize: .caption, shouldFillWidth: false)
-                        .opacity(0.7)
+                    TextIconLabel(text: aspect, color: .grey10, backgroundColor: .purple, fontSize: .caption, shouldFillWidth: false)
+                        .opacity(0.5)
                 }
                 }
         }
@@ -237,24 +265,29 @@ struct FormFilterStack: View {
                         }
                     }
                 label:{
-                    TextIconLabel(text: priority, color: .grey6, backgroundColor: .darkPurple, fontSize: .caption, shouldFillWidth: false)
-                        .opacity(0.7)
+                    TextIconLabel(text: priority, color: .grey10, backgroundColor: .purple, fontSize: .caption, shouldFillWidth: false)
+                        .opacity(0.5)
                 }
                 }
         }
         
-        if filter == .date{
-            ForEach(Array(dateFilters), id:\.self){ dateFilter in
+        if filter == .view{
+            ForEach(Array(viewFilters), id:\.self){ viewFilterLocal in
                 Button{
                     withAnimation{
-                        self.dateFilter = dateFilter
+                        self.viewFilter = viewFilterLocal
                         filters[filter] = true
                         filterShouldChange[filter] = 2
+                        
+                        if viewFilterLocal == ViewFilterType.gantt.toString() {
+                            date = false
+                            filters[.date] = false
+                        }
                     }
                 }
             label:{
-                TextIconLabel(text: dateFilter, color: .grey6, backgroundColor: .darkPurple, fontSize: .caption, shouldFillWidth: false)
-                    .opacity(0.7)
+                TextIconLabel(text: viewFilterLocal, color: .grey10, backgroundColor: .purple, fontSize: .caption, shouldFillWidth: false)
+                    .opacity(0.5)
             }
             }
         }
@@ -269,8 +302,8 @@ struct FormFilterStack: View {
                     }
                 }
             label:{
-                TextIconLabel(text: status.toString(), color: .grey6, backgroundColor: .darkPurple, fontSize: .caption, shouldFillWidth: false)
-                    .opacity(0.7)
+                TextIconLabel(text: status.toString(), color: .grey10, backgroundColor: .purple, fontSize: .caption, shouldFillWidth: false)
+                    .opacity(0.5)
             }
             }
         }
@@ -287,6 +320,6 @@ struct FormFilterStack: View {
 
 struct FormFilterStack_Previews: PreviewProvider {
     static var previews: some View {
-        FormFilterStack(objectType: .goal, date: .constant(.none), archived: .constant(false), subGoals: .constant(true), aspect: .constant(""), priority: .constant(""), progress: .constant(.none), creed: .constant(false), entry: .constant(false))
+        FormFilterStack(objectType: .goal, viewType: .constant(.none), date: .constant(false), archived: .constant(false), subGoals: .constant(true), aspect: .constant(""), priority: .constant(""), progress: .constant(.none), creed: .constant(false), entry: .constant(false))
     }
 }

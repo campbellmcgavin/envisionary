@@ -116,12 +116,6 @@ struct ContentView: View {
             .onChange(of: vm.triggers.shouldPresentModal){ _ in
                 isPresentingModal.toggle()
             }
-
-            .onChange(of: vm.filtering){
-                _ in
-                vm.filtering.filterCount = vm.filtering.GetFilterCount()
-            }
-
             .onAppear{
                 
                 let isDoneWithTutorial = SetupStepType.fromString(from: UserDefaults.standard.string(forKey: SettingsKeyType.tutorial_step.toString()) ?? "") == .done

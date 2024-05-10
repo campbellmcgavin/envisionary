@@ -13,7 +13,7 @@ struct SelectableHStack: View {
     var fontSize: CustomFont = .caption
     var shouldScroll: Bool = false
     var iconType: IconType? = nil
-    
+    var color: CustomColor = .purple
     var body: some View {
         
         if shouldScroll{
@@ -50,7 +50,7 @@ struct SelectableHStack: View {
     
     private func GetColor(text: String) -> CustomColor{
         if fieldValue == text {
-            return .purple
+            return color
         }
         else{
             return .clear

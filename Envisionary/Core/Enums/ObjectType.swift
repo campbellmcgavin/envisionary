@@ -491,12 +491,14 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
                 return true
             case .progress:
                 return true
-            case .date:
+            case .view:
                 return true
             case .creed:
                 return false
             case .entry:
                 return false
+            case .date:
+                return true
             }
         case .journal:
             switch filter {
@@ -510,11 +512,13 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
                 return false
             case .progress:
                 return false
-            case .date:
+            case .view:
                 return false
             case .creed:
                 return false
             case .entry:
+                return true
+            case .date:
                 return true
             }
         case .entry:
@@ -529,12 +533,14 @@ enum ObjectType: Int, Identifiable, CaseIterable, Codable{
                 return false
             case .progress:
                 return false
-            case .date:
+            case .view:
                 return true
             case .creed:
                 return false
             case .entry:
                 return false
+            case .date:
+                return true
             }
         case .value:
             switch filter{

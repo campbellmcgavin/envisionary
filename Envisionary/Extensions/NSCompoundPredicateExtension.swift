@@ -95,7 +95,6 @@ extension NSCompoundPredicate {
                 }
                 
                 let predicate = NSPredicate(format: "(startDate >= %@ && startDate <= %@)", argumentArray: datesArray)
-                print(predicate)
                 
                 predicates.append(predicate)
             }
@@ -153,7 +152,6 @@ extension NSCompoundPredicate {
                 dateFormatter.dateFormat = "dd/MM/yy"
 
                 let predicate = NSPredicate(format: "(startDate >= %@ && startDate <= %@) || (endDate >= %@ && endDate <= %@) || (startDate < %@ && endDate > %@)", argumentArray: datesArray)
-                print(predicate)
                 
                 predicates.append(predicate)
         }
@@ -192,9 +190,7 @@ extension NSCompoundPredicate {
         
         if criteria.habitId != nil && object.hasProperty(property: .habitId){
             predicates.append(NSPredicate(format: "habitId == %@", criteria.habitId! as CVarArg))
-        }
-        print(predicates)
-        
+        }        
         return NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
     }
 }

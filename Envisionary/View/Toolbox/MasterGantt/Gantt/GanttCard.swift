@@ -11,7 +11,6 @@ struct GanttCard: View {
     let parentGoalId: UUID
     let goalId: UUID
     let leftPadding: CGFloat
-    
     var isMini = false
     
     @Binding var selectedGoalId: UUID
@@ -144,6 +143,11 @@ struct GanttCard: View {
     }
     
     func GetInlineButtonPadding(padding: CGFloat) -> CGFloat {
+        
+        if parentGoalId == goalId{
+            return 8
+        }
+        
         if shouldShowPadding {
             if padding > UIScreen.screenWidth - 260 && goalId == selectedGoalId{
                 return UIScreen.screenWidth - 260

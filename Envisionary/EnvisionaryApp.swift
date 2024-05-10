@@ -23,15 +23,6 @@ struct EnvisionaryApp: App {
                     }
                     
                 }
-                .onAppear(){
-                    ArchetypeType.allCases.forEach({
-                        
-                        type in
-                        
-                        print( ExampleGoalEnum.toTitleArray(archetype: type))
-                    })
-                    
-                }
         }
 
 

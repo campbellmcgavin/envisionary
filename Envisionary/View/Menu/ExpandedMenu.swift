@@ -136,7 +136,7 @@ struct ExpandedMenu: View {
     
     func ShouldShowCalendar() -> Bool{
 
-        if !vm.unlockedObjects.fromObject(object: vm.filtering.filterObject) || vm.filtering.filterIncludeCalendar != .list{
+        if !vm.unlockedObjects.fromObject(object: vm.filtering.filterObject) || !vm.filtering.filterIncludeCalendar{
             return false
         }
         
@@ -150,7 +150,7 @@ struct ExpandedMenu: View {
         case .goal:
             return true
         case .journal:
-            return false
+            return vm.filtering.filterEntry
         case .entry:
             return true
         default:
@@ -170,7 +170,7 @@ struct ExpandedMenu: View {
         case .goal:
             return true
         case .journal:
-            return false
+            return vm.filtering.filterEntry
         case .entry:
             return true
         default:

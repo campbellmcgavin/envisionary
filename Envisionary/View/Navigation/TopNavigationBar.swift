@@ -22,7 +22,7 @@ struct TopNavigationBar: View {
                 if shouldShowTopTitle {
                     HStack{
                         
-                        if vm.filtering.filterObject == .value || vm.filtering.filterObject == .creed || vm.filtering.filterObject == .journal || vm.filtering.filterIncludeCalendar != .list{
+                        if ShouldShowObjectString(){
                             Text(vm.filtering.filterObject.toPluralString())
                                 .font(.specify(style: .h4))
                         }
@@ -89,8 +89,19 @@ struct TopNavigationBar: View {
                 }
                 shouldMoveDateBackward = false
             }
-
+    }
+    
+    func ShouldShowObjectString() -> Bool{
         
+        if vm.filtering.filterObject == .goal && vm.filtering.filterIncludeCalendar{
+            return false
+        }
+        
+        if vm.filtering.filterObject == .journal && vm.filtering.filterIncludeCalendar && vm.filtering.filterEntry{
+            return false
+        }
+        
+        return true
     }
     
     func GetOpacity() -> CGFloat{

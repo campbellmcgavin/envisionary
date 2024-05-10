@@ -14,11 +14,19 @@ struct LineChart: View {
     let color: CustomColor
     let title: String
     var yAxisStride: Int = 10
+    var isCompact = false
+    
     var body: some View {
         VStack(alignment: .leading) {
-            Text(title)
-                .font(.specify(style: .h5))
-                .foregroundColor(.specify(color: .grey9))
+            
+            if !isCompact{
+                Text(title)
+                    .font(.specify(style: .h5))
+                    .foregroundColor(.specify(color: .grey9))
+            }
+            else{
+                Spacer()
+            }
             
             Chart {
                 ForEach(data) { item in
@@ -49,8 +57,10 @@ struct LineChart: View {
             .padding(8)
             .modifier(ModifierForm(color:.grey15, radius: .cornerRadiusSmall))
             //            .preferredColorScheme(.dark)
+            
+
         }
-        .frame(height: 360)
+        .frame(height: isCompact ? 204 : 360)
     }
 }
 

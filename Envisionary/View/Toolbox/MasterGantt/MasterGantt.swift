@@ -49,26 +49,16 @@ struct MasterGanttView: View {
     var body: some View {
         ZStack(alignment:.topLeading){
             
-            RoundedRectangle(cornerRadius:  (SizeType.medium.ToSize() + 10)/2)
-                .fill(Color.specify(color: .grey15))
-                .frame(maxWidth: .infinity)
-                .frame(height: SizeType.medium.ToSize() + 10)
-                .frame(alignment:.top)
-                .offset(y:-17)
-                .offset(y: offset.y > 200 ? offset.y - 200 : 0)
-            
             ScrollViewReader{
                 reader in
                 
                 ScrollView(.horizontal, showsIndicators: false){
                     ZStack(alignment:.topLeading){
                         
-                        ScrollViewDirectionReader(axis: .horizontal, sensitivity: 4,  startingPoint: CGPoint(x: -200, y: 0), isPositive: $shouldShowPadding, shouldAnimate: false)
-                        
-                        GanttMainDateColumns(dateValues: dateValues, columnWidth: columnWidth, timeframeType: timeframe)
-                            .frame(maxWidth:.infinity, maxHeight: .infinity)
-                        
                         BuildMainDiagram()
+                        
+                        GanttMainDateColumns(shouldShowPadding: $shouldShowPadding, dateValues: dateValues, columnWidth: columnWidth, timeframeType: timeframe)
+                        
                         
                         ZStack{
                             VStack{
@@ -87,6 +77,7 @@ struct MasterGanttView: View {
                     .padding(.leading, 240)
                     .padding(.bottom,60)
                 }
+                .cornerRadius(SizeType.cornerRadiusForm.ToSize())
                 .offset(y:-17)
                 .onChange(of: dateValues){
                     _ in
@@ -220,9 +211,9 @@ struct MasterGanttView: View {
         }
         .frame(alignment:.topLeading)
         .background(
-            RoundedRectangle(cornerRadius:  (SizeType.medium.ToSize() + 10)/2)
+            RoundedRectangle(cornerRadius:  SizeType.cornerRadiusForm.ToSize())
                 .fill(Color.specify(color: .grey15))
-                .frame(width:100, height: SizeType.medium.ToSize() + 10)
+                .frame(width:96, height: SizeType.medium.ToSize() + 10)
         )
         .offset(x:5, y:-12)
     }
@@ -231,8 +222,6 @@ struct MasterGanttView: View {
     func BuildTree() -> some View{
         LazyVStack(alignment:.leading, spacing:0){
             ForEach(properties){ property in
-                
-                
                 TreeView(parentGoalId: property.id, goalId: property.id, focusGoal: $focusGoal, filteredGoals: $filteredGoals, shouldShowAll: $shouldShowAll, expandedObjects: $expandedObjects, shouldShowExpand: !isLocal, leftPadding: 0, value: { goalId, leftPadding in
                     GanttCard(parentGoalId: property.id, goalId: goalId, leftPadding: leftPadding, isMini: false, selectedGoalId: $focusGoal, shouldShowPadding: $shouldShowPadding)
                         .id(goalId)
@@ -245,8 +234,9 @@ struct MasterGanttView: View {
                                     .frame(height:10)
                                 
                                 HStack{
+                                    
                                     view
-                                        .offset(x: shouldShowPadding ? 0 : -9)
+                                        .offset(x: shouldShowPadding || property.id == goalId ? 0 : -9)
                                     Spacer()
                                 }
                                 HStack{
@@ -275,6 +265,20 @@ struct MasterGanttView: View {
             }
         }
         .offset(x:0, y:columnWidth * 3/4 + 50)
+        .padding(.bottom,60)
+        .background(
+            HStack{
+                Color.specify(color: .grey1)
+                    .frame(width:230)
+                    .frame(maxHeight:.infinity)
+                    .padding(.top,65)
+                    .padding(.bottom,-70)
+                    .blur(radius: 25)
+                    .offset(x:-70)
+                Spacer()
+            }
+
+        )
     }
     
     @ViewBuilder

@@ -710,13 +710,21 @@ class DataService: DataServiceProtocol {
     // MARK: - CORE VALUE
     
     func CreateCoreValue(request: CreateCoreValueRequest) -> UUID{
+        let coreValues = ListCoreValues(criteria: Criteria())
         
         let newCoreValue = CoreValueEntity(context: container.viewContext)
         newCoreValue.title = request.title
         newCoreValue.desc = request.description
         newCoreValue.image = request.image
         newCoreValue.id = UUID()
-        newCoreValue.position = ComputeLexoRank(abovePosition: nil, belowPosition: nil)?.string ?? ""
+        
+        if coreValues.isEmpty{
+            newCoreValue.position = ComputeLexoRank(abovePosition: nil, belowPosition: nil)?.string ?? ""
+        }
+        else{
+            newCoreValue.position = ComputeLexoRank(abovePosition: coreValues.last?.position ?? "", belowPosition: nil)?.string ?? ""
+        }
+
         saveData()
         
         return newCoreValue.id ?? UUID()

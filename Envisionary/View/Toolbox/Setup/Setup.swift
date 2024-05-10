@@ -115,7 +115,7 @@ struct Setup: View {
                 Spacer()
                 HStack{
                     
-                    if setupStep != .welcome && setupStep != .getStarted && setupStep != .thePoint && setupStep != .oneMoreThing && setupStep != .envisionary && setupStep != .loadPreviousData{
+                    if setupStep != .welcome && setupStep != .getStarted && setupStep != .thePoint && setupStep != .envisionary && setupStep != .loadPreviousData{
                         IconButton(isPressed: $shouldGoBack, size: .large, iconType: .left, iconColor: .grey0, circleColor: .grey4)
                     }
                     Spacer()
@@ -153,13 +153,11 @@ struct Setup: View {
         case .envisionary:
             SetupTemplate(canProceed: BindingCanProceedMessages(for: .envisionary), bumpScrollView: $bumpScrollView, textArray: SetupStepType.envisionary.toTextArray(), content: {TutorialEnvisionary(canProceed: BindingCanProceedStep(for: .envisionary))})
         case .getStarted:
-            SetupTemplate(canProceed: BindingCanProceedMessages(for: .getStarted), bumpScrollView: $bumpScrollView, textArray: SetupStepType.getStarted.toTextArray(), content: {TutorialGetStarted(canProceed: BindingCanProceedStep(for: .getStarted))})
+            SetupTemplate(canProceed: BindingCanProceedMessages(for: .getStarted), bumpScrollView: $bumpScrollView, textArray: SetupStepType.getStarted.toTextArray(), content: {TutorialGetStarted(canProceed: BindingCanProceedStep(for: .getStarted))}, shouldShowNotificationReminder: true)
         case .thePoint:
             SetupTemplate(canProceed: BindingCanProceedMessages(for: .thePoint), bumpScrollView: $bumpScrollView, textArray: SetupStepType.thePoint.toTextArray(), content: {TutorialArchetype(canProceed: BindingCanProceedStep(for: .thePoint))})
         case .loadPreviousData:
             SetupTemplate(canProceed: BindingCanProceedMessages(for: .loadPreviousData), bumpScrollView: $bumpScrollView, textArray: SetupStepType.loadPreviousData.toTextArray(), content: {TutorialLoadPreviousData(canProceed: BindingCanProceedStep(for: .loadPreviousData), didUsePreviousData: $didUsePreviousData)})
-        case .oneMoreThing:
-            SetupTemplate(canProceed: BindingCanProceedMessages(for: .oneMoreThing), bumpScrollView: $bumpScrollView, textArray: SetupStepType.oneMoreThing.toTextArray(), content: {TutorialPermissions(canProceed: BindingCanProceedStep(for: .oneMoreThing))}, shouldShowCard: false)
         default:
             EmptyView()
         }

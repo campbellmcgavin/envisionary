@@ -127,7 +127,7 @@ struct ModalManager: View {
             ModalAddDefault(isPresenting: $isPresentingEdit, convertDreamId: $convertDreamId, objectId: GetObjectId(), parentGoalId: GetParentGoalId(), parentChapterId: GetParentChapterId(), objectType: GetObjectType(), modalType: .edit)
                 .environmentObject(validator)
         case .delete:
-            Modal(modalType: .delete, objectType: objectType ?? .goal, isPresenting: $isPresentingDelete, shouldConfirm: $shouldDelete, isPresentingImageSheet: .constant(false), allowConfirm: true, modalContent: {EmptyView()}, headerContent: {EmptyView()}, bottomContent: {EmptyView()}, betweenContent: {EmptyView()})
+            Modal(modalType: .delete, objectType: GetObjectType(), isPresenting: $isPresentingDelete, shouldConfirm: $shouldDelete, isPresentingImageSheet: .constant(false), allowConfirm: true, modalContent: {EmptyView()}, headerContent: {EmptyView()}, bottomContent: {EmptyView()}, betweenContent: {EmptyView()})
         case .photoSource:
             ModalPhotoSource(objectType: GetObjectType(), isPresenting: $isPresentingPhotoSource, sourceType: $sourceType)
         case .feedback:
@@ -143,6 +143,11 @@ struct ModalManager: View {
             switch objectType {
             case .creed:
                 return .value
+            case .journal:
+                if vm.filtering.filterEntry{
+                    return .entry
+                }
+                return .journal
             default:
                 return objectType
             }
@@ -196,7 +201,12 @@ struct ModalManager: View {
                     case .aspect:
                         _ = vm.DeleteAspect(id: objectId)
                     case .journal:
-                        _ = vm.DeleteChapter(id: objectId)
+                        if vm.filtering.filterEntry{
+                            _ = vm.DeleteEntry(id: objectId)
+                        }
+                        else{
+                            _ = vm.DeleteChapter(id: objectId)
+                        }
                     default:
                         let _ = "why" //do nothing
                     }

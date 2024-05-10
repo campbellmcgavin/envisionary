@@ -497,11 +497,11 @@ struct CheckoffCard: View {
             if vm.filtering.filterObject == .goal && !isLocal{
                 if let startDate = goal.startDate{
                     if let endDate = goal.endDate{
-                        if startDate.isInSameDay(as: vm.filtering.filterDate) || endDate.isInSameDay(as: vm.filtering.filterDate) || vm.filtering.filterDate.isBetween(datePair: DatePair(date1: startDate, date2: endDate)) && vm.filtering.filterIncludeCalendar == .list{
+                        if startDate.isInSameDay(as: vm.filtering.filterDate) || endDate.isInSameDay(as: vm.filtering.filterDate) || vm.filtering.filterDate.isBetween(datePair: DatePair(date1: startDate, date2: endDate)) && vm.filtering.filterView == .todo{
                             
                             emphasisText = "Date Match"
                         }
-                        else if endDate.isBefore(date: vm.filtering.filterDate) && !IsCompleted() && !(vm.filtering.filterIncludeCalendar == .list){
+                        else if endDate.isBefore(date: vm.filtering.filterDate) && !IsCompleted() && !(vm.filtering.filterView == .todo){
                             let daysBehind = endDate.GetDateDifferenceAsDecimal(to: Date(), timeframeType: .day)
                             emphasisText = "Late (\(Int(abs(daysBehind))) days)"
                         }
