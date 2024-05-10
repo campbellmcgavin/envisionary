@@ -7,22 +7,24 @@
 
 import SwiftUI
 
-enum DateFilterType: CaseIterable, Identifiable {
+enum ViewFilterType: CaseIterable, Identifiable {
     
     var id: Self {
         return self
     }
-    
-    case list
+    case todo
     case gantt
+    case progress
     case none
     
     func toString() -> String{
         switch self {
-        case .list:
-            return "List"
         case .gantt:
             return "Gantt"
+        case .todo:
+            return "Todo"
+        case .progress:
+            return "Progress"
         case .none:
             return "None"
         }

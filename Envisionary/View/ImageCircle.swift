@@ -25,6 +25,7 @@ struct ImageCircle: View {
                 
                 if icon != nil {
                     IconLabel(size: iconSize, iconType: icon!, iconColor: iconColor)
+                        .frame(width: iconSize.ToSize() - 8, height: iconSize.ToSize() - 8)
                 }
             }
         }

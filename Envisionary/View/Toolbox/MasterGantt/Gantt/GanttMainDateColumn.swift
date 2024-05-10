@@ -23,7 +23,7 @@ struct GanttMainDateColumn: View {
                 Divider()
                 Spacer()
             }
-            .padding(.top,50)
+            .padding(.top,35)
             .padding(.bottom,-100)
             .frame(alignment:.center)
             .frame(maxHeight:.infinity)

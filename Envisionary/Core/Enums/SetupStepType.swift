@@ -13,7 +13,7 @@ enum SetupStepType: CaseIterable {
     case loadPreviousData
     case envisionary
     case thePoint
-    case oneMoreThing
+//    case oneMoreThing
     case getStarted
     case done
     
@@ -31,8 +31,6 @@ enum SetupStepType: CaseIterable {
             return "done"
         case .loadPreviousData:
             return "loadPreviousData"
-        case .oneMoreThing:
-            return "oneMoreThing"
         }
     }
     
@@ -50,8 +48,6 @@ enum SetupStepType: CaseIterable {
             return ""
         case .loadPreviousData:
             return "Looks like we found"
-        case .oneMoreThing:
-            return "Please enable"
         }
     }
 
@@ -69,8 +65,6 @@ enum SetupStepType: CaseIterable {
             return ""
         case .loadPreviousData:
             return "Something!"
-        case .oneMoreThing:
-            return "Notifications"
         }
     }
     
@@ -81,14 +75,12 @@ enum SetupStepType: CaseIterable {
         case .envisionary:
             return .thePoint
         case .thePoint:
-            return .oneMoreThing
+            return .getStarted
         case .getStarted:
             return .done
         case .done:
             return .done
         case .loadPreviousData:
-            return .oneMoreThing
-        case .oneMoreThing:
             return .getStarted
         }
     }
@@ -107,8 +99,6 @@ enum SetupStepType: CaseIterable {
             return .getStarted
         case .loadPreviousData:
             return .welcome
-        case .oneMoreThing:
-            return .thePoint
         }
     }
     
@@ -133,8 +123,6 @@ enum SetupStepType: CaseIterable {
         case .loadPreviousData:
             array.append("You have app data from a previous install.")
             array.append("Typically, you'll want to use the existing data.")
-        case .oneMoreThing:
-            array.append("We promise we'll only help you fulfill your dreams!")
         default:
             let _ = "why"
         }

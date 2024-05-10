@@ -12,9 +12,14 @@ struct ScrollViewDirectionReader: View {
     let sensitivity: CGFloat
     let startingPoint: CGPoint
     @Binding var isPositive: Bool
+    @Binding var offsetBind: CGPoint
     var shouldAnimate: Bool = true
     @State var offset: CGPoint = .zero
     private let id = UUID()
+    var offsetBindSensitivity: CGFloat = 50
+    
+    @State var lastOffset = CGPoint.zero
+    
     var body: some View {
         
         PositionObservingView(
@@ -82,6 +87,12 @@ struct ScrollViewDirectionReader: View {
                 }
             }
             
+//            if offsetBindSensitivity < abs(offset.y - lastOffset.y) {
+//                lastOffset = offset
+//                withAnimation{
+                    offsetBind = offset
+//                }
+//            }
         }
     }
 }

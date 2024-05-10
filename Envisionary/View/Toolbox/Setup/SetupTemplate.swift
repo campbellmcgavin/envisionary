@@ -13,11 +13,16 @@ struct SetupTemplate<Content: View>: View {
     let textArray: [String]
     @ViewBuilder var content: Content
     var shouldShowCard: Bool = true
+
     @State var counter: Double = 0.0
     @State private var timer = Timer.publish(every: 0.2, on: .main, in: .common).autoconnect()
     @State var timeStamps: [Double] = [Double]()
     @State var shouldShowIndex = 0
     @State var finishLoad = false
+    var shouldShowNotificationReminder = false
+    @State var didAcceptNotifcations = false
+    @State var didFinishNotifications = false
+    
     var body: some View {
         
         let transition = AnyTransition.asymmetric(insertion: .move(edge: .leading), removal: .opacity)
@@ -52,12 +57,31 @@ struct SetupTemplate<Content: View>: View {
                 }
             }
         }
-        .onTapGesture(perform: {
-            withAnimation{
-                finishLoad = true
-            }
-        })
         .onAppear{
+            
+            if shouldShowNotificationReminder{
+                UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
+                    if success {
+                        withAnimation{
+                            didFinishNotifications = true
+                        }
+
+                        UserDefaults.standard.set(true, forKey: SettingsKeyType.notification_entry.toString())
+                        UserDefaults.standard.set(true, forKey: SettingsKeyType.notification_value_align.toString())
+                        UserDefaults.standard.set(true, forKey: SettingsKeyType.notification_digest.toString())
+                    } else if let error = error {
+                        print(error.localizedDescription)
+                        withAnimation{
+                            didFinishNotifications = true
+                        }
+
+                        UserDefaults.standard.set(false, forKey: SettingsKeyType.notification_entry.toString())
+                        UserDefaults.standard.set(false, forKey: SettingsKeyType.notification_value_align.toString())
+                        UserDefaults.standard.set(false, forKey: SettingsKeyType.notification_digest.toString())
+                    }
+                }
+            }
+            
             counter = 0
             timeStamps = [Double]()
             timeStamps.append(Double.random(in: 2.25...3.25))
@@ -95,5 +119,10 @@ struct SetupTemplate<Content: View>: View {
             canProceed = true
         }
         .onReceive(timer, perform: {_ in counter += 0.2})
+        .onTapGesture(perform: {
+            withAnimation{
+                finishLoad = true
+            }
+        })
     }
 }
